@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenNotebookDoc version="0.1" filename="Random Quiz" author="null" date="2/2/2012">
+<generators>
+</generators>
+<Page>
+<Rectangle>
+<int name="xPos" value="316"/>
+<int name="yPos" value="310"/>
+<int name="width" value="227"/>
+<int name="height" value="201"/>
+<int name="line thickness" value="2"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Rectangle>
+<NumberLine>
+<int name="xPos" value="52"/>
+<int name="yPos" value="470"/>
+<int name="width" value="219"/>
+<int name="height" value="32"/>
+<double name="min" value="-4.0"/>
+<double name="max" value="11.0"/>
+<double name="step" value="1.0"/>
+<int name="font size" value="8"/>
+</NumberLine>
+<Graph>
+<int name="xPos" value="58"/>
+<int name="yPos" value="151"/>
+<int name="width" value="188"/>
+<int name="height" value="158"/>
+<double name="xMin" value="-5.0"/>
+<double name="xMax" value="5.0"/>
+<double name="yMin" value="-5.0"/>
+<double name="yMax" value="5.0"/>
+<double name="xStep" value="1.0"/>
+<double name="yStep" value="1.0"/>
+<int name="fontSize" value="8"/>
+<boolean name="showAxis" value="true"/>
+<boolean name="showNumbers" value="true"/>
+<boolean name="showGrid" value="true"/>
+<list name="Expressions" type="string" childName="y=">
+<entry v="x^2+2x"/>
+</list></Graph>
+<Expression>
+<int name="xPos" value="56"/>
+<int name="yPos" value="539"/>
+<int name="width" value="94"/>
+<int name="height" value="26"/>
+<string name="expression" value="y = 2*sin(3x)"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Text>
+<int name="xPos" value="55"/>
+<int name="yPos" value="405"/>
+<int name="width" value="156"/>
+<int name="height" value="58"/>
+<string name="text" value="Plot the list of numbers on the number line."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="329"/>
+<int name="yPos" value="340"/>
+<int name="width" value="95"/>
+<int name="height" value="25"/>
+<string name="expression" value="x^2+8x+15"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Text>
+<int name="xPos" value="325"/>
+<int name="yPos" value="324"/>
+<int name="width" value="215"/>
+<int name="height" value="21"/>
+<string name="text" value="Factor the following expressions."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="329"/>
+<int name="yPos" value="396"/>
+<int name="width" value="103"/>
+<int name="height" value="25"/>
+<string name="expression" value="x^2+12x+35"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Graph>
+<int name="xPos" value="53"/>
+<int name="yPos" value="572"/>
+<int name="width" value="170"/>
+<int name="height" value="153"/>
+<double name="xMin" value="-5.0"/>
+<double name="xMax" value="5.0"/>
+<double name="yMin" value="-5.0"/>
+<double name="yMax" value="5.0"/>
+<double name="xStep" value="1.0"/>
+<double name="yStep" value="1.0"/>
+<int name="fontSize" value="8"/>
+<boolean name="showAxis" value="true"/>
+<boolean name="showNumbers" value="true"/>
+<boolean name="showGrid" value="true"/>
+<list name="Expressions" type="string" childName="y=">
+<entry v=""/>
+</list></Graph>
+<Text>
+<int name="xPos" value="49"/>
+<int name="yPos" value="519"/>
+<int name="width" value="187"/>
+<int name="height" value="25"/>
+<string name="text" value="Graph the function."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="330"/>
+<int name="yPos" value="454"/>
+<int name="width" value="114"/>
+<int name="height" value="25"/>
+<string name="expression" value="3x^2+32x+45"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Text>
+<int name="xPos" value="42"/>
+<int name="yPos" value="41"/>
+<int name="width" value="180"/>
+<int name="height" value="23"/>
+<string name="text" value="Pop Quiz for 7/11/2011"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="382"/>
+<int name="yPos" value="38"/>
+<int name="width" value="46"/>
+<int name="height" value="31"/>
+<string name="text" value="Name"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="47"/>
+<int name="yPos" value="70"/>
+<int name="width" value="496"/>
+<int name="height" value="19"/>
+<string name="text" value="Complete the following problems, show all of your work."/>
+<int name="font size" value="14"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="61"/>
+<int name="yPos" value="100"/>
+<int name="width" value="154"/>
+<int name="height" value="14"/>
+<string name="text" value="Solve for x."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="57"/>
+<int name="yPos" value="113"/>
+<int name="width" value="147"/>
+<int name="height" value="25"/>
+<string name="expression" value="3x^2 + 4x - 5 = 5x -9"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Triangle>
+<int name="xPos" value="319"/>
+<int name="yPos" value="525"/>
+<int name="width" value="166"/>
+<int name="height" value="113"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+<enumeratedValue name="triangle type" value="isosoceles"/>
+</Triangle>
+<Rectangle>
+<int name="xPos" value="319"/>
+<int name="yPos" value="626"/>
+<int name="width" value="13"/>
+<int name="height" value="12"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Rectangle>
+<Text>
+<int name="xPos" value="299"/>
+<int name="yPos" value="574"/>
+<int name="width" value="17"/>
+<int name="height" value="17"/>
+<string name="text" value="5"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="430"/>
+<int name="yPos" value="619"/>
+<int name="width" value="38"/>
+<int name="height" value="24"/>
+<string name="text" value="30°"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="298"/>
+<int name="yPos" value="664"/>
+<int name="width" value="199"/>
+<int name="height" value="53"/>
+<string name="text" value="Find the missing side lengths and angle of the triangle above."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="66"/>
+<int name="yPos" value="446"/>
+<int name="width" value="159"/>
+<int name="height" value="17"/>
+<string name="text" value="5, -2.5, 1,"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="120"/>
+<int name="yPos" value="438"/>
+<int name="width" value="35"/>
+<int name="height" value="23"/>
+<string name="expression" value="sqrt(3)"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<AnswerBox>
+<int name="xPos" value="136"/>
+<int name="yPos" value="92"/>
+<int name="width" value="97"/>
+<int name="height" value="27"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<AnswerBox>
+<int name="xPos" value="335"/>
+<int name="yPos" value="364"/>
+<int name="width" value="130"/>
+<int name="height" value="29"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<AnswerBox>
+<int name="xPos" value="334"/>
+<int name="yPos" value="423"/>
+<int name="width" value="116"/>
+<int name="height" value="28"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<AnswerBox>
+<int name="xPos" value="334"/>
+<int name="yPos" value="477"/>
+<int name="width" value="124"/>
+<int name="height" value="27"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<AnswerBox>
+<int name="xPos" value="318"/>
+<int name="yPos" value="726"/>
+<int name="width" value="49"/>
+<int name="height" value="21"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<AnswerBox>
+<int name="xPos" value="423"/>
+<int name="yPos" value="726"/>
+<int name="width" value="49"/>
+<int name="height" value="22"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Text>
+<int name="xPos" value="277"/>
+<int name="yPos" value="728"/>
+<int name="width" value="45"/>
+<int name="height" value="17"/>
+<string name="text" value="angle:"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="376"/>
+<int name="yPos" value="726"/>
+<int name="width" value="50"/>
+<int name="height" value="21"/>
+<string name="text" value="side a:"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="440"/>
+<int name="yPos" value="40"/>
+<int name="width" value="128"/>
+<int name="height" value="21"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Text>
+<int name="xPos" value="386"/>
+<int name="yPos" value="548"/>
+<int name="width" value="15"/>
+<int name="height" value="20"/>
+<string name="text" value="a"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="382"/>
+<int name="yPos" value="641"/>
+<int name="width" value="30"/>
+<int name="height" value="25"/>
+<string name="text" value="b"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="485"/>
+<int name="yPos" value="726"/>
+<int name="width" value="46"/>
+<int name="height" value="16"/>
+<string name="text" value="side b:"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="529"/>
+<int name="yPos" value="724"/>
+<int name="width" value="45"/>
+<int name="height" value="22"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Text>
+<int name="xPos" value="47"/>
+<int name="yPos" value="315"/>
+<int name="width" value="228"/>
+<int name="height" value="31"/>
+<string name="text" value="Write the equation of the above parabola."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="47"/>
+<int name="yPos" value="348"/>
+<int name="width" value="186"/>
+<int name="height" value="30"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Text>
+<int name="xPos" value="339"/>
+<int name="yPos" value="225"/>
+<int name="width" value="172"/>
+<int name="height" value="47"/>
+<string name="text" value="Find the area of the region that is inside of the circle, and outside of the square."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="398"/>
+<int name="yPos" value="271"/>
+<int name="width" value="110"/>
+<int name="height" value="27"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Oval>
+<int name="xPos" value="380"/>
+<int name="yPos" value="110"/>
+<int name="width" value="100"/>
+<int name="height" value="100"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+</Oval>
+<Rectangle>
+<int name="xPos" value="395"/>
+<int name="yPos" value="124"/>
+<int name="width" value="70"/>
+<int name="height" value="70"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Rectangle>
+<Text>
+<int name="xPos" value="446"/>
+<int name="yPos" value="152"/>
+<int name="width" value="19"/>
+<int name="height" value="21"/>
+<string name="text" value="5"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+</Page>
+<Page>
+<Trapezoid>
+<int name="xPos" value="70"/>
+<int name="yPos" value="107"/>
+<int name="width" value="85"/>
+<int name="height" value="72"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Trapezoid>
+<Rectangle>
+<int name="xPos" value="91"/>
+<int name="yPos" value="107"/>
+<int name="width" value="1"/>
+<int name="height" value="72"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Rectangle>
+<Text>
+<int name="xPos" value="50"/>
+<int name="yPos" value="57"/>
+<int name="width" value="149"/>
+<int name="height" value="43"/>
+<string name="text" value="Find the area of the trapezoid."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="96"/>
+<int name="yPos" value="137"/>
+<int name="width" value="30"/>
+<int name="height" value="14"/>
+<string name="text" value="12"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="105"/>
+<int name="yPos" value="87"/>
+<int name="width" value="21"/>
+<int name="height" value="13"/>
+<string name="text" value="3"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="102"/>
+<int name="yPos" value="181"/>
+<int name="width" value="21"/>
+<int name="height" value="15"/>
+<string name="text" value="9"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="60"/>
+<int name="yPos" value="219"/>
+<int name="width" value="165"/>
+<int name="height" value="21"/>
+<string name="text" value="Simplfy the expression."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Expression>
+<int name="xPos" value="51"/>
+<int name="yPos" value="244"/>
+<int name="width" value="208"/>
+<int name="height" value="68"/>
+<string name="expression" value="(x^2+3x-10)/(2x+6)*((x^2-x-12)/(x^2-4))"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="null"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Text>
+<int name="xPos" value="508"/>
+<int name="yPos" value="100"/>
+<int name="width" value="39"/>
+<int name="height" value="30"/>
+<string name="text" value="6"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Graph>
+<int name="xPos" value="321"/>
+<int name="yPos" value="303"/>
+<int name="width" value="214"/>
+<int name="height" value="198"/>
+<double name="xMin" value="-5.0"/>
+<double name="xMax" value="5.0"/>
+<double name="yMin" value="-5.0"/>
+<double name="yMax" value="5.0"/>
+<double name="xStep" value="1.0"/>
+<double name="yStep" value="1.0"/>
+<int name="fontSize" value="8"/>
+<boolean name="showAxis" value="true"/>
+<boolean name="showNumbers" value="true"/>
+<boolean name="showGrid" value="true"/>
+<list name="Expressions" type="string" childName="y=">
+<entry v="abs(.5x)-2"/>
+</list></Graph>
+<Text>
+<int name="xPos" value="314"/>
+<int name="yPos" value="521"/>
+<int name="width" value="217"/>
+<int name="height" value="59"/>
+<string name="text" value="Write the equation of the function above."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="311"/>
+<int name="yPos" value="574"/>
+<int name="width" value="245"/>
+<int name="height" value="29"/>
+<string name="text" value="Simplify the square root expressions."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="367"/>
+<int name="yPos" value="542"/>
+<int name="width" value="156"/>
+<int name="height" value="26"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<RegularPolygon>
+<int name="xPos" value="362"/>
+<int name="yPos" value="68"/>
+<int name="width" value="155"/>
+<int name="height" value="155"/>
+<int name="number of sides" value="6"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</RegularPolygon>
+<Text>
+<int name="xPos" value="354"/>
+<int name="yPos" value="232"/>
+<int name="width" value="180"/>
+<int name="height" value="40"/>
+<string name="text" value="Calculate the area of the regular haxagon."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="472"/>
+<int name="yPos" value="251"/>
+<int name="width" value="82"/>
+<int name="height" value="24"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Expression>
+<int name="xPos" value="314"/>
+<int name="yPos" value="668"/>
+<int name="width" value="89"/>
+<int name="height" value="61"/>
+<string name="expression" value="sqrt(81x^2x^3/(4x^5))"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Expression>
+<int name="xPos" value="427"/>
+<int name="yPos" value="669"/>
+<int name="width" value="104"/>
+<int name="height" value="60"/>
+<string name="expression" value="sqrt(z^8*w^3/(36c^3z^-3))"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Expression>
+<int name="xPos" value="398"/>
+<int name="yPos" value="608"/>
+<int name="width" value="51"/>
+<int name="height" value="49"/>
+<string name="expression" value="sqrt(25/x^2)"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Expression>
+<int name="xPos" value="463"/>
+<int name="yPos" value="616"/>
+<int name="width" value="118"/>
+<int name="height" value="29"/>
+<string name="expression" value="sqrt(n^2 - 16n + 64)"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<Expression>
+<int name="xPos" value="311"/>
+<int name="yPos" value="614"/>
+<int name="width" value="70"/>
+<int name="height" value="29"/>
+<string name="expression" value="sqrt(196x^2)"/>
+<int name="font size" value="12"/>
+<color name="fill color" value="255,255,255"/>
+<list name="steps" type="string" childName="val">
+</list></Expression>
+<AnswerBox>
+<int name="xPos" value="62"/>
+<int name="yPos" value="487"/>
+<int name="width" value="144"/>
+<int name="height" value="31"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Text>
+<int name="xPos" value="51"/>
+<int name="yPos" value="449"/>
+<int name="width" value="180"/>
+<int name="height" value="31"/>
+<string name="text" value="Calculate the volume of the rectangllar prisim."/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="205"/>
+<int name="yPos" value="417"/>
+<int name="width" value="46"/>
+<int name="height" value="41"/>
+<string name="text" value="5"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Cube>
+<int name="xPos" value="70"/>
+<int name="yPos" value="337"/>
+<int name="width" value="150"/>
+<int name="height" value="92"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="flip vertically" value="false"/>
+<boolean name="flip horizontally" value="false"/>
+</Cube>
+<Text>
+<int name="xPos" value="115"/>
+<int name="yPos" value="435"/>
+<int name="width" value="39"/>
+<int name="height" value="34"/>
+<string name="text" value="7"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="232"/>
+<int name="yPos" value="366"/>
+<int name="width" value="48"/>
+<int name="height" value="32"/>
+<string name="text" value="4"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="57"/>
+<int name="yPos" value="659"/>
+<int name="width" value="197"/>
+<int name="height" value="43"/>
+<string name="text" value="What must the height of the parallelogram be if the perimeter is 42? "/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<AnswerBox>
+<int name="xPos" value="60"/>
+<int name="yPos" value="711"/>
+<int name="width" value="137"/>
+<int name="height" value="22"/>
+<string name="answer" value=""/>
+<int name="font size" value="12"/>
+</AnswerBox>
+<Parallelogram>
+<int name="xPos" value="48"/>
+<int name="yPos" value="574"/>
+<int name="width" value="207"/>
+<int name="height" value="47"/>
+<int name="line thickness" value="2"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Parallelogram>
+<Rectangle>
+<int name="xPos" value="202"/>
+<int name="yPos" value="574"/>
+<int name="width" value="1"/>
+<int name="height" value="46"/>
+<int name="line thickness" value="1"/>
+<color name="fill color" value="null"/>
+<boolean name="horizontally flipped" value="false"/>
+<boolean name="vertically flipped" value="false"/>
+</Rectangle>
+<Text>
+<int name="xPos" value="115"/>
+<int name="yPos" value="625"/>
+<int name="width" value="32"/>
+<int name="height" value="22"/>
+<string name="text" value="13"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="188"/>
+<int name="yPos" value="590"/>
+<int name="width" value="14"/>
+<int name="height" value="19"/>
+<string name="text" value="h"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+<Text>
+<int name="xPos" value="220"/>
+<int name="yPos" value="555"/>
+<int name="width" value="21"/>
+<int name="height" value="22"/>
+<string name="text" value="3"/>
+<int name="font size" value="12"/>
+<boolean name="show border" value="false"/>
+</Text>
+</Page>
+</OpenNotebookDoc>
