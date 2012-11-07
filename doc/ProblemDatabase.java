@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.UUID;
 import java.util.Vector;
 
+import doc.expression_generators.AdditionPropertyOfEquality;
 import doc.expression_generators.AssociativePropertiesWithVariables;
 import doc.expression_generators.BasicAddition;
 import doc.expression_generators.BasicAdditionAndSubraction;
 import doc.expression_generators.BasicAdditionWithNegatives;
 import doc.expression_generators.BasicArithmeticExpression;
 import doc.expression_generators.BasicAssociativeProperty;
+import doc.expression_generators.BasicDistributiveProperty;
 import doc.expression_generators.ExpressionGenerator;
 import doc.expression_generators.PropertyOfOppositiesWithVariables;
 import doc.mathobjects.Grouping;
@@ -22,7 +24,7 @@ public class ProblemDatabase {
 	private static final ExpressionGenerator[] expressionGenerators = {
 		new BasicArithmeticExpression(), new BasicAssociativeProperty(), new AssociativePropertiesWithVariables(),
 		new BasicAddition(), new BasicAdditionWithNegatives(), new BasicAdditionAndSubraction(),
-		new PropertyOfOppositiesWithVariables()
+		new PropertyOfOppositiesWithVariables(), new AdditionPropertyOfEquality(), new BasicDistributiveProperty()
 	};
 	private CaseInsensitiveMap tagIndex;
 	public static final String NAME = "ProblemDatabase";
@@ -60,16 +62,16 @@ public class ProblemDatabase {
 	}
 	
 	public ProblemGenerator getProblemWithUUID(UUID uuid){
-		System.out.println("lookin for ID: " + uuid);
+//		System.out.println("lookin for ID: " + uuid);
 		for ( ProblemGenerator ex : problems){
-			System.out.println("found: " + ex.getProblemID());
+//			System.out.println("found: " + ex.getProblemID());
 			if ( ex.getProblemID().equals(uuid)){
 				return ex;
 			}
 		}
-		System.out.println("expression gen:");
+//		System.out.println("expression gen:");
 		for ( ProblemGenerator ex : expressionGenerators){
-			System.out.println("found: " + ex.getProblemID());
+//			System.out.println("found: " + ex.getProblemID());
 			if ( ex.getProblemID().equals(uuid)){
 				return ex;
 			}

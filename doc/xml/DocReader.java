@@ -8,8 +8,10 @@
 
 package doc.xml;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
 import java.util.Vector;
 
 import org.xml.sax.Attributes;
@@ -18,6 +20,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
+
+import sun.misc.BASE64Decoder;
+
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import doc.Document;
 import doc.Page;
@@ -28,6 +34,7 @@ import doc.attributes.MathObjectAttribute;
 import doc.mathobjects.AnswerBoxObject;
 import doc.mathobjects.CubeObject;
 import doc.mathobjects.ExpressionObject;
+import doc.mathobjects.GeneratedProblem;
 import doc.mathobjects.GraphObject;
 import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
@@ -39,10 +46,7 @@ import doc.mathobjects.ProblemGenerator;
 import doc.mathobjects.RectangleObject;
 import doc.mathobjects.RegularPolygonObject;
 import doc.mathobjects.TextObject;
-import doc.mathobjects.TrapezoidObject;
-import doc.mathobjects.TriangleObject;
 import doc.mathobjects.VariableValueInsertionProblem;
-
 
 public class DocReader extends DefaultHandler {
 
@@ -55,15 +59,12 @@ public class DocReader extends DefaultHandler {
 	// read in before being added, so their positions can be calculated relative
 	// to the size of the group. Below is a vector to store the objects temporarily, they will
 	// only be added when a grouping tag is closed
-
-	// this does not work for groups within groups, because the list is destroyed when the new one is vreated
-	// thinking of making it a vector of vectors
 	private Vector<Vector<MathObject>> objectsInGroup;
 
 	// to import data stored that was as a string, that should have been stored
 	// as a list all along, there are a few hacks where the string attribute
 	// should be added to the object
-	// this list holds the list names, so they are not reset when the list is found later
+	// this list holds the hacked list names, so they are not reset when the list is found later
 	private Vector<String> overridenLists;
 
 	private ProblemDatabase database;
@@ -92,6 +93,18 @@ public class DocReader extends DefaultHandler {
 			throws SAXException, IOException{
 		readFile(file, "");
 		return database;
+	}
+	
+	public Document readServerDoc(String doc, String docName) throws SAXException, IOException{
+		BASE64Decoder decoder = new BASE64Decoder();
+		ByteBuffer data = decoder.decodeBufferToByteBuffer(doc);
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(data.array());
+		InputStreamReader reader = new InputStreamReader(inputStream);
+		return readDoc(reader, docName);		
+	}
+	
+	public static String getRandomMessage(){
+		return "sdfsdfewbtyasdfasdf";
 	}
 
 	public Document readDoc (InputStreamReader file, String docName) throws SAXException, IOException{
@@ -148,7 +161,6 @@ public class DocReader extends DefaultHandler {
 
 	@Override
 	public void startDocument(){
-
 	}
 
 	@Override
@@ -168,6 +180,14 @@ public class DocReader extends DefaultHandler {
 			if ( atts.getValue(Document.LAST_PROBLEM_NUMBER) != null)
 			{
 				doc.setLastProblemNumber(Integer.parseInt(atts.getValue(Document.LAST_PROBLEM_NUMBER)));
+			}
+			if ( atts.getValue(Document.X_MARGIN) != null)
+			{
+				doc.setxMargin(Double.parseDouble(atts.getValue(Document.X_MARGIN)));
+			}
+			if ( atts.getValue(Document.Y_MARGIN) != null)
+			{
+				doc.setyMargin(Double.parseDouble(atts.getValue(Document.Y_MARGIN)));
 			}
 			return;
 		}
@@ -322,6 +342,15 @@ public class DocReader extends DefaultHandler {
 					mObj.getListWithName(GraphObject.EXPRESSIONS)
 					.addValueWithString(atts.getValue("value"));
 					overridenLists.add(GraphObject.EXPRESSIONS);
+					return true;
+				}
+				if ( mObj instanceof GeneratedProblem && atts.getValue(
+						"name").equalsIgnoreCase(GeneratedProblem.UUID_STR))
+				{// temporary fix to import documents with old graphs
+					mObj.getListWithName(GeneratedProblem.GEN_LIST).removeAll();
+					mObj.getListWithName(GeneratedProblem.GEN_LIST)
+					.addValueWithString(atts.getValue("value"));
+					overridenLists.add(GeneratedProblem.GEN_LIST);
 					return true;
 				}
 				if ( mObj instanceof ExpressionObject && atts.getValue(

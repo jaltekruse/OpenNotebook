@@ -8,6 +8,8 @@
 
 package doc;
 
+import doc_gui.graph.CartAxis;
+
 public class GridPoint implements Cloneable {
 
 	double x, y;
@@ -43,20 +45,7 @@ public class GridPoint implements Cloneable {
 	
 	@Override
 	public String toString(){
-		String output = "";
-		output += "(";
-		String xString = Double.toString(x);
-		if (xString.length() > 6)
-			output += xString.substring(0, 6);
-		else
-			output += xString;
-		output += ",";
-		String yString = Double.toString(y);
-		if (yString.length() > 6)
-			output += yString.substring(0, 6);
-		else
-			output += yString;
-		output += ")";
-		return output;
+		return "(" + CartAxis.doubleToString(x, 1) + "," +
+				CartAxis.doubleToString(y, 1) + ")";
 	}
 }

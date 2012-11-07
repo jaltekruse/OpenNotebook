@@ -33,21 +33,21 @@ public abstract class ExpressionGenerator extends ProblemGenerator implements Cl
 		try {
 			newProblem.setDifficulty(difficulty);
 			newProblem.setAttributeValue(UUID_STR, this.getProblemID());
-			expressionObj.setExpression(generateExpression(difficulty).toStringRepresentation());
+			Node[] n = generateExpression(difficulty);
+			expressionObj.setExpression(n[0].toStringRepresentation());
+			expressionObj.addCorrectAnswer(n[1].toStringRepresentation());
 		} catch (AttributeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NodeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackgorund(expressionObj);
+		getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackground(expressionObj);
 		expressionObj.setParentContainer(newProblem.getParentContainer());
 		newProblem.addObjectFromPage(expressionObj);
 		return newProblem;
 	}
 	
-	protected abstract Node generateExpression(int difficulty);
+	protected abstract Node[] generateExpression(int difficulty) throws NodeException;
 	
 	protected abstract void setAttributes();
 }

@@ -26,20 +26,19 @@ public abstract class GraphComponent {
 	}
 	
 	protected int gridxToScreen(double x){
-		return (int) Math.round((x - graph.X_MIN) / graph.X_PIXEL) + graph.X_PIC_ORIGIN;
+		return graph.gridxToScreen(x);
 	}
 	
 	protected double screenxToGrid(int x){
-		return x * graph.X_PIXEL + graph.X_MIN;
+		return graph.screenxToGrid(x);
 	}
 	
 	protected double screenyToGrid(int y){
-		return y * graph.Y_PIXEL + graph.Y_MIN;
+		return graph.screenyToGrid(y);
 	}
 	
 	protected int gridyToScreen(double y){
-		return (graph.Y_SIZE) - (int) Math.round((y - graph.Y_MIN) / graph.Y_PIXEL)
-				+ graph.Y_PIC_ORIGIN;
+		return graph.gridyToScreen(y);
 	}
 	
 	protected void setLineSize(int sizeInPixels) {

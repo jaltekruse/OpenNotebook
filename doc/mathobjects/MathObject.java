@@ -12,6 +12,8 @@ import java.awt.Rectangle;
 import java.util.UUID;
 import java.util.Vector;
 
+import javax.swing.JOptionPane;
+
 import doc.GridPoint;
 import doc.Page;
 import doc.PointInDocument;
@@ -28,6 +30,8 @@ public abstract class MathObject {
 	private Vector<MathObjectAttribute<?>> attributes;
 
 	private Vector<ListAttribute<?>> lists;
+	
+	private Vector<NamedObjectList<MathObject>> objectLists;
 
 	// flag used for temporarily storing if an action was successful
 	// prevents unnecessary undo states from being added when actions
@@ -51,12 +55,6 @@ public abstract class MathObject {
 	// arrays used to create new instances of objects when all you have is
 	// the type string. They also are used to generate the toolbar for creating
 	// new objects
-	public static final String[] objectTypes = { LINE_OBJECT, RECTANGLE,
-			OVAL_OBJ, TRIANGLE_OBJ, REGULAR_POLYGON_OBJECT, TRAPEZOID_OBJ,
-			PARALLELOGRAM_OBJ, ARROW_OBJECT, CUBE_OBJECT, CYLINDER_OBJ,
-			CONE_OBJECT, NUMBER_LINE, GRAPH_OBJ, TEXT_OBJ, EXPRESSION_OBJ,
-			ANSWER_BOX_OBJ, PYRAMID_OBJECT, GROUPING, VAR_INSERTION_PROBLEM,
-			GENERATED_PROBLEM, PROBLEM_NUMBER_OBJECT };
 
 	public static final String[] imgFilenames = { "line.png", "rectangle.png",
 			"oval.png", "triangle.png", "regularPolygon.png", "trapezoid.png",
@@ -64,7 +62,7 @@ public abstract class MathObject {
 			"cone.png", "numberLine.png", "graph.png", "text.png",
 			"expression.png", "answerBox.png", "pyramid.png", null, null, null,
 			null };
-
+    
 	public static final MathObject[] objects = { new LineObject(),
 			new RectangleObject(), new OvalObject(), new TriangleObject(),
 			new RegularPolygonObject(), new TrapezoidObject(),
@@ -76,6 +74,12 @@ public abstract class MathObject {
 			new ProblemNumberObject() };
 
 	public static final String MAKE_SQUARE = "Make Height and Width equal",
+			ALIGN_PAGE_LEFT = "Align page left",
+			ALIGN_PAGE_HORIZONTAL_CENTER = "Align with hoizontal page center",
+			ALIGN_PAGE_RIGHT = "Align page right",
+			ALIGN_PAGE_TOP = "Align page top",
+			ALIGN_PAGE_VERTICAL_CENTER = "Align with vertical page center",
+			ALIGN_PAGE_BOTTOM = "Align page bottom",
 			MAKE_INTO_PROBLEM = "Make into Problem",
 			FLIP_HORIZONTALLY = "flip horizontally",
 			FLIP_VERTICALLY = "flip vertically",
@@ -106,11 +110,18 @@ public abstract class MathObject {
 		actions = new Vector<String>();
 		lists = new Vector<ListAttribute<?>>();
 		studentActions = new Vector<String>();
+		objectLists = new Vector<NamedObjectList<MathObject>>();
 
 		setHorizontallyResizable(true);
 		setVerticallyResizable(true);
 
 		addAction(MAKE_SQUARE);
+		addAction(ALIGN_PAGE_LEFT);
+		addAction(ALIGN_PAGE_RIGHT);
+		addAction(ALIGN_PAGE_HORIZONTAL_CENTER);
+		addAction(ALIGN_PAGE_TOP);
+		addAction(ALIGN_PAGE_BOTTOM);
+		addAction(ALIGN_PAGE_VERTICAL_CENTER);
 		addGenericDefaultAttributes();
 		addDefaultAttributes();
 	}
@@ -157,8 +168,8 @@ public abstract class MathObject {
 
 	public static String getObjectImageName(String type) {
 		int i = 0;
-		for (String s : objectTypes) {
-			if (type.equals(s)) {
+		for (MathObject mObj : objects) {
+			if (mObj != null && type.equals(mObj.getType())) {
 				return imgFilenames[i];
 			}
 			i++;
@@ -167,8 +178,8 @@ public abstract class MathObject {
 	}
 
 	public static boolean isMathObjectType(String type) {
-		for (String s : objectTypes) {
-			if (type.equals(s)) {
+		for (MathObject mObj : objects) {
+			if (mObj != null && type.equals(mObj.getType())) {
 				return true;
 			}
 		}
@@ -299,12 +310,10 @@ public abstract class MathObject {
 	public abstract MathObject newInstance();
 
 	public static MathObject newInstanceWithType(String type) {
-		int i = 0;
-		for (String s : objectTypes) {
-			if (type.equals(s)) {
-				return objects[i].newInstance();
+		for (MathObject mObj : objects) {
+			if (mObj != null && type.equals(mObj.getType())) {
+				return mObj.newInstance();
 			}
-			i++;
 		}
 		return null;
 	}
@@ -354,10 +363,53 @@ public abstract class MathObject {
 			return false;
 		}
 	}
+	
+	public boolean isProblemMember(){
+		MathObjectContainer ancestor = getParentContainer();
+		while (ancestor != null){
+			if (ancestor instanceof ProblemGenerator || ancestor instanceof GeneratedProblem){
+				return true;
+			}
+			if (ancestor instanceof MathObject){
+				ancestor = ((MathObject)ancestor).getParentContainer();
+			}
+			else{
+				return false;
+			}
+		}
+		return false;
+	}
 
 	public void performAction(String s) {
 		setActionCancelled(false);
 		if (justDeleted) {
+			return;
+		}
+		if (s.equals(MAKE_INTO_PROBLEM)){
+			if (isProblemMember()){
+				JOptionPane.showMessageDialog(null,
+						"This object already belongs to a problem, it will not be modified\n" +
+						"as problems cannot be nested inside other problems.",
+						"Problems Cannot Contain Problems",
+						JOptionPane.WARNING_MESSAGE);
+				setActionCancelled(true);
+				return;
+			}
+			if (this instanceof Grouping)
+			{// groupings have a different implementation for conversion to a problem
+				performSpecialObjectAction(s);
+			}
+			else{
+				VariableValueInsertionProblem newProblem = new VariableValueInsertionProblem(getParentContainer(), getxPos(),
+						getyPos(), getWidth(), getHeight() );
+				this.getParentContainer().getParentDoc().getDocViewerPanel().setFocusedObject(newProblem);
+				newProblem.addObjectFromPage(this);
+				getParentContainer().addObject(newProblem);
+				getParentContainer().removeObject(this);
+			}
+			if (! actionCancelled){
+				this.getParentPage().getParentDoc().getDocViewerPanel().propertiesFrameRefacoringNeeded = true;
+			}
 			return;
 		}
 		if (s.equals(MAKE_SQUARE)) {
@@ -365,17 +417,28 @@ public abstract class MathObject {
 			int sideLength = (int) Math.sqrt(area);
 			this.setWidth(sideLength);
 			this.setHeight(sideLength);
-		} else if (s.equals(FLIP_HORIZONTALLY)) {
-			flipHorizontally();
-		} else if (s.equals(FLIP_VERTICALLY)) {
-			flipVertically();
-		} else {
+		}
+		else if (s.equals(FLIP_HORIZONTALLY)) 	flipHorizontally();
+		else if (s.equals(FLIP_VERTICALLY)) 	flipVertically();
+		else if (s.equals(ALIGN_PAGE_LEFT))		setxPos(getParentPage().getxMargin());
+		else if (s.equals(ALIGN_PAGE_RIGHT)){
+			setxPos(getParentPage().getWidth() - getParentPage().getxMargin() - this.getWidth());
+		}else if (s.equals(ALIGN_PAGE_HORIZONTAL_CENTER)){
+			setxPos( getParentPage().getWidth()/2 - this.getWidth()/2);
+		}else if (s.equals(ALIGN_PAGE_VERTICAL_CENTER)){
+			setyPos( getParentPage().getHeight()/2 - this.getHeight()/2);
+		}else if (s.equals(ALIGN_PAGE_BOTTOM)){
+			setyPos(getParentPage().getHeight() - getParentPage().getyMargin() - this.getHeight());
+		}else if (s.equals(ALIGN_PAGE_TOP)){
+			setyPos(getParentPage().getyMargin());
+		}else {
 			// this call will send the request down to the object specific
 			// actions
 			performSpecialObjectAction(s);
 		}
 	}
 
+	// this is overridden by any objects that extend MathObject and need to actions
 	public void performSpecialObjectAction(String s) {
 
 		if (!actions.contains(s)) {
@@ -536,6 +599,7 @@ public abstract class MathObject {
 
 	public boolean setAttributeValue(String n, Object o)
 			throws AttributeException {
+		System.out.println( this + " set att named: " + n);
 		getAttributeWithName(n).setValue(o);
 		return true;
 	}

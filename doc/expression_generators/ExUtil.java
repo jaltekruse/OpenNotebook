@@ -1,5 +1,6 @@
 package doc.expression_generators;
 
+import java.util.Collections;
 import java.util.Random;
 import java.util.Vector;
 
@@ -73,7 +74,7 @@ public class ExUtil {
 
 	public static Node randomExpression( String[] ops, String[] vars, int numOps,
 			double maxAbsVal, int minNumVal, int maxNumVal, 
-			boolean excludeZero, boolean subtractNegatives, boolean addNegatives, boolean indcludeFractions ){
+			boolean excludeZero, boolean subtractNegatives, boolean addNegatives, boolean includeFractions ){
 		Node n;
 		n = new Number( randomInt( minNumVal, maxNumVal, excludeZero));
 
@@ -81,6 +82,10 @@ public class ExUtil {
 			n = addRandomOp( n, ops, vars, minNumVal, maxNumVal, maxAbsVal, excludeZero, subtractNegatives, addNegatives);
 		}
 		return n;
+	}
+	
+	public static Node randomEquation( Operator[] ops, int numOps, int nimNumVal, int maxNumVal){
+		return null;
 	}
 
 	public static String randomVarName(){
@@ -94,6 +99,16 @@ public class ExUtil {
 			// stupid error, will not happen with list of vars being pulled from
 		}
 		return null;
+	}
+	
+	public static Expression flipSides(Expression ex){
+		try {
+			ex = ex.cloneNode();
+		} catch (NodeException e) {
+			e.printStackTrace();
+		}
+		Collections.shuffle(ex.getChildren());
+		return ex;
 	}
 
 	public static Vector<String> randomUniqueVarNames(int num){
@@ -227,6 +242,31 @@ public class ExUtil {
 
 		return n;
 	}
+	
+	public static Expression randomLinearExpression(String varName, int minCoeff, int maxCoeff){
+		Expression ex = null;
+		if( randomBoolean()){
+			ex = new Expression(new Operator.Addition(), randomTerm(1, varName, minCoeff, maxCoeff),
+					new Number( randomInt(minCoeff, maxCoeff, true)));
+		}
+		else{
+			ex = new Expression(new Operator.Subtraction(), randomTerm(1, varName, minCoeff, maxCoeff),
+					new Number( randomInt(minCoeff, maxCoeff, true)));
+		}
+		return ex;
+	}
+	
+	public static Expression randomAdditionOrSubtraction(int minVal, int maxVal){
+		Number num1 = new Number(randomInt(minVal, maxVal, true)), num2 = new Number(randomInt(minVal, maxVal, true));
+		Expression sumNode = null;
+		if ( ExUtil.randomBoolean()){
+			sumNode = new Expression(new Operator.Addition(), num1, num2);
+		}
+		else{
+			sumNode = new Expression(new Operator.Subtraction(), num1, num2);
+		}
+		return sumNode;
+	}
 
 	public static Node randomTerm(int maxDegree, int minCoefficient, int maxCoefficient, VarList variables){
 		Vector<Node> parts = new Vector<Node>();
@@ -236,9 +276,8 @@ public class ExUtil {
 		Vector<String> usedVars = new Vector<String>();
 		int degree = 0;
 		while( degree < maxDegree && variables.size() > usedVars.size()){
-
+			
 		}
-
 	}
 
 	public static Node randomTerm(int degree, String var, int minCoefficient, int maxCoefficient){
@@ -308,9 +347,13 @@ public class ExUtil {
 
 				if ( n instanceof Expression ){
 					Expression childEx = (Expression) n;
-					if ( getPrec( childEx.getOperator() ) < getPrec( ex.getOperator() ) )
+					if ( getPrec( childEx.getOperator() ) < getPrec( ex.getOperator() ) ||
+							( getPrec( childEx.getOperator() ) == getPrec( ex.getOperator() ) &&
+							( (childEx.getOperator() instanceof Operator.Subtraction ||
+							   childEx.getOperator() instanceof Operator.Division ))))
 					{ // the expression has a greater precedence than the
 						// new child, it needs parenthesis
+						// or the operator is not associative
 						n.setDisplayParentheses(true);
 					}
 				}
@@ -322,9 +365,12 @@ public class ExUtil {
 
 				if ( n instanceof Expression ){
 					Expression childEx = (Expression) n;
-					if ( getPrec( childEx.getOperator() ) < getPrec( ex.getOperator() ) )
+					if ( getPrec( childEx.getOperator() ) < getPrec( ex.getOperator() ) ||
+							( getPrec( childEx.getOperator() ) == getPrec( ex.getOperator() ) &&
+							( (childEx.getOperator() instanceof Operator.Subtraction ||
+							   childEx.getOperator() instanceof Operator.Division ))))
 					{ // the child that was already added to the expression has a lesser precedence than the
-						// new child, it does not need parenthesis
+						// new child, the first expression needs parenthesis
 						n.setDisplayParentheses(true);
 					}
 				}
@@ -382,16 +428,12 @@ public class ExUtil {
 
 		if ( opCode.equals(DIVISION)){
 
-			// getting too many divisions all of the time, expressions end up bizarre and tall with
-			// horizontal division display, half of the time just give up and add a different operator
-			if ( rand.nextBoolean() ){
-				return addRandomOp(n, ops, vars, min, max, maxAbsVal, excludeZero, subtractNegatives, addNegatives);
-			}
 			op = new Operator.Division();
 			newEx = new Expression( op );
 			if ( ! (newChild instanceof Number) ){
 				// the new child being added is not a number, it will not have to be adjusted
 				// to keep the answer clean
+				System.out.println("adding a non-number");
 				return addNodeOnRandomSide(n, newChild, op);
 			}
 
@@ -400,14 +442,16 @@ public class ExUtil {
 				do{ 
 					newChild = new Number( randomInt(min, max, excludeZero));
 				} while( newNum.getValue() == 0);
-
+				System.out.println("expression val was 0");
 				return new Expression(op, n, newChild);
 			}
 			else if ( isPrime( expressionVal ) || ( rand.nextBoolean() && ! numberTooBig) )
 			{// the expression evaluates to a prime number, so it must be the divisor
 				// or the expression was randomly selected to be the divisor when it wasn't prime
-				newChild = new Number( expressionVal * randomInt(min, max, excludeZero));
-				return new Expression(op, newChild, n);
+				return addRandomOp(n, ops, vars, min, max, maxAbsVal, excludeZero, subtractNegatives, addNegatives);
+				// had problem with these next two lines, gave up for now and just adding another operation
+//				newChild = new Number( expressionVal * randomInt(min, max, excludeZero));
+//				return new Expression(op, newChild, n);
 			}
 			else
 			{// the expression evaluates to a non-prime number,and was randomly chosen to be the dividend
@@ -415,6 +459,7 @@ public class ExUtil {
 				if ( numberTooBig ){
 					return addRandomOp(n, ops, vars, min, max, maxAbsVal, excludeZero, subtractNegatives, addNegatives);
 				}
+				System.out.println("dividend");
 				double[] factors = getFactors(expressionVal);
 				int factorIndex = rand.nextInt( factors.length );
 				newChild = new Number( factors[factorIndex]);

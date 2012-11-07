@@ -109,7 +109,7 @@ public class Page implements MathObjectContainer{
 		}
 		return newPage;
 	}
-
+	
 	public void bringObjectToFront(MathObject mObj){
 		objects.remove(mObj);
 		objects.add(mObj);

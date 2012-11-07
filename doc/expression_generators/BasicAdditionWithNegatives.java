@@ -7,12 +7,13 @@ import doc.attributes.Date;
 import doc.mathobjects.ProblemGenerator;
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class BasicAdditionWithNegatives extends ExpressionGenerator {
 
 
 	@Override
-	protected Node generateExpression(int difficulty) {
+	protected Node[] generateExpression(int difficulty) throws NodeException {
 		String[] ops = { ExUtil.ADDITION, ExUtil.NEGATION};
 		String[] vars = {};
 		int numOps;
@@ -37,9 +38,11 @@ public class BasicAdditionWithNegatives extends ExpressionGenerator {
 			maxGeneratedVal = 25;
 			maxAbsVal = 100;
 		}
-		Node n = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
+		Node n[] = new Node[2];
+		n[0] = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
 				maxGeneratedVal, true, false, false, true);
-		n = ExUtil.randomlyAddParenthesis( (Expression) n, 0, 3);
+		n[0] = ExUtil.randomlyAddParenthesis( (Expression) n[0], 0, 3);
+		n[1] = n[0].smartNumericSimplify().standardFormat();
 		return n;
 	}
 

@@ -21,6 +21,7 @@ import javax.swing.border.LineBorder;
 import doc.attributes.ColorAttribute;
 import doc.mathobjects.MathObject;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 
 public class ColorAdjustmentPanel extends AdjustmentPanel<ColorAttribute>{
@@ -32,8 +33,8 @@ public class ColorAdjustmentPanel extends AdjustmentPanel<ColorAttribute>{
 	private JButton setColor;
 
 	public ColorAdjustmentPanel(ColorAttribute mAtt,
-			DocViewerPanel dvp, JPanel p) {
-		super(mAtt, dvp, p);
+			NotebookPanel notebookPanel, JPanel p) {
+		super(mAtt, notebookPanel, p);
 		justChangedColor = false;
 	}
 
@@ -71,21 +72,23 @@ public class ColorAdjustmentPanel extends AdjustmentPanel<ColorAttribute>{
 							justChangedColor = false;
 							return;
 						}
-						mAtt.setValue(Color.WHITE);
+						if (mAtt.getValue() == null){
+							mAtt.setValue(Color.WHITE);
+						}
 						colorLabel.setBackground(mAtt.getValue());
 						ColorAdjustmentPanel.this.repaint();
-						docPanel.addUndoState();
-						docPanel.repaint();
-						docPanel.updateObjectToolFrame();
+						notebookPanel.getCurrentDocViewer().addUndoState();
+						notebookPanel.getCurrentDocViewer().repaintDoc();
+						notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
 
 					}
 					else{
 						mAtt.setValue(null);
 						colorLabel.setBackground(mAtt.getValue());
 						ColorAdjustmentPanel.this.repaint();
-						docPanel.addUndoState();
-						docPanel.repaint();
-						docPanel.updateObjectToolFrame();
+						notebookPanel.getCurrentDocViewer().addUndoState();
+						notebookPanel.getCurrentDocViewer().repaintDoc();
+						notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
 					}
 				}
 
@@ -115,8 +118,8 @@ public class ColorAdjustmentPanel extends AdjustmentPanel<ColorAttribute>{
 						checkbox.setSelected(false);
 					}
 				}
-				docPanel.addUndoState();
-				docPanel.repaint();
+				notebookPanel.getCurrentDocViewer().addUndoState();
+				notebookPanel.getCurrentDocViewer().repaintDoc();
 			}
 
 			public void mouseReleased(MouseEvent arg0) {}

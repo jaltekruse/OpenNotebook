@@ -41,7 +41,6 @@ public class StringAttribute extends MathObjectAttribute<String>{
 		setValue(s);
 	}
 	
-	
 	@Override
 	public String getType() {
 		return STRING_ATTRIBUTE;

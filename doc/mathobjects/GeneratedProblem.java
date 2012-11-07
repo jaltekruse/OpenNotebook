@@ -7,13 +7,14 @@ import javax.swing.JOptionPane;
 import doc.attributes.IntegerAttribute;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
+import doc.attributes.StringAttribute;
 import doc.attributes.UUIDAttribute;
 
 public class GeneratedProblem extends Grouping {
 
 	public static final String GENERATE_NEW_PROBLEM = "Gernerate New Problem",
 			UUID_STR = "uuid", VIEW_PROBLEM_FORMULA = "View Problem Formula",
-			DIFFICULTY = "difficulty";
+			DIFFICULTY = "difficulty", GEN_LIST = "generator IDs";
 
 	public GeneratedProblem(MathObjectContainer p, UUID genID, Grouping contents) {
 		super(p);
@@ -33,7 +34,7 @@ public class GeneratedProblem extends Grouping {
 		
 		addGeneratedProblemAttibutes();
 		addGeneratedProblemActions();
-		getAttributeWithName(UUID_STR).setValue(genID);
+		((ListAttribute<UUIDAttribute>)getListWithName(GEN_LIST)).getValue(0).setValue(genID);
 
 		for (MathObject mObj : contents.getObjects()) {
 			mObj.setParentContainer(getParentContainer());
@@ -54,21 +55,29 @@ public class GeneratedProblem extends Grouping {
 	}
 	
 	private void addGeneratedProblemAttibutes(){
-		addAttribute(new UUIDAttribute(UUID_STR));
-		getAttributeWithName(UUID_STR).setUserEditable(false);
+		addList(new ListAttribute<UUIDAttribute>(GEN_LIST,
+				new UUIDAttribute(""), 20, false, false));
+		// the next line for adding UUID_STR as an attribute was commented out
+		// it broke the JAVA based expression problem generators
+		// I uncommented it, but I don't remember why I commented it out origionally
+		addAttribute(new UUIDAttribute(UUID_STR, false, false));
 		addAttribute(new IntegerAttribute(DIFFICULTY, false));
 	}
 
 	private void addGeneratedProblemActions(){
 		// remove actions that are added in the Grouping constructor
 		removeAction(MathObject.MAKE_INTO_PROBLEM);
-		removeAction(STORE_IN_DATABASE);
-		removeAction(BRING_TO_LEFT);
-		removeAction(BRING_TO_RIGHT);
-		removeAction(BRING_TO_TOP);
-		removeAction(BRING_TO_BOTTOM);
-		removeAction(Grouping.STRETCH_VERTICALLY);
+		removeAction(Grouping.BRING_TO_LEFT);
+		removeAction(Grouping.BRING_TO_TOP);
+		removeAction(Grouping.BRING_TO_RIGHT);
+		removeAction(Grouping.BRING_TO_BOTTOM);
 		removeAction(Grouping.STRETCH_HORIZONTALLY);
+		removeAction(Grouping.STRETCH_VERTICALLY);
+		removeAction(DISTRIBUTE_VERTICALLY);
+		removeAction(DISTRIBUTE_HORIZONTALLY);
+		removeAction(ALIGN_GROUP_VERTICAL_CENTER);
+		removeAction(ALIGN_GROUP_HORIZONTAL_CENTER);
+		
 		addAction(GENERATE_NEW_PROBLEM);
 		addAction(VIEW_PROBLEM_FORMULA);
 		// addAction(REMOVE_PROBLEM);
@@ -76,7 +85,7 @@ public class GeneratedProblem extends Grouping {
 	
 	public ProblemGenerator getProblemGenerator() {
 		return getParentContainer().getParentDoc().getGeneratorWithID(
-				(UUID) getAttributeWithName(UUID_STR).getValue());
+				((ListAttribute<UUIDAttribute>)getListWithName(GEN_LIST)).getValue(0).getValue());
 	}
 	
 	public int getDifficulty(){
@@ -98,7 +107,6 @@ public class GeneratedProblem extends Grouping {
 		newProb.setxPos(getxPos());
 		newProb.setyPos(getyPos());
 		getParentContainer().addObject(newProb);
-		newProb.setParentContainer(getParentContainer());
 		getParentContainer().removeObject(this);
 		return newProb;
 	}

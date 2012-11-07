@@ -129,6 +129,17 @@ public class IntegerAttribute extends MathObjectAttribute<Integer> {
 					minimum + " - " + maximum + ")");
 			}
 		}catch(Exception e){
+			if ( minimum == LIMIT_NOT_SET ){
+				if (maximum == LIMIT_NOT_SET){
+					throw new AttributeException(getName() + " must be an integer.");
+				}
+				else{
+					throw new AttributeException(getName() + " must be an integer less than " + maximum + ".");
+				}
+			}
+			else if (maximum == LIMIT_NOT_SET){
+				throw new AttributeException(getName() + " must be an integer grater than " + minimum + ".");
+			}
 			throw new AttributeException(getName() + " must be an integer in the range (" + 
 					minimum + " - " + maximum + ")");
 		}

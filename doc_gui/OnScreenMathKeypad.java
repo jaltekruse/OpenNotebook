@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Robot;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -27,7 +29,17 @@ public class OnScreenMathKeypad extends JPanel {
 	private OCButton sin, cos, tan, trigInverse;
 	private JComboBox angleUnitSelect;
 	private NotebookPanel notebook;
-	public static final int PRESS = Integer.MAX_VALUE - 1, RELEASE = Integer.MAX_VALUE - 2; 
+	public static final int PRESS = Integer.MAX_VALUE - 1, RELEASE = Integer.MAX_VALUE - 2;
+	
+	private static Robot robot;
+	static{
+		try{
+			robot = new Robot(); 
+		}catch( Exception e){
+			// system robot is not accessible
+		}
+	}
+
 
 	OnScreenMathKeypad(final NotebookPanel notebook) {
 		this.notebook = notebook;
@@ -38,8 +50,8 @@ public class OnScreenMathKeypad extends JPanel {
 		this.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 		this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 		
-		new OCButton("^", 1, 1, 1, 1, this);
-		new OCButton("^-1", 1, 1, 2, 1,this);
+		new OCButton("^", 1, 1, 1, 2, this);
+		new OCButton("^-1", 1, 1, 1, 1,this);
 		new OCButton(".", 1, 1, 3, 6, this);
 		new OCButton("+", 1, 2, 4, 3,this);
 		new OCButton("-", 1, 1, 4, 2, this);
@@ -47,11 +59,11 @@ public class OnScreenMathKeypad extends JPanel {
 		new OCButton("/", 1, 1, 2, 2, this);
 		new OCButton("(", 1, 1, 3, 1, this);
 		new OCButton(")", 1, 1, 4, 1, this);
-		new OCButton("=", "variable assignment", 1, 1, 7, 0, this);
+		new OCButton("=", "variable assignment", 1, 1, 6, 0, this);
 		new OCButton("ln(", 1, 1, 0, 6, this);
-		new OCButton("log(", 1, 1, 0, 5, this);
+		new OCButton("log(", 1, 1, 0, 3, this);
 		new OCButton("sqrt(", 1, 1, 0, 4, this);
-		new OCButton("E", "scientific notation", 1, 1, 0, 3, this);
+		new OCButton("e", "euler's number", 1, 1, 0, 5, this);
 		new OCButton("0", 2, 1, 1, 6, this);
 		new OCButton("1", 1, 1, 1, 5, this);
 		new OCButton("2", 1, 1, 2, 5, this);
@@ -62,20 +74,26 @@ public class OnScreenMathKeypad extends JPanel {
 		new OCButton("7", 1, 1, 1, 3, this);
 		new OCButton("8", 1, 1, 2, 3, this);
 		new OCButton("9", 1, 1, 3, 3, this);
-		new OCButton("10^(", 1, 1, 1, 2, this);
-		new OCButton("x", "eulers number", 1, 1, 7, 1, this);
-		new OCButton("y", 1, 1, 7, 2, this);
-		new OCButton("z", 1, 1, 7, 3, this);
-		new OCButton("a", "variable for storage", 1, 1, 7, 4, this);
-		new OCButton("b", "variable for stroage", 1, 1, 7, 5, this);
-		new OCButton("c", 1, 1, 7, 6, this);
-		new OCButton("\u03C0", 1, 1, 8, 0, this);
-		new OCButton("j", 1, 1, 8, 1, this);
-		new OCButton("k", 1, 1, 8, 2, this);
-		new OCButton("l", 1, 1, 8, 3, this);
-		new OCButton("r", 1, 1, 8, 4, this);
-		new OCButton("s", 1, 1, 8, 5, this);
-		new OCButton("t", 1, 1, 8, 6, this);
+		new OCButton(",", 1, 1, 2, 1, this);
+		new OCButton("x", 1, 1, 5, 1, this);
+		new OCButton("y", 1, 1, 5, 2, this);
+		new OCButton("z", 1, 1, 5, 3, this);
+		new OCButton("a", "variable for storage", 1, 1, 5, 4, this);
+		new OCButton("b", "variable for stroage", 1, 1, 5, 5, this);
+		new OCButton("c", 1, 1, 5, 6, this);
+		new OCButton("\u03C0", 1, 1, 5, 0, this);
+		new OCButton("i", 1, 1, 6, 1, this);
+		new OCButton("j", 1, 1, 6, 2, this);
+		new OCButton("k", 1, 1, 6, 3, this);
+		new OCButton("r", 1, 1, 6, 4, this);
+		new OCButton("s", 1, 1, 6, 5, this);
+		new OCButton("t", 1, 1, 6, 6, this);
+		new OCButton("\u03B8", 1, 1, 2, 7, this );
+		new OCButton("m", 1, 1, 3, 7, this);
+		new OCButton("n", 1, 1, 4, 7, this);
+		new OCButton("p", 1, 1, 5, 7, this);
+		new OCButton("q", 1, 1, 6, 7, this);
+		new OCButton("randomInt(", 2, 1, 0, 7, this);
 		
 		//OCButton y = new OCButton("y", 1, 1, 7, 4, this);
 		sin = new OCButton("sin(", 1, 1, 1, 0, this);
@@ -182,7 +200,10 @@ public class OnScreenMathKeypad extends JPanel {
 			private static final long serialVersionUID = 1L;
 
 			public void associatedAction(){
-				
+				if ( robot != null){
+					robot.keyPress(KeyEvent.VK_ENTER);
+					robot.keyRelease(KeyEvent.VK_ENTER);
+				}
 			}
 		}; 
 	}

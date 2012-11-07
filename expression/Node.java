@@ -74,10 +74,22 @@ public abstract class Node implements Cloneable {
 		}
 		return null;
 	}
-	
+
 	public Node multiplyByNode(Node n){
 		if ( n instanceof Expression){
-			n.setDisplayParentheses(true);
+			if ( ((Expression)n).getOperator() instanceof Operator.Addition ||
+					((Expression)n).getOperator() instanceof Operator.Subtraction) {
+				Vector<Node> terms = new Vector<Node>();
+				for ( Node node : splitOnAddition()){
+					for ( Node n2 : n.splitOnAddition()){
+						terms.add(node.multiplyByNode(n2));
+					}
+				}
+				return Expression.staggerAddition(terms);
+			}
+			else{
+				n.setDisplayParentheses(true);
+			}
 		}
 		try {
 			return new Expression(new Operator.Multiplication(), n.cloneNode(),  cloneNode());
@@ -87,7 +99,7 @@ public abstract class Node implements Cloneable {
 		}
 		return null;
 	}
-	
+
 	public Node divideByNode(Node n){
 		if ( n instanceof Expression){
 			n.setDisplayParentheses(true);

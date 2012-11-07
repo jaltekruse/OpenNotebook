@@ -20,6 +20,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -34,6 +35,7 @@ import javax.swing.WindowConstants;
 import doc.Document;
 import doc.Page;
 import doc.PointInDocument;
+import doc.mathobjects.ExpressionObject;
 import doc.mathobjects.GraphObject;
 import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
@@ -50,12 +52,15 @@ public class DocViewerPanel extends JDesktopPane{
 	private Document lastAction;
 	private float zoomLevel;
 	private static final float zoomRate = 1.1f;
-	private JScrollPane docScrollPane;
+	JScrollPane docScrollPane;
 	private ObjectPropertiesFrame objPropsFrame;
 	private JInternalFrame keyboardFrame;
 	private JInternalFrame docPropsFrame;
 	private Page selectedPage;
 	private BufferedImage background;
+	private Rectangle frameBounds = new Rectangle(5, 5, 250, 300);
+	
+	private static Date time;
 
 	/**
 	 * The minimum space allowed around any side of the document. Given as an
@@ -64,78 +69,81 @@ public class DocViewerPanel extends JDesktopPane{
 	 */
 	public static final int DOC_BUFFER_SPACE = 25;
 	private int currentPage;
-	private MathObject focusedObject;
+	private MathObject focusedObj;
 	private PageGUI pageGUI;
 	private JPanel docPanel;
 	private DocMouseListener docMouse;
 	private RectangleObject selectionRect;
 	// used for creating a group while the selection rectangle is being drawn
 	private Grouping tempGroup;
-	private boolean isInStudentMode;
 	private OpenNotebook notebook;
+	public boolean propertiesFrameRefacoringNeeded = false;
+	private NotebookKeyboardListener keyListener;
 
-	public DocViewerPanel(Document d, TopLevelContainerOld t, boolean b, OpenNotebook book){
-		notebook = book;
+	public DocViewerPanel(Document d, TopLevelContainerOld t, NotebookPanel book){
+		notebook = book.getOpenNotebook();
 		doc = d;
 		doc.setDocViewerPanel(this);
-
-		isInStudentMode = b;
 
 		tempGroup = new Grouping();
 		setPageGUI(new PageGUI(this));
 		background = new BufferedImage(10,10, 10);
-		
+
 		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		actions = new Vector<Document>();
 		undoneActions = new Vector<Document>();
 		// add the first undo state, the blank document
 		lastAction = doc.clone();
-//		addUndoState();
+		//		addUndoState();
 		lastSavedDoc = lastAction;
 
 		zoomLevel = 1;
 		currentPage = 1;
 
 		docPanel = makeDocPanel();
+		keyListener = new NotebookKeyboardListener(getNotebook());
+		this.addKeyListener(keyListener);
 		resizeViewWindow();
 
 		docMouse = new DocMouseListener(this);
 		docPanel.addMouseListener(docMouse);
-		docPanel.addMouseMotionListener(docMouse);		
+		docPanel.addMouseMotionListener(docMouse);	
+		
+		objPropsFrame = new ObjectPropertiesFrame(book);
+		objPropsFrame.setBounds(frameBounds);
+		this.add(objPropsFrame, 0, 3);
 
 		docScrollPane = new JScrollPane(docPanel);
 		docScrollPane.setWheelScrollingEnabled(true);
 		docScrollPane.getVerticalScrollBar().setUnitIncrement(12);
 		docScrollPane.getHorizontalScrollBar().setUnitIncrement(12);
 
-		objPropsFrame = new ObjectPropertiesFrame(this);
-		objPropsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-		objPropsFrame.setBounds(5, 5, 250, 300);
-		this.add(objPropsFrame, 3, 0);
-		//do not show yet, only appears when MathObject is selected
-
-		GraphObject temp = new GraphObject();
+		MathObject temp = new GraphObject(new Page(null));
 		setFocusedObject(temp);
 		setFocusedObject(null);
-		this.drawObjectInBackgorund(temp);
+		this.drawObjectInBackground(temp);
+		temp = new ExpressionObject(new Page(null));
+		setFocusedObject(temp);
+		setFocusedObject(null);
+		this.drawObjectInBackground(temp);
 
-//		docPropsFrame = new JInternalFrame("Document",
-//				true, //resizable
-//				true, //closable
-//				false, //maximizable
-//				true);//iconifiable
-//
-//
-//		docPropsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-//		docPropsFrame.setBounds(10, 10, 200, 300);
-//		this.add(docPropsFrame, 3, 0);
+		//		docPropsFrame = new JInternalFrame("Document",
+		//				true, //resizable
+		//				true, //closable
+		//				false, //maximizable
+		//				true);//iconifiable
+		//
+		//
+		//		docPropsFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+		//		docPropsFrame.setBounds(10, 10, 200, 300);
+		//		this.add(docPropsFrame, 3, 0);
 
 		keyboardFrame = new JInternalFrame("Math Keyboard",
 				true, //resizable
 				true, //closable
 				false, //maximizable
 				true);//iconifiable
-		keyboardFrame.setContentPane(new OnScreenMathKeypad(book.getNotebookPanel()));
+		keyboardFrame.setContentPane(new OnScreenMathKeypad(book));
 
 		keyboardFrame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		keyboardFrame.setBounds(5, 315, 370, 210);
@@ -157,7 +165,7 @@ public class DocViewerPanel extends JDesktopPane{
 		this.add(docScrollPane, 2, 0);
 	}
 
-	public void drawObjectInBackgorund(MathObject o){
+	public void drawObjectInBackground(MathObject o){
 		Graphics g = background.getGraphics();
 		pageGUI.drawObject(o, g,
 				o.getParentPage(), new Point(0,0),
@@ -168,7 +176,7 @@ public class DocViewerPanel extends JDesktopPane{
 	public void setScrollBounds(int w, int h){
 		docScrollPane.setBounds(0, 0, w, h);
 	}
-	
+
 	public void destroyAllUndoStates(){
 		for ( Document doc : actions){
 			notebook.getNotebookPanel().destroyDoc(doc);
@@ -219,11 +227,11 @@ public class DocViewerPanel extends JDesktopPane{
 		lastAction = doc.clone();
 		this.resizeViewWindow();
 	}
-	
+
 	public void setCurrentStateAsLastSaved(){
 		lastSavedDoc = lastAction;
 	}
-	
+
 	public boolean hasBeenModfiedSinceSave(){
 		return (lastSavedDoc != lastAction);
 	}
@@ -241,10 +249,12 @@ public class DocViewerPanel extends JDesktopPane{
 			@Override
 			public void paint(Graphics g){
 
-
+				System.out.println("painting doc:" + (new java.util.Date().getTime() - notebook.timeAtStart));
 				//set the graphics object to render text and shapes with smooth lines
 				Graphics2D g2d = (Graphics2D)g;
-				g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				if ( ! OpenNotebook.isMinimalGraphicsMode()){
+					g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+				}
 
 				//pixels needed to render a page, and the minimum border space around it
 				int pageXSize = (int) (getDoc().getWidth() * zoomLevel);
@@ -306,11 +316,6 @@ public class DocViewerPanel extends JDesktopPane{
 		};
 	}
 
-	public void toggleDocPropsFrame(){
-		docPropsFrame.getContentPane().add(objPropsFrame.generatePanel(getDoc(), this));
-		docPropsFrame.setVisible( ! docPropsFrame.isVisible());
-	}
-	
 	public ImageIcon getIcon(String fileName){
 		try {
 			fileName = "img/" + fileName;
@@ -337,7 +342,8 @@ public class DocViewerPanel extends JDesktopPane{
 		for (int i = 0; i < doc.getNumPages(); i++){
 			heightNeeded += pageYSize + adjustedBufferSpace;
 		}
-
+		
+		docPanel.revalidate();
 		//set a new size for the panel to render the pages, and revalidate to force
 		//scroll bar to re-adjust
 		docPanel.setPreferredSize(new Dimension( widthNeeded, heightNeeded));
@@ -347,14 +353,33 @@ public class DocViewerPanel extends JDesktopPane{
 	public void repaintDoc(){
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				repaint();
-				revalidate();
+//				docPanel.revalidate();
+				if ( DocViewerPanel.this.getFocusedObject() != null && propertiesFrameRefacoringNeeded){
+					if ( objPropsFrame.getParent() != null){
+						objPropsFrame.getParent().remove(objPropsFrame);
+					}
+					objPropsFrame.generatePanel(getFocusedObject());
+					objPropsFrame.setBounds(frameBounds);
+					DocViewerPanel.this.add(objPropsFrame, 3, 0);
+					objPropsFrame.pack();
+					objPropsFrame.setSize(objPropsFrame.getWidth() + 30, objPropsFrame.getHeight());
+					objPropsFrame.setVisible(true);
+					objPropsFrame.focusPrimaryAttributeField();
+					if ( objPropsFrame.getHeight() + objPropsFrame.getY() > DocViewerPanel.this.getHeight() - 25){
+						objPropsFrame.setBounds(objPropsFrame.getX(), objPropsFrame.getY(),
+								objPropsFrame.getWidth() + 35, DocViewerPanel.this.getHeight() - objPropsFrame.getY() - 25);
+					}
+				}
+				docPanel.repaint();
+				propertiesFrameRefacoringNeeded = false;
 			}
 		});
 	}
 
 	public void updateObjectToolFrame(){
-		objPropsFrame.update();
+		if ( objPropsFrame != null){
+			objPropsFrame.update();
+		}
 	}
 
 	public Document getDoc(){
@@ -402,13 +427,28 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	public Page getCurrentPage(){
-		// TODO Auto-generated method stub
 		return doc.getPage(currentPage);
 	}
 
-	public void createMathObject(MathObject mObj){
-		docMouse.setPlacingObject(true);
-		docMouse.setObjToPlace(mObj);
+	public void createMathObject(String type){
+		if ( getNotebookPanel().getObjToPlace() != null && 
+				getNotebookPanel().getObjToPlace().getType().equals(type))
+		{// the user has hit the button for the same object again, need to cycle through
+			// object placement modes
+			if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.NOT_PLACING_OBJECT)
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.PLACING_SINGLE_OBJECT);
+			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.PLACING_SINGLE_OBJECT)
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.MULTIPLE_OBJECTS);
+			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.MULTIPLE_OBJECTS){
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.NOT_PLACING_OBJECT);
+				getNotebookPanel().setObjToPlace(null);
+				return;
+			}
+		}
+		else{
+			getNotebookPanel().setObjectCreationMode(NotebookPanel.PLACING_SINGLE_OBJECT);
+		}
+		getNotebookPanel().setObjToPlace(MathObject.newInstanceWithType(type));
 	}
 
 	public void setSelectedPage(int i){
@@ -438,30 +478,57 @@ public class DocViewerPanel extends JDesktopPane{
 		return selectedPage;
 	}
 
-	public void setFocusedObject(MathObject newFocusedObject) {
-		if (newFocusedObject != null){
-			if ( ! isInStudentMode() || (isInStudentMode() && newFocusedObject.isStudentSelectable())){
-				focusedObject = newFocusedObject;
-				objPropsFrame.generatePanel(focusedObject);
-				objPropsFrame.revalidate();
-				objPropsFrame.setVisible(true);
-				objPropsFrame.focusPrimaryAttributeField();
-				if ( objPropsFrame.getHeight() + objPropsFrame.getY() > this.getHeight() - 30){
-					objPropsFrame.setBounds(objPropsFrame.getX(), objPropsFrame.getY(),
-							objPropsFrame.getWidth() + 35, this.getHeight() - objPropsFrame.getY() - 30);
-				}
+	public void setFocusedObject(MathObject newFocusedObj) {
+		if (newFocusedObj == focusedObj){
+			return;
+		}
+		else if (newFocusedObj != null){
+			if ( ! isInStudentMode() || (isInStudentMode() && 
+					newFocusedObj.isStudentSelectable())){
+				focusedObj = newFocusedObj;
+				propertiesFrameRefacoringNeeded = true;
 				setSelectedPage(null);
-				if (tempGroup != null && newFocusedObject != tempGroup){
+				if (tempGroup != null && newFocusedObj != tempGroup){
 					ungroupTempGroup();
 				}
 			}
 		}
 		else{
-			this.focusedObject = newFocusedObject;
-			objPropsFrame.setVisible(false);
+			this.focusedObj = newFocusedObj;
+			if (objPropsFrame != null)
+				objPropsFrame.setVisible(false);
 		}
+		frameBounds = objPropsFrame.getBounds();
 	}
 	
+	/**
+	 * The result of the user selecting an object while pressing shift.
+	 * If the new object does not belong to the same page as the current focused object
+	 * the new object becomes selected, as groups cannot exist across pages.
+	 * If no object is selected, it becomes the focused object.
+	 * If an object is selected, the two are added to the temporary group.
+	 * If the temporary group is selected, the new object is added to the temporary group.
+	 * If a permanent group is selected, the new object is added to the permanent group.
+	 */
+	public void addObjectToSelection(MathObject newObj){
+		if ( focusedObj == null){
+			setFocusedObject(newObj);
+			return;
+		}
+		if ( focusedObj.getParentPage() != newObj.getParentPage()){
+			setFocusedObject(newObj);
+			return;
+		}
+		if ( ! (focusedObj instanceof Grouping) ){
+			resetTempGroup();
+			focusedObj.getParentContainer().addObject(tempGroup);
+			tempGroup.addObjectFromPage(focusedObj);
+			tempGroup.addObjectFromPage(newObj);
+			setFocusedObject(tempGroup);
+			repaintDoc();
+		}
+	}
+
 	public void setOnScreenKeyBoardVisible(boolean visible){
 		this.keyboardFrame.setVisible(visible);
 	}
@@ -485,7 +552,7 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	public MathObject getFocusedObject() {
-		return focusedObject;
+		return focusedObj;
 	}
 
 	public PointInDocument panelPt2DocPt(int x, int y){
@@ -577,21 +644,29 @@ public class DocViewerPanel extends JDesktopPane{
 		return new Point( (int) (pageOrigin.getX() + mObj.getxPos() * zoomLevel)
 				, (int) (pageOrigin.getY() + mObj.getyPos() * zoomLevel));
 	}
+	
+	public MathObject getObjToPlace() {
+		return notebook.getNotebookPanel().getObjToPlace();
+	}
+
+	public void setObjToPlace(MathObject o) {
+		notebook.getNotebookPanel().setObjToPlace(o);
+	}
 
 	public Point getPageOrigin(Page p){
 		return getPageOrigin(doc.getPageIndex(p));
+	}
+	
+	public boolean isPlacingObject(){
+		return notebook.getNotebookPanel().isPlacingObj();
 	}
 
 	public float getZoomLevel(){
 		return zoomLevel;
 	}
 
-	public void setInStudentMode(boolean isInStudentMode) {
-		this.isInStudentMode = isInStudentMode;
-	}
-
 	public boolean isInStudentMode() {
-		return isInStudentMode;
+		return OpenNotebook.isInStudentMode();
 	}
 
 	public void setPageGUI(PageGUI pageRenderer) {
@@ -621,8 +696,16 @@ public class DocViewerPanel extends JDesktopPane{
 	public OpenNotebook getNotebook() {
 		return notebook;
 	}
-	
+
 	public NotebookPanel getNotebookPanel(){
 		return notebook.getNotebookPanel();
+	}
+
+	public NotebookKeyboardListener getKeyListener() {
+		return keyListener;
+	}
+
+	public void setKeyListener(NotebookKeyboardListener keyListener) {
+		this.keyListener = keyListener;
 	}
 }

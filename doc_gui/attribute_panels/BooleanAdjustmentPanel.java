@@ -9,14 +9,15 @@ import javax.swing.JPanel;
 
 import doc.attributes.BooleanAttribute;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 public class BooleanAdjustmentPanel extends AdjustmentPanel<BooleanAttribute>{
 
 	private JCheckBox checkbox;
 
 	public BooleanAdjustmentPanel(BooleanAttribute mAtt,
-			DocViewerPanel dvp, JPanel p) {
-		super(mAtt, dvp, p);
+			NotebookPanel notebookPanel, JPanel p) {
+		super(mAtt, notebookPanel, p);
 	}
 
 	@Override
@@ -37,15 +38,15 @@ public class BooleanAdjustmentPanel extends AdjustmentPanel<BooleanAttribute>{
 				// TODO Auto-generated method stub
 				if (e.getStateChange() == ItemEvent.SELECTED){
 					mAtt.setValue(true);
-					docPanel.repaint();
-					docPanel.addUndoState();
-					docPanel.updateObjectToolFrame();
+					notebookPanel.getCurrentDocViewer().repaintDoc();
+					notebookPanel.getCurrentDocViewer().addUndoState();
+					notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
 				}
 				else{
 					mAtt.setValue(false);
-					docPanel.repaint();
-					docPanel.addUndoState();
-					docPanel.updateObjectToolFrame();
+					notebookPanel.getCurrentDocViewer().repaintDoc();
+					notebookPanel.getCurrentDocViewer().addUndoState();
+					notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
 				}
 			}
 
@@ -58,7 +59,7 @@ public class BooleanAdjustmentPanel extends AdjustmentPanel<BooleanAttribute>{
 	public void applyPanelValueToObject() {
 		// TODO Auto-generated method stub
 		mAtt.setValue(true);
-		docPanel.repaint();
+		notebookPanel.getCurrentDocViewer().repaintDoc();
 	}
 
 	@Override

@@ -96,7 +96,7 @@ public class PageGUI {
 	public PageGUI(){
 		initializeGUIs();
 	}
-	
+
 	public void initializeGUIs(){
 		textGUI = new TextObjectGUI();
 		ovalGUI = new OvalObjectGUI();
@@ -129,9 +129,8 @@ public class PageGUI {
 
 		}
 		else if (mObj instanceof GraphObject){
-
-			//			graphGUI.mouseClicked((GraphObject)mObj, x, y, docPanel.getZoomLevel());
-			//			docPanel.repaintDoc();
+			graphGUI.mouseClicked((GraphObject)mObj, x, y, docPanel.getZoomLevel());
+			docPanel.repaintDoc();
 		}
 		else if (mObj instanceof PolygonObject){
 			if (mObj instanceof TriangleObject){
@@ -185,15 +184,6 @@ public class PageGUI {
 			Grouping group = ((Grouping)mObj);
 			for (MathObject mathObj : group.getObjects()){
 				drawObject(mathObj, g, p, pageOrigin, visiblePageSection, zoomLevel);
-				if (docPanel != null && group == docPanel.getFocusedObject()){
-					g.setColor(Color.BLUE);
-					((Graphics2D)g).setStroke(new BasicStroke(2));
-					g.drawRect((int) (pageOrigin.getX() + mathObj.getxPos() * zoomLevel), 
-							(int) (pageOrigin.getY() + mathObj.getyPos() * zoomLevel ),
-							(int) ( mathObj.getWidth() * zoomLevel ),
-							(int) ( mathObj.getHeight() * zoomLevel ));
-					((Graphics2D)g).setStroke(new BasicStroke(1));
-				}
 			}
 		}
 		else if (mObj instanceof OvalObject){
@@ -311,12 +301,13 @@ public class PageGUI {
 		g.fillRect(pageXOrigin, pageYOrigin, adjustedWidth, adjustedHeight);
 
 		//draw gray box to show margins
-		int adjustedMargin = (int) (p.getxMargin()* zoomLevel);
-		printableXOrigin = pageXOrigin + adjustedMargin;
-		printableYOrigin = pageYOrigin + adjustedMargin;
+		int adjustedxMargin = (int) (p.getxMargin() * zoomLevel);
+		int adjustedyMargin = (int) (p.getyMargin() * zoomLevel);
+		printableXOrigin = pageXOrigin + adjustedxMargin;
+		printableYOrigin = pageYOrigin + adjustedyMargin;
 		g.setColor(Color.GRAY.brighter());
 		g.drawRect(printableXOrigin, printableYOrigin,
-				adjustedWidth - 2 * adjustedMargin, adjustedHeight - adjustedMargin * 2);
+				adjustedWidth - 2 * adjustedxMargin, adjustedHeight - adjustedyMargin * 2);
 
 		//draw shadow and outline of page
 
@@ -343,9 +334,23 @@ public class PageGUI {
 					expressionGUI.drawInteractiveComponents((ExpressionObject)focusedObj, g,
 							new Point((int) pageOrigin.getX(), (int) pageOrigin.getY()), zoomLevel);
 				}
+				else if (focusedObj instanceof Grouping){
+					Grouping group = ((Grouping)focusedObj);
+					for (MathObject mathObj : group.getObjects()){
+						if (docPanel != null && group == docPanel.getFocusedObject()){
+							g.setColor(Color.BLUE);
+							((Graphics2D)g).setStroke(new BasicStroke(2));
+							g.drawRect((int) (pageOrigin.getX() + mathObj.getxPos() * zoomLevel), 
+									(int) (pageOrigin.getY() + mathObj.getyPos() * zoomLevel ),
+									(int) ( mathObj.getWidth() * zoomLevel ),
+									(int) ( mathObj.getHeight() * zoomLevel ));
+							((Graphics2D)g).setStroke(new BasicStroke(1));
+						}
+					}
+				}
 				if ( (! focusedObj.isHorizontallyResizable() && ! focusedObj.isVerticallyResizable())
 						|| docPanel.isInStudentMode())
-				{// if the object cannot be resized, or if in student mode (where they cannot resize objects)
+				{// if the object cannot be resized, or if in student mode (where users cannot resize objects)
 					g.setColor(Color.GRAY);
 					((Graphics2D)g).setStroke(new BasicStroke(3));
 					g.drawRect((int) (pageOrigin.getX() + focusedObj.getxPos() * zoomLevel) - 3, 

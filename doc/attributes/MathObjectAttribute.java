@@ -34,7 +34,14 @@ public abstract class MathObjectAttribute<K> {
 
 	private String name;
 	protected K value;
-	private boolean userEditable, studentEditable;
+	// attributes that are not userEditable will never show on the interface for modification
+	// attributes that are not studentEditable will not be shown on the main document interface
+	// with the addition of the workspace interface, students will need to modify some attributes
+	// that they previously could not modify when they create their own expressions/objects
+	// however, some attributes (mostly just correct answer fields) will not make sense to keep on
+	// the student workspace interface, so they will have the teacherEditableOnly flag set
+	private boolean userEditable, studentEditable, 
+		teacherEditableOnly = false;
 	private MathObject parentObject;
 
 	public MathObjectAttribute(String n){
@@ -87,6 +94,14 @@ public abstract class MathObjectAttribute<K> {
 		}
 		return false;
 	}
+	
+	public boolean isTeacherEditableOnly(){
+		return teacherEditableOnly;
+	}
+	
+	public void setTeacherEditableOnly(boolean b){
+		teacherEditableOnly = b;
+	}
 
 	public void setName(String name) {
 		this.name = name;
@@ -108,12 +123,12 @@ public abstract class MathObjectAttribute<K> {
 
 	public String exportToXML(){
 		return "\t<" + getType() + " " + NAME + "=\"" + getName()
-				+ "\" " + VALUE + "=\"" + formatFoXML(getValue().toString()) + "\"/>\n";
+				+ "\" " + VALUE + "=\"" + formatForXML(getValue().toString()) + "\"/>\n";
 	}
 
 	public abstract void resetValue();
 
-	public static String formatFoXML(String aText){
+	public static String formatForXML(String aText){
 		final StringBuilder result = new StringBuilder();
 		final StringCharacterIterator iterator = new StringCharacterIterator(aText);
 		char character =  iterator.current();
@@ -178,7 +193,11 @@ public abstract class MathObjectAttribute<K> {
 		else if (this instanceof GridPointAttribute){
 			a = new GridPointAttribute( new String (this.getName() ), 
 					new GridPoint( ((GridPointAttribute)this).getValue().getx(), 
-							((GridPointAttribute)this).getValue().gety() ) );
+							((GridPointAttribute)this).getValue().gety()),
+							((GridPointAttribute)this).xMin,
+							((GridPointAttribute)this).xMax,
+							((GridPointAttribute)this).yMin,
+							((GridPointAttribute)this).yMax);
 		}
 		else if( this instanceof ColorAttribute){
 			if (this.getValue() == null){
@@ -213,8 +232,8 @@ public abstract class MathObjectAttribute<K> {
 		else if (this instanceof UUIDAttribute){
 			a = new UUIDAttribute(new String(this.getName()));
 			if (getValue() != null){
-				a.setValue(new UUID( ((UUID)getValue()).getLeastSignificantBits(), 
-						((UUID)getValue()).getMostSignificantBits()));
+				a.setValue(new UUID( ((UUID)getValue()).getMostSignificantBits(),
+						((UUID)getValue()).getLeastSignificantBits()));
 			}
 		}
 		if (a != null){

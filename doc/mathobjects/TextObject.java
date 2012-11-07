@@ -43,6 +43,8 @@ public class TextObject extends MathObject {
 		addAttribute(new IntegerAttribute(FONT_SIZE, 12, 1, 50));
 		addAttribute(new BooleanAttribute(SHOW_BOX, false));
 		addAttribute(new EnumeratedAttribute(ALIGNMENT, LEFT, alignments));
+		
+		addAction(MathObject.MAKE_INTO_PROBLEM);
 	}
 
 	public void setFontSize(int fontSize) throws AttributeException {

@@ -315,33 +315,17 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		}
 		
 		if (object.getHeight() <= 0){
-//			System.out.println("flip vert");
-//			System.out.println("move dragdot from (" + prevX + ", " + prevY + ")" +
-//					"(" + (prevX + prevWidth) + ", " + (prevHeight + prevY) + ")");
-//			System.out.println("to (" + dragPos.getxPos() + ", " + dragPos.getyPos() + ")");
-//			System.out.println("newWidth: " + object.getWidth());
 			object.flipVertically();
-			if ( isNorthDot(dotVal)){
-				object.setyPos(prevY + prevHeight);
-				object.setHeight(dragPos.getyPos() - prevY + prevHeight);
-			}
-			else{
-				object.setyPos(dragPos.getyPos());
-				object.setHeight(prevY - dragPos.getyPos());
-			}
-			docMouseListener.setCurrentDragDot(getVerticallyOppositeDot(dotVal));
-
+			object.setHeight(Math.abs(object.getHeight()));
+			object.setyPos(object.getyPos() - object.getHeight());
+			docMouseListener.setCurrentDragDot(getVerticallyOppositeDot(docMouseListener.getCurrentDragDot()));
 		}
 
 		if (object.getWidth() <= 0){
-//			System.out.println("flip horz");
-//			System.out.println("move dragdot from (" + prevX + ", " + prevY + ", " + prevWidth + ", " + prevHeight);
-//			System.out.println("to (" + dragPos.getxPos() + ", " + dragPos.getyPos() + ")");
-//			System.out.println();
 			object.flipHorizontally();
 			object.setWidth(Math.abs(object.getWidth()));
 			object.setxPos(object.getxPos() - object.getWidth());
-			docMouseListener.setCurrentDragDot(getHorizontallyOppositeDot(dotVal));
+			docMouseListener.setCurrentDragDot(getHorizontallyOppositeDot(docMouseListener.getCurrentDragDot()));
 		}
 		if (object.getHeight() == 0){
 			object.setHeight(1);

@@ -14,6 +14,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
 
+import doc.GridPoint;
+import doc.attributes.GridPointAttribute;
 import doc.attributes.StringAttribute;
 import doc.mathobjects.GraphObject;
 import doc_gui.graph.Graph;
@@ -25,7 +27,7 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 	private Graph graph;
 	
 	public static final Color[] graphColors = {Color.BLUE.darker().darker(), Color.GREEN.darker().darker(),
-		Color.RED.darker().darker()};
+		Color.RED.darker().darker(), Color.MAGENTA, Color.ORANGE, Color.BLACK};
 	
 	public GraphObjectGUI(){
 		graph = new Graph();
@@ -41,6 +43,7 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 		int height = (int) (object.getHeight() * zoomLevel);
 		
 		graph.removeAllSingleGraphs();
+		graph.removeAllPoints();
 		int colorIndex = 0;
 		boolean hadError = false;
 		for ( StringAttribute ex : object.getExpressions()){
@@ -54,6 +57,11 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 				}
 			}
 			colorIndex++;
+		}
+		for ( GridPointAttribute pt : object.getPoints()){
+			if ( pt != null){
+				graph.addPoint(pt.getValue().getx(), pt.getValue().gety());
+			}
 		}
 		
 		graph.repaint(g, width , height, zoomLevel, xOrigin, yOrigin, object);
@@ -80,6 +88,6 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 		//add a point to the graph
 		graph.pullVarsFromGraphObject(gObj, (int) (gObj.getWidth() * zoomLevel),
 				(int) (gObj.getHeight() * zoomLevel) );
-		graph.addPtAtScreenPos(x, y);
+		gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
 	}
 }

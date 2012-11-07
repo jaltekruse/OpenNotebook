@@ -8,21 +8,22 @@ import doc.attributes.Date;
 import doc.mathobjects.ProblemGenerator;
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 import expression.Number;
 import expression.Operator;
 
 public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 
 	@Override
-	protected Node generateExpression(int difficulty) {
-		Node n = null;
+	protected Node[] generateExpression(int difficulty) throws NodeException {
+		Node[] n = new Node[2];
 		if ( ExUtil.randomBoolean())
 		{// half of the time create a problem to test the associative property of addition
 
 			if ( difficulty == ProblemGenerator.EASY) {
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(100);
 				
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12),
 						new Number(numPair[1]));
 			}
@@ -30,7 +31,7 @@ public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(100);
 				double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(200);
 				
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12),
 						new Number(numPair[1]), new Number(numPair2[0]));
@@ -39,7 +40,7 @@ public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(400);
 				double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(200);
 				Vector<String> varNames = ExUtil.randomUniqueVarNames(2);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), ExUtil.randomTerm(1, varNames.get(0), 2, 12),
 						new Number(numPair2[1]),
 						ExUtil.randomTerm(1, varNames.get(1), 3, 12),
@@ -49,15 +50,14 @@ public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 		else{// otherwise create a problem testing the associative property of multiplication
 			if ( difficulty == ProblemGenerator.EASY) {
 				double[] numPair = ExUtil.pairOfCleanFactors(20);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(numPair[0]), ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12),
 						new Number(numPair[1]));
 			}
 			else if ( difficulty == ProblemGenerator.MEDIUM){
 				double[] numPair = ExUtil.pairOfCleanFactors(30);
-				n = new Number(numPair[0]);
 				Vector<String> varNames = ExUtil.randomUniqueVarNames(2);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(numPair[0]), ExUtil.randomTerm(1, varNames.get(0), 3, 9),
 						ExUtil.randomTerm(1, varNames.get(1), 3, 12),
 						new Number(numPair[1]));
@@ -65,15 +65,15 @@ public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 			}
 			else if ( difficulty == ProblemGenerator.HARD){
 				double[] numPair = ExUtil.pairOfCleanFactors(40);
-				n = new Number(numPair[0]);
 				Vector<String> varNames = ExUtil.randomUniqueVarNames(2);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(numPair[0]), ExUtil.randomTerm(1, varNames.get(0), 3, 9),
 						ExUtil.randomTerm(1, varNames.get(1), 3, 12),
-						new Number(numPair[1]));
+						new Number(numPair[1]));;
 			}
 		}
-		n = ExUtil.randomlyAddParenthesis((Expression)n, 0, 3);
+		n[0] = ExUtil.randomlyAddParenthesis((Expression)n[0], 0, 3);
+		n[1] = n[0].smartNumericSimplify().standardFormat();
 		return n;
 	}
 

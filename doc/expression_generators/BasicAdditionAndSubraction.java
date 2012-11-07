@@ -7,11 +7,12 @@ import doc.attributes.Date;
 import doc.mathobjects.ProblemGenerator;
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class BasicAdditionAndSubraction extends ExpressionGenerator {
 
 	@Override
-	protected Node generateExpression(int difficulty) {
+	protected Node[] generateExpression(int difficulty) throws NodeException {
 		String[] ops = { ExUtil.ADDITION, ExUtil.NEGATION, ExUtil.SUBTRACTION };
 		String[] vars = {};
 		int numOps;
@@ -36,9 +37,13 @@ public class BasicAdditionAndSubraction extends ExpressionGenerator {
 			maxGeneratedVal = 25;
 			maxAbsVal = 100;
 		}
-		Node n = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
+		Node n[] = new Node[2];
+		n[0] = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
 				maxGeneratedVal, true, false, false, true);
-//		n = ExUtil.randomlyAddParenthesis( (Expression) n, 0, 3);
+		System.out.println(n[0].toStringRepresentation());
+		n[1] = n[0].smartNumericSimplify().standardFormat();
+		System.out.println(n[1].toStringRepresentation());
+		System.out.println();
 		return n;
 	}
 

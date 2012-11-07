@@ -328,14 +328,14 @@ public class CartAxis extends GraphComponent{
 		g.setFont(oldFont);
 	}
 
-	private boolean numbersClose(double num1, double num2){
+	private static boolean numbersClose(double num1, double num2){
 		if ( Math.abs( num1 - num2) < .00001){
 			return true;
 		}
 		return false;
 	}
 
-	private String doubleToString(double d, double round){
+	public static String doubleToString(double d, double round){
 		String ptText;
 		if ( numbersClose(d % round, 0)){
 			d = d / round * round;

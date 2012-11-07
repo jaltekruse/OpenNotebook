@@ -24,16 +24,19 @@ import javax.swing.SwingUtilities;
 import doc.attributes.AttributeException;
 import doc.attributes.StringAttribute;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 
 public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 
 	private JTextArea textArea;
 	private JScrollPane scrollPane;
+	private boolean enterJustPressed;
 
 	public StringAdjustmentPanel(StringAttribute mAtt,
-			DocViewerPanel dvp, JPanel p) {
-		super(mAtt, dvp, p);
+			NotebookPanel notebookPanel, JPanel p) {
+		super(mAtt, notebookPanel, p);
+		enterJustPressed = false;
 	}
 
 	@Override
@@ -78,28 +81,29 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 
 			@Override
 			public void keyPressed(KeyEvent ev) {
-				// TODO Auto-generated method stub
 				if (ev.getKeyCode() == KeyEvent.VK_ENTER){
 					applyPanelValueToObject();
+					enterJustPressed = true;
 				}
 			}
 
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				// TODO Auto-generated method stub
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER){
+				if (arg0.getKeyCode() == KeyEvent.VK_ENTER && enterJustPressed)
+				{// had issue with hitting enter to confirm dialog, dialog disappeared but enter key release event
+					// was still received here if an object was selected, hence the boolean set in the keypressed
+					// method and checked here
 					String s = textArea.getText();
 					int caretPos = textArea.getCaretPosition() - 1;
-					s = s.substring(0,
-							textArea.getCaretPosition() - 1) + s.substring(textArea.getCaretPosition());
+					s = s.substring(0, textArea.getCaretPosition() - 1) + s.substring(textArea.getCaretPosition());
 					textArea.setText(s);
 					textArea.setCaretPosition(caretPos);
+					enterJustPressed = false;
 				}
 			}
 
 			@Override
 			public void keyTyped(KeyEvent arg0) {
-				// TODO Auto-generated method stub
 			}
 
 		});
@@ -113,7 +117,7 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 		con.insets = new Insets(2, 5, 0, 5);
 		add(new JLabel(mAtt.getName()), con);
 		
-		JButton keyboard = new JButton(docPanel.getIcon("smallKeyboard.png"));
+		JButton keyboard = new JButton(ObjectPropertiesFrame.SMALL_KEYBOARD_IMAGE);
 		keyboard.setToolTipText("Show On-Screen Keyboard");
 		keyboard.setMargin(new Insets(3, 3, 3, 3));
 		keyboard.setFocusable(false);
@@ -127,7 +131,7 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				docPanel.setOnScreenKeyBoardVisible(true);
+				notebookPanel.getCurrentDocViewer().setOnScreenKeyBoardVisible(true);
 			}
 		});
 
@@ -196,16 +200,16 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 		try {
 			if ( mAtt.getParentObject() == null && ! mAtt.getValue().equals(textArea.getText())){
 				mAtt.setValue(textArea.getText());
-				docPanel.addUndoState();
+				notebookPanel.getCurrentDocViewer().addUndoState();
 			}
 			else{
 				if ( ! mAtt.getValue().equals(textArea.getText()) &&
 						mAtt.getParentObject().setAttributeValue(mAtt.getName(), textArea.getText()))
 				{// if setting the value was successful
-					docPanel.addUndoState();
+					notebookPanel.getCurrentDocViewer().addUndoState();
 				}
 			}
-			docPanel.repaint();
+			notebookPanel.getCurrentDocViewer().repaintDoc();
 		} catch (AttributeException e) {
 			// TODO Auto-generated catch block
 			if (!showingDialog){

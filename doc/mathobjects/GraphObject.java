@@ -13,6 +13,7 @@ import java.util.Vector;
 import doc.attributes.AttributeException;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.DoubleAttribute;
+import doc.attributes.GridPointAttribute;
 import doc.attributes.IntegerAttribute;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
@@ -24,7 +25,8 @@ public class GraphObject extends MathObject {
 			X_MAX = "xMax", Y_MAX = "yMax", EXPRESSION = "y=",
 			X_STEP = "xStep", Y_STEP = "yStep",
 			SHOW_AXIS = "show axis", SHOW_NUMBERS = "show numbers",
-			SHOW_GRID = "show grid", EXPRESSIONS = "Expressions";
+			SHOW_GRID = "show grid", EXPRESSIONS = "Expressions",
+			POINTS = "points";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -34,17 +36,20 @@ public class GraphObject extends MathObject {
 		super(p, x, y, width, height);
 		setDefaults();
 		addGraphActions();
+		getListWithName(POINTS).removeAll();
 	}
 	
 	public GraphObject(MathObjectContainer p){
 		super(p);
 		setDefaults();
 		addGraphActions();
+		getListWithName(POINTS).removeAll();
 	}
 	
 	public GraphObject() {
 		setDefaults();
 		addGraphActions();
+		getListWithName(POINTS).removeAll();
 	}
 	
 	public boolean isStudentSelectable(){
@@ -60,13 +65,14 @@ public class GraphObject extends MathObject {
 		addStudentAction(MOVE_DOWN);
 		addStudentAction(MOVE_LEFT);
 		addStudentAction(MOVE_RIGHT);
-//		addStudentAction("Graph point");
 	}
 	
 	public void setDefaults(){
 		try{
 			addList(new ListAttribute<StringAttribute>(EXPRESSIONS,
-					new StringAttribute(EXPRESSION), 3, true, false));
+					new StringAttribute(EXPRESSION), 6, true, false));
+			addList(new ListAttribute<GridPointAttribute>(POINTS,
+					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 6, true, false));
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");
 			addAttribute(new DoubleAttribute(X_MAX, -7E8, 7E8, true, true));
@@ -94,16 +100,7 @@ public class GraphObject extends MathObject {
 
 	@Override
 	public void performSpecialObjectAction(String s){
-		if (s.equals(MAKE_INTO_PROBLEM)){
-			VariableValueInsertionProblem newProblem = new VariableValueInsertionProblem(getParentContainer(), getxPos(),
-					getyPos(), getWidth(), getHeight() );
-			this.getParentContainer().getParentDoc().getDocViewerPanel().setFocusedObject(newProblem);
-			newProblem.addObjectFromPage(this);
-			getParentContainer().addObject(newProblem);
-			getParentContainer().removeObject(this);
-			return;
-		}
-		else if (s.equals(DEFAULT_GRID)){
+		if (s.equals(DEFAULT_GRID)){
 			setDefaults();
 		}
 		else if (s.equals(ZOOM_IN)){
@@ -139,10 +136,10 @@ public class GraphObject extends MathObject {
 		}
 		
 		try {
-			setxMin( xMin + (-1 * (xMax-xMin)*(100-rate)/100) );
-			setxMax( xMax + ( (xMax-xMin)*(100-rate)/100) );
-			setyMin( yMin + (-1 * (yMax-yMin)*(100-rate)/100) );
-			setyMax( yMax + ((yMax-yMin)*(100-rate)/100) );
+			setxMin( xMin - (xMax-xMin) * (100-rate) / 100 );
+			setxMax( xMax + (xMax-xMin) * (100-rate) / 100 );
+			setyMin( yMin - (yMax-yMin) * (100-rate) / 100 );
+			setyMax( yMax + (yMax-yMin) * (100-rate) / 100 );
 		} catch (AttributeException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -150,15 +147,13 @@ public class GraphObject extends MathObject {
 		
 	}
 	
-	private void shiftGraph(int xPix, int yPix){
+	private void shiftGraph(int xPercent, int yPercent){
 		double xMin = getxMin(), yMin = getyMin(), xMax = getxMax(), yMax = getyMax();
-		double xPixel = (xMax - xMin) / getWidth();
-		double yPixel = (yMax - yMin) / getHeight();
 		try{
-			setxMin( xMin + xPix * xPixel );
-			setyMax( yMax + yPix * yPixel );
-			setyMin( yMin + yPix * yPixel );
-			setxMax( xMax + xPix * xPixel );
+			setxMin( xMin + ((double)xPercent/100) * (xMax - xMin) );
+			setyMax( yMax + ((double)yPercent/100) * (yMax - yMin) );
+			setyMin( yMin + ((double)yPercent/100) * (yMax - yMin) );
+			setxMax( xMax + ((double)xPercent/100) * (xMax - xMin) );
 		} catch (Exception ex){
 			;
 		}
@@ -201,11 +196,11 @@ public class GraphObject extends MathObject {
 	}
 
 	public Vector<StringAttribute> getExpressions(){
-		Vector<StringAttribute> expressions = new Vector<StringAttribute>();
-		for ( Object strAtt : getListWithName(EXPRESSIONS).getValues()){
-			expressions.add((StringAttribute)strAtt);
-		}
-		return expressions;
+		return (Vector<StringAttribute>) getListWithName(EXPRESSIONS).getValues();
+	}
+	
+	public Vector<GridPointAttribute> getPoints(){
+		return (Vector<GridPointAttribute>) getListWithName(POINTS).getValues();
 	}
 	
 	@Override

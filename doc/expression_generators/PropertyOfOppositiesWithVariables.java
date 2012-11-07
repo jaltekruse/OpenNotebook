@@ -16,11 +16,11 @@ import expression.Operator;
 public class PropertyOfOppositiesWithVariables extends ExpressionGenerator {
 
 	@Override
-	protected Node generateExpression(int difficulty) {
-		Node n = null;
+	protected Node[] generateExpression(int difficulty) throws NodeException {
+		Node n[] = new Node[2];
 		if ( difficulty == ProblemGenerator.EASY) {
 			double num = ExUtil.randomInt(2, 9, true);
-			n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+			n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 					new Number(num), ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12),
 					new Number(-1 * num), new Number(ExUtil.randomInt(2, 9, true)));
 		}
@@ -28,7 +28,7 @@ public class PropertyOfOppositiesWithVariables extends ExpressionGenerator {
 			double[] numPair = ExUtil.pairOfCleanAddingNumbers(100);
 			Node var = ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12);
 			
-			n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+			n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 					new Number(ExUtil.randomInt(2, 9, true)), var,
 					new Number(ExUtil.randomInt(2, 9, true)), new Expression(new Operator.Negation(), var));
 		}
@@ -36,12 +36,13 @@ public class PropertyOfOppositiesWithVariables extends ExpressionGenerator {
 			double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(200);
 			Vector<String> varNames = ExUtil.randomUniqueVarNames(2);
 			Node var = ExUtil.randomTerm(1, ExUtil.randomVarName(), 3, 12);
-			n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+			n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 					new Number(ExUtil.randomInt(2, 9, true)), ExUtil.randomTerm(1, varNames.get(1), 3, 12),
 					new Number(numPair2[0]), var, new Number(numPair2[0]), 
 					new Expression(new Operator.Negation(), var) );
 		}
-		n = ExUtil.randomlyAddParenthesis( (Expression) n, 0, 3);
+		n[0] = ExUtil.randomlyAddParenthesis( (Expression) n[0], 0, 3);
+		n[1] = n[0].collectLikeTerms().smartNumericSimplify().standardFormat();
 		return n;
 	}
 

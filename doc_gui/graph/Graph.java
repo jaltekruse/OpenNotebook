@@ -196,6 +196,23 @@ public class Graph {
 		}
 	}
 	
+	public int gridxToScreen(double x){
+		return (int) Math.round((x - X_MIN) / X_PIXEL) + X_PIC_ORIGIN;
+	}
+	
+	public double screenxToGrid(int x){
+		return x * X_PIXEL + X_MIN;
+	}
+	
+	public double screenyToGrid(int y){
+		return y * Y_PIXEL + Y_MIN;
+	}
+	
+	public int gridyToScreen(double y){
+		return (Y_SIZE) - (int) Math.round((y - Y_MIN) / Y_PIXEL)
+				+ Y_PIC_ORIGIN;
+	}
+	
 	public void drawErrorMessage(Graphics g, int xSize, int ySize,
 			int xPicOrigin, int yPicOrigin){
 		FontMetrics fm = g.getFontMetrics();
@@ -247,6 +264,10 @@ public class Graph {
 	
 	public void removeAllSingleGraphs(){
 		singleGraphs.removeAllElements();
+	}
+	
+	public void removeAllPoints(){
+		freePoints.removeAllElements();
 	}
 	
 	public void zoom(double rate) throws EvalException{

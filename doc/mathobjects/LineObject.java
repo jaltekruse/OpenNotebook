@@ -30,7 +30,7 @@ public class LineObject extends MathObject {
 //		addAttribute(new EnumeratedAttribute(ORIENTATION, LEFT_TOP, false, false, orientations));
 		addAttribute(new BooleanAttribute(HORIZONTALLY_FLIPPED, false, false, false));
 		addAttribute(new BooleanAttribute(VERTICALLY_FLIPPED, false, false, false));
-		addAttribute(new IntegerAttribute(LINE_THICKNESS, 1, true, false));
+		addAttribute(new IntegerAttribute(LINE_THICKNESS, 1, 1, 20, true, false));
 		addAttribute(new ColorAttribute(LINE_COLOR, Color.BLACK, true, false));
 		addAction(FLIP_HORIZONTALLY);
 		addAction(FLIP_VERTICALLY);
@@ -60,7 +60,7 @@ public class LineObject extends MathObject {
 	}
 	
 	public void setWidth(int width) {
-		if ( width < 3 && width > 0)
+		if ( width < 3 && width >= 0)
 		{// snaps line to vertical
 			width = 1;
 		}
@@ -68,7 +68,7 @@ public class LineObject extends MathObject {
 	}
 	
 	public void setHeight(int height) {
-		if ( height < 3 && height > 0)
+		if ( height < 3 && height >= 0)
 		{// snaps line to horizontal
 			height = 1;
 		}

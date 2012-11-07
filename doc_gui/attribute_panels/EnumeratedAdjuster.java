@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import doc.attributes.EnumeratedAttribute;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 
@@ -29,9 +30,9 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 	 * are displayed to the user valid values are stored as static ints in this class
 	 * DROPDOWN, RADION_BUTTON_ROW, RADIO_BUTTON_COLUMN
 	 */
-	public EnumeratedAdjuster(EnumeratedAttribute mAtt, DocViewerPanel dvp, 
-			JPanel parentPanel, int displayFormat){
-		super(mAtt, dvp, parentPanel);
+	public EnumeratedAdjuster(EnumeratedAttribute mAtt,
+			NotebookPanel notebookPanel, JPanel parentPanel, int displayFormat){
+		super(mAtt, notebookPanel, parentPanel);
 		this.removeAll();
 		this.displayFormat = displayFormat;
 		addPanelContent();
@@ -43,9 +44,9 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 	 * @param dvp - the DocViewerPanel that must be refreshed when the value is set
 	 * @param parentPanel - the panel this adjuster will be added to
 	 */
-	public EnumeratedAdjuster(EnumeratedAttribute mAtt, DocViewerPanel dvp, 
+	public EnumeratedAdjuster(EnumeratedAttribute mAtt, NotebookPanel notebookPanel, 
 			JPanel parentPanel){
-		super(mAtt, dvp, parentPanel);
+		super(mAtt, notebookPanel, parentPanel);
 		this.removeAll();
 		addPanelContent();
 	}
@@ -71,8 +72,8 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 				@Override
 				public void actionPerformed(ActionEvent ev) {
 					mAtt.setValue((String)valueChoices.getSelectedItem());
-					docPanel.addUndoState();
-					docPanel.repaint();
+					notebookPanel.getCurrentDocViewer().addUndoState();
+					notebookPanel.getCurrentDocViewer().repaintDoc();
 				}
 
 			});

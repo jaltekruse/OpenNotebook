@@ -9,6 +9,7 @@ import doc.attributes.AttributeException;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc.attributes.StringAttribute;
+import doc_gui.graph.CartAxis;
 import expression.Expression;
 import expression.Identifier;
 import expression.Node;
@@ -171,7 +172,6 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 		String exString, textString = null;
 		Node expression;
 		
-		System.out.println(newObj);
 		if (newObj instanceof Grouping){
 			Grouping newGroup = (Grouping) newObj.clone();
 			newGroup.removeAllObjects();
@@ -209,7 +209,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			}
 		}
 		else if ( newObj instanceof TextObject){
-			textString = replaceInString(((TextObject) newObj).getText() , val);
+			textString = replaceInString(s, ((TextObject) newObj).getText() , val);
 			try{
 				((TextObject) newObj).setText(textString);
 			} catch( AttributeException e){
@@ -218,21 +218,25 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 
 		}
 		else if ( newObj instanceof AnswerBoxObject ){
-			System.out.println("is answer box");
-			textString = replaceInString(((AnswerBoxObject) newObj).getCorrectAnswer() , val);
-			try{
-				System.out.println(textString);
-				((AnswerBoxObject) newObj).setCorrectAnswer(textString);
-			} catch( AttributeException e){
-				e.printStackTrace();
+			String str;
+			for (StringAttribute strAtt : ((AnswerBoxObject) newObj).getCorrectAnswers().getValues()){
+				str = strAtt.getValue();
+				str = replaceInString(s, str, val);
+				strAtt.setValue(str);
 			}
 		}
 		return newObj;
 	}
 	
-	public String replaceInString(String s, Node val){
-		String textString = s;
+	public String replaceInString(String s, String textString, Node val){
+		String valString;
 		try {
+			if ( val instanceof Number){
+				valString = CartAxis.doubleToString(((Number)val).getValue(), 1);
+			}
+			else{
+				valString = val.toStringRepresentation();
+			}
 			for (int j = 0; j < textString.length(); j++)
 			{// loop through all characters in text
 				if ( s.equals(textString.charAt(j) + "" ) )
@@ -244,23 +248,23 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 						if ( j != 0 && j != textString.length())
 						{// if the char is not at the end or beginning
 							textString = textString.substring(0, j) 
-									+ val.toStringRepresentation() + 
+									+ valString + 
 									textString.substring(j+1);
 						}
 						else{
 							if ( j == 0){
 								if (textString.length() > 1)
-									textString = val.toStringRepresentation() 
-									+ textString.substring(j + 1);
+									textString = valString 
+											+ textString.substring(j + 1);
 								else
-									textString = val.toStringRepresentation();
+									textString = valString;
 							}
 							else if ( j == textString.length()){
 								if (textString.length() > 1)
 									textString = textString.substring(0, j - 1) +  
-									val.toStringRepresentation();
+											valString;
 								else
-									textString = val.toStringRepresentation();
+									textString = valString;
 							}
 						}
 					}
@@ -334,11 +338,11 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			//this line sets the bounds to the actual space it takes to render them
 			if ( getParentContainer() != null)
 			{// if this problem formula is in the background storage for a document
-				getParentDoc().getDocViewerPanel().drawObjectInBackgorund(newObj);
+				getParentDoc().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			else
 			{// if this problem formula is actually on a document
-				getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackgorund(newObj);
+				getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			newObj.setParentContainer(newProblem.getParentContainer());
 			newProblem.addObjectFromPage(newObj);

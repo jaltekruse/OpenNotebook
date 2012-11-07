@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -77,6 +78,34 @@ public class NotebookMenuBar extends JMenuBar {
 				openBook.getNotebookPanel().addPage();
 			}
 		});
+		
+		item = new JMenuItem("Adjust Margins");
+		edit.add(item);
+		item.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				openBook.getNotebookPanel().adjustMargins();
+			}
+		});
+		
+		final JCheckBoxMenuItem cbMenuItem = new JCheckBoxMenuItem("Minimal Graphics Mode (for older machines)");
+		cbMenuItem.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				if (cbMenuItem.isSelected()){
+					OpenNotebook.setMinimalGraphicsMode(true);
+				}
+				else{
+					OpenNotebook.setMinimalGraphicsMode(false);
+				}
+			}
+
+		});
+		
+		edit.add(cbMenuItem);
 		
 		edit.addSeparator();
 		

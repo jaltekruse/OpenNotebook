@@ -19,7 +19,10 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	public static final String STORE_IN_DATABASE = "Store in Database", BRING_TO_LEFT = "Bring All to Left",
 			BRING_TO_RIGHT = "Bring All to Right", BRING_TO_TOP = "Bring All to Top",
 			BRING_TO_BOTTOM = "Bring All to Bottom", STRETCH_HORIZONTALLY = "Stretch all Horizontally",
-			STRETCH_VERTICALLY = "Stretch all Vertically";
+			STRETCH_VERTICALLY = "Stretch all Vertically", DISTRIBUTE_VERTICALLY = "Distribute Vertically",
+			DISTRIBUTE_HORIZONTALLY = "Distribute Horizontally",
+			ALIGN_GROUP_VERTICAL_CENTER = "Align to Vertical Group Center",
+			ALIGN_GROUP_HORIZONTAL_CENTER = "Align to Hoizontal Group Center";
 
 	public Grouping(){
 		objects = new Vector<MathObject>();
@@ -49,14 +52,18 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 	public void addGroupActions(){
 		addAction(MathObject.MAKE_INTO_PROBLEM);
+		addAction(DISTRIBUTE_HORIZONTALLY);
 		addAction(BRING_TO_LEFT);
+		addAction(ALIGN_GROUP_HORIZONTAL_CENTER);
 		addAction(BRING_TO_RIGHT);
-		addAction(BRING_TO_TOP);
+		addAction(DISTRIBUTE_VERTICALLY);
 		addAction(BRING_TO_BOTTOM);
+		addAction(ALIGN_GROUP_VERTICAL_CENTER);
+		addAction(BRING_TO_TOP);
 		addAction(STRETCH_HORIZONTALLY);
 		addAction(STRETCH_VERTICALLY);
 	}
-	
+
 	public boolean containsProblemNumber(){
 		for ( MathObject mObj : getObjects()){
 			if (mObj instanceof ProblemNumberObject){
@@ -70,7 +77,42 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		}
 		return false;
 	}
+
+	public void generateNewVersion(){
+		Vector<MathObject> groupObjects;
+		MathObject mObj;
+		int oldSize;
+		boolean problemsGenerated = false;
+		oldSize = getObjects().size();
+		for (int j = 0; j < oldSize; j++) {
+			mObj = getObjects().get(j);
+			if (mObj instanceof GeneratedProblem) {
+				((GeneratedProblem) mObj).generateNewProblem();
+				problemsGenerated = true;
+				j--;
+				oldSize--;
+			}
+			else if ( mObj instanceof Grouping && ((Grouping)mObj).containsGeneratedProblems()){
+				((Grouping)mObj).generateNewVersion();
+				problemsGenerated = true;
+			}
+		}
+		if (problemsGenerated){
+			adjustSizeToFitChildren();
+		}
+	}
 	
+	public boolean containsGeneratedProblems(){
+		for (MathObject mObj : getObjects()){
+			if (mObj instanceof GeneratedProblem){
+				return true;
+			}
+			else if (mObj instanceof Grouping && ((Grouping)mObj).containsGeneratedProblems()){
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public boolean objectIDInUse(UUID id){
 		for ( MathObject mObj : getObjects()){
@@ -93,12 +135,12 @@ public class Grouping extends MathObject implements MathObjectContainer{
 				if ( mObj instanceof ProblemGenerator || mObj instanceof GeneratedProblem){
 					JOptionPane.showMessageDialog(null,
 							"Problems cannot contain other problems. If you would like to use\n" +
-							"some of the objects from a previous problem in a new one, try\n" +
-							"copying the old problem and using the \"Remove Problem\" option to\n" +
-							"convert it to raw objects. Those objects can then be used to create\n" +
-							"new problems.",
-							"Error Making Problem",
-							JOptionPane.WARNING_MESSAGE);
+									"some of the objects from a previous problem in a new one, try\n" +
+									"copying the old problem and using the \"Remove Problem\" option to\n" +
+									"convert it to raw objects. Those objects can then be used to create\n" +
+									"new problems.",
+									"Error Making Problem",
+									JOptionPane.WARNING_MESSAGE);
 					setActionCancelled(true);
 					return;
 				}
@@ -115,43 +157,117 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			this.getParentContainer().getParentDoc().getDocViewerPanel().setFocusedObject(newProblem);
 
 		}
+		else if (s.equals(DISTRIBUTE_VERTICALLY)){
+			Vector<MathObject> orderedObjects = new Vector<MathObject>();
+			int i;
+			int totalHeight = 0;
+			for ( MathObject mObj : getObjects()){
+				i = 0;
+				totalHeight += mObj.getHeight();
+				for ( MathObject mathObj : orderedObjects){
+					if ( mObj.getyPos() + mObj.getHeight() < mathObj.getyPos() + mathObj.getHeight()){
+						break;
+					}
+					i++;
+				}
+				orderedObjects.add(i, mObj);
+			}
+			int extraSpace = getHeight() - totalHeight;
+			int spaceBetweenEach = extraSpace/(getObjects().size() - 1);
+			int currentPos = getyPos();
+			for (MathObject mObj : orderedObjects){
+				mObj.setyPos(currentPos);
+				currentPos += mObj.getHeight() + spaceBetweenEach;
+			}
+			adjustSizeToFitChildren();
+		}
+		else if (s.equals(DISTRIBUTE_HORIZONTALLY)){
+			Vector<MathObject> orderedObjects = new Vector<MathObject>();
+			int i;
+			int totalWidth = 0;
+			for ( MathObject mObj : getObjects()){
+				i = 0;
+				totalWidth += mObj.getWidth();
+				for ( MathObject mathObj : orderedObjects){
+					if ( mObj.getxPos() + mObj.getWidth() < mathObj.getxPos() + mathObj.getWidth()){
+						break;
+					}
+					i++;
+				}
+				orderedObjects.add(i, mObj);
+			}
+			int extraSpace = getWidth() - totalWidth;
+			int spaceBetweenEach = extraSpace/(getObjects().size() - 1);
+			int currentPos = getxPos();
+			for (MathObject mObj : orderedObjects){
+				mObj.setxPos(currentPos);
+				currentPos += mObj.getWidth() + spaceBetweenEach;
+			}
+			adjustSizeToFitChildren();
+		}
+		else if (s.equals(ALIGN_GROUP_HORIZONTAL_CENTER)){
+			int widest = 0;
+			int center = getWidth()/2 + getxPos();
+			for ( MathObject mObj : getObjects()){
+				if ( mObj.getWidth() < widest){
+					widest = mObj.getWidth();
+				}
+			}
+			for ( MathObject mObj : getObjects()){
+				mObj.setxPos(center - mObj.getWidth()/2);
+			}
+			adjustSizeToFitChildren();
+		}
+		else if (s.equals(ALIGN_GROUP_VERTICAL_CENTER)){
+			int tallest = 0;
+			int center = getHeight()/2 + getyPos();
+			for ( MathObject mObj : getObjects()){
+				if ( mObj.getHeight() < tallest){
+					tallest = mObj.getHeight();
+				}
+			}
+			for ( MathObject mObj : getObjects()){
+				mObj.setyPos(center - mObj.getHeight()/2);
+			}
+			adjustSizeToFitChildren();
+		}
 		else if (s.equals(BRING_TO_LEFT)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setxPos(getxPos());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 		else if (s.equals(BRING_TO_TOP)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setyPos(getyPos());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 		else if (s.equals(BRING_TO_RIGHT)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setxPos(getxPos() + getWidth() - mObj.getWidth());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 		else if (s.equals(BRING_TO_BOTTOM)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setyPos(getyPos() + getHeight() - mObj.getHeight());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 		else if (s.equals(STRETCH_VERTICALLY)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setHeight(this.getHeight());
 				mObj.setyPos(this.getyPos());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 		else if (s.equals(STRETCH_HORIZONTALLY)){
 			for (MathObject mObj  : getObjects()){
 				mObj.setWidth(this.getWidth());
 				mObj.setxPos(this.getxPos());
 			}
-			adjustSizeToFixChildren();
+			adjustSizeToFitChildren();
 		}
 	}
 
@@ -189,7 +305,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		}
 		return o;
 	}
-	
+
 	public MathObject getObjectWithAnswer(){
 		// this creation method allows for subclasses of grouping to use this clone method
 		Grouping o = (Grouping) newInstanceWithType(getType());
@@ -229,26 +345,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		return true;
 	}
 
-	public void convertPositionsToPage(){
-		//converts objects back to their on page positions
-		for (MathObject mathObj : objects){
-			mathObj.setxPos(getxPos() + (int) Math.round(mathObj.getxPos()/1000.0 * getWidth()) );
-			mathObj.setyPos(getyPos() + (int) Math.round(mathObj.getyPos()/1000.0 * getHeight()) );
-			mathObj.setWidth((int) Math.round(mathObj.getWidth()/1000.0 * getWidth()) );
-			mathObj.setHeight((int) Math.round(mathObj.getHeight()/1000.0 * getHeight()) );
-		}
-	}
-
-	public void convertPositionsGroupRelative(){
-		for (MathObject mathObj : objects){
-			mathObj.setWidth( (int) ((double) mathObj.getWidth()/getWidth() * 1000) );
-			mathObj.setHeight( (int) ((double) mathObj.getHeight()/getHeight() * 1000) );
-			mathObj.setxPos( (int) ( ((double) mathObj.getxPos() - getxPos())/getWidth() * 1000) );
-			mathObj.setyPos( (int) ( ((double) mathObj.getyPos() - getyPos())/getHeight() * 1000) );
-		}
-	}
-
-	private void adjustSizeToFixChildren(){
+	public void adjustSizeToFitChildren(){
 		Vector<MathObject> temp = getObjects();
 		objects = new Vector<MathObject>();
 		objectBounds = new Vector<DecimalRectangle>();
@@ -273,11 +370,11 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			setHeight(mObj.getHeight());
 			setxPos(mObj.getxPos());
 			setyPos(mObj.getyPos());
-			
+
 			//positions of objects within Groups are relative to the group origin
 			//and saved in a fraction of the total width/height, instead of number of pixels
 			objectBounds.add(new DecimalRectangle(0,0,1,1));
-//			getParentPage().shiftObjInFrontOfOther(this, mObj);
+			//			getParentPage().shiftObjInFrontOfOther(this, mObj);
 			objects.add(mObj);
 			return true;
 		}
@@ -296,24 +393,24 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		}
 		else
 		{// the new object is outside of the groups bounds
-			
+
 			//need to temporarily store the currently grouped objects
 			//to prevent them from being resized with the calls to setWidth
 			// which adjusts the size of the child objects as a side effect
-			
+
 			//they will be added back after the group is resized to accommodate
 			//the new object that was outside of the groups bounds
 			Vector<MathObject> oldObjects = objects;
 			objects = new Vector<MathObject>();
 			objectBounds = new Vector<DecimalRectangle>();
-			
+
 			//add additional height or width to the group if the object is outside
 
 			if ( mObj.getxPos() < getxPos()){
 
 				setWidth( getWidth() + getxPos() - mObj.getxPos());
 				setxPos(mObj.getxPos());
-				
+
 			}
 			if (mObj.getxPos() + mObj.getWidth() > getxPos() + getWidth()){
 				setWidth( mObj.getxPos() + mObj.getWidth() - getxPos());
@@ -326,7 +423,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			if (mObj.getyPos() + mObj.getHeight() > getyPos() + getHeight()){
 				setHeight( mObj.getyPos() + mObj.getHeight() - getyPos());
 			}
-			
+
 			for (MathObject mathObj : oldObjects){
 				objects.add(mathObj);
 				DecimalRectangle temp = new DecimalRectangle(
@@ -337,7 +434,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 				objectBounds.add(temp);
 			}
-			
+
 
 			objectBounds.add(new DecimalRectangle(
 					((double) mObj.getxPos() - getxPos())/getWidth(),
@@ -355,7 +452,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		}
 		objectBounds.remove(objects.indexOf(mObj));
 		objects.remove(mObj);
-		adjustSizeToFixChildren();
+		adjustSizeToFitChildren();
 		return true;
 	}
 
@@ -433,18 +530,30 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			mathObj.setyPos(getyPos() + (int) Math.round(tempBounds.getY() * getHeight()) );
 			mathObj.setWidth((int) Math.round(tempBounds.getWidth() * getWidth()) );
 			mathObj.setHeight((int) Math.round(tempBounds.getHeight() * getHeight()) );
+			if (mathObj.getWidth() == 0){
+				mathObj.setWidth(1);
+			}
+			if (mathObj.getHeight() == 0){
+				mathObj.setHeight(1);
+			}
 			index++;
 		}
 	}
 
 	@Override
 	public void setWidth(int width) {
+		if (width == 0){
+			width = 1;
+		}
 		getAttributeWithName(WIDTH).setValue(width);
 		adjustChildrenToGroupChange();
 	}
-	
+
 	@Override
 	public void setHeight(int height) {
+		if (height == 0){
+			height = 1;
+		}
 		getAttributeWithName(HEIGHT).setValue(height);
 		adjustChildrenToGroupChange();
 	}

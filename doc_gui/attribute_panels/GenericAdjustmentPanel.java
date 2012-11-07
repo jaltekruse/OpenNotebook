@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import doc.attributes.AttributeException;
 import doc.attributes.MathObjectAttribute;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 public class GenericAdjustmentPanel extends AdjustmentPanel{
 
@@ -25,8 +26,8 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 	private static Formatter formatter;
 
 	public GenericAdjustmentPanel(MathObjectAttribute mAtt,
-			DocViewerPanel dvp, JPanel p) {
-		super(mAtt, dvp, p);
+			NotebookPanel notebookPanel, JPanel p) {
+		super(mAtt, notebookPanel, p);
 		formatter = new Formatter();
 	}
 
@@ -89,8 +90,8 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 					else{
 						mAtt.setValueWithString(field.getText());
 					}
-					docPanel.repaint();
-					docPanel.updateObjectToolFrame();
+					notebookPanel.getCurrentDocViewer().repaintDoc();
+					notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
 				} catch (AttributeException e) {
 					if (!showingDialog){
 						JOptionPane.showMessageDialog(null,
@@ -101,7 +102,6 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 					}
 				}
 			}
-
 		});
 		field.addActionListener(new ActionListener(){
 
@@ -118,13 +118,12 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 		try {
 			if ( mAtt.getParentObject() == null)
 			{// the attribute has no parent, but its value did change
-				System.out.println("parent is null");
 				mAtt.setValueWithString(field.getText());
-				docPanel.addUndoState();
+				notebookPanel.getCurrentDocViewer().addUndoState();
 			}
 			else{
 				mAtt.getParentObject().setAttributeValueWithString(mAtt.getName(), field.getText());
-				docPanel.addUndoState();
+				notebookPanel.getCurrentDocViewer().addUndoState();
 			}
 			if ( mAtt.getValue() instanceof Double){
 				if (mAtt.getValue().toString().length() > 5){
@@ -134,9 +133,10 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 			else{
 				field.setText(mAtt.getValue().toString());
 			}
-			docPanel.repaint();
+			notebookPanel.getCurrentDocViewer().repaintDoc();
 		} catch (AttributeException e) {
 			if (!showingDialog){
+				showingDialog = true;
 				JOptionPane.showMessageDialog(null,
 						e.getMessage(),
 						"Error",

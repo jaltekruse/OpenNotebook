@@ -9,17 +9,31 @@
 package doc_gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Toolkit;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -28,20 +42,27 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Vector;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
+import java.awt.datatransfer.DataFlavor;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -50,6 +71,8 @@ import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import org.xml.sax.SAXException;
 
 import doc.Document;
 import doc.Page;
@@ -61,6 +84,7 @@ import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
 import doc.mathobjects.ProblemGenerator;
 import doc.mathobjects.TextObject;
+import doc_gui.attribute_panels.ObjectPropertiesFrame;
 import expression.Node;
 import expression.NodeException;
 
@@ -77,9 +101,24 @@ public class NotebookPanel extends SubPanel {
 	private JFileChooser fileChooser;
 	private OpenNotebook openNotebook;
 	private Vector<DocViewerPanel> openDocs;
+	private DocViewerPanel workSpace;
 	private JTabbedPane docTabs;
 	private Vector<DocTabClosePanel> tabLabels;
 	private NotebookPanel thisNotebookPanel;
+	private PageGUI pageGUI = new PageGUI();
+
+	private MathObject objToPlace;
+
+	public static final int NOT_PLACING_OBJECT = 0;
+	public static final int PLACING_SINGLE_OBJECT = 1;
+	public static final int MULTIPLE_OBJECTS = 2;
+	private int objectCreationMode = 0;
+
+	//might want to make workspace a list of frames, to allow multiple open at once
+	// would also have to add another list of doc viewers
+	private JFrame textFrame, workspaceFrame;
+	private DocViewerPanel workspaceDoc;
+	private ObjectToolBar objectToolbar;
 
 	// flag to track if the last action that was performed was closing a
 	// tab, if the user closes the tab just before the "+" (add new doc)
@@ -87,7 +126,7 @@ public class NotebookPanel extends SubPanel {
 	// a new document to be opened immediately after closing one
 	private boolean justClosedTab;
 	private MathObject clipBoardContents;
-	JDialog sampleDialog, problemDialog, keyboardDialog;
+	JDialog sampleDialog, problemDialog;
 	public static final String UNTITLED_DOC = "Untitled Doc",
 			VIEW_PROBLEM_FORUMLA_MESSAGE = "This document was created for viewing a problem "
 					+ "formula from one of your other documents. "
@@ -102,45 +141,46 @@ public class NotebookPanel extends SubPanel {
 	public NotebookPanel(OpenNotebook openbook) {
 		// create individual GUI elements here
 		super(null);
-		openNotebook = openbook;
+		System.out.println("start making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+		setOpenNotebook(openbook);
 		thisNotebookPanel = this;
 
 		justClosedTab = false;
 
 		setFileChooser(new JFileChooser());
 		createSampleDialog();
+		System.out.println("after sample dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		createProbelmDialog();
-		createKeyboardDialog();
-
+		System.out.println("after problem dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		this.setLayout(new BorderLayout());
 
-		KeyboardShortcuts.addKeyboardShortcuts(this);
+		KeyboardShortcuts.addKeyboardShortcuts(this, this);
 
-
+		System.out.println("checkpoint 1:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		docTabs = new JTabbedPane();
 		docTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		JSplitPane splitPane = new JSplitPane();
-		splitPane.setRightComponent(docTabs);
-		splitPane.setLeftComponent(null);
-		
-		add(splitPane, BorderLayout.CENTER);
+		//		JSplitPane splitPane = new JSplitPane();
+		//		splitPane.setRightComponent(docTabs);
+		//		splitPane.setLeftComponent(null);
+
+		add(docTabs, BorderLayout.CENTER);
+		System.out.println("after docTabs:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 
 		JPanel topToolBars = new JPanel();
-		FlowLayout layout = new FlowLayout();
-		layout.setAlignment(FlowLayout.LEFT);
+		ModifiedFlowLayout layout = new ModifiedFlowLayout(FlowLayout.LEFT);
 		topToolBars.setLayout(layout);
 
 		JToolBar fileActions = new FileActionsToolBar(this);
 		topToolBars.add(fileActions);
 
 		add(topToolBars, BorderLayout.NORTH);
-		this.addKeyListener(new NotebookKeyboardListener(this));
+		System.out.println("added fileactions toolbar:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 
-		if (!openNotebook.isInStudentMode()) {
+		if (!getOpenNotebook().isInStudentMode()) {
 			JToolBar objectActions = new ObjectActionsToolBar(this);
 			topToolBars.add(objectActions);
 
-			JToolBar objectToolbar = new ObjectToolBar(this);
+			objectToolbar = new ObjectToolBar(this);
 			add(objectToolbar, BorderLayout.SOUTH);
 		}
 
@@ -148,8 +188,7 @@ public class NotebookPanel extends SubPanel {
 		openDocs = new Vector<DocViewerPanel>();
 		Document newDoc = new Document(UNTITLED_DOC);
 		newDoc.addBlankPage();
-		openDocs.add(new DocViewerPanel(newDoc, getTopLevelContainer(),
-				openNotebook.isInStudentMode(), openNotebook));
+		openDocs.add(new DocViewerPanel(newDoc, getTopLevelContainer(), this));
 
 		int tabIndex = 0;
 		for (DocViewerPanel d : openDocs) {
@@ -167,6 +206,7 @@ public class NotebookPanel extends SubPanel {
 				if (openDocs.size() == 0) {
 					return;
 				}
+				//check to see if the user is adding a tab
 				int selected = docTabs.getSelectedIndex();
 				String nameSelected = docTabs.getTitleAt(selected);
 				if (nameSelected.equals("+")) {// add a new untitled document
@@ -179,25 +219,34 @@ public class NotebookPanel extends SubPanel {
 						docTabs.setSelectedIndex(docTabs.getTabCount() - 2);
 					}
 				}
+				else{//force the properties frame to move to the new tab if it is currently somewhere else
+					openDocs.get(selected).propertiesFrameRefacoringNeeded = true;
+					openDocs.get(selected).repaintDoc();
+				}
+
 			}
 		});
-
+		System.out.println("finish making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 	}
 
 
 	public void setDocAlignment(int alignment) {
-		openNotebook.setDocAlignment(alignment);
+		getOpenNotebook().setDocAlignment(alignment);
 		getCurrentDocViewer().repaint();
 	}
 
 	public void setPreferencesDirectory() {
-		openNotebook.setPreferencesDirectory();
+		getOpenNotebook().setPreferencesDirectory();
 	}
 
 	public void cut() {
 		MathObject mObj = getCurrentDocViewer().getFocusedObject();
 		if (mObj != null) {
+			// application specific clipboard
 			setClipBoardContents(mObj.clone());
+
+			addToSystemClipboard(mObj);
+
 			mObj.getParentContainer().removeObject(mObj);
 			getCurrentDocViewer().setFocusedObject(null);
 			if (mObj == getCurrentDocViewer().getTempGroup()) {
@@ -208,10 +257,84 @@ public class NotebookPanel extends SubPanel {
 		}
 	}
 
+	public void addToSystemClipboard(MathObject mObj){
+		// system clipboard
+		Image image = new BufferedImage(mObj.getWidth() + 20, mObj.getHeight() + 20, BufferedImage.TYPE_4BYTE_ABGR);
+		Graphics2D g = (Graphics2D) image.getGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, image.getWidth(null), image.getHeight(null));
+		pageGUI.drawObject(mObj, g,
+				mObj.getParentPage(), new Point(-1 * mObj.getxPos() + 10, -1 * mObj.getyPos() + 10),
+				new Rectangle(),  1);
+		g.dispose();
+		ImageSelection imgSel = new ImageSelection(image);
+		if (imgSel.isDataFlavorSupported(DataFlavor.imageFlavor)){
+			//System.out.println("data type correct");
+			try{
+//				new SecurityManager().checkSystemClipboardAccess();
+//				JOptionPane
+//				.showMessageDialog(
+//						null,
+//						"Clipboard access NOT denied.",
+//						"Clipboard Error",
+//						JOptionPane.WARNING_MESSAGE);
+			}catch( Exception ex){
+//				JOptionPane
+//				.showMessageDialog(
+//						null,
+//						"Clipboard access denied.",
+//						"Clipboard Error",
+//						JOptionPane.WARNING_MESSAGE);
+			}
+		}
+		else{
+			JOptionPane
+			.showMessageDialog(
+					null,
+					"Your system does not support copying to the system clipboard.\n" +
+					"You can still copy and paste within the application, just not\n" +
+					"to other programs.",
+					"Clipboard Error",
+					JOptionPane.WARNING_MESSAGE);
+		}
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(imgSel, null);
+	}
+
 	public void copy() {
 		MathObject mObj = getCurrentDocViewer().getFocusedObject();
 		if (mObj != null) {
+			// application internal clipboard
 			setClipBoardContents(mObj.clone());
+
+			addToSystemClipboard(mObj);
+		}
+	}
+
+	// This class is used to hold an image while on the clipboard.
+	private static class ImageSelection implements Transferable {
+		private Image image;
+
+		public ImageSelection(Image image) {
+			this.image = image;
+		}
+
+		// Returns supported flavors
+		public DataFlavor[] getTransferDataFlavors() {
+			return new DataFlavor[]{DataFlavor.imageFlavor};
+		}
+
+		// Returns true if flavor is supported
+		public boolean isDataFlavorSupported(DataFlavor flavor) {
+			return DataFlavor.imageFlavor.equals(flavor);
+		}
+
+		// Returns image
+		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
+			if (!DataFlavor.imageFlavor.equals(flavor)) {
+				throw new UnsupportedFlavorException(flavor);
+			}
+			return image;
 		}
 	}
 
@@ -265,7 +388,7 @@ public class NotebookPanel extends SubPanel {
 		if ( ! hasUnsavedChanges){
 			// this will close the entire application, since there are no
 			// unsaved changes
-			openNotebook.quit();
+			getOpenNotebook().quit();
 			return;
 		}
 
@@ -284,7 +407,7 @@ public class NotebookPanel extends SubPanel {
 		}
 		tabs += unsavedIndeces.get(unsavedIndeces.size() - 1);
 		Object[] options = {"Quit", "Cancel"};
-		int n = JOptionPane.showOptionDialog(openNotebook,
+		int n = JOptionPane.showOptionDialog(null,
 				message + "Are you sure you want to quit?\n" + tabs,
 				"Important Data May Be Lost",
 				JOptionPane.YES_NO_CANCEL_OPTION,
@@ -292,9 +415,78 @@ public class NotebookPanel extends SubPanel {
 				null, options, options[1]);
 
 		if (n == 0){ 
-			openNotebook.quit();
+			getOpenNotebook().quit();
 		}
 		else{} // user clicked cancel, don't do anything
+	}
+	
+	public void login(){
+		JTextField email = new JTextField();
+		JTextField password = new JPasswordField();
+
+		final JComponent[] inputs = new JComponent[] {
+				new JLabel("E-mail"),
+				email,
+				new JLabel("Password"),
+				password,
+				new OnScreenMathKeypad(this),
+		};
+		while (true){
+			int input = JOptionPane.showConfirmDialog(null, 
+				inputs, "Sign In", JOptionPane.PLAIN_MESSAGE);
+			if ( input == -1){
+				return;
+			}
+			if ( password.getText().equals("") || email.getText().equals("")){
+				JOptionPane.showMessageDialog(null, "Both fields must be filled out.",
+						"Warning", JOptionPane.WARNING_MESSAGE);
+				continue;
+			}
+			else{
+				break;
+			}
+		}
+		URL url;
+		HttpURLConnection   urlConn;
+		DataOutputStream    printout = null;
+		DataInputStream     dataInput = null;
+		try {
+			url = new URL ("http://localhost/index.php/auth/login");
+			urlConn = (HttpURLConnection) url.openConnection();
+			urlConn.setDoInput (true);
+			urlConn.setDoOutput (true);
+			urlConn.setUseCaches (false);
+			urlConn.setRequestMethod("POST");
+			urlConn.setInstanceFollowRedirects(false);
+			urlConn.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+			printout = new DataOutputStream (urlConn.getOutputStream ());
+			String content =
+					"login=" + URLEncoder.encode(email.getText(), "utf-8") +
+					"&password=" + URLEncoder.encode(password.getText(), "utf-8");
+			//urlConn.setRequestProperty("Content-Length", ""+ content.length());
+			printout.writeBytes (content);
+			printout.flush ();
+			printout.close ();
+			if ( urlConn.getResponseCode() == 302 || urlConn.getResponseCode() == 303){
+				// redirect sent back, need to send out a new request
+				String cookie = urlConn.getHeaderField("Set-Cookie");
+				getOpenNotebook().setCookie(cookie);
+				JOptionPane.showMessageDialog(null, "Connection to Open-Math was successful.",
+						"Connection Success", JOptionPane.WARNING_MESSAGE);
+			}
+			// Get response data.
+			dataInput = new DataInputStream (urlConn.getInputStream());
+			String str;
+			while (null != ((str = dataInput.readLine())))
+			{
+				System.out.println (str);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+
+		}
 	}
 
 	public void delete() {
@@ -312,7 +504,7 @@ public class NotebookPanel extends SubPanel {
 		} else if (getCurrentDocViewer().getSelectedPage() != null) {
 			deletePage();
 		} else {
-			JOptionPane.showMessageDialog(this,
+			JOptionPane.showMessageDialog(null,
 					"Please select a page or object first.", "Error",
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
@@ -386,28 +578,7 @@ public class NotebookPanel extends SubPanel {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				Vector<Page> docPages = getCurrentDocViewer().getDoc().getPages();
-				Vector<MathObject> pageObjects;
-				Page p;
-				MathObject mObj;
-				int oldSize;
-				boolean problemsGenerated = false;
-
-				for (int i = 0; i < docPages.size(); i++) {
-					pageObjects = docPages.get(i).getObjects();
-					oldSize = pageObjects.size();
-					for (int j = 0; j < oldSize; j++) {
-						mObj = pageObjects.get(j);
-						if (mObj instanceof GeneratedProblem) {
-							((GeneratedProblem) mObj).generateNewProblem();
-							problemsGenerated = true;
-							j--;
-							oldSize--;
-						}
-					}
-				}
-				getCurrentDocViewer().addUndoState();
-				getCurrentDocViewer().repaint();
+				boolean problemsGenerated = getCurrentDocViewer().getDoc().generateNewVersion();
 				if (!problemsGenerated) {
 					JOptionPane
 					.showMessageDialog(
@@ -417,27 +588,29 @@ public class NotebookPanel extends SubPanel {
 									"No Problems Generated",
 									JOptionPane.WARNING_MESSAGE);
 				}
+				else{
+					getCurrentDocViewer().addUndoState();
+					getCurrentDocViewer().repaint();
+				}
 			}
 		});
 
 	}
 
 	public void group() {
-		if (getCurrentDocViewer().getFocusedObject() != null) {
-			MathObject mObj = getCurrentDocViewer().getFocusedObject();
-			if (mObj == getCurrentDocViewer().getTempGroup()) {
-				getCurrentDocViewer().getTempGroup().getParentContainer().removeObject(mObj);
-				MathObject newGroup = getCurrentDocViewer().getTempGroup().clone();
-				mObj.getParentContainer().addObject(newGroup);
-				getCurrentDocViewer().resetTempGroup();
-				// make sure this comes after the call to resetTempGroup, when a
-				// new focused object is set
-				// it places the objects in the temp group back on the page,
-				// which is not what is needed here
-				getCurrentDocViewer().setFocusedObject(newGroup);
-				getCurrentDocViewer().addUndoState();
-				getCurrentDocViewer().repaint();
-			}
+		MathObject focusedObj = getCurrentDocViewer().getFocusedObject();
+		if (focusedObj != null && focusedObj == getCurrentDocViewer().getTempGroup()) {
+			getCurrentDocViewer().getTempGroup().getParentContainer().removeObject(focusedObj);
+			MathObject newGroup = getCurrentDocViewer().getTempGroup().clone();
+			focusedObj.getParentContainer().addObject(newGroup);
+			getCurrentDocViewer().resetTempGroup();
+			// make sure this comes after the call to resetTempGroup, when a
+			// new focused object is set it places the objects in the temp group
+			// back on the page, which is not what is needed here
+			getCurrentDocViewer().setFocusedObject(newGroup);
+			getCurrentDocViewer().addUndoState();
+			getCurrentDocViewer().repaint();
+
 		}
 	}
 
@@ -472,7 +645,7 @@ public class NotebookPanel extends SubPanel {
 		String lastEx = defaultInput;
 		Node newNode = null;
 		while( true ){
-			lastEx = (String)JOptionPane.showInputDialog(openNotebook, message,
+			lastEx = (String) JOptionPane.showInputDialog(null, message,
 					null, JOptionPane.PLAIN_MESSAGE, null, null, lastEx);
 			if ( lastEx == null){
 				return null;
@@ -490,7 +663,7 @@ public class NotebookPanel extends SubPanel {
 
 	public void addProbelmToDatabase(ProblemGenerator problem){
 		JTextField problemName = new JTextField();
-		JTextField author = new JTextField(openNotebook.getUserName());
+		JTextField author = new JTextField(getOpenNotebook().getUserName());
 		JTextField date = new JTextField(new Date().toString());
 		JTextArea directions = new JTextArea(3,10);
 		directions.setWrapStyleWord(true);
@@ -511,7 +684,7 @@ public class NotebookPanel extends SubPanel {
 				new JScrollPane(tags),
 		};
 		while (true){
-			int input = JOptionPane.showConfirmDialog(openNotebook, 
+			int input = JOptionPane.showConfirmDialog(null, 
 					inputs, "Enter Problem Details", JOptionPane.PLAIN_MESSAGE);
 			if ( input == -1){
 				return;
@@ -542,7 +715,40 @@ public class NotebookPanel extends SubPanel {
 			break;
 		}
 
-		openNotebook.getDatabase().addProblem(problem);
+		getOpenNotebook().getDatabase().addProblem(problem);
+	}
+
+	public void adjustMargins(){
+		JTextField xMargin = new JTextField(String.format("%.2G", getCurrentDocViewer().getDoc().getxMargin()/72.0));
+		JTextField yMargin = new JTextField(String.format("%.2G", getCurrentDocViewer().getDoc().getyMargin()/72.0));
+		JTextField date = new JTextField(new Date().toString());
+		final JComponent[] inputs = new JComponent[] {
+				new JLabel("Horizontal margins (Inches)"),
+				xMargin,
+				new JLabel("Vertical Margins (Inches)"),
+				yMargin,
+		};
+		while (true){
+			int input = JOptionPane.showConfirmDialog(null, 
+					inputs, "Document Margins", JOptionPane.PLAIN_MESSAGE);
+			if ( input == -1){
+				return;
+			}
+			try{
+				if ( ! xMargin.getText().equals("")){
+					getCurrentDocViewer().getDoc().setxMargin(xMargin.getText());
+				}
+				if ( ! yMargin.getText().equals("")){
+					getCurrentDocViewer().getDoc().setyMargin(yMargin.getText());
+				}
+				break;
+			}catch( Exception ex){
+				JOptionPane.showMessageDialog(null, ex.getMessage(),
+						"Warning", JOptionPane.WARNING_MESSAGE);
+				continue;
+			}
+		}
+		getCurrentDocViewer().repaintDoc();
 	}
 
 	public void ungroup() {
@@ -563,6 +769,63 @@ public class NotebookPanel extends SubPanel {
 		}
 	}
 
+	public static String addFileExtension(String filename){
+		Pattern pattern = Pattern.compile(".+(\\.mdoc)$");
+		Matcher matcher;
+		matcher = pattern.matcher(filename);
+		if (! matcher.matches()){
+			return filename + ".mdoc";
+		}
+		return filename;
+	}
+
+	public void createTextViewer(String string) {
+		textFrame = new JFrame(string);
+		textFrame.setPreferredSize(new Dimension(640, 400));
+		JTextArea terminal = new JTextArea(14, 20);
+
+		Font terminalFont = new Font("newFont", 1, 12);
+		terminal.setFont(terminalFont);
+		terminal.setEditable(false);
+		JScrollPane termScrollPane = new JScrollPane(terminal);
+		termScrollPane.setWheelScrollingEnabled(true);
+
+		textFrame.add(termScrollPane);
+		textFrame.pack();
+
+		textFrame.setVisible(true);
+		//		terminal.append(readTextDoc(string));
+		terminal.append(string);
+		termScrollPane.revalidate();
+		JScrollBar tempScroll = termScrollPane.getVerticalScrollBar();
+		tempScroll.setValue(0);
+		textFrame.pack();
+		textFrame.repaint();
+		textFrame.setVisible(true);
+	}
+
+	public void createWorkspace(MathObject mObj){
+		workspaceFrame = new JFrame("Workspace");
+		workspaceFrame.setPreferredSize(new Dimension(750, 400));
+
+		Document newDoc = new Document("");
+		newDoc.addBlankPage();
+		newDoc.setxMargin(0);
+		newDoc.setyMargin(0);
+		newDoc.setWidth(400);
+		newDoc.setHeight(300);
+		workspaceDoc = new DocViewerPanel(newDoc, null, this);
+		JPanel workspace = new JPanel(new BorderLayout());
+		KeyboardShortcuts.addKeyboardShortcuts(workspace, this);
+		workspace.add(workspaceDoc, BorderLayout.CENTER);
+		workspace.add(new ObjectToolBar(this), BorderLayout.SOUTH);
+		workspaceFrame.getContentPane().add(workspace);
+		workspaceFrame.setVisible(true);
+		workspaceFrame.pack();
+		workspaceFrame.repaint();
+		workspaceFrame.setVisible(true);
+	}
+
 	public void save() {
 		BufferedWriter f = null;
 		try {
@@ -572,18 +835,11 @@ public class NotebookPanel extends SubPanel {
 			if (value == JFileChooser.APPROVE_OPTION) {
 				java.io.File file = getFileChooser().getSelectedFile();
 
-				// change the file name if it does not have the proper extension
-				Pattern pattern = Pattern.compile(".+(\\.mdoc)$");
-				Matcher matcher;
-				String filename = file.getName();
-				matcher = pattern.matcher(file.getName());
-				if (! matcher.matches()){
-					file = new File(file.getAbsolutePath() + ".mdoc");
-				}
+				file = new File(file.getParentFile() + File.separator + addFileExtension(file.getName()));
 
 				f = new BufferedWriter(new FileWriter(file));
 				f.write(getCurrentDocViewer().getDoc().exportToXML());
-				
+
 				getCurrentDocViewer().getDoc().setFilename(file.getName());
 				refreshDocNameTabs();
 
@@ -661,7 +917,7 @@ public class NotebookPanel extends SubPanel {
 			if (value == JFileChooser.APPROVE_OPTION) {
 				FileReader fileReader = new FileReader(getFileChooser()
 						.getSelectedFile());
-				addDoc(openNotebook.getFileReader().readDoc(fileReader, getFileChooser()
+				addDoc(getOpenNotebook().getFileReader().readDoc(fileReader, getFileChooser()
 						.getSelectedFile().getName()));
 			}
 		} catch (Exception e) {
@@ -673,22 +929,17 @@ public class NotebookPanel extends SubPanel {
 		}
 	}
 
+	public Document readDoc(InputStreamReader file, String docName) throws SAXException, IOException{
+		return getOpenNotebook().getFileReader().readDoc(file, docName);
+	}
+
 	private void createSampleDialog() {
-		sampleDialog = new JDialog(openNotebook);
+		sampleDialog = new JDialog();
 		sampleDialog.add(new SampleListPanel(this));
 		sampleDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		sampleDialog.pack();
 	}
-	
 
-	private void createKeyboardDialog() {
-		keyboardDialog = new JDialog(openNotebook);
-		keyboardDialog.add(new OnScreenMathKeypad(this));
-		keyboardDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		sampleDialog.setBounds(this.getX() + 350, this.getY() + 200, 380, 350);
-		keyboardDialog.pack();
-	}
-	
 	public void setKeyboardDialogVisible(boolean b) {
 		getCurrentDocViewer().setOnScreenKeyBoardVisible(true);
 	}
@@ -697,7 +948,7 @@ public class NotebookPanel extends SubPanel {
 		if (problemDialog != null){
 			problemDialog.dispose();
 		}
-		problemDialog = new JDialog(openNotebook);
+		problemDialog = new JDialog();
 		ProblemListPanel listPanel = new ProblemListPanel(this);
 		problemDialog.add(listPanel);
 		problemDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
@@ -722,12 +973,11 @@ public class NotebookPanel extends SubPanel {
 		problemDialog.setVisible(b);
 	}
 
-	public void disposeOfSampledialog() {
-		sampleDialog.dispose();
-	}
-
-	public void disposeOfProblemdialog() {
-		problemDialog.dispose();
+	public void disposeOfChildDialogs(){
+		if ( sampleDialog != null) sampleDialog.dispose();
+		if ( problemDialog != null) problemDialog.dispose();
+		if ( textFrame != null) textFrame.dispose();
+		if ( workspaceFrame != null) workspaceFrame.dispose();
 	}
 
 	public void open(String docName) {
@@ -736,7 +986,7 @@ public class NotebookPanel extends SubPanel {
 				.getResourceAsStream("samples/" + docName);
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 		try {
-			Document tempDoc = openNotebook.getFileReader().readDoc(inputStreamReader, docName);
+			Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
 			tempDoc.setFilename(docName);
 			addDoc(tempDoc);
 		} catch (Exception e) {
@@ -750,33 +1000,35 @@ public class NotebookPanel extends SubPanel {
 
 	public void addPage() {
 		Document doc = getCurrentDocViewer().getDoc();
-		Page p = getCurrentDocViewer().getSelectedPage();
+		Page selectedPage = getCurrentDocViewer().getSelectedPage();
+		int pageIndex = 0;
 
-		if (doc.getNumPages() > 0 && p != null) {
+		if (doc.getNumPages() > 0 && selectedPage != null) {
 			int index = 0;
-			index = doc.getPageIndex(p);
 			doc.getPages().add(index, new Page(doc));
+			index = doc.getPageIndex(selectedPage);
+			pageIndex = index + 1;
 		} else {
 			getCurrentDocViewer().getDoc().addBlankPage();
+			pageIndex = getCurrentDocViewer().getDoc().getPages().size() + 1; 
 		}
 		getCurrentDocViewer().addUndoState();
 		getCurrentDocViewer().resizeViewWindow();
+		getCurrentDocViewer().docScrollPane.getVerticalScrollBar()
+		.setValue(getCurrentDocViewer().getPageOrigin(pageIndex).y);
 	}
 
 	public void deletePage() {
 		if (getCurrentDocViewer().getSelectedPage() == null) {
-			JOptionPane.showMessageDialog(this, "Please select a page first.",
+			JOptionPane.showMessageDialog(null, "Please select a page first.",
 					"Error", JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		getCurrentDocViewer().getDoc().removePage(
 				getCurrentDocViewer().getSelectedPage());
+		getCurrentDocViewer().addUndoState();
 		getCurrentDocViewer().setSelectedPage(null);
 		getCurrentDocViewer().resizeViewWindow();
-	}
-
-	public void showDocProperties() {
-		getCurrentDocViewer().toggleDocPropsFrame();
 	}
 
 	public void print() {
@@ -835,17 +1087,16 @@ public class NotebookPanel extends SubPanel {
 	}
 
 	public boolean isInStudentMode() {
-		return openNotebook.isInStudentMode();
+		return getOpenNotebook().isInStudentMode();
 	}
 
 	public ProblemDatabase getDatabase(){
-		return openNotebook.getDatabase();
+		return getOpenNotebook().getDatabase();
 	}
 
 	public void addDoc(Document doc) {
 		int numTabs = docTabs.getTabCount();
-		openDocs.add(new DocViewerPanel(doc, getTopLevelContainer(),
-				openNotebook.isInStudentMode(), openNotebook));
+		openDocs.add(new DocViewerPanel(doc, getTopLevelContainer(), this));
 
 		// remove the old adding new doc tab
 		docTabs.remove(numTabs - 1);
@@ -864,6 +1115,11 @@ public class NotebookPanel extends SubPanel {
 	}
 
 	public DocViewerPanel getCurrentDocViewer() {
+		if ( workspaceFrame != null){
+			if ( workspaceFrame.hasFocus()){
+				return workspaceDoc;
+			}
+		}
 		return openDocs.get(docTabs.getSelectedIndex());
 	}
 
@@ -891,7 +1147,7 @@ public class NotebookPanel extends SubPanel {
 		if ( docPanel.hasBeenModfiedSinceSave() ){
 			// open popup to see ask if user wants to save recent changes
 			Object[] options = { "Close", "Cancel" };
-			int n = JOptionPane.showOptionDialog(this,
+			int n = JOptionPane.showOptionDialog(null,
 					"Changes have been made to this document since you last saved.\n"
 							+ "Would you like to continue closing this tab?",
 							"Important Data May Be Lost", JOptionPane.YES_NO_CANCEL_OPTION,
@@ -940,5 +1196,55 @@ public class NotebookPanel extends SubPanel {
 
 	public MathObject getClipBoardContents() {
 		return clipBoardContents;
+	}
+
+	public OpenNotebook getOpenNotebook() {
+		return openNotebook;
+	}
+
+	public void setOpenNotebook(OpenNotebook openNotebook) {
+		this.openNotebook = openNotebook;
+	}
+
+	public MathObject getObjToPlace() {
+		return objToPlace;
+	}
+
+	public void setObjToPlace(MathObject objToPlace) {
+		this.objToPlace = objToPlace;
+	}
+
+	public int getObjectCreationMode() {
+		return objectCreationMode;
+	}
+
+	public void setObjectCreationMode(int objectCreationMode) {
+		this.objectCreationMode = objectCreationMode;
+	}
+
+	public boolean isPlacingObj(){
+		if ( getObjectCreationMode() == PLACING_SINGLE_OBJECT ||
+				getObjectCreationMode() == MULTIPLE_OBJECTS){
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Method to handle changing state in response to placed object.
+	 * If the user is placing multiple object, queues up another object
+	 * to be placed later, if it was only placing a single object, sets the object
+	 * to place null.
+	 */
+	public void objHadBeenPlaced(){
+		if ( getObjectCreationMode() == MULTIPLE_OBJECTS ){
+			setObjToPlace(MathObject.newInstanceWithType(getObjToPlace().getType()));
+		}
+		else{
+			setObjectCreationMode(NOT_PLACING_OBJECT);
+			setObjToPlace(null);
+			objectToolbar.updateButton();
+		}
+
 	}
 }

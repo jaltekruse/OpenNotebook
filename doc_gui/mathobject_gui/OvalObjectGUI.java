@@ -21,7 +21,6 @@ public class OvalObjectGUI extends MathObjectGUI<OvalObject> {
 
 	public void drawMathObject(OvalObject object, Graphics g, Point pageOrigin,
 			float zoomLevel) {
-//		System.out.println("draw oval");
 		g.setColor(Color.BLACK);
 		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
 		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
@@ -41,9 +40,6 @@ public class OvalObjectGUI extends MathObjectGUI<OvalObject> {
 		
 		//reset graphics object to draw without additional thickness
 		g2d.setStroke(new BasicStroke());
-		
-//		g.setColor(Color.BLUE);
-//		g.drawRect(xOrigin, yOrigin, width, height);
 	}
 
 }

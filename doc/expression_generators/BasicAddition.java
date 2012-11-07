@@ -6,11 +6,12 @@ import doc.attributes.AttributeException;
 import doc.attributes.Date;
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class BasicAddition extends ExpressionGenerator {
 
 	@Override
-	protected Node generateExpression(int difficulty) {
+	protected Node[] generateExpression(int difficulty) throws NodeException {
 		String[] ops = { ExUtil.ADDITION };
 		String[] vars = {};
 		int numOps;
@@ -35,9 +36,11 @@ public class BasicAddition extends ExpressionGenerator {
 			maxGeneratedVal = 25;
 			maxAbsVal = 100;
 		}
-		Node n = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
+		Node n[] = new Node[2];
+		n[0] = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
 				maxGeneratedVal, true, false, false, true);
-		n = ExUtil.randomlyAddParenthesis( (Expression) n, 0, 3);
+		n[0] = ExUtil.randomlyAddParenthesis( (Expression) n[0], 0, 3);
+		n[1] = n[0].smartNumericSimplify().standardFormat();
 		return n;
 	}
 

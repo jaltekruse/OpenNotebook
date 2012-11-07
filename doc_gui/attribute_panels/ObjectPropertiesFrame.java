@@ -17,11 +17,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -45,6 +47,7 @@ import doc.mathobjects.PolygonObject;
 import doc.mathobjects.TextObject;
 import doc.mathobjects.TriangleObject;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 import doc_gui.OCButton;
 
 public class ObjectPropertiesFrame extends JInternalFrame {
@@ -55,24 +58,63 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 	private static final long serialVersionUID = 648301575472116469L;
 	
 	private JPanel mainPanel;
-	private DocViewerPanel docPanel; 
+	private NotebookPanel notebookPanel; 
 	private Vector<AdjustmentPanel> adjusters;
 	private Vector<ListAdjuster> listAdjusters;
 	private MathObject object;
 	private String[] graphNavActions = {GraphObject.MOVE_DOWN, GraphObject.MOVE_UP,
-			GraphObject.MOVE_LEFT, GraphObject.MOVE_RIGHT, GraphObject.DEFAULT_GRID};
+			GraphObject.MOVE_LEFT, GraphObject.MOVE_RIGHT, GraphObject.DEFAULT_GRID,
+			GraphObject.ZOOM_IN, GraphObject.ZOOM_OUT};
 	private String[] expressionOpActions = {ExpressionObject.ADD_TO_BOTH_SIDES,
 			ExpressionObject.MULTIPLY_BOTH_SIDES, ExpressionObject.DIVIDE_BOTH_SIDES,
-			ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, ExpressionObject.OTHER_OPERATIONS};
+			ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, ExpressionObject.OTHER_OPERATIONS,
+			ExpressionObject.MANUALLY_TYPE_STEP, ExpressionObject.MODIFY_EXPRESSION,
+			ExpressionObject.SUB_IN_VALUE, ExpressionObject.UNDO_STEP};
 	JScrollPane scrollPane;
+	
+	private static final Object[][] actionPicInfo = { 
+		{ MathObject.MAKE_SQUARE,				getIcon("makeSquare.png")},
+		{ MathObject.ADJUST_SIZE_AND_POSITION,	getIcon("adjustSizeAndPosition.png")},
+		{ MathObject.ALIGN_PAGE_LEFT,			getIcon("alignLeftPage.png")},
+		{ MathObject.ALIGN_PAGE_HORIZONTAL_CENTER, getIcon("alignHorizontalCenterPage.png")},
+		{ MathObject.ALIGN_PAGE_RIGHT,			getIcon("alignRightPage.png")},
+		{ MathObject.ALIGN_PAGE_TOP,			getIcon("alignTopPage.png")},
+		{ MathObject.ALIGN_PAGE_VERTICAL_CENTER, getIcon("alignVerticalCenterPage.png")},
+		{ MathObject.ALIGN_PAGE_BOTTOM, 		getIcon("alignBottomPage.png")},
+		{ TriangleObject.MAKE_ISOSCELES_TRIANGLE, getIcon("makeIsosceles.png")},
+		{ TriangleObject.MAKE_RIGHT_TRIANGLE,	getIcon("makeRightTriangle.png")},
+		{ MathObject.FLIP_HORIZONTALLY, 		getIcon("flipHorizontally.png")},
+		{ MathObject.FLIP_VERTICALLY, 			getIcon("flipVertically.png")},
+		{ GraphObject.ZOOM_IN,					getIcon("smallZoomIn.png")},
+		{ GraphObject.ZOOM_OUT,					getIcon("smallZoomOut.png")},
+		{ GraphObject.DEFAULT_GRID,				getIcon("defaultGrid.png")},
+		{ GraphObject.MOVE_LEFT,				getIcon("moveGraphLeft.png")},
+		{ GraphObject.MOVE_RIGHT,				getIcon("moveGraphRight.png")},
+		{ GraphObject.MOVE_UP, 					getIcon("moveGraphUp.png")},
+		{ GraphObject.MOVE_DOWN, 				getIcon("moveGraphDown.png")},
+		{ Grouping.BRING_TO_BOTTOM, 			getIcon("alignBottom.png")},
+		{ Grouping.BRING_TO_TOP, 				getIcon("alignTop.png")},
+		{ Grouping.BRING_TO_LEFT, 				getIcon("alignLeft.png")},
+		{ Grouping.BRING_TO_RIGHT, 				getIcon("alignRight.png")},
+		{ Grouping.DISTRIBUTE_HORIZONTALLY, 	getIcon("distributeHorizontally.png")},
+		{ Grouping.DISTRIBUTE_VERTICALLY, 		getIcon("distributeVertically.png")},
+		{ Grouping.ALIGN_GROUP_HORIZONTAL_CENTER, getIcon("alignHorizontalCenter.png")},
+		{ Grouping.ALIGN_GROUP_VERTICAL_CENTER,	getIcon("alignVerticalCenter.png")},
+		{ ExpressionObject.ADD_TO_BOTH_SIDES,	getIcon("addition.png")},
+		{ ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, getIcon("subraction.png")},
+		{ ExpressionObject.DIVIDE_BOTH_SIDES,	getIcon("division.png")},
+		{ ExpressionObject.MULTIPLY_BOTH_SIDES,	getIcon("multiplication.png")},
+	};
+	
+	public static ImageIcon SMALL_KEYBOARD_IMAGE = getIcon("smallKeyboard.png");
 
-	public ObjectPropertiesFrame(DocViewerPanel dvp){
-		super("tools",
+	public ObjectPropertiesFrame(NotebookPanel notebookPanel){
+		super("Tools",
 				true, //resizable
 				false, //closable
 				false, //maximizable
 				true);//iconifiable
-		docPanel = dvp;
+		this.notebookPanel = notebookPanel;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
 		adjusters = new Vector<AdjustmentPanel>();
@@ -82,6 +124,26 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		this.getContentPane().add(scrollPane);
+	}
+	
+	public ObjectPropertiesFrame(MathObject mObj, NotebookPanel notebookPanel){
+		super("Tools",
+				true, //resizable
+				false, //closable
+				false, //maximizable
+				true);//iconifiable
+		object = mObj;
+		this.notebookPanel = notebookPanel;
+		mainPanel = new JPanel();
+		mainPanel.setLayout(new GridBagLayout());
+		adjusters = new Vector<AdjustmentPanel>();
+		listAdjusters = new Vector<ListAdjuster>();
+		scrollPane = new JScrollPane(mainPanel);
+		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+		scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		this.getContentPane().add(scrollPane);
+		generatePanel(object);
 	}
 
 	public JScrollPane getScrollPane(){
@@ -104,7 +166,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 						! docPanel.isInStudentMode())
 				{// only show editing dialog if in teacher mode (not student)
 					//or if the attribute has been left student editable
-					panel.add(getAdjuster(mAtt, docPanel, panel), con);
+					panel.add(getAdjuster(mAtt, notebookPanel, panel), con);
 					con.gridy++;
 				}
 			}
@@ -112,7 +174,13 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		return panel;
 	}
 
+	/**
+	 * Generates a menu for adjusting the properties of a mathobject.
+	 * 
+	 * @param o - object to base menu panel on
+	 */
 	public void generatePanel(MathObject o){
+		System.out.println("generate panel" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		if (o == null){
 			return;
 		}
@@ -133,7 +201,9 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		con.gridx = 0;
 		con.gridy = 0;
 		
-		if (o instanceof GraphObject || o instanceof ExpressionObject)
+		System.out.println("end init stuff" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		
+		if (o instanceof GraphObject || (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode()))
 		{// there are too many attributes and actions for the graph to put them all in one panel
 			// add a tabbed pane to make it more reasonable and avoid scrolling
 			panelTabs = new JTabbedPane();
@@ -142,9 +212,11 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			tabOneContents.setLayout(new GridBagLayout());
 			tabTwoContents = new JPanel();
 			tabTwoContents.setLayout(new GridBagLayout());
+			System.out.println("1 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			JScrollPane tabScrollPane = new JScrollPane(panelTabs);
 			tabScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 			tabScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+			System.out.println("2 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			tabScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			if ( o instanceof GraphObject){
 				panelTabs.add("Nav", tabOneContents);
@@ -154,47 +226,34 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			else if (o instanceof ExpressionObject){
 				panelTabs.add("Expression", tabOneContents);
 				panelTabs.add("Solve", tabTwoContents);
-				panel = tabTwoContents;
+				panel = tabOneContents;
 			}
+			System.out.println("3 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			this.getContentPane().add(tabScrollPane);
-			
+			System.out.println("4 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		}
 		else{
 			this.getContentPane().add(scrollPane);
 		}
+		System.out.println("done with tabs " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		con.weighty = .01;
 		JPanel actionPics = new JPanel();
-		actionPics.setLayout(new GridLayout(0, 3, 4, 4));
+		actionPics.setLayout(new GridLayout(0, 4, 4, 4));
 		JPanel otherActions = new JPanel();
 		otherActions.setLayout(new GridLayout(0, 1, 4, 4));
 
 		ImageIcon pic;
 		JButton button;
-		if ( ! docPanel.isInStudentMode()){
+		if ( ! notebookPanel.isInStudentMode()){
 			for (final String s : o.getActions()){
 				pic = getIconForAction(s);
-				if (pic != null){
-					button = new JButton(pic);
-					button.setMargin(new Insets(2, 2, 2, 2));
-					button.setMaximumSize(new Dimension(20,20));
-					button.setToolTipText(s);
-					actionPics.add(button);
-				}
-				else{
-					button = new JButton(s);
-					button.setMargin(new Insets(2, 2, 2, 2));
-					otherActions.add(button);
-				}
-				button.addActionListener(new ActionListener(){
-
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						buttonAction(s);
-					}
-				});
+				if (pic != null) createButton(s,0,0,0,0, actionPics);
+				else createButton(s,0,0,0,0, otherActions);
 			}
 		}
+		
+		System.out.println("teacher actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 
 		boolean skipAction;
 		for (final String s : o.getStudentActions()){
@@ -204,49 +263,24 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 				// they are added in a separate panel to make their
 				// use more intuitive
 				for ( String str : graphNavActions){
-					if (s.equals(str)){
-						skipAction = true;
-						break;
-					}
+					if (s.equals(str)) {skipAction = true; break;}
 				}
 			}
 			if (object instanceof ExpressionObject)
 			{// skip the operations that change both sides, they are added
 				// in a separate panel to make the list of actions smaller
 				for ( String str : expressionOpActions){
-					if (s.equals(str)){
-						skipAction = true;
-						break;
-					}
+					if (s.equals(str)){skipAction = true;break;}
 				}
 			}
 			if ( skipAction ){
 				continue;
 			}
 			pic = getIconForAction(s);
-			if (pic != null){
-				button = new JButton(pic);
-				button.setMargin(new Insets(2, 2, 2, 2));
-				button.setToolTipText(s);
-				actionPics.add(button);
-			}
-			else{
-				button = new JButton(s);
-				button.setMargin(new Insets(2, 2, 2, 2));
-				otherActions.add(button);
-			}
-			button.addActionListener(new ActionListener(){
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					// TODO Auto-generated method stub
-					buttonAction(s);
-					docPanel.repaint();
-					ObjectPropertiesFrame.this.update();
-				}
-
-			});
+			if (pic != null) createButton(s,0,0,0,0, actionPics);
+			else createButton(s,0,0,0,0, otherActions);
 		}
+		System.out.println("student actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if (otherActions.getComponentCount() != 0)
 		{// only add panel for actions if components have been added to it
@@ -262,53 +296,71 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			panel.add(createGraphNavigator(), con);
 			con.gridy++;
 		}
+		if (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode())
+		{// there are too many attributes and actions for the expression to put them all in one panel
+			// added a tabbed pane to make it more reasonable and avoid scrolling
+			// this line moves to the other tab to place components there
+			panel = tabTwoContents;
+		}
 		if ( object instanceof ExpressionObject){
 			panel.add(createExpressionModifier(), con);
 			con.gridy++;
 		}
+		//Switch back to tab one if in teacher mode, to allow attribute adjusters to be on the first tab
+		if (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode())
+			panel = tabOneContents;
 
 		con.fill = GridBagConstraints.HORIZONTAL;
-		for ( ListAttribute list : o.getLists()){
-			if ( ( docPanel.isInStudentMode() && list.isStudentEditable() ) ||
-					( ! docPanel.isInStudentMode() && list.isUserEditable()) )
-			{// only show editing dialog if in teacher mode (not student)
-				//or if the attribute has been left student editable
-				listAdjusters.add(new ListAdjuster(list, docPanel, panel));
-				panel.add(listAdjusters.get(listAdjusters.size() - 1), con);
-				con.gridy++;
-			}
-		}
 		
 		if (o instanceof GraphObject)
 		{// there are too many attributes and actions for the graph to put them all in one panel
 			// added a tabbed pane to make it more reasonable and avoid scrolling
 			// this line moves to the other tab to place components there
-			panel = tabTwoContents;
-		}
-		else if (o instanceof ExpressionObject)
-		{// there are too many attributes and actions for the expression to put them all in one panel
-			// added a tabbed pane to make it more reasonable and avoid scrolling
-			// this line moves to the other tab to place components there
-			panel = tabOneContents;
+			panel = new JPanel();
+			panel.setLayout(new GridBagLayout());
+			con.anchor = GridBagConstraints.PAGE_START;
+			tabTwoContents.add(panel, con);
+			con.anchor = GridBagConstraints.CENTER;
 		}
 
 		con.fill = GridBagConstraints.BOTH;
 		for (MathObjectAttribute mAtt : o.getAttributes()){
-			if ( ( docPanel.isInStudentMode() && mAtt.isStudentEditable() ) ||
-					( ! docPanel.isInStudentMode() && mAtt.isUserEditable()) )
+			if ( ( notebookPanel.isInStudentMode() && mAtt.isStudentEditable() ) ||
+					( ! notebookPanel.isInStudentMode() && mAtt.isUserEditable()) )
 			{// only show editing dialog if in teacher mode (not student)
 				//or if the attribute has been left student editable
-				adjusters.add(getAdjuster(mAtt, docPanel, panel));
+				adjusters.add(getAdjuster(mAtt, notebookPanel, panel));
 				if (mAtt instanceof StringAttribute){// make string panels stretch vertically
 					con.weighty = 1;
+					con.fill = GridBagConstraints.BOTH;
 				}
-				else{// make all others stretch very little horizontally
-					con.weighty = .01;
+				else{// make all others stretch very little vertically
+					con.weighty = 0;
+					con.fill = GridBagConstraints.HORIZONTAL;
 				}
 				panel.add(adjusters.get(adjusters.size() - 1), con);
 				con.gridy++;
 			}
 		}
+		
+		System.out.println("end att adjusters:" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		con.weighty = 1;
+		if (o instanceof GraphObject)
+		{// see above comments about tabs for some objects
+			panel = tabOneContents;
+		}
+		for ( ListAttribute list : o.getLists()){
+			if ( ( notebookPanel.isInStudentMode() && list.isStudentEditable() ) ||
+					( ! notebookPanel.isInStudentMode() && list.isUserEditable()) )
+			{// only show editing dialog if in teacher mode (not student)
+				//or if the attribute has been left student editable
+				listAdjusters.add(new ListAdjuster(list, notebookPanel, panel));
+				panel.add(listAdjusters.get(listAdjusters.size() - 1), con);
+				con.gridy++;
+			}
+		}
+		System.out.println("end lists:" + + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		
 		if ( panel.getComponentCount() == 0){
 			panel.add(new JLabel("No actions for this object"), con);
 		}
@@ -316,26 +368,38 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		this.pack();
 		this.update();
 		this.setSize(this.getWidth() + 30, this.getHeight());
+		System.out.println("done making props frame" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+	}
+	
+	public void setObject(MathObject o){
+		object = o;
+		for ( AdjustmentPanel adjuster : adjusters){
+			adjuster.setAttribute(o.getAttributeWithName(adjuster.getAttribute().getName()));
+			adjuster.updateData();
+		}
+		for( ListAdjuster listAdjuster : listAdjusters){
+			listAdjuster.setList(o.getListWithName(listAdjuster.getList().getName()));
+			listAdjuster.updateData();
+		}
+	}
+	
+	public MathObject getObjet(){
+		return object;
 	}
 
 	public static AdjustmentPanel getAdjuster(MathObjectAttribute mAtt,
-			DocViewerPanel docPanel, JPanel panel){
+			NotebookPanel notebookPanel, JPanel panel){
 		AdjustmentPanel p;
-		if (mAtt instanceof BooleanAttribute){
-			p = new BooleanAdjustmentPanel((BooleanAttribute)mAtt, docPanel, panel);
-		}
-		else if (mAtt instanceof StringAttribute){
-			p = new StringAdjustmentPanel((StringAttribute)mAtt, docPanel, panel);
-		}
-		else if (mAtt instanceof ColorAttribute){
-			p = new ColorAdjustmentPanel((ColorAttribute)mAtt, docPanel, panel );
-		}
-		else if (mAtt instanceof EnumeratedAttribute){
-			p = new EnumeratedAdjuster((EnumeratedAttribute)mAtt, docPanel, panel);
-		}
-		else{
-			p = new GenericAdjustmentPanel(mAtt, docPanel, panel);
-		}
+		if (mAtt instanceof BooleanAttribute)
+			p = new BooleanAdjustmentPanel((BooleanAttribute)mAtt, notebookPanel, panel);
+		else if (mAtt instanceof StringAttribute)
+			p = new StringAdjustmentPanel((StringAttribute)mAtt, notebookPanel, panel);
+		else if (mAtt instanceof ColorAttribute)
+			p = new ColorAdjustmentPanel((ColorAttribute)mAtt, notebookPanel, panel );
+		else if (mAtt instanceof EnumeratedAttribute)
+			p = new EnumeratedAdjuster((EnumeratedAttribute)mAtt, notebookPanel, panel);
+		else
+			p = new GenericAdjustmentPanel(mAtt, notebookPanel, panel);
 		return p;
 	}
 	
@@ -344,42 +408,34 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		newPanel.setLayout(new GridBagLayout());
 		ImageIcon pic;
 
+		new OCButton(ExpressionObject.SUB_IN_VALUE, 4, 1, 0, 0, newPanel){
+			public void associatedAction(){ buttonAction(ExpressionObject.SUB_IN_VALUE);}
+		};
+		new OCButton(ExpressionObject.MODIFY_EXPRESSION, 4, 1, 0, 1, newPanel){
+			public void associatedAction(){ buttonAction(ExpressionObject.MODIFY_EXPRESSION);}
+		};
+		new OCButton(ExpressionObject.MANUALLY_TYPE_STEP, 4, 1, 0, 2, newPanel){
+			public void associatedAction(){ buttonAction(ExpressionObject.MANUALLY_TYPE_STEP);}
+		};
+		new OCButton(ExpressionObject.UNDO_STEP, 4, 1, 0, 3, newPanel){
+			public void associatedAction(){ buttonAction(ExpressionObject.UNDO_STEP);}
+		};
+		
 		GridBagConstraints con = new GridBagConstraints();
 		con.fill = GridBagConstraints.HORIZONTAL;
 		con.gridx = 0;
-		con.gridy = 0;
+		con.gridy = 4;
 		con.gridwidth = 4;
 		con.weightx = 1;
 		con.weighty = .02;
 		newPanel.add(new JLabel("Apply to both sides"), con);
-		pic = getIconForAction(ExpressionObject.ADD_TO_BOTH_SIDES);
-		OCButton add = new OCButton(pic, ExpressionObject.ADD_TO_BOTH_SIDES, 1, 1, 0, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(ExpressionObject.ADD_TO_BOTH_SIDES);
-			}
-		};
-		pic = getIconForAction(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES);
-		OCButton subtract = new OCButton(pic, ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, 1, 1, 1, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES);
-			}
-		};
-		pic = getIconForAction(ExpressionObject.MULTIPLY_BOTH_SIDES);
-		OCButton multiply = new OCButton(pic, ExpressionObject.MULTIPLY_BOTH_SIDES, 1, 1, 2, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(ExpressionObject.MULTIPLY_BOTH_SIDES);
-			}
-		};
-		pic = getIconForAction(ExpressionObject.DIVIDE_BOTH_SIDES);
-		OCButton divide = new OCButton(pic, ExpressionObject.DIVIDE_BOTH_SIDES, 1, 1, 3, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(ExpressionObject.DIVIDE_BOTH_SIDES);
-			}
-		};
-		OCButton down = new OCButton(ExpressionObject.OTHER_OPERATIONS, 4, 1, 0, 2, newPanel){
-			public void associatedAction(){
-				buttonAction(ExpressionObject.OTHER_OPERATIONS);
-			}
+		
+		createButton(ExpressionObject.ADD_TO_BOTH_SIDES, 1, 1, 0, 5, newPanel);
+		createButton(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, 1, 1, 1, 5, newPanel);
+		createButton(ExpressionObject.MULTIPLY_BOTH_SIDES, 1, 1, 2, 5, newPanel);
+		createButton(ExpressionObject.DIVIDE_BOTH_SIDES, 1, 1, 3, 5, newPanel);
+		new OCButton(ExpressionObject.OTHER_OPERATIONS, 4, 1, 0, 6, newPanel){
+			public void associatedAction(){ buttonAction(ExpressionObject.OTHER_OPERATIONS);}
 		};
 		return newPanel;
 	}
@@ -387,41 +443,34 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 	private JPanel createGraphNavigator(){
 		JPanel newPanel = new JPanel();
 		newPanel.setLayout(new GridBagLayout());
-		ImageIcon pic;
-
-		pic = getIconForAction(GraphObject.MOVE_UP);
-		OCButton up = new OCButton(pic, GraphObject.MOVE_UP, 1, 1, 1, 0, newPanel){
-			public void associatedAction(){
-				buttonAction(GraphObject.MOVE_UP);
-			}
-		};
-		pic = getIconForAction(GraphObject.MOVE_LEFT);
-		OCButton left = new OCButton(pic, GraphObject.MOVE_LEFT, 1, 1, 0, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(GraphObject.MOVE_LEFT);
-			}
-		};
-		pic = getIconForAction(GraphObject.MOVE_RIGHT);
-		OCButton right = new OCButton(pic, GraphObject.MOVE_RIGHT, 1, 1, 2, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(GraphObject.MOVE_RIGHT);
-			}
-		};
-		pic = getIconForAction(GraphObject.MOVE_DOWN);
-		OCButton down = new OCButton(pic, GraphObject.MOVE_DOWN, 1, 1, 1, 2, newPanel){
-			public void associatedAction(){
-				buttonAction(GraphObject.MOVE_DOWN);
-			}
-		};
-
-		pic = getIconForAction(GraphObject.DEFAULT_GRID);
-		OCButton zoomDefault = new OCButton(pic, GraphObject.DEFAULT_GRID, 1, 1, 1, 1, newPanel){
-			public void associatedAction(){
-				buttonAction(GraphObject.DEFAULT_GRID);
-			}
-		};
 		
+		createButton(GraphObject.MOVE_UP, 1, 1, 1, 0, newPanel);
+		createButton(GraphObject.MOVE_LEFT, 1, 1, 0, 1, newPanel);
+		createButton(GraphObject.MOVE_RIGHT, 1, 1, 2, 1, newPanel);
+		createButton(GraphObject.ZOOM_IN, 1, 1, 0, 0, newPanel);
+		createButton(GraphObject.ZOOM_OUT, 1, 1, 2, 0, newPanel);
+		createButton( GraphObject.MOVE_DOWN, 1, 1, 1, 2, newPanel);
+		createButton(GraphObject.DEFAULT_GRID, 1, 1, 1, 1, newPanel);
 		return newPanel;
+	}
+	
+	private void createButton(final String actionName, int width, int height,
+			int gridx, int gridy, JComponent comp){
+		ImageIcon pic = getIconForAction(actionName);
+		if ( pic != null){
+			new OCButton(pic, actionName, width, height, gridx, gridy, comp){
+				public void associatedAction(){
+					buttonAction(actionName);
+				}
+			};
+		}
+		else{// make a button with text on it
+			new OCButton(actionName, actionName, width, height, gridx, gridy, comp){
+				public void associatedAction(){
+					buttonAction(actionName);
+				}
+			};
+		}
 	}
 	
 	private void buttonAction(String s){
@@ -430,11 +479,18 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		// some properties, such as with the graph are adjusted
 		// when the document redraws itself
 		if ( ! object.actionWasCancelled()){
-			docPanel.addUndoState();
+			notebookPanel.getCurrentDocViewer().addUndoState();
 		}
-		docPanel.repaint();
-		ObjectPropertiesFrame.this.update();
-		ObjectPropertiesFrame.this.repaint();
+		DocViewerPanel currentViewer = notebookPanel.getCurrentDocViewer();
+		// allows for groups to accurately update the size/position of their members, if they are modified
+		// by an action such as send to page left/right/center or any other future action to modify size/
+		// position of an object in a group. Only applies to an object that is selected individually
+		// at the time of this comment this is achieved with a double click
+		if ( currentViewer.getFocusedObject() != null &&
+				currentViewer.getFocusedObject().getParentContainer() instanceof Grouping){
+			((Grouping)currentViewer.getFocusedObject().getParentContainer()).adjustSizeToFitChildren();
+		}
+		currentViewer.repaintDoc();
 	}
 
 	public void focusPrimaryAttributeField(){
@@ -465,8 +521,10 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		else{
 			return;
 		}
-		if ( ! docPanel.isInStudentMode() ||
-				(docPanel.isInStudentMode() && primaryAttribute.isStudentEditable())){
+		// some of the properties cannot be adjusted by students, this check is needed
+		// so that a non-existent field is not focused causing an error
+		if ( ! notebookPanel.isInStudentMode() ||
+				(notebookPanel.isInStudentMode() && primaryAttribute.isStudentEditable())){
 			for ( AdjustmentPanel aPanel : adjusters){
 				if ( aPanel.getAttribute().equals(primaryAttribute)){
 					aPanel.focusAttributField();
@@ -475,78 +533,22 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		}
 	}
 
-	public ImageIcon getIconForAction(String actionName){
-		String filename = null;
-		if (actionName.equals(MathObject.MAKE_SQUARE)){
-			filename = "makeSquare.png";
+	public static ImageIcon getIconForAction(String actionName){
+		for (int i = 0; i < actionPicInfo.length; i++){
+			if (((String)actionPicInfo[i][0]).equals(actionName)){
+				return (ImageIcon) actionPicInfo[i][1];
+			}
 		}
-		else if (actionName.equals(MathObject.ADJUST_SIZE_AND_POSITION)){
-			filename = "adjustSizeAndPosition.png";
-		}
-		else if (actionName.equals(TriangleObject.MAKE_ISOSCELES_TRIANGLE)){
-			filename = "makeIsosceles.png";
-		}
-		else if (actionName.equals(TriangleObject.MAKE_RIGHT_TRIANGLE)){
-			filename = "makeRightTriangle.png";
-		}
-		else if (actionName.equals(PolygonObject.FLIP_HORIZONTALLY)){
-			filename = "flipHorizontally.png";
-		}
-		else if (actionName.equals(PolygonObject.FLIP_VERTICALLY)){
-			filename = "flipVertically.png";
-		}
-		else if (actionName.equals(GraphObject.ZOOM_IN)){
-			filename = "smallZoomIn.png";
-		}
-		else if (actionName.equals(GraphObject.ZOOM_OUT)){
-			filename = "smallZoomOut.png";
-		}
-		else if (actionName.equals(GraphObject.DEFAULT_GRID)){
-			filename = "defaultGrid.png";
-		}
-		else if (actionName.equals(GraphObject.MOVE_LEFT)){
-			filename = "moveGraphLeft.png";
-		}
-		else if (actionName.equals(GraphObject.MOVE_RIGHT)){
-			filename = "moveGraphRight.png";
-		}
-		else if (actionName.equals(GraphObject.MOVE_UP)){
-			filename = "moveGraphUp.png";
-		}
-		else if (actionName.equals(GraphObject.MOVE_DOWN)){
-			filename = "moveGraphDown.png";
-		}
-		else if (actionName.equals(Grouping.BRING_TO_BOTTOM)){
-			filename = "alignBottom.png";
-		}
-		else if (actionName.equals(Grouping.BRING_TO_TOP)){
-			filename = "alignTop.png";
-		}
-		else if (actionName.equals(Grouping.BRING_TO_LEFT)){
-			filename = "alignLeft.png";
-		}
-		else if (actionName.equals(Grouping.BRING_TO_RIGHT)){
-			filename = "alignRight.png";
-		}
-		else if (actionName.equals(ExpressionObject.ADD_TO_BOTH_SIDES)){
-			filename = "addition.png";
-		}
-		else if (actionName.equals(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES)){
-			filename = "subraction.png";
-		}
-		else if (actionName.equals(ExpressionObject.DIVIDE_BOTH_SIDES)){
-			filename = "division.png";
-		}
-		else if (actionName.equals(ExpressionObject.MULTIPLY_BOTH_SIDES)){
-			filename = "multiplication.png";
-		}
-		else{
+		return null;
+	}
+	
+	public static ImageIcon getIcon(String filename){
+		if (filename == null){
 			return null;
 		}
-
 		try {
 			filename = "img/" + filename;
-			BufferedImage image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(filename));
+			BufferedImage image = ImageIO.read(ObjectPropertiesFrame.class.getClassLoader().getResourceAsStream(filename));
 			return new ImageIcon(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

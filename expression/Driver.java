@@ -1,5 +1,7 @@
 package expression;
 
+import doc.expression_generators.*;
+
 public class Driver {
 
 	/**
@@ -17,32 +19,18 @@ public class Driver {
 		
 //		ProblemGenerator g = new ProblemGenerator();
 //		System.out.println(g.generateLinear());
+		
+
 
 		try {
-			VarList varList = new VarList();
-			varList.setIdentifierValue("x", new Number(5));
-			varList.setIdentifierValue("y", new Number(2));
-			Node node = Node.parseNode("3x*3*x");
-			System.out.println(node.smartNumericSimplify().standardFormat().toStringRepresentation());
-			Node node1 = Node.parseNode("2(x+5)");
-			System.out.println(node.equals(node1));
-			System.out.println(node1.smartNumericSimplify().toStringRepresentation());
-			Node node2 = Node.parseNode("2");
-			System.out.println(node.multiplyByNode(node2).toStringRepresentation());
-			System.out.println(Expression.staggerAddition(node.splitOnAddition()).toStringRepresentation());
-			System.out.println(varList.evaluate(node));
-			node = Node.parseNode("3+5");
-			System.out.println(node.numericSimplify().toStringRepresentation());
-			System.out.println(node.numericSimplify().toStringRepresentation());
-			Node n = Node.parseNode("1/a");
-			n = n.replace("a", new Number(-10));
-			System.out.println(n.toStringRepresentation());
-			System.out.println(n.numericSimplify().toStringRepresentation());
-			System.out.println(
-					Node.parseNode("a(x+c)^2+b").replace("a", new Number(0)).toStringRepresentation());
-
-			n = Node.parseNode("3+5+4");
-			System.out.println( ((Expression)n).getChildren().size() );
+			System.out.println(Expression.parseNode("(-4-5)").smartNumericSimplify().toStringRepresentation());
+			Expression ex = new Expression(new Operator.Subtraction());
+			ex = (Expression) ExUtil.addChild(ex, new Number(5));
+		
+			ex = (Expression) ExUtil.addChild(ex, new Expression(new Operator.Subtraction(), 3.0, 5.0));
+			Expression.parseNode("5--3");
+			System.out.println("Expression: " + ex.toStringRepresentation());
+			System.out.println(ex.smartNumericSimplify().toStringRepresentation());
 		}catch (NodeException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

@@ -108,6 +108,15 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		
 	}
 	
+	public boolean contains(Object obj){
+		for ( K val : values){
+			if (val.getValue().equals(obj)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public String exportToXML(){
 		String output = "";
 		output += "\t<" + LIST + " " + NAME + "=\"" + getName() + "\" " + TYPE +"=\"" +
@@ -125,6 +134,17 @@ public class ListAttribute <K extends MathObjectAttribute> {
 
 	public K getValue(int i){
 		return values.get(i);
+	}
+	
+	public boolean isEmpty(){
+		return values.isEmpty();
+	}
+	
+	public K getLastValue(){
+		if ( values.isEmpty()){
+			return null;
+		}
+		return values.get(values.size() - 1);
 	}
 	
 	public boolean removeValue(K value){

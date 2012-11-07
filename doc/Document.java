@@ -16,6 +16,7 @@ import java.util.Vector;
 import doc.attributes.AttributeException;
 import doc.attributes.Date;
 import doc.attributes.DateAttribute;
+import doc.attributes.DoubleAttribute;
 import doc.attributes.IntegerAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc.attributes.StringAttribute;
@@ -64,7 +65,8 @@ public class Document {
 	public static final String FILENAME = "filename", HEADER = "header",
 			FOOTER = "footer", AUTHOR = "author", DATE = "date",
 			AUTHOR_ID = "authorID", GENERATORS = "generators",
-			OPEN_NOTEBOOK_DOC = "OpenNotebookDoc", LAST_PROBLEM_NUMBER = "lastProblemNumber";
+			OPEN_NOTEBOOK_DOC = "OpenNotebookDoc", LAST_PROBLEM_NUMBER = "lastProblemNumber",
+			X_MARGIN = "xMargin", Y_MARGIN = "yMargin";
 
 	private Vector<Page> pages;
 	private Vector<ProblemGenerator> generators;
@@ -102,8 +104,6 @@ public class Document {
 		getAttributeWithName(FILENAME).setValue(name);
 		pageWidth = DEFAULT_PAGE_WIDTH;
 		pageHeight = DEFAULT_PAGE_HEIGHT;
-		xMargin = DEFAULT_MARGIN;
-		yMargin = DEFAULT_MARGIN;
 	}
 
 	private void addAttributes() {
@@ -111,6 +111,8 @@ public class Document {
 		addAttribute(new StringAttribute(AUTHOR));
 		addAttribute(new DateAttribute(DATE));
 		addAttribute(new IntegerAttribute(LAST_PROBLEM_NUMBER, 1));
+		addAttribute(new DoubleAttribute(X_MARGIN, .5, .5, 3));
+		addAttribute(new DoubleAttribute(Y_MARGIN, .5, .5, 3));
 	}
 
 	private MathObjectAttribute getAttributeWithName(String n) {
@@ -197,6 +199,54 @@ public class Document {
 			}
 		}
 		return false;
+	}
+	
+	public boolean generateNewVersion(){
+		Vector<MathObject> pageObjects;
+		MathObject mObj;
+		int oldSize;
+		boolean problemsGenerated = false;
+		for (int i = 0; i < getPages().size(); i++) {
+			pageObjects = getPages().get(i).getObjects();
+			oldSize = pageObjects.size();
+			for (int j = 0; j < oldSize; j++) {
+				mObj = pageObjects.get(j);
+				if (mObj instanceof GeneratedProblem) {
+					((GeneratedProblem) mObj).generateNewProblem();
+					problemsGenerated = true;
+					j--;
+					oldSize--;
+				}
+				else if ( mObj instanceof Grouping && ((Grouping)mObj).containsGeneratedProblems()){
+					((Grouping)mObj).generateNewVersion();
+					problemsGenerated = true;
+				}
+			}
+		}
+		return problemsGenerated;
+	}
+	
+	public boolean stripAnswers(){
+		Vector<MathObject> pageObjects;
+		Page p;
+		MathObject mObj;
+		int oldSize;
+		boolean problemsGenerated = false;
+
+		for (int i = 0; i < getPages().size(); i++) {
+			pageObjects = getPages().get(i).getObjects();
+			oldSize = pageObjects.size();
+			for (int j = 0; j < oldSize; j++) {
+				mObj = pageObjects.get(j);
+				if (mObj instanceof GeneratedProblem) {
+					((GeneratedProblem) mObj).generateNewProblem();
+					problemsGenerated = true;
+					j--;
+					oldSize--;
+				}
+			}
+		}
+		return problemsGenerated;
 	}
 
 	public String getName() {
@@ -292,7 +342,7 @@ public class Document {
 					2 * extraMarginForDirections, 20, 12, directions);
 			curryPos = pt.getyPos() + directionText.getHeight() + minimumBufferSpace/2;
 			// draw the text in the background, so it has its height set correctly
-			doc.getDocViewerPanel().drawObjectInBackgorund(directionText);
+			doc.getDocViewerPanel().drawObjectInBackground(directionText);
 			if ( curryPos + greatestHeight < currentPage.getHeight() - currentPage.getyMargin())
 			{// the first row of objects will fit on this page, otherwise move the directions down a page
 				currentPage.addObject(directionText);
@@ -307,9 +357,9 @@ public class Document {
 			}
 		}
 
-		int numColumns = (doc.getWidth() - 2 * doc.getxMargin() - 4 * extraMarginForDirections) 
+		int numColumns = (doc.getWidth() - 2 * doc.getxMargin() - 2 * extraMarginForDirections) 
 				/ (greatestWidth + minimumBufferSpace);
-		int totalExtraSpace = (doc.getWidth() - 2 * doc.getxMargin() - 4 * extraMarginForDirections)
+		int totalExtraSpace = (doc.getWidth() - 2 * doc.getxMargin() - 2 * extraMarginForDirections)
 				% (greatestWidth + minimumBufferSpace);
 
 		int extraColumnSpace = totalExtraSpace / (numColumns);
@@ -324,7 +374,7 @@ public class Document {
 			mObj.setyPos(curryPos);
 
 			mObj.setParentContainer(currentPage);
-			if (!mObj.isOnPage()) {
+			if (mObj.getyPos() + greatestHeight > currentPage.getHeight() - currentPage.getyMargin()) {
 				currentPage = nextPage(currentPage);
 				curryPos = currentPage.getyMargin() + minimumBufferSpace;
 				mObj.setyPos(curryPos);
@@ -333,7 +383,7 @@ public class Document {
 			problemNumber = new ProblemNumberObject(currentPage, mObj.getxPos() - 38,
 					mObj.getyPos(), 35, 20, lastProblemNumber);
 			// draw it in the background so its height is set properly
-			doc.getDocViewerPanel().drawObjectInBackgorund(problemNumber);
+			doc.getDocViewerPanel().drawObjectInBackground(problemNumber);
 			// to accommodate problems of different heights, the number should be layed out either in the
 			// center of the height of the problem, or at the top if it is very large
 			if ( problemNumber.getHeight() * 4 >= mObj.getHeight()){
@@ -350,7 +400,7 @@ public class Document {
 			mObj.setParentContainer(currentPage);
 			currColumn++;
 			if (currColumn > numColumns - 1) {
-				curryPos += greatestHeight + minimumBufferSpace/3;
+				curryPos += greatestHeight + minimumBufferSpace;
 				currColumn = 0;
 			}
 		}
@@ -405,7 +455,7 @@ public class Document {
 		return allNumbers;
 	}
 
-	public Document createAnswerKey(){
+	public Document generateAnswerKey(){
 		Document key = new Document("Key - " + this.getName());
 		Page currentNewPage;
 		for ( Page p : pages ){
@@ -434,6 +484,8 @@ public class Document {
 				allNumbers.add(new ObjectAndPosition(mObj.getPositionInDoc(), mObj));
 			}
 			else if ( mObj instanceof Grouping){
+				// stack overflow exception was reached here
+				// I did it after I send a sub-object of a group to the back, not sure what effect that had on the bug
 				allNumbers.addAll(0, findAllProblemNumbersInGroup(((Grouping)mObj)));
 			}
 		}
@@ -494,20 +546,40 @@ public class Document {
 		return pageHeight;
 	}
 
+	// set x margin in pixels at 72 dpi.
 	public void setxMargin(int xMargin) {
-		this.xMargin = xMargin;
+		getAttributeWithName(X_MARGIN).setValue(xMargin / 72.0);
+	}
+	
+	// set x margin in inches.
+	public void setxMargin(double xMargin){
+		getAttributeWithName(X_MARGIN).setValue(xMargin);
 	}
 
 	public int getxMargin() {
-		return xMargin;
+		return (int) ((Double)getAttributeWithName(X_MARGIN).getValue() * 72);
 	}
-
+	
+	// set y margin in pixels at 72 dpi.
 	public void setyMargin(int yMargin) {
-		this.yMargin = yMargin;
+		getAttributeWithName(Y_MARGIN).setValue(yMargin / 72.0);
+	}
+	
+	// set y margin in inches.
+	public void setyMargin(double yMargin){
+		getAttributeWithName(Y_MARGIN).setValue(yMargin);
+	}
+	
+	public void setxMargin(String text) throws AttributeException {
+		getAttributeWithName(X_MARGIN).setValue(getAttributeWithName(X_MARGIN).readValueFromString(text));
+	}
+	
+	public void setyMargin(String text) throws AttributeException {
+		getAttributeWithName(Y_MARGIN).setValue(getAttributeWithName(Y_MARGIN).readValueFromString(text));
 	}
 
 	public int getyMargin() {
-		return yMargin;
+		return (int) ((Double)getAttributeWithName(Y_MARGIN).getValue() * 72);
 	}
 
 	public Date getDate() {
@@ -528,7 +600,10 @@ public class Document {
 		output += "<" + OPEN_NOTEBOOK_DOC + " " + "version=\"0.1\" " + FILENAME
 				+ "=\"" + getName() + "\" " + AUTHOR + "=\"" + getAuthor()
 				+ "\" " + DATE + "=\"" + getDate() + "\" " + 
-				LAST_PROBLEM_NUMBER + "=\"" + getLastProblemNumber() + "\">\n";
+				LAST_PROBLEM_NUMBER + "=\"" + getLastProblemNumber() + "\" " +
+				X_MARGIN + "=\"" + getxMargin()/72.0 + "\" " + 
+				Y_MARGIN + "=\"" + getyMargin()/72.0 + "\" " 
+				+ ">\n";
 		for (String s : subjectsCovered) {
 			output += "<subject name=\"" + s + "\"></subject>";
 		}

@@ -60,6 +60,11 @@ public abstract class ProblemGenerator extends Grouping implements Cloneable{
 		removeAction(Grouping.BRING_TO_BOTTOM);
 		removeAction(Grouping.STRETCH_HORIZONTALLY);
 		removeAction(Grouping.STRETCH_VERTICALLY);
+		removeAction(DISTRIBUTE_VERTICALLY);
+		removeAction(DISTRIBUTE_HORIZONTALLY);
+		removeAction(ALIGN_GROUP_VERTICAL_CENTER);
+		removeAction(ALIGN_GROUP_HORIZONTAL_CENTER);
+		
 		addAction(STORE_IN_DATABASE);
 		addAction(REMOVE_PROBLEM);
 		addAction(GENERATE_NEW);

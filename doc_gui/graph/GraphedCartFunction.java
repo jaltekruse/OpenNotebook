@@ -86,6 +86,8 @@ public class GraphedCartFunction extends GraphWithExpression {
 			origionalEx = Node.parseNode(getFuncEqtn());
 			ex = origionalEx.cloneNode();
 			ex = ex.replace(new Identifier(getIndependentVar()), new Number(lastX));
+			ex = ex.replace("\u03C0", new Number(Math.PI));
+			ex = ex.replace("e", new Number(Math.E));
 			ex = ex.numericSimplify();
 			if ( ex instanceof Expression){
 				if ( ((Expression)ex).getOperator() instanceof Operator.Equals){
@@ -116,6 +118,8 @@ public class GraphedCartFunction extends GraphWithExpression {
 				currX = currX + graph.X_PIXEL;
 				ex = origionalEx.cloneNode();
 				ex = ex.replace(getIndependentVar(), new Number(currX));
+				ex = ex.replace("\u03C0", new Number(Math.PI));
+				ex = ex.replace("e", new Number(Math.E));
 				ex = ex.numericSimplify();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -175,22 +179,26 @@ public class GraphedCartFunction extends GraphWithExpression {
 				addPt(gridxToScreen(lastX), 0 + graph.Y_PIC_ORIGIN);
 				addPt(gridxToScreen(currX), graph.Y_SIZE + graph.Y_PIC_ORIGIN);
 			}
+			
+			if (isConnected()){
+				drawLineSeg(lastX, lastY, currX, currY, getColor(), g);
+			}
 
 			lastX = currX;
 			lastY = currY;
 		}
 
-		g2d.setStroke(new BasicStroke(graph.LINE_SIZE * graph.DOC_ZOOM_LEVEL,
-				BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-		if ( this.getxVals().size() > 0){
-			GeneralPath polyline = 
-					new GeneralPath(GeneralPath.WIND_EVEN_ODD, this.getxVals().size());
-			polyline.moveTo (this.getxVals().get(0), this.getyVals().get(0));
-			for (int i = 1; i < this.getxVals().size(); i++) {
-				polyline.lineTo( getxVals().get(i), getyVals().get(i));
-			};
-			g2d.draw(polyline);
-		}
+//		g2d.setStroke(new BasicStroke(graph.LINE_SIZE * graph.DOC_ZOOM_LEVEL,
+//				BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+//		if ( this.getxVals().size() > 0){
+//			GeneralPath polyline = 
+//					new GeneralPath(GeneralPath.WIND_EVEN_ODD, this.getxVals().size());
+//			polyline.moveTo (this.getxVals().get(0), this.getyVals().get(0));
+//			for (int i = 1; i < this.getxVals().size(); i++) {
+//				polyline.lineTo( getxVals().get(i), getyVals().get(i));
+//			};
+//			g2d.draw(polyline);
+//		}
 		graph.LINE_SIZE = 2;
 		g2d.setStroke(new BasicStroke(1));
 	}

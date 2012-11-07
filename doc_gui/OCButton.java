@@ -8,20 +8,14 @@
 
 package doc_gui;
 
-import java.awt.AWTKeyStroke;
+import java.awt.Color;
 import java.awt.DefaultKeyboardFocusManager;
-import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.KeyboardFocusManager;
-import java.awt.Robot;
-import java.awt.TextComponent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JButton;
@@ -47,7 +41,7 @@ public class OCButton extends JButton {
 		}catch(Exception e){
 		}
 	}
-
+	
 	public OCButton(String str, int gridwidth, int gridheight, int gridx,
 			int gridy, JComponent comp) {
 
@@ -88,7 +82,7 @@ public class OCButton extends JButton {
 	
 	private void addToContainer(int gridwidth, int gridheight,
 			int gridx, int gridy, boolean hasInsets, JComponent comp){
-		setMargin(new Insets(3, 3, 3, 3));
+		setMargin(new Insets(1, 1, 1, 1));
 		GridBagConstraints bCon;
 		bCon = new GridBagConstraints();
 		bCon.fill = GridBagConstraints.BOTH;
@@ -152,27 +146,5 @@ public class OCButton extends JButton {
 				currField.setCaretPosition(selectStart + s.length());
 			}
 		}
-//		if ( ! canAccessSystemRobot() || keyCodes == null){
-//			return;
-//		}
-//		for (int i = 0; i < keyCodes.length; i++){
-//			if ( i + 1 < keyCodes.length){
-//				if (keyCodes[i + 1] == OnScreenMathKeypad.PRESS){
-//					System.out.println("press");
-//					robot.keyPress(keyCodes[i]);
-//					i++;
-//					continue;
-//				}
-//				else if  (keyCodes[i + 1] == OnScreenMathKeypad.RELEASE){
-//					System.out.println("release");
-//					robot.keyRelease(keyCodes[i]);
-//					i++;
-//					continue;
-//				}
-//			}
-//			System.out.println("normal press");
-//			robot.keyPress(keyCodes[i]);
-//			robot.keyRelease(keyCodes[i]);
-//		}
 	}
 }

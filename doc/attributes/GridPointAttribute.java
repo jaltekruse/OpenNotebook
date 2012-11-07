@@ -129,14 +129,18 @@ public class GridPointAttribute extends MathObjectAttribute<GridPoint> {
 	public GridPoint readValueFromString(String s) throws AttributeException {
 		// TODO Auto-generated method stub
 		StringTokenizer st = new StringTokenizer(s, ", ( )");
-		
-		double x = Double.parseDouble(st.nextToken());
-		double y = Double.parseDouble(st.nextToken());
-		if (x < xMin || x > xMax){
-			throw new AttributeException("x must be between " + xMin + " and " + xMax);
-		}
-		if (y < yMin || y > yMax){
-			throw new AttributeException("y must be between " + yMin + " and " + yMax);
+		double x, y;
+		try{
+			x = Double.parseDouble(st.nextToken());
+			y = Double.parseDouble(st.nextToken());
+			if (x < xMin || x > xMax){
+				throw new AttributeException("x must be between " + xMin + " and " + xMax);
+			}
+			if (y < yMin || y > yMax){
+				throw new AttributeException("y must be between " + yMin + " and " + yMax);
+			}
+		}catch(Exception e){
+			throw new AttributeException("Error with ordered pair formatting.");
 		}
 		return new GridPoint(x, y);
 	

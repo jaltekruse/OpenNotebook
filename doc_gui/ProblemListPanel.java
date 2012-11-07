@@ -253,6 +253,8 @@ public class ProblemListPanel extends JPanel {
 				"each individual problem's directions are listed for reference.<html>");
 		int index = 1;
 		for ( ProblemGenerator gen : generators){
+			// TODO - insert line breaks for long directions, might have to include ... with tooltip for really long text
+			// might want to limit number of chars overall for directions.
 			inputs[index] = new JLabel("<html><font size=-2>" + gen.getDirections() + "</font></html");
 			index++;
 		}
@@ -263,7 +265,7 @@ public class ProblemListPanel extends JPanel {
 		directions.setWrapStyleWord(true);
 		directions.setLineWrap(true);
 		while (true){
-			int input = JOptionPane.showConfirmDialog(notebookPanel, 
+			int input = JOptionPane.showConfirmDialog(null, 
 					inputs, "Enter Directions", JOptionPane.PLAIN_MESSAGE);
 			if ( input == -1){
 				return null;

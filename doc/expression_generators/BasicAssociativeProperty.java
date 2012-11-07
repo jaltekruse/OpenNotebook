@@ -12,22 +12,22 @@ import expression.Number;
 public class BasicAssociativeProperty extends ExpressionGenerator {
 	
 	@Override
-	protected Node generateExpression(int difficulty) {
-		Node n = null;
+	protected Node[] generateExpression(int difficulty) throws NodeException {
+		Node n[] = new Node[2];
 		if ( ExUtil.randomBoolean())
 		{// half of the time create a problem to test the associative property of addition
 
 			if ( difficulty == ProblemGenerator.EASY) {
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(100);
 				double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(50);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						new Number(numPair[1]), new Number(numPair2[0]));
 			}
 			else if ( difficulty == ProblemGenerator.MEDIUM){
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(200);
 				double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(200);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						new Number(ExUtil.randomInt(3, 17, false)),
 						new Number(numPair[1]), new Number(numPair2[0]));
@@ -35,7 +35,7 @@ public class BasicAssociativeProperty extends ExpressionGenerator {
 			else if ( difficulty == ProblemGenerator.HARD){
 				double[] numPair = ExUtil.pairOfCleanAddingNumbers(400);
 				double[] numPair2 = ExUtil.pairOfCleanAddingNumbers(200);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Addition(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						new Number(ExUtil.randomInt(31, 79, false)),
 						new Number(numPair[1]), new Number(numPair2[0]));
@@ -44,7 +44,7 @@ public class BasicAssociativeProperty extends ExpressionGenerator {
 		else{// otherwise create a problem testing the associative property of multiplication
 			if ( difficulty == ProblemGenerator.EASY) {
 				double[] numPair = ExUtil.pairOfCleanFactors(30);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(ExUtil.randomInt(2, 6, false)),
 						new Number(numPair[0]),
 						new Number(ExUtil.randomInt(3, 8, false)),
@@ -53,7 +53,7 @@ public class BasicAssociativeProperty extends ExpressionGenerator {
 			else if ( difficulty == ProblemGenerator.MEDIUM){
 				double[] numPair = ExUtil.pairOfCleanFactors(30);
 				double[] numPair2 = ExUtil.pairOfCleanFactors(20);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						new Number(ExUtil.randomInt(2, 5, false)),
 						new Number(numPair[1]), new Number(numPair2[0]));
@@ -62,13 +62,14 @@ public class BasicAssociativeProperty extends ExpressionGenerator {
 			else if ( difficulty == ProblemGenerator.HARD){
 				double[] numPair = ExUtil.pairOfCleanFactors(50);
 				double[] numPair2 = ExUtil.pairOfCleanFactors(30);
-				n = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
+				n[0] = ExUtil.randomlyStaggerOperation(new Operator.Multiplication(), 
 						new Number(numPair[0]), new Number(numPair2[1]),
 						new Number(ExUtil.randomInt(2, 5, false)),
 						new Number(numPair[1]), new Number(numPair2[0]));
 			}
 		}
-		n = ExUtil.randomlyAddParenthesis( (Expression) n, 0, 3);
+		n[0] = ExUtil.randomlyAddParenthesis( (Expression) n[0], 0, 3);
+		n[1] = n[0].smartNumericSimplify().standardFormat();
 		return n;
 	}
 

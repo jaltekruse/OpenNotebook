@@ -335,12 +335,6 @@ public abstract class Operator {
 		public Number safeEval(Vector<Number> children) {
 			Number newNum = null;
 			do{
-//				try {
-//					Thread.sleep(2);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
 				newNum = new Number( ( random.nextInt((int) ( children.get(1).getValue() -
 						children.get(0).getValue()  + 1) ) + (int) children.get(0).getValue() ) );
 			} while( newNum.getValue() == 0);
@@ -405,9 +399,10 @@ public abstract class Operator {
 	
 		@Override
 		public String format(Vector<String> children) throws NodeException {
-			if (children.size() != 1)
+			if (children.size() != getArity())
 				throwBadArguments();
-			return getSymbol() + children.get(0);
+			String s = getSymbol() + "(" + children.get(0) + ")";
+			return s;
 		}
 	
 		@Override

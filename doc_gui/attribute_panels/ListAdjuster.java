@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -23,11 +24,12 @@ import doc.attributes.AttributeException;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 public class ListAdjuster extends JPanel{
 
 	protected ListAttribute lAtt;
-	protected DocViewerPanel docPanel;
+	protected NotebookPanel notebookPanel;
 	protected JPanel parentPanel;
 	protected boolean expanded;
 	protected AdjustmentPanel last;
@@ -36,16 +38,17 @@ public class ListAdjuster extends JPanel{
 
 	private static final String NOT_EXPANDED_PIC = "notExpandedList.png", EXPANDED_PIC = "expandedList.png";
 	
-	public ListAdjuster(final ListAttribute lAtt, DocViewerPanel dvp, JPanel p){
+	public ListAdjuster(final ListAttribute lAtt, NotebookPanel notebookPanel, JPanel p){
 		this.lAtt = lAtt;
 		this.setLayout(new GridBagLayout());
 		expanded = true;
-		docPanel = dvp;
+		this.notebookPanel = notebookPanel;
 		parentPanel = p;
 		addPanelContent();
 	}
 
 	public void addPanelContent(){
+		System.out.println("start list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		this.removeAll();
 		
 		GridBagConstraints con = new GridBagConstraints();
@@ -88,10 +91,11 @@ public class ListAdjuster extends JPanel{
 		pcon.weightx = 1;
 		pcon.weighty = 1;
 		int index = 0;
+		JPanel p;
 		for ( MathObjectAttribute mAtt : (Vector<MathObjectAttribute>) lAtt.getValues()){
-			JPanel p = new JPanel();
+			p = new JPanel();
 			p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
-			last = ObjectPropertiesFrame.getAdjuster(mAtt, docPanel, p);
+			last = ObjectPropertiesFrame.getAdjuster(mAtt, notebookPanel, p);
 			p.add(last);
 			p.add(Box.createRigidArea(new Dimension(3,0)));
 			JButton button = new JButton("x");
@@ -112,12 +116,15 @@ public class ListAdjuster extends JPanel{
 			public void actionPerformed(ActionEvent ev) {
 				try {
 					lAtt.addNewValue();
-					if ( lAtt.getParentObject() != null)
-					{// forces the object property frame to be layed out again
-						docPanel.setFocusedObject(lAtt.getParentObject());
-					}
-					docPanel.updateObjectToolFrame();
-					docPanel.repaint();
+//					if ( lAtt.getParentObject() != null)
+//					{// forces the object property frame to be layed out again
+//						notebookPanel.getCurrentDocViewer().setFocusedObject(lAtt.getParentObject());
+//					}
+//					notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
+//					notebookPanel.getCurrentDocViewer().repaintDoc();
+					addPanelContent();
+					notebookPanel.getCurrentDocViewer().propertiesFrameRefacoringNeeded = true;
+					notebookPanel.getCurrentDocViewer().repaintDoc();
 				} catch (AttributeException e) {
 					// TODO Auto-generated catch block
 					if (!showingDialog){
@@ -133,7 +140,8 @@ public class ListAdjuster extends JPanel{
 			
 		});
 		this.add(addButton, con);
-		this.revalidate();
+//		this.revalidate();
+		System.out.println("finish list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 	}
 	
 	private class CloseButtonListener implements ActionListener{
@@ -147,12 +155,15 @@ public class ListAdjuster extends JPanel{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			lAtt.removeValue(index);
-			if ( lAtt.getParentObject() != null)
-			{// forces the object property frame to be layed out again
-				docPanel.setFocusedObject(lAtt.getParentObject());
-			}
-			docPanel.updateObjectToolFrame();
-			docPanel.repaint();
+			addPanelContent();
+			notebookPanel.getCurrentDocViewer().propertiesFrameRefacoringNeeded = true;
+			notebookPanel.getCurrentDocViewer().repaintDoc();
+//			if ( lAtt.getParentObject() != null)
+//			{// forces the object property frame to be layed out again
+//				notebookPanel.getCurrentDocViewer().setFocusedObject(lAtt.getParentObject());
+//			}
+//			notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
+//			notebookPanel.getCurrentDocViewer().repaintDoc();
 		}
 		
 	}
@@ -163,7 +174,7 @@ public class ListAdjuster extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			expanded = false;
 			addPanelContent();
-			docPanel.repaint();
+			notebookPanel.getCurrentDocViewer().repaintDoc();
 		}
 		
 	}
@@ -174,7 +185,7 @@ public class ListAdjuster extends JPanel{
 		public void actionPerformed(ActionEvent e) {
 			expanded = true;
 			addPanelContent();
-			docPanel.repaint();
+			notebookPanel.getCurrentDocViewer().repaintDoc();
 		}
 		
 	}
@@ -185,6 +196,13 @@ public class ListAdjuster extends JPanel{
 	
 	public ListAttribute getList(){
 		return lAtt;
+	}
+	
+	public void setList(ListAttribute list){
+		lAtt = list;
+		addPanelContent();
+		notebookPanel.getCurrentDocViewer().propertiesFrameRefacoringNeeded = true;
+//		notebookPanel.getCurrentDocViewer().repaintDoc();
 	}
 
 	public void updateData(){

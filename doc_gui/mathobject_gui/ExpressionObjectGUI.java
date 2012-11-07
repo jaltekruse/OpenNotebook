@@ -59,6 +59,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			int currentIndex = 0;
 			Vector<RootNodeGraphic> expressions = new Vector<RootNodeGraphic>();
 
+			// add the expression
 			rootGraphic = new RootNodeGraphic(n);
 			try {
 				n = Node.parseNode(object.getExpression());
@@ -79,9 +80,19 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 				greatestWidth = errorMessageWidth;
 			}
 
+			Vector<StringAttribute> steps = (Vector<StringAttribute>)
+					object.getListWithName(ExpressionObject.STEPS).getValues();
+			// add all of the correct answers to the list of steps (prevents need for another loop
+			// they are removed from the list after the following loop
+			for (StringAttribute strAtt : object.getCorrectAnswers()){
+				if ( ! strAtt.getValue().equals("")){
+					steps.add(strAtt);
+				}
+			}
+
+			// add the steps to the list of expressions to render
 			String s;
-			for (StringAttribute mAtt : (Vector<StringAttribute>)
-					object.getListWithName(ExpressionObject.STEPS).getValues()){
+			for (StringAttribute mAtt : steps){
 				s = mAtt.getValue();
 				currentIndex++;
 				totalHeight += stepBufferSpace;
@@ -105,6 +116,9 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					yPosOfSteps.add(outerBufferSpace + yOrigin + totalHeight);
 				}
 			}
+			// remove the correct answers, so they are not permanently added as steps
+			steps.removeAll(object.getCorrectAnswers());
+
 			if ( object.getColor() != null){
 				g.setColor(object.getColor());
 			}
@@ -115,6 +129,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					totalHeight + 2 * outerBufferSpace);
 			g.setColor(Color.BLACK);
 			int index = 0;
+			int numberOfSteps = steps.size() + 1;
 			for (RootNodeGraphic r : expressions){
 				try {
 					if ( indeciesInError.contains(index)){
@@ -122,14 +137,20 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 						g.setColor(Color.RED);
 						g.drawString(EX_ERROR, xOrigin + outerBufferSpace,
 								yPosOfSteps.get(index) + errorMessageHeight);
+						g.setColor(Color.BLACK);
 						index++;
 						continue;
 					}
 					else{
+						if ( index >= numberOfSteps)
+						{// draw the answers with a highlight
+							g.setColor(new Color(180, 255, 100));
+							g.fillRect(r.xPos - 4, r.yPos - 4, r.getWidth() + 8, r.getHeight() + 8);
+							g.setColor(Color.BLACK);
+						}
 						r.draw();
 					}
 				} catch (NodeException e) {
-					// TODO Auto-generated catch block
 					g.setFont(new Font("SansSerif", 0, fontSize));
 					g.setColor(Color.RED);
 					g.drawString(EX_ERROR, r.xPos, r.yPos + errorMessageHeight);
