@@ -56,11 +56,14 @@ public class GeneratedProblem extends Grouping {
 	
 	private void addGeneratedProblemAttibutes(){
 		addList(new ListAttribute<UUIDAttribute>(GEN_LIST,
-				new UUIDAttribute(""), 20, false, false));
+				new UUIDAttribute(""), 20, true, false));
 		// the next line for adding UUID_STR as an attribute was commented out
 		// it broke the JAVA based expression problem generators
 		// I uncommented it, but I don't remember why I commented it out origionally
-		addAttribute(new UUIDAttribute(UUID_STR, false, false));
+		
+		// figured it out, this was replaced with the list above, leaving it in broke the parsing
+		// of the generated problems created from VarValInsertionProblems
+		//addAttribute(new UUIDAttribute(UUID_STR, false, false));
 		addAttribute(new IntegerAttribute(DIFFICULTY, false));
 	}
 

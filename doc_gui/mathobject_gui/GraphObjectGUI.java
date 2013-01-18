@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.util.Vector;
 
 import doc.GridPoint;
 import doc.attributes.GridPointAttribute;
@@ -58,9 +59,17 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 			}
 			colorIndex++;
 		}
+		//graph.lineGraph.linePoints = object.getPoints();
+		graph.lineGraph.linePoints.removeAllElements();
 		for ( GridPointAttribute pt : object.getPoints()){
 			if ( pt != null){
 				graph.addPoint(pt.getValue().getx(), pt.getValue().gety());
+			}
+		}
+		graph.lineGraph.setColor(object.getLineGraphColor());
+		for ( GridPointAttribute pt : object.getLineGraphPoints().getValues()){
+			if ( pt != null){
+				graph.lineGraph.linePoints.add(new GridPoint(pt.getValue().getx(), pt.getValue().gety()));
 			}
 		}
 		

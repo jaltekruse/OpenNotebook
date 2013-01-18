@@ -1,14 +1,17 @@
 package doc_gui.attribute_panels;
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 
 import doc.attributes.EnumeratedAttribute;
 import doc_gui.DocViewerPanel;
@@ -18,7 +21,7 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 
 	public static final int COMBO_BOX = 1, RADIO_BUTTON_ROW = 2, RADIO_BUTTON_COLOUMN = 3;
 
-	private int displayFormat = 1;
+	private int displayFormat = 2;
 
 	/**
 	 * Constructor for panel to adjust an EnumeratedAttribute.
@@ -72,15 +75,52 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 				@Override
 				public void actionPerformed(ActionEvent ev) {
 					mAtt.setValue((String)valueChoices.getSelectedItem());
-					notebookPanel.getCurrentDocViewer().addUndoState();
-					notebookPanel.getCurrentDocViewer().repaintDoc();
+					if ( notebookPanel != null){
+						notebookPanel.getCurrentDocViewer().addUndoState();
+						notebookPanel.getCurrentDocViewer().repaintDoc();
+					}
 				}
 
 			});
 			this.add(valueChoices, con);
 		}
 		else if ( displayFormat == RADIO_BUTTON_ROW){
+			setLayout(new GridBagLayout());
+			GridBagConstraints con = new GridBagConstraints();
+			con.fill = GridBagConstraints.HORIZONTAL;
+			con.weightx = .1;
+			con.gridwidth = mAtt.getPossibleValues().length;
+			con.gridx = 0;
+			con.gridy = 0;
+			con.insets = new Insets(2, 2, 2, 2);
+			Font f = new Font("Arial", Font.PLAIN, 12);
+			JLabel label = new JLabel(mAtt.getName());
+			label.setFont(f);
+			add(label, con);
+			con.gridwidth = 1;
+			con.weightx = 1;
+			con.gridy++;
 			
+			final ButtonGroup group = new ButtonGroup();
+			for ( String s : mAtt.getPossibleValues()){
+				final JRadioButton button = new JRadioButton(s);
+				button.addActionListener(new ActionListener(){
+	
+					@Override
+					public void actionPerformed(ActionEvent ev) {
+						mAtt.setValue(button.getName());
+						if ( notebookPanel != null){
+							notebookPanel.getCurrentDocViewer().addUndoState();
+							notebookPanel.getCurrentDocViewer().repaintDoc();
+						}
+					}
+	
+				});
+				button.setFont(f);
+				this.add(button, con);
+				group.add(button);
+				con.gridx++;
+			}
 		}
 		else if ( displayFormat == RADIO_BUTTON_COLOUMN){
 

@@ -1,6 +1,8 @@
 package doc.expression_generators;
 
 import doc.attributes.AttributeException;
+import doc.attributes.ListAttribute;
+import doc.attributes.UUIDAttribute;
 import doc.mathobjects.ExpressionObject;
 import doc.mathobjects.GeneratedProblem;
 import doc.mathobjects.MathObjectContainer;
@@ -32,7 +34,9 @@ public abstract class ExpressionGenerator extends ProblemGenerator implements Cl
 		ExpressionObject expressionObj = new ExpressionObject();
 		try {
 			newProblem.setDifficulty(difficulty);
-			newProblem.setAttributeValue(UUID_STR, this.getProblemID());
+			newProblem.getListWithName(GeneratedProblem.GEN_LIST).getValues().removeAllElements();
+			((ListAttribute<UUIDAttribute>)newProblem.getListWithName(GeneratedProblem.GEN_LIST))
+					.addValueWithString(getProblemID().toString());
 			Node[] n = generateExpression(difficulty);
 			expressionObj.setExpression(n[0].toStringRepresentation());
 			expressionObj.addCorrectAnswer(n[1].toStringRepresentation());

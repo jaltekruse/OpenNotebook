@@ -42,7 +42,11 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 			}
 		}
 		else{
-			field.setText(mAtt.getValue().toString());
+			if ( mAtt.getValue() == null){
+				field.setText("");
+			}
+			else
+				field.setText(mAtt.getValue().toString());
 		}
 		field.setCaretPosition(0);
 	}
@@ -70,7 +74,11 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 			}
 		}
 		else{
-			field.setText(mAtt.getValue().toString());
+			if ( mAtt.getValue() == null){
+				field.setText("");
+			}
+			else
+				field.setText(mAtt.getValue().toString());
 		}
 		field.addFocusListener(new FocusListener(){
 

@@ -310,7 +310,7 @@ public class DocReader extends DefaultHandler {
 			String qName, Attributes atts){
 		boolean justAddedAttribute = true;
 
-		if (DEBUG){
+		if (true || DEBUG){
 			System.out.println("check tag " + atts.getValue("name") + " " +
 					"To see if it is an attribute");
 		}
@@ -334,6 +334,9 @@ public class DocReader extends DefaultHandler {
 			justAddedAttribute = false;
 		}
 		if (justAddedAttribute){
+			if (DEBUG){
+				System.out.println("attribute not in error, trying to add it");
+			}
 			try {
 				if ( mObj instanceof GraphObject && atts.getValue(
 						"name").equalsIgnoreCase(GraphObject.EXPRESSION))

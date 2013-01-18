@@ -117,23 +117,29 @@ public abstract class GraphComponent {
 		int screenY1 = gridyToScreen(y1);
 		int screenY2 = gridyToScreen(y2);
 		
+		double slope = (y1-y2)/(x1-x2);
+		
 		if (Double.isNaN(x1) || Double.isNaN(x2) || Double.isNaN(y1) || Double.isNaN(y2)){
 			return;
 		}
 		if (x1 > graph.X_MAX){
 			screenX1 = graph.X_PIC_ORIGIN + graph.X_SIZE;
+			screenY1 = gridyToScreen(y1 - slope * (x1 - graph.X_MAX));
 		}
 		if 	(x2 > graph.X_MAX){
 			screenX2 = graph.X_PIC_ORIGIN + graph.X_SIZE;
+			screenY2 = gridyToScreen(y2 - slope * (x2 - graph.X_MAX));
 			if (screenX2 == screenX1){//they were both offscreen
 				return;
 			}
 		}
 		if (x1 < graph.X_MIN){
 			screenX1 = graph.X_PIC_ORIGIN;
+			screenY1 = gridyToScreen(y1 + slope * (graph.X_MIN - x1));
 		}
 		if 	(x2 < graph.X_MIN){
 			screenX2 = graph.X_PIC_ORIGIN;
+			screenY2 = gridyToScreen(y2 + slope * (graph.X_MIN - x2));
 			if (screenX2 == screenX1){//they were both offscreen
 				return;
 			}
@@ -141,9 +147,11 @@ public abstract class GraphComponent {
 		
 		if (y1 < graph.Y_MIN){
 			screenY1 = graph.Y_PIC_ORIGIN + graph.Y_SIZE;
+			//screenX1 = gridxToScreen(x1 + slope * (graph.Y_MIN - y1));
 		}
 		if 	(y2 < graph.Y_MIN){
 			screenY2 = graph.Y_PIC_ORIGIN + graph.Y_SIZE;
+			//screenX2 = gridxToScreen(x2 + slope * (graph.Y_MIN - y2));
 			if (screenY2 == screenY1){//they were both offscreen
 				return;
 			}

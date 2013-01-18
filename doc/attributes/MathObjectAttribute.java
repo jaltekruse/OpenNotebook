@@ -122,6 +122,7 @@ public abstract class MathObjectAttribute<K> {
 	}
 
 	public String exportToXML(){
+		System.out.println(getName());
 		return "\t<" + getType() + " " + NAME + "=\"" + getName()
 				+ "\" " + VALUE + "=\"" + formatForXML(getValue().toString()) + "\"/>\n";
 	}

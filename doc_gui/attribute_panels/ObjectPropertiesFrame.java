@@ -325,7 +325,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 
 		con.fill = GridBagConstraints.BOTH;
 		for (MathObjectAttribute mAtt : o.getAttributes()){
-			if ( ( notebookPanel.isInStudentMode() && mAtt.isStudentEditable() ) ||
+			if ( notebookPanel.isInStudentMode() && mAtt.isStudentEditable() ||
 					( ! notebookPanel.isInStudentMode() && mAtt.isUserEditable()) )
 			{// only show editing dialog if in teacher mode (not student)
 				//or if the attribute has been left student editable

@@ -8,10 +8,12 @@
 
 package doc.mathobjects;
 
+import java.awt.Color;
 import java.util.Vector;
 
 import doc.attributes.AttributeException;
 import doc.attributes.BooleanAttribute;
+import doc.attributes.ColorAttribute;
 import doc.attributes.DoubleAttribute;
 import doc.attributes.GridPointAttribute;
 import doc.attributes.IntegerAttribute;
@@ -26,7 +28,7 @@ public class GraphObject extends MathObject {
 			X_STEP = "xStep", Y_STEP = "yStep",
 			SHOW_AXIS = "show axis", SHOW_NUMBERS = "show numbers",
 			SHOW_GRID = "show grid", EXPRESSIONS = "Expressions",
-			POINTS = "points";
+			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -37,19 +39,15 @@ public class GraphObject extends MathObject {
 		setDefaults();
 		addGraphActions();
 		getListWithName(POINTS).removeAll();
+		getListWithName(LINE_GRAPH).removeAll();
 	}
 	
 	public GraphObject(MathObjectContainer p){
-		super(p);
-		setDefaults();
-		addGraphActions();
-		getListWithName(POINTS).removeAll();
+		this(p, 0,0,0,0);
 	}
 	
 	public GraphObject() {
-		setDefaults();
-		addGraphActions();
-		getListWithName(POINTS).removeAll();
+		this(null, 0,0,0,0);
 	}
 	
 	public boolean isStudentSelectable(){
@@ -72,7 +70,9 @@ public class GraphObject extends MathObject {
 			addList(new ListAttribute<StringAttribute>(EXPRESSIONS,
 					new StringAttribute(EXPRESSION), 6, true, false));
 			addList(new ListAttribute<GridPointAttribute>(POINTS,
-					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 6, true, false));
+					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
+			addList(new ListAttribute<GridPointAttribute>(LINE_GRAPH,
+					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");
 			addAttribute(new DoubleAttribute(X_MAX, -7E8, 7E8, true, true));
@@ -81,21 +81,122 @@ public class GraphObject extends MathObject {
 			getAttributeWithName(Y_MIN).setValueWithString("-5");
 			addAttribute(new DoubleAttribute(Y_MAX, -7E8, 7E8, true, true));
 			getAttributeWithName(Y_MAX).setValueWithString("5");
-			addAttribute(new DoubleAttribute("xStep", -3E8, 3E8, true, true));
-			getAttributeWithName("xStep").setValueWithString("1");
-			addAttribute(new DoubleAttribute("yStep", -3E8, 3E8, true, true));
-			getAttributeWithName("yStep").setValueWithString("1");
+			addAttribute(new DoubleAttribute(X_STEP, -3E8, 3E8, true, true));
+			getAttributeWithName(X_STEP).setValueWithString("1");
+			addAttribute(new DoubleAttribute(Y_STEP, -3E8, 3E8, true, true));
+			getAttributeWithName(Y_STEP).setValueWithString("1");
 			addAttribute(new IntegerAttribute(FONT_SIZE, 1, 20));
 			getAttributeWithName(FONT_SIZE).setValueWithString("8");
-			addAttribute(new BooleanAttribute("showAxis"));
-			getAttributeWithName("showAxis").setValue(true);
-			addAttribute(new BooleanAttribute("showNumbers"));
-			getAttributeWithName("showNumbers").setValue(true);
-			addAttribute(new BooleanAttribute("showGrid"));
-			getAttributeWithName("showGrid").setValue(true);
+			addAttribute(new BooleanAttribute(SHOW_AXIS));
+			getAttributeWithName(SHOW_AXIS).setValue(true);
+			addAttribute(new BooleanAttribute(SHOW_NUMBERS));
+			getAttributeWithName(SHOW_NUMBERS).setValue(true);
+			addAttribute(new BooleanAttribute(SHOW_GRID));
+			getAttributeWithName(SHOW_GRID).setValue(true);
+			addAttribute(new ColorAttribute(LINE_GRAPH_COLOR));
+			getAttributeWithName(LINE_GRAPH_COLOR).setValue(Color.BLUE);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+	}
+	
+	public void autoAdjustGrid(){
+		
+		Double xMin =   (Double) getAttributeWithName(GraphObject.X_MIN).getValue();
+		Double xMax =   (Double) getAttributeWithName(GraphObject.X_MAX).getValue();
+		Double yMin =   (Double)getAttributeWithName(GraphObject.Y_MIN).getValue();
+		Double yMax =   (Double)getAttributeWithName(GraphObject.Y_MAX).getValue();
+		double xStep = (Double) getAttributeWithName(GraphObject.X_STEP).getValue();
+		double yStep = (Double) getAttributeWithName(GraphObject.Y_STEP).getValue();
+		int fontSize = (Integer) getAttributeWithName(GraphObject.FONT_SIZE).getValue();
+		boolean showAxis = (Boolean) getAttributeWithName(GraphObject.SHOW_AXIS).getValue();
+		boolean showGrid = (Boolean) getAttributeWithName(GraphObject.SHOW_GRID).getValue();
+		boolean showNumbers = (Boolean) getAttributeWithName(GraphObject.SHOW_NUMBERS).getValue();
+		
+		if((xMax-xMin)/xStep >= 15)
+		{
+			if ((xMax-xMin)/15 > 1)
+				xStep = (int)((xMax-xMin)/14);
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((xMax-xMin)/20/Math.pow(.5, i) < .7)
+						xStep = Math.pow(.5, i);
+				}
+			}
+		}
+
+		else if((xMax-xMin)/xStep < 7){
+			if ((xMax-xMin)/7 > 1)
+				xStep = (int)((xMax-xMin)/10);
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((xMax-xMin)/20 < Math.pow(.5, i))
+						xStep = Math.pow(.5, i);
+				}
+			}
+		}
+
+		if((yMax-yMin)/yStep >= 15)
+		{
+			if ((yMax-yMin)/15 > 1)
+			{
+				yStep = (int)((yMax-yMin)/10);
+			}
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((yMax-yMin)/20/Math.pow(.5, i) < .7)
+						yStep = Math.pow(.5, i);
+				}
+			}
+		}
+
+		else if((yMax-yMin)/yStep < 7){
+			if ((yMax-yMin)/7 > 1)
+				yStep = (int)((yMax-yMin)/10);
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((yMax-yMin)/20 < Math.pow(.5, i))
+						yStep = Math.pow(.5, i);
+				}
+			}
+		}
+		
+		getAttributeWithName(X_MIN).setValue(xMin);
+		getAttributeWithName(X_MAX).setValue(xMax);
+		getAttributeWithName(Y_MIN).setValue(yMin);
+		getAttributeWithName(Y_MAX).setValue(yMax);
+		getAttributeWithName(X_STEP).setValue(xStep);
+		getAttributeWithName(Y_STEP).setValue(yStep);
+		getAttributeWithName(FONT_SIZE).setValue(fontSize);
+		getAttributeWithName(SHOW_AXIS).setValue(showAxis);
+		getAttributeWithName(SHOW_GRID).setValue(showGrid);
+		getAttributeWithName(SHOW_NUMBERS).setValue(showNumbers);
+	}
+	
+	// synconizes the attribute values of two graphs so they are showing the
+	// same ranges of values in the x and y direction
+	public void syncGridWithOtherGraph(GraphObject o) {
+		
+		// deliberately bypassing method for setting value within object ot prevent collisions
+		// where setting the minimum or maximum first from the other objects value will throw
+		// an error because it is on the wrong side of the current other extrema of the graph
+		
+		// this method has been modified for use within the fitness app, where the y values are supposed
+		// to scale differently but I also want to x values to always line up
+		
+		// TODO - move this functionality up to MathObject, send a list of attribute to sync along with an
+		// object to sync up
+		
+		getAttributeWithName(X_MAX).setValue(o.getxMax());
+		getAttributeWithName(X_MIN).setValue(o.getxMin());
+		//getAttributeWithName(Y_MAX).setValue(o.getyMax());
+		//getAttributeWithName(Y_MIN).setValue(o.getyMin());
+		getAttributeWithName(X_STEP).setValue(o.getxStep());
+		//getAttributeWithName(Y_STEP).setValue(o.getyStep());
 	}
 
 	@Override
@@ -121,33 +222,39 @@ public class GraphObject extends MathObject {
 		else if (s.equals(MOVE_RIGHT)){
 			shiftGraph(10, 0);
 		}
+		this.autoAdjustGrid();
 	}
 	
-	private void zoom(double rate){
+	public void zoom(double rate){
+		zoom(rate,rate);
+	}
+	
+	public void zoom(double xRate, double yRate){
 		double xMin = getxMin(), yMin = getyMin(), xMax = getxMax(), yMax = getyMax();
 		
 		//hacked solution to prevent drawing the grid, the auto-rescaling of the 
 		//grid stops working after the numbers get too big
 		if (xMin < -7E8 || xMax > 7E8 || yMin < -7E8 || yMax > 7E8){
-			if (rate < 100)
+			if (xRate < 100 || yRate < 100)
 			{//if the user is trying to zoom out farther, do nothing
 				return;
 			}
 		}
 		
 		try {
-			setxMin( xMin - (xMax-xMin) * (100-rate) / 100 );
-			setxMax( xMax + (xMax-xMin) * (100-rate) / 100 );
-			setyMin( yMin - (yMax-yMin) * (100-rate) / 100 );
-			setyMax( yMax + (yMax-yMin) * (100-rate) / 100 );
+			setxMin( xMin - (xMax-xMin) * (100-xRate) / 100 );
+			setxMax( xMax + (xMax-xMin) * (100-xRate) / 100 );
+			if ( yRate != 0 ){
+				setyMin( yMin - (yMax-yMin) * (100-yRate) / 100 );
+				setyMax( yMax + (yMax-yMin) * (100-yRate) / 100 );
+			}
 		} catch (AttributeException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
 	
-	private void shiftGraph(int xPercent, int yPercent){
+	public void shiftGraph(int xPercent, int yPercent){
 		double xMin = getxMin(), yMin = getyMin(), xMax = getxMax(), yMax = getyMax();
 		try{
 			setxMin( xMin + ((double)xPercent/100) * (xMax - xMin) );
@@ -159,6 +266,14 @@ public class GraphObject extends MathObject {
 		}
 	}
 	
+	public double getxStep(){
+		return ((DoubleAttribute) getAttributeWithName(X_STEP)).getValue();
+	}
+	
+	public double getyStep(){
+		return ((DoubleAttribute) getAttributeWithName(Y_STEP)).getValue();
+	}
+
 	public double getxMin(){
 		return ((DoubleAttribute) getAttributeWithName(X_MIN)).getValue();
 	}
@@ -175,12 +290,28 @@ public class GraphObject extends MathObject {
 		return ((DoubleAttribute) getAttributeWithName(Y_MAX)).getValue();
 	}
 	
+	public Color getLineGraphColor(){
+		return ((ColorAttribute) getAttributeWithName(LINE_GRAPH_COLOR)).getValue();
+	}
+	
 	public void addExpression(String s) throws AttributeException{
 		getListWithName(EXPRESSIONS).addValueWithString(s);
+	}
+
+	public void setLineGraphColor(Color c) throws AttributeException{
+		setAttributeValue(LINE_GRAPH_COLOR, c);
 	}
 	
 	public void setxMin(double d) throws AttributeException{
 		setAttributeValue(X_MIN, d);
+	}
+	
+	public void setxStep(double d) throws AttributeException{
+		setAttributeValue(X_STEP, d);
+	}
+	
+	public void setyStep(double d) throws AttributeException{
+		setAttributeValue(Y_STEP, d);
 	}
 	
 	public void setyMin(double d) throws AttributeException{
@@ -201,6 +332,10 @@ public class GraphObject extends MathObject {
 	
 	public Vector<GridPointAttribute> getPoints(){
 		return (Vector<GridPointAttribute>) getListWithName(POINTS).getValues();
+	}
+	
+	public ListAttribute<GridPointAttribute> getLineGraphPoints(){
+		return (ListAttribute<GridPointAttribute>) getListWithName(LINE_GRAPH);
 	}
 	
 	@Override

@@ -19,6 +19,7 @@ import java.util.Vector;
 import tree.EvalException;
 import tree.ExpressionParser;
 import tree.ParseException;
+import doc.GridPoint;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.DoubleAttribute;
 import doc.attributes.IntegerAttribute;
@@ -35,6 +36,8 @@ public class Graph {
 //	private BufferedImage graphPic;
 	private Vector<SingleGraph> singleGraphs;
 	private Vector<PointOnGrid> freePoints;
+	public LineGraph lineGraph;
+	public BarGraph barGraph;
 	private CartAxis cartAxis;
 	private SelectionGraphic selectionGraphic;
 	private DragDisk dragDisk;
@@ -47,6 +50,18 @@ public class Graph {
 //		graphCalcGraphics = new GraphCalculationGraphics(this);
 		singleGraphs = new Vector<SingleGraph>();
 		parser = new ExpressionParser();
+		Vector<GridPoint> linePts = new Vector<GridPoint>();
+		barGraph = new BarGraph(this);
+		barGraph.values.add(10.0);
+		barGraph.values.add(50.0);
+		barGraph.values.add(80.0);
+		barGraph.values.add(100.0);
+		try {
+			lineGraph = new LineGraph(this, Color.BLUE, linePts);
+		} catch (NodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void repaint(Graphics g, int xSize, int ySize) throws EvalException, ParseException{
@@ -78,16 +93,16 @@ public class Graph {
 		if (Y_SIZE == 0){
 			Y_SIZE = 1;
 		}
-		X_MIN = ((DoubleAttribute)gObj.getAttributeWithName("xMin")).getValue();
-		X_MAX = ((DoubleAttribute)gObj.getAttributeWithName("xMax")).getValue();
-		Y_MIN = ((DoubleAttribute)gObj.getAttributeWithName("yMin")).getValue();
-		Y_MAX = ((DoubleAttribute)gObj.getAttributeWithName("yMax")).getValue();
-		X_STEP = ((DoubleAttribute)gObj.getAttributeWithName("xStep")).getValue();
-		Y_STEP = ((DoubleAttribute)gObj.getAttributeWithName("yStep")).getValue();
-		FONT_SIZE = ((IntegerAttribute)gObj.getAttributeWithName("font size")).getValue();
-		SHOW_AXIS = ((BooleanAttribute)gObj.getAttributeWithName("showAxis")).getValue();
-		SHOW_GRID = ((BooleanAttribute)gObj.getAttributeWithName("showGrid")).getValue();
-		SHOW_NUMBERS = ((BooleanAttribute)gObj.getAttributeWithName("showNumbers")).getValue();
+		X_MIN =		(Double) gObj.getAttributeWithName(GraphObject.X_MIN).getValue();     
+		X_MAX =		(Double) gObj.getAttributeWithName(GraphObject.X_MAX).getValue();     
+		Y_MIN =		(Double) gObj.getAttributeWithName(GraphObject.Y_MIN).getValue();      
+		Y_MAX =		(Double) gObj.getAttributeWithName(GraphObject.Y_MAX).getValue();      
+		X_STEP =	(Double) gObj.getAttributeWithName(GraphObject.X_STEP).getValue();     
+		Y_STEP =	(Double) gObj.getAttributeWithName(GraphObject.Y_STEP).getValue();     
+		FONT_SIZE = (Integer) gObj.getAttributeWithName(GraphObject.FONT_SIZE).getValue(); 
+		SHOW_AXIS = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_AXIS).getValue();
+		SHOW_GRID = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_GRID).getValue();
+		SHOW_NUMBERS = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_NUMBERS).getValue();
 		X_PIXEL = (X_MAX - X_MIN) / X_SIZE;
 		Y_PIXEL = (Y_MAX - Y_MIN) / Y_SIZE;
 		NUM_FREQ = 2;
@@ -102,16 +117,16 @@ public class Graph {
 			Y_SIZE = 1;
 			((DoubleAttribute)gObj.getAttributeWithName("width")).setValue((double)Y_SIZE);
 		}
-		((DoubleAttribute)gObj.getAttributeWithName("xMin")).setValue(X_MIN);
-		((DoubleAttribute)gObj.getAttributeWithName("xMax")).setValue(X_MAX);
-		((DoubleAttribute)gObj.getAttributeWithName("yMin")).setValue(Y_MIN);
-		((DoubleAttribute)gObj.getAttributeWithName("yMax")).setValue(Y_MAX);
-		((DoubleAttribute)gObj.getAttributeWithName("xStep")).setValue(X_STEP);
-		((DoubleAttribute)gObj.getAttributeWithName("yStep")).setValue(Y_STEP);
-		((IntegerAttribute)gObj.getAttributeWithName("font size")).setValue(FONT_SIZE);
-		((BooleanAttribute)gObj.getAttributeWithName("showAxis")).setValue(SHOW_AXIS);
-		((BooleanAttribute)gObj.getAttributeWithName("showGrid")).setValue(SHOW_GRID);
-		((BooleanAttribute)gObj.getAttributeWithName("showNumbers")).setValue(SHOW_NUMBERS);
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.X_MIN)).setValue(X_MIN);        
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.X_MAX)).setValue(X_MAX);        
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.Y_MIN)).setValue(Y_MIN);        
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.Y_MAX)).setValue(Y_MAX);        
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.X_STEP)).setValue(X_STEP);       
+		((DoubleAttribute) gObj.getAttributeWithName(GraphObject.Y_STEP)).setValue(Y_STEP);       
+		((IntegerAttribute) gObj.getAttributeWithName(GraphObject.FONT_SIZE)).setValue(FONT_SIZE);   
+		((BooleanAttribute) gObj.getAttributeWithName(GraphObject.SHOW_AXIS)).setValue(SHOW_AXIS);   
+		((BooleanAttribute) gObj.getAttributeWithName(GraphObject.SHOW_GRID)).setValue(SHOW_GRID);   
+		((BooleanAttribute) gObj.getAttributeWithName(GraphObject.SHOW_NUMBERS)).setValue(SHOW_NUMBERS);
 	}
 	
 	public void repaint(Graphics g, int xSize, int ySize, float docZoomLevel,
@@ -163,6 +178,8 @@ public class Graph {
 			}
 		}
 		
+		lineGraph.draw(g);
+		
 //		graphCalcGraphics.draw(g);
 		
 		if (selectionGraphic != null){
@@ -179,6 +196,18 @@ public class Graph {
 			} catch (ParseException e) {
 				hadError = true;
 			}
+		}
+		try {
+			barGraph.draw(g);
+		} catch (EvalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 //		graphCalcGraphics.drawInfoBoxes(g);
 		
@@ -211,6 +240,70 @@ public class Graph {
 	public int gridyToScreen(double y){
 		return (Y_SIZE) - (int) Math.round((y - Y_MIN) / Y_PIXEL)
 				+ Y_PIC_ORIGIN;
+	}
+	
+	public void autoAdjustGrid(){
+		if((X_MAX-X_MIN)/X_STEP >= 20)
+		{
+			if ((X_MAX-X_MIN)/20 > 1)
+			{
+				X_STEP = (int)((X_MAX-X_MIN)/14);
+			}
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((X_MAX-X_MIN)/20/Math.pow(.5, i) < .7){
+						X_STEP = Math.pow(.5, i);
+					}
+				}
+			}
+		}
+
+		else if((X_MAX-X_MIN)/X_STEP < 14){
+			if ((X_MAX-X_MIN)/14 > 1)
+			{
+				X_STEP = (int)((X_MAX-X_MIN)/10);
+			}
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((X_MAX-X_MIN)/20 < Math.pow(.5, i)){
+						X_STEP = Math.pow(.5, i);
+					}
+				}
+			}
+		}
+
+		if((Y_MAX-Y_MIN)/Y_STEP >= 20)
+		{
+			if ((Y_MAX-Y_MIN)/20 > 1)
+			{
+				Y_STEP = (int)((Y_MAX-Y_MIN)/14);
+			}
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((Y_MAX-Y_MIN)/20/Math.pow(.5, i) < .7){
+						Y_STEP = Math.pow(.5, i);
+					}
+				}
+			}
+		}
+
+		else if((Y_MAX-Y_MIN)/Y_STEP < 14){
+			if ((Y_MAX-Y_MIN)/14 > 1)
+			{
+				Y_STEP = (int)((Y_MAX-Y_MIN)/10);
+			}
+			else
+			{
+				for (int i = 0; i < 25; i ++){
+					if ((Y_MAX-Y_MIN)/20 < Math.pow(.5, i)){
+						Y_STEP = Math.pow(.5, i);
+					}
+				}
+			}
+		}
 	}
 	
 	public void drawErrorMessage(Graphics g, int xSize, int ySize,

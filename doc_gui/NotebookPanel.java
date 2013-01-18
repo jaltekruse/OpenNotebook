@@ -851,6 +851,7 @@ public class NotebookPanel extends SubPanel {
 			}
 		} catch (Exception e) {
 			try {
+				e.printStackTrace();
 				f.flush();
 				f.close();
 			} catch (IOException e1) {
