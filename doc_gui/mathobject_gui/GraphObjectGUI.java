@@ -16,33 +16,35 @@ import java.awt.Point;
 import java.util.Vector;
 
 import doc.GridPoint;
+import doc.attributes.DoubleAttribute;
 import doc.attributes.GridPointAttribute;
 import doc.attributes.StringAttribute;
 import doc.mathobjects.GraphObject;
 import doc_gui.graph.Graph;
+import doc_gui.graph.Selection;
 import doc_gui.graph.GraphedCartFunction;
 import expression.NodeException;
 
 public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 
 	private Graph graph;
-	
+
 	public static final Color[] graphColors = {Color.BLUE.darker().darker(), Color.GREEN.darker().darker(),
 		Color.RED.darker().darker(), Color.MAGENTA, Color.ORANGE, Color.BLACK};
-	
+
 	public GraphObjectGUI(){
 		graph = new Graph();
 	}
-	
+
 	public void drawMathObject(GraphObject object, Graphics g,
 			Point pageOrigin, float zoomLevel) {
 		// TODO Auto-generated method stub
-		
+
 		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
 		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
 		int width = (int) (object.getWidth() * zoomLevel);
 		int height = (int) (object.getHeight() * zoomLevel);
-		
+
 		graph.removeAllSingleGraphs();
 		graph.removeAllPoints();
 		int colorIndex = 0;
@@ -61,20 +63,30 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 		}
 		//graph.lineGraph.linePoints = object.getPoints();
 		graph.lineGraph.linePoints.removeAllElements();
+		graph.removeAllPoints();
 		for ( GridPointAttribute pt : object.getPoints()){
 			if ( pt != null){
 				graph.addPoint(pt.getValue().getx(), pt.getValue().gety());
 			}
 		}
+		graph.barGraph.values.removeAllElements();
+		for ( DoubleAttribute d : 
+			(Vector<DoubleAttribute>)object.getListWithName(GraphObject.BAR_GRAPH_VALUES).getValues()){
+			graph.barGraph.values.add(d.getValue());
+		}
+		graph.barGraph.groupSize = object.getBarGraphGroupSize();
+
 		graph.lineGraph.setColor(object.getLineGraphColor());
-		for ( GridPointAttribute pt : object.getLineGraphPoints().getValues()){
-			if ( pt != null){
-				graph.lineGraph.linePoints.add(new GridPoint(pt.getValue().getx(), pt.getValue().gety()));
+		synchronized ( object.getLineGraphPoints().getValues() ){ 
+			for ( GridPointAttribute pt : object.getLineGraphPoints().getValues()){
+				if ( pt != null){
+					graph.lineGraph.linePoints.add(new GridPoint(pt.getValue().getx(), pt.getValue().gety()));
+				}
 			}
 		}
-		
+
 		graph.repaint(g, width , height, zoomLevel, xOrigin, yOrigin, object);
-		
+
 		if (hadError){
 			FontMetrics fm = g.getFontMetrics();
 			int errorWidth = fm.stringWidth("error");
@@ -90,13 +102,16 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 			g.drawString("error", (xOrigin + width/2) - errorWidth/2 + 2
 					, (yOrigin + height/2) + fm.getHeight()/2);
 		}
-		
+
 	}
-	
+
 	public void mouseClicked(GraphObject gObj, int x , int y, float zoomLevel){
 		//add a point to the graph
 		graph.pullVarsFromGraphObject(gObj, (int) (gObj.getWidth() * zoomLevel),
 				(int) (gObj.getHeight() * zoomLevel) );
+		/*
 		gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
+		 */
+		((Selection)gObj.getAttributeWithName(GraphObject.SELECTION).getValue()).setStart(graph.screenxToGrid(x));
 	}
 }

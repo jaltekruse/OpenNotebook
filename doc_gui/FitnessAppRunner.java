@@ -9,6 +9,7 @@ public class FitnessAppRunner {
 			public void run() {
 				app = new FitnessApp();
 				app.usb.initialize();
+				app.createGUI();
 				app.createSurveyDialog();
 			}
 		});

@@ -15,6 +15,7 @@ import java.util.UUID;
 
 import doc.GridPoint;
 import doc.mathobjects.MathObject;
+import doc_gui.graph.Selection;
 
 public abstract class MathObjectAttribute<K> {
 
@@ -229,6 +230,11 @@ public abstract class MathObjectAttribute<K> {
 		else if ( this instanceof EmailAttribute){
 			a = new EmailAttribute( new String(this.getName()));
 			a.setValue(new String( ( (String)this.getValue()) ) );
+		}
+		else if ( this instanceof SelectionAttribute){
+			a = new SelectionAttribute( this.getName(), 
+					new Selection( ((Selection) this.getValue()).getStart()),
+					this.isUserEditable());
 		}
 		else if (this instanceof UUIDAttribute){
 			a = new UUIDAttribute(new String(this.getName()));

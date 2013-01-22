@@ -6,49 +6,37 @@ import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent; 
 import gnu.io.SerialPortEventListener; 
-
-import java.util.Date;
 import java.util.Enumeration;
 
-import doc.mathobjects.GraphObject;
-
-public class SerialTest implements SerialPortEventListener {
+public class SerialTest2 implements SerialPortEventListener {
 	SerialPort serialPort;
-	/** The port we're normally going to use. */
+        /** The port we're normally going to use. */
 	private static final String PORT_NAMES[] = { 
-		"/dev/tty.usbserial-A9007UX1", // Mac OS X
-		"/dev/tty.usbmodemfa131",
-		"/dev/ttyUSB0", // Linux
-		"/dev/ttyACM0", // linux on jason's laptop, had to add this entry to make it work
-		"COM3", // Windows
-	};
+			"/dev/tty.usbserial-A9007UX1", // Mac OS X
+			"/dev/ttyUSB0", // Linux
+			"COM3", // Windows
+			};
 	/** Buffered input stream from the port */
 	private InputStream input;
 	/** The output stream to the port */
 	private OutputStream output;
 	/** Milliseconds to block while waiting for port open */
-	private static final int TIME_OUT = 10000;
+	private static final int TIME_OUT = 2000;
 	/** Default bits per second for COM port. */
-	private static final int DATA_RATE = 115200;
-
-	private static FitnessApp app;
-
-	public SerialTest(FitnessApp app){
-		this.app = app;
-	}
+	private static final int DATA_RATE = 9600;
 
 	public void initialize() {
 		CommPortIdentifier portId = null;
 		Enumeration portEnum = CommPortIdentifier.getPortIdentifiers();
 
-		System.out.println(portEnum.hasMoreElements());
 		// iterate through, looking for the port
 		while (portEnum.hasMoreElements()) {
 			CommPortIdentifier currPortId = (CommPortIdentifier) portEnum.nextElement();
-			System.out.println("asdsdf  " + app.appProps.getAttributeWithName("com port").getValue());
-			if (currPortId.getName().equals(app.appProps.getAttributeWithName("com port").getValue())) {
-				portId = currPortId;
-				break;
+			for (String portName : PORT_NAMES) {
+				if (currPortId.getName().equals(portName)) {
+					portId = currPortId;
+					break;
+				}
 			}
 		}
 
@@ -63,8 +51,7 @@ public class SerialTest implements SerialPortEventListener {
 					TIME_OUT);
 
 			// set port parameters
-			serialPort.setSerialPortParams(
-					(Integer) app.appProps.getAttributeWithName("Data rate").getValue(),
+			serialPort.setSerialPortParams(DATA_RATE,
 					SerialPort.DATABITS_8,
 					SerialPort.STOPBITS_1,
 					SerialPort.PARITY_NONE);
@@ -96,62 +83,24 @@ public class SerialTest implements SerialPortEventListener {
 	 * Handle an event on the serial port. Read the data and print it.
 	 */
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
-		System.out.println("read input");
-		
-		if ( ! app.timer.isRunning()){
-			return;
-		}
-		
 		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
 			try {
 				int available = input.available();
 				byte chunk[] = new byte[available];
 				input.read(chunk, 0, available);
 
-				String str = new String(chunk);
-
-				System.out.println(chunk);
-
-				GraphObject graph = null;
-				double val;
-				System.out.println(str);
-				String[] inputs = str.split("\n");
-				for ( String s : inputs) {
-					if ( s.length() < 3)
-						continue;
-					graph = null;
-					//System.out.println(s);
-					val = Double.parseDouble(s.substring(1));
-					switch(s.charAt(0)){
-					case 'T':
-						graph = app.skinTemperatureGraphData;
-						val /= 100;
-						break;
-					case 'G': // skin conductance
-						graph = app.skinConductanceGraphData;
-						break;
-					case 'S': // not used - signal
-						graph = app.signalGraphData;
-						break;
-
-					case 'Q': // not needed
-
-						break;
-					case 'B':
-						graph = app.heartRateGraphData;
-						break;
-					}
-					if (graph != null){
-						double currTime =  (new Date().getTime() - app.timeAtStart)/1000.0;
-						synchronized(graph){
-							graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + val + ")");
-						}
-					}
-				}
+				// Displayed results are codepage dependent
+				System.out.print(new String(chunk));
 			} catch (Exception e) {
-				e.printStackTrace();
+				System.err.println(e.toString());
 			}
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
+	}
+
+	public static void main(String[] args) throws Exception {
+		SerialTest2 main = new SerialTest2();
+		main.initialize();
+		System.out.println("Started");
 	}
 }

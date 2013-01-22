@@ -98,8 +98,10 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 					else{
 						mAtt.setValueWithString(field.getText());
 					}
-					notebookPanel.getCurrentDocViewer().repaintDoc();
-					notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
+					if ( notebookPanel != null ){
+						notebookPanel.getCurrentDocViewer().repaintDoc();
+						notebookPanel.getCurrentDocViewer().updateObjectToolFrame();
+					}
 				} catch (AttributeException e) {
 					if (!showingDialog){
 						JOptionPane.showMessageDialog(null,
@@ -131,7 +133,9 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 			}
 			else{
 				mAtt.getParentObject().setAttributeValueWithString(mAtt.getName(), field.getText());
-				notebookPanel.getCurrentDocViewer().addUndoState();
+				if ( notebookPanel != null ){
+					notebookPanel.getCurrentDocViewer().addUndoState();
+				}
 			}
 			if ( mAtt.getValue() instanceof Double){
 				if (mAtt.getValue().toString().length() > 5){
@@ -141,7 +145,9 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 			else{
 				field.setText(mAtt.getValue().toString());
 			}
-			notebookPanel.getCurrentDocViewer().repaintDoc();
+			if ( notebookPanel != null ){
+				notebookPanel.getCurrentDocViewer().repaintDoc();
+			}
 		} catch (AttributeException e) {
 			if (!showingDialog){
 				showingDialog = true;

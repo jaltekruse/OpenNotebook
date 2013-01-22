@@ -19,7 +19,9 @@ import doc.attributes.GridPointAttribute;
 import doc.attributes.IntegerAttribute;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
+import doc.attributes.SelectionAttribute;
 import doc.attributes.StringAttribute;
+import doc_gui.graph.Selection;
 
 public class GraphObject extends MathObject {
 	
@@ -28,7 +30,9 @@ public class GraphObject extends MathObject {
 			X_STEP = "xStep", Y_STEP = "yStep",
 			SHOW_AXIS = "show axis", SHOW_NUMBERS = "show numbers",
 			SHOW_GRID = "show grid", EXPRESSIONS = "Expressions",
-			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color";
+			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",
+			SELECTION = "selection",
+			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -73,6 +77,12 @@ public class GraphObject extends MathObject {
 					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
 			addList(new ListAttribute<GridPointAttribute>(LINE_GRAPH,
 					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
+			
+			addList(new ListAttribute<DoubleAttribute>(BAR_GRAPH_VALUES,
+					new DoubleAttribute("", -7E8, 7E8), 50, false, false));
+			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, false));
+			addAttribute(new SelectionAttribute(SELECTION, new Selection(), false));
+			
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");
 			addAttribute(new DoubleAttribute(X_MAX, -7E8, 7E8, true, true));
@@ -95,6 +105,7 @@ public class GraphObject extends MathObject {
 			getAttributeWithName(SHOW_GRID).setValue(true);
 			addAttribute(new ColorAttribute(LINE_GRAPH_COLOR));
 			getAttributeWithName(LINE_GRAPH_COLOR).setValue(Color.BLUE);
+			
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -336,6 +347,14 @@ public class GraphObject extends MathObject {
 	
 	public ListAttribute<GridPointAttribute> getLineGraphPoints(){
 		return (ListAttribute<GridPointAttribute>) getListWithName(LINE_GRAPH);
+	}
+	
+	public ListAttribute<DoubleAttribute> getBarGraphValues(){
+		return (ListAttribute<DoubleAttribute>) getListWithName(BAR_GRAPH_VALUES);
+	}
+	
+	public int getBarGraphGroupSize(){
+		return (Integer) getAttributeValue(BAR_GRAPH_GROUP_SIZE);
 	}
 	
 	@Override

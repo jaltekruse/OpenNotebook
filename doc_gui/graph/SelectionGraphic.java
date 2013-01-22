@@ -63,6 +63,10 @@ public class SelectionGraphic extends GraphComponent {
 		}
 		
 	}
+	
+	public void setSelection(Selection s){
+		selection = s;
+	}
 
 	public void setColor(Color color) {
 		this.color = color;

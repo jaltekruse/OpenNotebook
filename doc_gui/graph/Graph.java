@@ -52,10 +52,7 @@ public class Graph {
 		parser = new ExpressionParser();
 		Vector<GridPoint> linePts = new Vector<GridPoint>();
 		barGraph = new BarGraph(this);
-		barGraph.values.add(10.0);
-		barGraph.values.add(50.0);
-		barGraph.values.add(80.0);
-		barGraph.values.add(100.0);
+		selectionGraphic = new SelectionGraphic(this, Color.ORANGE);
 		try {
 			lineGraph = new LineGraph(this, Color.BLUE, linePts);
 		} catch (NodeException e) {
@@ -103,6 +100,8 @@ public class Graph {
 		SHOW_AXIS = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_AXIS).getValue();
 		SHOW_GRID = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_GRID).getValue();
 		SHOW_NUMBERS = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_NUMBERS).getValue();
+		selectionGraphic.setSelection((Selection)gObj.getAttributeValue(GraphObject.SELECTION));
+		
 		X_PIXEL = (X_MAX - X_MIN) / X_SIZE;
 		Y_PIXEL = (Y_MAX - Y_MIN) / Y_SIZE;
 		NUM_FREQ = 2;
