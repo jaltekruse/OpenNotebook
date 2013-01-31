@@ -95,7 +95,13 @@ public class Graph {
 		Y_MIN =		(Double) gObj.getAttributeWithName(GraphObject.Y_MIN).getValue();      
 		Y_MAX =		(Double) gObj.getAttributeWithName(GraphObject.Y_MAX).getValue();      
 		X_STEP =	(Double) gObj.getAttributeWithName(GraphObject.X_STEP).getValue();     
-		Y_STEP =	(Double) gObj.getAttributeWithName(GraphObject.Y_STEP).getValue();     
+		Y_STEP =	(Double) gObj.getAttributeWithName(GraphObject.Y_STEP).getValue();    
+		if (X_STEP == 0){
+			X_STEP = 1;
+		}
+		if (Y_STEP == 0){
+			Y_STEP = 1;
+		}
 		FONT_SIZE = (Integer) gObj.getAttributeWithName(GraphObject.FONT_SIZE).getValue(); 
 		SHOW_AXIS = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_AXIS).getValue();
 		SHOW_GRID = (Boolean) gObj.getAttributeWithName(GraphObject.SHOW_GRID).getValue();
@@ -303,6 +309,8 @@ public class Graph {
 				}
 			}
 		}
+		assert Y_STEP > 0;
+		assert X_STEP > 0;
 	}
 	
 	public void drawErrorMessage(Graphics g, int xSize, int ySize,

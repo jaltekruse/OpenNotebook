@@ -24,12 +24,14 @@ public abstract class MathObjectAttribute<K> {
 			GRID_POINT_ATTRIBUTE = "point", INTEGER_ATTRIBUTE = "int",
 			STRING_ATTRIBUTE = "string", COLOR_ATTRIBUTE = "color", DATE = "date",
 			EMAIL_ATTRIBUTE = "email", UUID_ATTRIBUTE = "uuid", VAR_NAME_ATTRIBUTE = "varName",
-			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator";
+			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator",
+			SELECTION = "selection";
 
 	public static final String[] attTypes = {	BOOLEAN_ATTRIBUTE,		DOUBLE_ATTRIBUTE,
 		GRID_POINT_ATTRIBUTE,				INTEGER_ATTRIBUTE,		STRING_ATTRIBUTE,
 		COLOR_ATTRIBUTE, DATE,				EMAIL_ATTRIBUTE,		UUID_ATTRIBUTE,
-		VAR_NAME_ATTRIBUTE,					ENUMERATED_ATTRIUBTE,	VAR_VAL_GENERATOR};
+		VAR_NAME_ATTRIBUTE,					ENUMERATED_ATTRIUBTE,	VAR_VAL_GENERATOR,
+		SELECTION};
 
 	public static final String NAME = "name", VALUE = "value";
 

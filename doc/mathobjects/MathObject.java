@@ -29,9 +29,15 @@ public abstract class MathObject {
 
 	private Vector<MathObjectAttribute<?>> attributes;
 
-	private Vector<ListAttribute<?>> lists;
+	private Vector<ListAttribute<?>> attrLists;
 	
 	private Vector<NamedObjectList<MathObject>> objectLists;
+	
+	private Vector<Object> subObjects;
+	
+	// this will often be unused for now, only for identifying sub-objects in the above list
+	// later it could be used to refer to objects in scripts
+	private String name;
 
 	// flag used for temporarily storing if an action was successful
 	// prevents unnecessary undo states from being added when actions
@@ -108,9 +114,9 @@ public abstract class MathObject {
 	public MathObject() {
 		attributes = new Vector<MathObjectAttribute<?>>();
 		actions = new Vector<String>();
-		lists = new Vector<ListAttribute<?>>();
+		attrLists = new Vector<ListAttribute<?>>();
 		studentActions = new Vector<String>();
-		objectLists = new Vector<NamedObjectList<MathObject>>();
+		setObjectLists(new Vector<NamedObjectList<MathObject>>());
 
 		setHorizontallyResizable(true);
 		setVerticallyResizable(true);
@@ -144,10 +150,10 @@ public abstract class MathObject {
 	}
 
 	public void addGenericDefaultAttributes() {
-		addAttribute(new IntegerAttribute(X_POS, 1, 610, false, false));
-		addAttribute(new IntegerAttribute(Y_POS, 1, 790, false, false));
-		addAttribute(new IntegerAttribute(WIDTH, 1, 610, false, false));
-		addAttribute(new IntegerAttribute(HEIGHT, 1, 790, false, false));
+		addAttribute(new IntegerAttribute(X_POS, 1, 1, 610, false, false));
+		addAttribute(new IntegerAttribute(Y_POS, 1, 1, 790, false, false));
+		addAttribute(new IntegerAttribute(WIDTH, 1, 1, 610, false, false));
+		addAttribute(new IntegerAttribute(HEIGHT, 1, 1, 790, false, false));
 		addAttribute(new UUIDAttribute(OBJECT_ID, UUID.randomUUID(), false,
 				false));
 	}
@@ -192,7 +198,7 @@ public abstract class MathObject {
 		for (MathObjectAttribute mAtt : attributes) {
 			output += mAtt.exportToXML();
 		}
-		for (ListAttribute lAtt : lists) {
+		for (ListAttribute lAtt : attrLists) {
 			output += lAtt.exportToXML();
 		}
 		output += "</" + getType() + ">\n";
@@ -323,7 +329,7 @@ public abstract class MathObject {
 	}
 
 	public void removeAllLists() {
-		lists = new Vector<ListAttribute<?>>();
+		attrLists = new Vector<ListAttribute<?>>();
 	}
 
 	public boolean removeAction(String s) {
@@ -549,11 +555,11 @@ public abstract class MathObject {
 	}
 
 	public Vector<ListAttribute<?>> getLists() {
-		return lists;
+		return attrLists;
 	}
 
-	public ListAttribute<?> getListWithName(String n) {
-		for (ListAttribute<?> list : lists) {
+	public synchronized ListAttribute<?> getListWithName(String n) {
+		for (ListAttribute<?> list : attrLists) {
 			if (list.getName().equals(n)) {
 				return list;
 			}
@@ -563,7 +569,7 @@ public abstract class MathObject {
 
 	public boolean addList(ListAttribute l) {
 		if (getListWithName(l.getName()) == null) {// the name is not in use
-			lists.add(l);
+			attrLists.add(l);
 			l.setParentObject(this);
 			return true;
 		}
@@ -590,6 +596,10 @@ public abstract class MathObject {
 
 	public void setAttributeValueWithString(String s, String val)
 			throws AttributeException {
+		int i  = 5;
+		if ( s.equals("selection")){
+			i++;
+		}
 		if (getAttributeWithName(s) == null) {
 			throw new AttributeException(
 					"Object does not have an attribute with that name");
@@ -618,9 +628,9 @@ public abstract class MathObject {
 	}
 
 	public void removeList(String s) {
-		for (int i = 0; i < lists.size(); i++) {
-			if (lists.get(i).getName().equals(s)) {
-				lists.remove(i);
+		for (int i = 0; i < attrLists.size(); i++) {
+			if (attrLists.get(i).getName().equals(s)) {
+				attrLists.remove(i);
 				return;
 			}
 		}
@@ -660,5 +670,29 @@ public abstract class MathObject {
 
 	protected void setActionCancelled(boolean actionCancelled) {
 		this.actionCancelled = actionCancelled;
+	}
+
+	public Vector<NamedObjectList<MathObject>> getObjectLists() {
+		return objectLists;
+	}
+
+	public void setObjectLists(Vector<NamedObjectList<MathObject>> objectLists) {
+		this.objectLists = objectLists;
+	}
+
+	public Vector<Object> getSubObjects() {
+		return subObjects;
+	}
+
+	public void setSubObjects(Vector<Object> subObjects) {
+		this.subObjects = subObjects;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }

@@ -25,6 +25,10 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Random;
@@ -47,8 +51,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
+import org.xml.sax.XMLReader;
+
 import com.sun.swing.internal.plaf.basic.resources.basic;
 
+import doc.Document;
 import doc.GridPoint;
 import doc.attributes.AttributeException;
 import doc.attributes.BooleanAttribute;
@@ -62,6 +69,7 @@ import doc.attributes.MathObjectAttribute;
 import doc.attributes.StringAttribute;
 import doc.mathobjects.GraphObject;
 import doc.mathobjects.MathObject;
+import doc.xml.DocReader;
 import doc_gui.attribute_panels.AdjustmentPanel;
 import doc_gui.attribute_panels.BooleanAdjustmentPanel;
 import doc_gui.attribute_panels.ColorAdjustmentPanel;
@@ -92,7 +100,7 @@ public class FitnessApp {
 	GraphObject summaryGraphData;
 
 	JFrame frame;
-	
+
 	public static final String COM_PORT = "com port", DATA_RATE = "Data rate",
 			SKIN_FUNC = "Skin conductance func (c)", HEART_FUNC = "Heart rate function (h)",
 			SKIN_TEMP = "Skin temp func (t)";
@@ -102,8 +110,8 @@ public class FitnessApp {
 	int randMax = 100;
 
 	long timeAtSignalStart = 0;
-	long timeAtStart = 0;
-	long lastStopTime = 0;
+	long ellapsedTime = 0;
+	long lastFrameTime = 0;
 	Random rand = new Random();
 	int counter = 0;
 	public Timer timer;
@@ -111,7 +119,7 @@ public class FitnessApp {
 	final SurveyQuestions survey = new SurveyQuestions();
 	final FitnessAppProperties appProps = new FitnessAppProperties();
 	final SerialTest usb = new SerialTest(FitnessApp.this);
-
+	Timer signalRefresh;
 
 	private double mouseX;
 	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,
@@ -125,6 +133,7 @@ public class FitnessApp {
 			heartRateGraphData.setAttributeValue(GraphObject.X_MAX, 20.0);
 			heartRateGraphData.setAttributeValue(GraphObject.Y_MIN, 0.0);
 			heartRateGraphData.getLineGraphPoints().removeAll();
+
 			skinConductanceGraphData = (GraphObject) heartRateGraphData.clone();
 			skinConductanceGraphData.setLineGraphColor(Color.RED);
 			skinTemperatureGraphData = (GraphObject) heartRateGraphData.clone();
@@ -133,6 +142,7 @@ public class FitnessApp {
 			compositeGraphData.setLineGraphColor(Color.MAGENTA.darker());
 
 			signalGraphData = (GraphObject) heartRateGraphData.clone();
+			signalGraphData.setAttributeValue(GraphObject.X_MAX, 5.0);
 			signalGraphData.setLineGraphColor(Color.RED);
 
 			summaryGraphData = (GraphObject) heartRateGraphData.clone();
@@ -145,8 +155,30 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				generateRandomData();
-				autoScale(heartRateGraphData, skinTemperatureGraphData, skinConductanceGraphData, compositeGraphData);
+				//synchronized(this){
+					ellapsedTime += new Date().getTime() - lastFrameTime;
+					lastFrameTime = new Date().getTime();
+					autoScale(heartRateGraphData, skinTemperatureGraphData, skinConductanceGraphData, compositeGraphData);
+					generateRandomData();
+				//}
+			}
+
+		});
+		
+		signalRefresh = new Timer(30, new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				double currTime =  (new Date().getTime() - timeAtSignalStart)/1000.0;
+				if ( currTime > 3.5){
+					signalGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(currTime + 1.5);
+					signalGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(currTime - 3.5);
+				}
+				if ( signalGraphData.getListWithName(
+						GraphObject.LINE_GRAPH).getValues().size() != 0){
+					autoScale(signalGraphData); // do not resize if there is no data recorded
+				}
+				signalGraph.repaint();
 			}
 
 		});
@@ -207,7 +239,7 @@ public class FitnessApp {
 
 		public static final String SURVEY = "survey";
 
-		public final String[] possibleValues = {
+		public static final String[] possibleValues = {
 				"Never",
 				"Sometimes",
 				"Usually",
@@ -221,13 +253,6 @@ public class FitnessApp {
 
 		@Override
 		public void addDefaultAttributes() {
-			String[] possibleValues = {
-					"Never",
-					"Almost Never",
-					"Somtimes",
-					"Faily Often",
-					"Very Often"
-			};
 			for ( String q : questions){
 				addAttribute(new EnumeratedAttribute(q, possibleValues));
 			}
@@ -285,6 +310,67 @@ public class FitnessApp {
 				"Error",
 				JOptionPane.ERROR_MESSAGE);
 	}
+	
+	public void save() {
+		BufferedWriter f = null;
+		JFileChooser fileChooser = new JFileChooser();
+		try {
+			int value = fileChooser.showSaveDialog(heartRateGraph);
+			if (value == JFileChooser.APPROVE_OPTION) {
+				java.io.File file = fileChooser.getSelectedFile();
+
+				file = new File(file.getParentFile() + File.separator + file.getName());
+
+				f = new BufferedWriter(new FileWriter(file));
+				
+				Document saveDoc = new Document(file.getName());
+				saveDoc.addBlankPage();
+				saveDoc.getPage(0).addObject(heartRateGraphData);
+				saveDoc.getPage(0).addObject(skinTemperatureGraphData);
+				saveDoc.getPage(0).addObject(skinConductanceGraphData);
+				saveDoc.getPage(0).addObject(compositeGraphData);
+				f.write(saveDoc.exportToXML());
+
+				f.flush();
+				f.close();
+			}
+		} catch (Exception e) {
+			try {
+				e.printStackTrace();
+				f.flush();
+				f.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+
+			JOptionPane.showMessageDialog(null, "Error saving file", "Error",
+					JOptionPane.ERROR_MESSAGE);
+		}
+	}
+	
+	public void open() {
+		JFileChooser fileChooser = new JFileChooser();
+		try {
+			int value = fileChooser.showOpenDialog(heartRateGraph);
+			if (value == JFileChooser.APPROVE_OPTION) {
+				FileReader fileReader = new FileReader(fileChooser
+						.getSelectedFile());
+				DocReader reader = new DocReader();
+				Document readIn = reader.readDoc(fileReader, fileChooser.getSelectedFile().getName());
+				heartRateGraphData = (GraphObject) readIn.getPage(0).getObjects().get(0);
+				skinTemperatureGraphData = (GraphObject) readIn.getPage(0).getObjects().get(1);
+				skinConductanceGraphData = (GraphObject) readIn.getPage(0).getObjects().get(2);
+				compositeGraphData = (GraphObject) readIn.getPage(0).getObjects().get(3);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			JOptionPane.showMessageDialog(null,
+					"Error opening file, please send it to the lead developer at\n"
+							+ "dev@open-math.com to help with debugging",
+							"Error", JOptionPane.ERROR_MESSAGE);
+		}
+	}
 
 	public void createGUI() {
 
@@ -309,8 +395,6 @@ public class FitnessApp {
 
 		frame.pack();
 
-		timeAtStart = new Date().getTime();
-
 	}
 
 	private void addContents(Container container){
@@ -321,30 +405,32 @@ public class FitnessApp {
 
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				if ( heartRateGraphData.getListWithName(
-						GraphObject.LINE_GRAPH).getValues().size() == 0){
-					return; // do not allow scrolling if there is no data recorded
-				}
-				if (timer.isRunning())
-					return;
+				//synchronized(this){
+					if ( heartRateGraphData.getListWithName(
+							GraphObject.LINE_GRAPH).getValues().size() == 0){
+						return; // do not allow scrolling if there is no data recorded
+					}
+					if (timer.isRunning())
+						return;
 
-				if (heartRateGraphData.getxMax() - heartRateGraphData.getxMin() < 2 && e.getWheelRotation() < 1){
-					return;
-				}
+					if (heartRateGraphData.getxMax() - heartRateGraphData.getxMin() < 2 && e.getWheelRotation() < 1){
+						return;
+					}
 
-				mouseWheelEvent(e, heartRateGraphData, heartRateGraph);
-				autoScale(heartRateGraphData);
+					mouseWheelEvent(e, heartRateGraphData, heartRateGraph);
+					autoScale(heartRateGraphData);
 
-				scrollbar.setValues( (int) (heartRateGraphData.getxMin() * 100.0),
-						(int) (100.0 * (heartRateGraphData.getxMax() -  heartRateGraphData.getxMin()))
-						, 0, (int) (100.0 * heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx()));
+					scrollbar.setValues( (int) (heartRateGraphData.getxMin() * 100.0),
+							(int) (100.0 * (heartRateGraphData.getxMax() -  heartRateGraphData.getxMin()))
+							, 0, (int) (100.0 * heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx()));
 
-				syncGridProperties(heartRateGraphData, skinConductanceGraphData,
-						skinTemperatureGraphData, compositeGraphData);
+					syncGridProperties(heartRateGraphData, skinConductanceGraphData,
+							skinTemperatureGraphData, compositeGraphData);
 
-				autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
+					autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
 
-				repaintAll();
+					repaintAll();
+				//}
 			}
 		});
 
@@ -372,7 +458,9 @@ public class FitnessApp {
 
 		heartRateGraph = new JPanel(){
 			public void paint(Graphics g){
-				paintGraph(g, heartRateGraphData, heartRateGraph);
+				//synchronized(this){
+					paintGraph(g, heartRateGraphData, heartRateGraph);
+				//}
 			}
 		};
 
@@ -396,7 +484,9 @@ public class FitnessApp {
 
 		skinConductanceGraph = new JPanel(){
 			public void paint(Graphics g){
-				paintGraph(g, skinConductanceGraphData, skinConductanceGraph);
+				//synchronized(this){
+					paintGraph(g, skinConductanceGraphData, skinConductanceGraph);
+				//}
 			}
 		};
 
@@ -420,7 +510,9 @@ public class FitnessApp {
 
 		skinTemperatureGraph = new JPanel(){
 			public void paint(Graphics g){
-				paintGraph(g, skinTemperatureGraphData, skinTemperatureGraph);
+				//synchronized(this){
+					paintGraph(g, skinTemperatureGraphData, skinTemperatureGraph);
+				//}
 			}
 		};
 
@@ -443,7 +535,9 @@ public class FitnessApp {
 
 		compositeGraph = new JPanel(){
 			public void paint(Graphics g){
-				paintGraph(g, compositeGraphData, compositeGraph);
+				//synchronized(this){
+					paintGraph(g, compositeGraphData, compositeGraph);
+				//}
 			}
 		};
 
@@ -455,7 +549,7 @@ public class FitnessApp {
 		bCon.weighty = 1;
 		bCon.fill = GridBagConstraints.BOTH;
 		container.add(compositeGraph, bCon);
-
+		
 		bCon.gridy++;
 		bCon.fill = GridBagConstraints.HORIZONTAL;
 		bCon.gridx = 0;
@@ -469,26 +563,28 @@ public class FitnessApp {
 
 			@Override
 			public void mouseDragged(MouseEvent arg0) {
-				try{
-					if (timer.isRunning())
-						return;
-					if ( heartRateGraphData.getListWithName(
-							GraphObject.LINE_GRAPH).getValues().size() == 0){
-						return; // do not allow scrolling if there is no data recorded
+				//synchronized(this){
+					try{
+						if (timer.isRunning())
+							return;
+						if ( heartRateGraphData.getListWithName(
+								GraphObject.LINE_GRAPH).getValues().size() == 0){
+							return; // do not allow scrolling if there is no data recorded
+						}
+						double range = heartRateGraphData.getxMax() - heartRateGraphData.getxMin();
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(scrollbar.getValue() / 100.0 + range);
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(scrollbar.getValue() / 100.0);
+
+						syncGridProperties(heartRateGraphData, skinConductanceGraphData,
+								skinTemperatureGraphData, compositeGraphData);
+
+						autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
+						repaintAll();
 					}
-					double range = heartRateGraphData.getxMax() - heartRateGraphData.getxMin();
-					heartRateGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(scrollbar.getValue() / 100.0 + range);
-					heartRateGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(scrollbar.getValue() / 100.0);
-
-					syncGridProperties(heartRateGraphData, skinConductanceGraphData,
-							skinTemperatureGraphData, compositeGraphData);
-
-					autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
-					repaintAll();
-				}
-				catch(Exception ex){
-					ex.printStackTrace();
-				}
+					catch(Exception ex){
+						ex.printStackTrace();
+					}
+				//}
 			}
 		});
 
@@ -499,26 +595,34 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( timer.isRunning()){
-					return;
-				}
-				if ( lastStopTime == 0){
-					timeAtStart = new Date().getTime();
-				}
-				else {
-					timeAtStart += new Date().getTime() - lastStopTime;
-				}
-				lastStopTime = 0;
-				scrollbar.setEnabled(false);
+				//synchronized(this){
+					if ( timer.isRunning()){
+						return;
+					}
+					lastFrameTime = new Date().getTime();
+					scrollbar.setEnabled(false);
 
-				heartRateGraphData.getAttributeWithName(GraphObject.X_STEP).setValue(2.0);
+					heartRateGraphData.getAttributeWithName(GraphObject.X_STEP).setValue(2.0);
+					
+					if ( (heartRateGraphData.getListWithName(
+							GraphObject.LINE_GRAPH).getValues().size() == 0) ||
+							heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx() < 15){
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(20.0);
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(0.0);
+					}
+					else{
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(
+								heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx() + 5.0);
+						heartRateGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(
+								heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx() - 15.0);
+					}
+					syncGridProperties(heartRateGraphData, skinConductanceGraphData,
+							skinTemperatureGraphData, compositeGraphData);
 
-				syncGridProperties(heartRateGraphData, skinConductanceGraphData,
-						skinTemperatureGraphData, compositeGraphData);
+					autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
 
-				autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
-
-				timer.start();
+					timer.start();
+				//}
 			}
 		});
 		bCon.gridwidth = 1;
@@ -531,43 +635,71 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if ( ! timer.isRunning()){
-					return;
-				}
-				timer.stop();
-				lastStopTime = new Date().getTime();
-
-				// need to think about the best way to fix this, I'm close, but I'm not quite sure what I want to do
-
-				if ( ! (heartRateGraphData.getListWithName(
-						GraphObject.LINE_GRAPH).getValues().size() == 0)){
-					int maxX = (int) (100 * heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx());
-					System.out.println( (maxX - 150) + " " + 350 + " " + 0 + " " + maxX);
-					scrollbar.setValues( 0, maxX, 0, maxX);
-
-					try {
-						heartRateGraphData.setxMin(0);
-						heartRateGraphData.setxMax(maxX / 100.0);
-					} catch (AttributeException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+				//synchronized(this){
+					if ( ! timer.isRunning()){
+						return;
 					}
-				}
+					timer.stop();
 
-				heartRateGraphData.autoAdjustGrid();
+					// need to think about the best way to fix this, I'm close, but I'm not quite sure what I want to do
 
-				syncGridProperties(heartRateGraphData, skinConductanceGraphData,
-						skinTemperatureGraphData, compositeGraphData);
+					if ( ! (heartRateGraphData.getListWithName(
+							GraphObject.LINE_GRAPH).getValues().size() == 0)){
+						int maxX = (int) (100 * heartRateGraphData.getLineGraphPoints().getLastValue().getValue().getx());
+						System.out.println( (maxX - 150) + " " + 350 + " " + 0 + " " + maxX);
+						scrollbar.setValues( 0, maxX, 0, maxX);
 
-				autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
+						try {
+							heartRateGraphData.setxMin(0);
+							heartRateGraphData.setxMax(maxX / 100.0);
+						} catch (AttributeException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 
-				repaintAll();
+					heartRateGraphData.autoAdjustGrid();
 
-				scrollbar.setEnabled(true);
+					syncGridProperties(heartRateGraphData, skinConductanceGraphData,
+							skinTemperatureGraphData, compositeGraphData);
+
+					autoScale(heartRateGraphData, skinConductanceGraphData, skinTemperatureGraphData, compositeGraphData);
+
+					repaintAll();
+
+					scrollbar.setEnabled(true);
+				//}
 			}
 		});
 		bCon.gridx = 1;
 		container.add(stopButton, bCon);
+		
+		bCon.gridx++;
+		JButton openButton = new JButton("Open");
+		openButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				open();
+				ellapsedTime = (long) (((GridPoint)heartRateGraphData.getListWithName(
+						GraphObject.LINE_GRAPH).getLastValue().getValue()).getx() * 1000);
+				repaintAll();
+			}
+			
+		});
+		container.add(openButton, bCon);
+		
+		bCon.gridx++;
+		JButton saveButton = new JButton("Save");
+		saveButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				save();
+			}
+			
+		});
+		container.add(saveButton, bCon);
 
 		bCon.gridy++;
 		bCon.gridx = 0;
@@ -576,7 +708,9 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createSummaryDialog();
+				//synchronized(this){
+					createSummaryDialog();
+				//}
 			}
 
 		});
@@ -589,7 +723,9 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createSignalDialog();
+				//synchronized(this){
+					createSignalDialog();
+				//}
 			}
 
 		});
@@ -602,7 +738,9 @@ public class FitnessApp {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				createPropertiesDialog();
+				//synchronized(this){
+					createPropertiesDialog();
+				//}
 			}
 
 		});
@@ -669,14 +807,14 @@ public class FitnessApp {
 		graph.autoAdjustGrid();
 	}
 
-	private  void generateRandomData() {
+	private void generateRandomData() {
 		counter++;
 		randMax++;
-		double currTime =  (new Date().getTime() - timeAtStart)/1000.0;
+		double currTime =  ellapsedTime / 1000.0;
 		try {
 			String newPt;
 			if (counter % 15 == 0){
-				/*
+				
 				newPt = "(" + currTime + "," + (rand.nextInt(randMax) - 100) + ")";
 				heartRateGraphData.getLineGraphPoints().addValueWithString(newPt);
 				newPt = "(" + currTime + "," + (rand.nextInt(randMax + 1000) + 400) + ")";
@@ -686,7 +824,7 @@ public class FitnessApp {
 				newPt = "(" + currTime + "," + (rand.nextInt(randMax + 400) + 200) + ")";
 
 				skinConductanceGraphData.getLineGraphPoints().addValueWithString(newPt);
-				
+				/*
 				newPt = "(" + currTime + "," + 
 						(	((GridPoint)heartRateGraphData.getLineGraphPoints()
 								.getLastValue().getValue()).gety() + 
@@ -699,8 +837,9 @@ public class FitnessApp {
 								+ ")";
 				compositeGraphData.getLineGraphPoints().addValueWithString(newPt);
 				*/
+				
 			}
-			/*
+			
 			if (counter % 30 == 0){
 				String formula = appProps.getAttributeValue(HEART_FUNC) +  "+" +
 						appProps.getAttributeValue(SKIN_FUNC) + "+" +
@@ -713,15 +852,15 @@ public class FitnessApp {
 						.getLastValue().getValue().gety()));
 				ex = ex.replace("t", new Number(skinTemperatureGraphData.getLineGraphPoints()
 						.getLastValue().getValue().gety()));
-				
+
 				newPt = "(" + currTime + "," + ex.numericSimplify().toStringRepresentation() + ")";
 				System.out.println(ex.smartNumericSimplify().toStringRepresentation());
 				compositeGraphData.getLineGraphPoints().addValueWithString(newPt);
 			}
-			*/
-			if ( currTime > 16.5){
-				heartRateGraphData.setAttributeValue(GraphObject.X_MAX, currTime + 3.5);
-				heartRateGraphData.setAttributeValue(GraphObject.X_MIN, currTime - 16.5);
+			
+			if ( currTime > 15.0){
+				heartRateGraphData.setAttributeValue(GraphObject.X_MAX, currTime + 5.0);
+				heartRateGraphData.setAttributeValue(GraphObject.X_MIN, currTime - 15.0);
 
 				syncGridProperties(heartRateGraphData, skinConductanceGraphData,
 						skinTemperatureGraphData, compositeGraphData);
@@ -731,6 +870,9 @@ public class FitnessApp {
 
 		} catch (AttributeException e1) {
 			e1.printStackTrace();
+		} catch (NodeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -742,17 +884,31 @@ public class FitnessApp {
 			}
 		};
 		summaryGraph.setMinimumSize(new Dimension(300,300));
-		summaryGraph.setPreferredSize(new Dimension(300,300));
+		summaryGraph.setPreferredSize(new Dimension(800,300));
+		
 		try{
 			summaryGraphData.setAttributeValue(GraphObject.BAR_GRAPH_GROUP_SIZE, 3);
+			summaryGraphData.getBarGraphLabels().removeAll();
+			summaryGraphData.getBarGraphLabels().addValueWithString("Heart Rate");
+			summaryGraphData.getBarGraphLabels().addValueWithString("Skin Temp.");
+			summaryGraphData.getBarGraphLabels().addValueWithString("Skin Cond.");
+			summaryGraphData.getBarGraphLabels().addValueWithString("Stress");
 			summaryGraphData.setyMax(100.0);
+			summaryGraphData.setyMin(-10.0);
 			summaryGraphData.autoAdjustGrid();
 			summaryGraphData.getBarGraphValues().removeAll();
 
-			for (int i = 0; i < 3; i++){
-				summaryGraphData.getBarGraphValues().addValueWithString("50.0");
-				summaryGraphData.getBarGraphValues().addValueWithString("80.0");
-				summaryGraphData.getBarGraphValues().addValueWithString("60.0");
+			for ( Double d : findAverage(heartRateGraphData)){
+				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
+			}
+			for ( Double d : findAverage(skinTemperatureGraphData)){
+				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
+			}
+			for ( Double d : findAverage(skinConductanceGraphData)){
+				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
+			}
+			for ( Double d : findAverage(compositeGraphData)){
+				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
 			}
 		}catch (Exception ex){
 			ex.printStackTrace();
@@ -760,15 +916,22 @@ public class FitnessApp {
 
 		final JComponent[] inputs = new JComponent[] {
 				summaryGraph,
-				new JLabel("Average Heart Rate: " + String.format("%.2f", findAverage(heartRateGraphData))),
-				new JLabel("Average Skin Temperature: " + String.format("%.2f", findAverage(skinTemperatureGraphData))),
-				new JLabel("Average Skin Conductance: " + String.format("%.2f", findAverage(skinConductanceGraphData))),
-				new JLabel("Average Overall Stress: " + String.format("%.2f", findAverage(compositeGraphData))),
+				new JLabel("Overall Average, Average Before Mark, Average After Mark"),
+				/*new JLabel("Heart Rate: " + averages(heartRateGraphData)),
+				new JLabel("Skin Temperature: " + averages(skinTemperatureGraphData)),
+				new JLabel("Skin Conductance: " + averages(skinConductanceGraphData)),
+				new JLabel("Overall Stress: " + averages(compositeGraphData)),*/
 				new JLabel("Starting Stress Value: need to calculate this"),
 
 		};
 		int input = JOptionPane.showConfirmDialog(null, 
 				inputs, "Workout Summary", JOptionPane.PLAIN_MESSAGE);
+	}
+	
+	public String averages(GraphObject graphData){
+		return String.format("%.2f", findAverage(graphData)[1]) +
+				", " + String.format("%.2f", findAverage(graphData)[2]) +
+				", " + String.format("%.2f", findAverage(graphData)[0]);
 	}
 
 	public void createSignalDialog(){
@@ -786,25 +949,9 @@ public class FitnessApp {
 				signalGraph
 		};
 
-		Timer signalRefresh = new Timer(30, new ActionListener(){
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				double currTime =  (new Date().getTime() - timeAtSignalStart)/1000.0;
-				if ( currTime > 3.5){
-					signalGraphData.getAttributeWithName(GraphObject.X_MAX).setValue(currTime + 1.5);
-					signalGraphData.getAttributeWithName(GraphObject.X_MIN).setValue(currTime - 3.5);
-				}
-				if ( signalGraphData.getListWithName(
-						GraphObject.LINE_GRAPH).getValues().size() != 0){
-					autoScale(signalGraphData); // do not resize if there is no data recorded
-				}
-				signalGraph.repaint();
-			}
-
-		});
 		timeAtSignalStart = new Date().getTime();
 		signalRefresh.start();
+		signalGraphData.getLineGraphPoints().removeAll();
 		int input = JOptionPane.showConfirmDialog(null, 
 				inputs, "Signal Check", JOptionPane.PLAIN_MESSAGE);
 		signalRefresh.stop();
@@ -934,21 +1081,33 @@ public class FitnessApp {
 		problemDialog.setVisible(true);
 	}
 
-	public double findAverage(GraphObject graph){
-		double total = 0;
-		int counter = 0;
+	public double[] findAverage(GraphObject graph){
+		double[] ret = new double[3];
+		double total = 0, totalBefore = 0, totalAfter = 0;
+		int counter = 0, counterBefore = 0, counterAfter = 0;
 		Vector<GridPointAttribute> values = (Vector<GridPointAttribute>)
 				graph.getLineGraphPoints().getValues();
 		GridPointAttribute d;
 		for ( int i = 0; i < values.size(); i++){
 			d = values.get(i);
 			total += d.getValue().gety();
+			counter++;
+			if ( d.getValue().getx() < graph.getSelection().getStart()){
+				counterBefore++;
+				totalBefore +=  d.getValue().gety(); 
+			}
+			else{
+				counterAfter++;
+				totalAfter +=  d.getValue().gety();
+			}
 		}
-		return total / values.size();
+		ret[0] = total / counter;
+		ret[1] = totalBefore / counterBefore;
+		ret[2] = totalAfter / counterAfter;
+		return ret;
 	}
 
 	public void autoScale(GraphObject... graphs){
-		//return;
 
 		double min, max;
 		int counter = 0;

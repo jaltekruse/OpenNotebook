@@ -53,7 +53,7 @@ public class DocReader extends DefaultHandler {
 	private Document doc;
 	private Page page;
 	private Vector<Grouping> containerStack;
-	private boolean DEBUG = false;
+	private boolean DEBUG = true;
 
 	// objects added to Groupings ( or subclasses of Grouping ) need to have their attributes 
 	// read in before being added, so their positions can be calculated relative
@@ -309,7 +309,9 @@ public class DocReader extends DefaultHandler {
 	public boolean readAttribute(String uri, String name,
 			String qName, Attributes atts){
 		boolean justAddedAttribute = true;
-
+		if ( atts.getValue(MathObjectAttribute.NAME).equals("selection")){
+			mObj.getAttributeWithName(atts.getValue(MathObjectAttribute.NAME));
+		}
 		if (true || DEBUG){
 			System.out.println("check tag " + atts.getValue("name") + " " +
 					"To see if it is an attribute");
@@ -383,12 +385,15 @@ public class DocReader extends DefaultHandler {
 					return true;
 				}
 				String attName = subInOldAttributeName(atts.getValue(MathObjectAttribute.NAME));
+
 				if ( mObj.getAttributeWithName(attName) == null){
 					// this attribute is no longer used in this object, ignore it
 					// this is an attribute, so still return true, otherwise the parent
 					// method will try to read it as a MathObject
 					return true;
 				}
+
+
 				mObj.setAttributeValueWithString(
 						attName,
 						atts.getValue(MathObjectAttribute.VALUE));

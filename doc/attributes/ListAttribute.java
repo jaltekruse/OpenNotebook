@@ -76,7 +76,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		return name;
 	}
 	
-	public void addNewValue() throws AttributeException{
+	public synchronized void addNewValue() throws AttributeException{
 		if ( values.size() == maxSize){
 			throw new AttributeException("List can only hold " + maxSize + " items.");
 		}
@@ -85,7 +85,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		values.add(newVal);
 	}
 	
-	public void addValueWithString(String s) throws AttributeException{
+	public synchronized void addValueWithString(String s) throws AttributeException{
 		if ( values.size() == maxSize){
 			throw new AttributeException("List can only hold " + maxSize + " items.");
 		}
@@ -95,7 +95,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		values.add(newVal);
 	}
 	
-	public ListAttribute<K> clone(){
+	public synchronized ListAttribute<K> clone(){
 		ListAttribute<K> newList = new ListAttribute<K>(getName(), template);
 		newList.removeAll();
 		for ( K mAtt : values){
@@ -108,7 +108,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		
 	}
 	
-	public boolean contains(Object obj){
+	public synchronized boolean contains(Object obj){
 		for ( K val : values){
 			if (val.getValue().equals(obj)){
 				return true;
@@ -128,11 +128,11 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		return output;
 	}
 	
-	public void addValue(K value){
+	public synchronized void addValue(K value){
 		values.add(value);
 	}
 
-	public K getValue(int i){
+	public synchronized K getValue(int i){
 		return values.get(i);
 	}
 	
@@ -140,14 +140,14 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		return values.isEmpty();
 	}
 	
-	public K getLastValue(){
+	public synchronized K getLastValue(){
 		if ( values.isEmpty()){
 			return null;
 		}
 		return values.get(values.size() - 1);
 	}
 	
-	public boolean removeValue(K value){
+	public synchronized boolean removeValue(K value){
 		return values.remove(value);
 	}
 	

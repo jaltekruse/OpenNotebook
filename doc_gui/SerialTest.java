@@ -97,60 +97,72 @@ public class SerialTest implements SerialPortEventListener {
 	 */
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		System.out.println("read input");
-		
-		if ( ! app.timer.isRunning()){
-			return;
-		}
-		
-		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-			try {
-				int available = input.available();
-				byte chunk[] = new byte[available];
-				input.read(chunk, 0, available);
+		//synchronized(app){
+			//if ( ! app.timer.isRunning())
+			//return;
 
-				String str = new String(chunk);
+			if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+				try {
+					int available = input.available();
+					byte chunk[] = new byte[available];
+					input.read(chunk, 0, available);
 
-				System.out.println(chunk);
+					String str = new String(chunk);
 
-				GraphObject graph = null;
-				double val;
-				System.out.println(str);
-				String[] inputs = str.split("\n");
-				for ( String s : inputs) {
-					if ( s.length() < 3)
-						continue;
-					graph = null;
-					//System.out.println(s);
-					val = Double.parseDouble(s.substring(1));
-					switch(s.charAt(0)){
-					case 'T':
-						graph = app.skinTemperatureGraphData;
-						val /= 100;
-						break;
-					case 'G': // skin conductance
-						graph = app.skinConductanceGraphData;
-						break;
-					case 'S': // not used - signal
-						graph = app.signalGraphData;
-						break;
+					//System.out.println(chunk);
 
-					case 'Q': // not needed
+					GraphObject graph = null;
+					double val;
+					System.out.println(str);
+					String[] inputs = str.split("\n");
+					double currTime = (new Date().getTime() - app.timeAtStart)/1000.0;
+					double defaultTime = currTime;
+					for ( String s : inputs) {
+						if ( s.length() < 3)
+							continue;
+						currTime = defaultTime;
+						graph = null;
+						//System.out.println(s);
+						val = Double.parseDouble(s.substring(1));
+						switch(s.charAt(0)){
+						case 'T':
+							graph = app.skinTemperatureGraphData;
+							val /= 100;
+							if ( ! app.timer.isRunning())
+								return;
+							break;
+						case 'G': // skin conductance
+							graph = app.skinConductanceGraphData;
+							if ( ! app.timer.isRunning())
+								return;
+							break;
+						case 'S': // not used - signal
+							graph = app.signalGraphData;
+							currTime = (new Date().getTime() - app.timeAtSignalStart)/1000.0;
+							if ( ! app.signalRefresh.isRunning())
+								return;
+							break;
 
-						break;
-					case 'B':
-						graph = app.heartRateGraphData;
-						break;
-					}
-					if (graph != null){
-						double currTime =  (new Date().getTime() - app.timeAtStart)/1000.0;
-						synchronized(graph){
+						case 'Q': // not needed
+
+							break;
+						case 'B':
+							graph = app.heartRateGraphData;
+							if ( ! app.timer.isRunning())
+								return;
+							break;
+						}
+						if (graph != null){
+
 							graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + val + ")");
+
+							//graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + "-8418" + ")");
 						}
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			//}
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
 	}

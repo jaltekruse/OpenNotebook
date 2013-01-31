@@ -70,9 +70,12 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 			}
 		}
 		graph.barGraph.values.removeAllElements();
-		for ( DoubleAttribute d : 
-			(Vector<DoubleAttribute>)object.getListWithName(GraphObject.BAR_GRAPH_VALUES).getValues()){
+		for ( DoubleAttribute d : object.getBarGraphValues().getValues()){
 			graph.barGraph.values.add(d.getValue());
+		}
+		graph.barGraph.labels.removeAllElements();
+		for ( StringAttribute strAttr : object.getBarGraphLabels().getValues()){
+			graph.barGraph.labels.add(strAttr.getValue());
 		}
 		graph.barGraph.groupSize = object.getBarGraphGroupSize();
 

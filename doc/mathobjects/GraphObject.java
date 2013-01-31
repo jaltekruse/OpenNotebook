@@ -32,7 +32,8 @@ public class GraphObject extends MathObject {
 			SHOW_GRID = "show grid", EXPRESSIONS = "Expressions",
 			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",
 			SELECTION = "selection",
-			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size";
+			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",
+			BAR_GRAPH_LABELS = "bar graph labels";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -47,11 +48,11 @@ public class GraphObject extends MathObject {
 	}
 	
 	public GraphObject(MathObjectContainer p){
-		this(p, 0,0,0,0);
+		this(p, 1,1,1,1);
 	}
 	
 	public GraphObject() {
-		this(null, 0,0,0,0);
+		this(null, 1,1, 1,1);
 	}
 	
 	public boolean isStudentSelectable(){
@@ -81,6 +82,10 @@ public class GraphObject extends MathObject {
 			addList(new ListAttribute<DoubleAttribute>(BAR_GRAPH_VALUES,
 					new DoubleAttribute("", -7E8, 7E8), 50, false, false));
 			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, false));
+			
+			addList(new ListAttribute<StringAttribute>(BAR_GRAPH_LABELS,
+					new StringAttribute(""), 100, false, false));
+			
 			addAttribute(new SelectionAttribute(SELECTION, new Selection(), false));
 			
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
@@ -277,6 +282,10 @@ public class GraphObject extends MathObject {
 		}
 	}
 	
+	public Selection getSelection(){
+		 return (Selection) getAttributeWithName(SELECTION).getValue();
+	}
+	
 	public double getxStep(){
 		return ((DoubleAttribute) getAttributeWithName(X_STEP)).getValue();
 	}
@@ -345,12 +354,16 @@ public class GraphObject extends MathObject {
 		return (Vector<GridPointAttribute>) getListWithName(POINTS).getValues();
 	}
 	
-	public ListAttribute<GridPointAttribute> getLineGraphPoints(){
+	public synchronized ListAttribute<GridPointAttribute> getLineGraphPoints(){
 		return (ListAttribute<GridPointAttribute>) getListWithName(LINE_GRAPH);
 	}
 	
-	public ListAttribute<DoubleAttribute> getBarGraphValues(){
+	public synchronized ListAttribute<DoubleAttribute> getBarGraphValues(){
 		return (ListAttribute<DoubleAttribute>) getListWithName(BAR_GRAPH_VALUES);
+	}
+	
+	public synchronized ListAttribute<StringAttribute> getBarGraphLabels(){
+		return (ListAttribute<StringAttribute>) getListWithName(BAR_GRAPH_LABELS);
 	}
 	
 	public int getBarGraphGroupSize(){
@@ -358,7 +371,8 @@ public class GraphObject extends MathObject {
 	}
 	
 	@Override
-	public boolean setAttributeValue(String n, Object o) throws AttributeException{
+	public synchronized boolean setAttributeValue(String n, Object o) throws AttributeException{
+		/*
 		if (n.equals(X_MIN)){
 			if (o instanceof Double){
 				if (((Double)o) < (Double)getAttributeWithName(X_MAX).getValue()){
@@ -400,6 +414,7 @@ public class GraphObject extends MathObject {
 				}
 			}
 		}
+		*/
 		getAttributeWithName(n).setValue(o);
 		return true;
 	}
