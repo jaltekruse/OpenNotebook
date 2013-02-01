@@ -33,7 +33,8 @@ public class GraphObject extends MathObject {
 			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",
 			SELECTION = "selection",
 			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",
-			BAR_GRAPH_LABELS = "bar graph labels";
+			BAR_GRAPH_LABELS = "Bar graph labels", RAW_SPIKE_REMOVAL = "Raw spike removal",
+			RUNNING_SLOPE_AVE = "Running slope average";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -45,6 +46,7 @@ public class GraphObject extends MathObject {
 		addGraphActions();
 		getListWithName(POINTS).removeAll();
 		getListWithName(LINE_GRAPH).removeAll();
+		getListWithName(BAR_GRAPH_VALUES).removeAll();
 	}
 	
 	public GraphObject(MathObjectContainer p){
@@ -87,6 +89,9 @@ public class GraphObject extends MathObject {
 					new StringAttribute(""), 100, false, false));
 			
 			addAttribute(new SelectionAttribute(SELECTION, new Selection(), false));
+			
+			addAttribute(new BooleanAttribute(RAW_SPIKE_REMOVAL, false, false));
+			addAttribute(new DoubleAttribute(RUNNING_SLOPE_AVE, 0, -5000, 5000));
 			
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");
@@ -284,6 +289,18 @@ public class GraphObject extends MathObject {
 	
 	public Selection getSelection(){
 		 return (Selection) getAttributeWithName(SELECTION).getValue();
+	}
+	
+	public boolean removeSpikes(){
+		return ((BooleanAttribute) getAttributeWithName(RAW_SPIKE_REMOVAL)).getValue();
+	}
+	
+	public double getRunningSlopAverage(){
+		return ((DoubleAttribute) getAttributeWithName(RUNNING_SLOPE_AVE)).getValue();
+	}
+	
+	public void setRunningSlopAverage(double d){
+		((DoubleAttribute) getAttributeWithName(RUNNING_SLOPE_AVE)).setValue(d);
 	}
 	
 	public double getxStep(){

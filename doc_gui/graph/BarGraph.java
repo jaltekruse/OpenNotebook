@@ -89,7 +89,7 @@ public class BarGraph extends GraphComponent {
 					, txtWidth + numberInset * 2, height + 2 * numberInset);
 			g.setColor(Color.black);
 			g.drawString(ptText, barX + barW/2  - (txtWidth/2)
-					, gridyToScreen(0.0) - numberAndAxisSpace);
+					, gridyToScreen(0.0) - numberAndAxisSpace - 2);
 			
 			
 			index++;

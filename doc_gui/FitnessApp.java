@@ -12,6 +12,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -35,6 +36,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JApplet;
 import javax.swing.JButton;
@@ -95,15 +97,44 @@ public class FitnessApp {
 	GraphObject heartRateGraphData;
 	GraphObject skinConductanceGraphData;
 	GraphObject skinTemperatureGraphData;
+	
+	double heartRateSlope = 0, skinTempSlope = 0;
+	
 	GraphObject compositeGraphData;
 	GraphObject signalGraphData;
 	GraphObject summaryGraphData;
+	GraphObject HRVGraphData;
 
 	JFrame frame;
+	
+	private static String[] questions = {
+
+		"In the last month, how often have you been upset because of something that happened unexpectedly?",
+		"In the last month, how often have you felt that you were unable to control the important things in your life?",
+		"In the last month, how often have you felt nervous and \"stressed\"?",
+		"In the last month, how often have you dealt successfully with irritating life hassles?",
+		"In the last month, how often have you felt that you were effectively coping with important changes that were occurring in your life?",
+		"In the last month, how often have you felt confident about your ability to handle your personal problems?",
+		"In the last month, how often have you felt that things were going your way?",
+		"In the last month, how often have you found that you could not cope with all the things that you had to do?",
+		"In the last month, how often have you been able to control irritations in your life?",
+		"In the last month, how often have you felt that you were on top of things?",
+		"In the last month, how often have you been angered because of things that happened that were outside of your control?",
+		"In the last month, how often have you found yourself thinking about things that you have to accomplish?",
+		"In the last month, how often have you been able to control the way you spend your time?",
+		"In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?",
+	};
 
 	public static final String COM_PORT = "com port", DATA_RATE = "Data rate",
-			SKIN_FUNC = "Skin conductance func (c)", HEART_FUNC = "Heart rate function (h)",
-			SKIN_TEMP = "Skin temp func (t)";
+			QUIZ_FUNC = "Quiz Score Func (q)",
+			SKIN_FUNC = "Skin Conductance Func (c)", HEART_FUNC = "Heart Rate Func (h)",
+			SKIN_TEMP = "Skin Temp Func (t)", GENERATE_RANDOM_DATA = "Generate Random Data",
+			TEMP_RANGE = "Skin Temp Range", HEART_RATE_RANGE = "Heart Rate Range",
+			CONDUCTANCE_RANGE = "Conductance Range", TEMP_ABS_RANGE = "Skin Temp Absolute Range",
+			HEART_RATE_ABS_RANGE = "Heart Rate Absolute Range", CONDUCTANCE_ABS_RANGE = "Conductance Absolute Range";
+	
+	public static final String NEVER = "Never", SOMETIMES = "Sometimes", USUALLY = "Usually", ALMOST_ALWAYS = "Almost Always",
+			ALWAYS = "Always";
 
 	GraphObjectGUI graphGui;
 	JScrollBar scrollbar;
@@ -138,6 +169,9 @@ public class FitnessApp {
 			skinConductanceGraphData.setLineGraphColor(Color.RED);
 			skinTemperatureGraphData = (GraphObject) heartRateGraphData.clone();
 			skinTemperatureGraphData.setLineGraphColor(Color.GREEN.darker());
+			
+			HRVGraphData = (GraphObject) heartRateGraphData.clone();
+			
 			compositeGraphData = (GraphObject) heartRateGraphData.clone();
 			compositeGraphData.setLineGraphColor(Color.MAGENTA.darker());
 
@@ -150,6 +184,11 @@ public class FitnessApp {
 		} catch (AttributeException e) {
 			e.printStackTrace();
 		}
+		
+		frame = new JFrame("Stress Application");
+		
+		ImageIcon img = getIcon("img/ChiBandAppLogo2.png");
+		frame.setIconImage(img.getImage());
 
 		timer = new Timer(30, new ActionListener(){
 
@@ -197,9 +236,22 @@ public class FitnessApp {
 		protected void addDefaultAttributes(){
 			addAttribute(new IntegerAttribute(DATA_RATE, 115200, 0, 1000000, true));
 			addAttribute(new StringAttribute(COM_PORT, "/dev/ttyACM0", true));
+			addAttribute(new StringAttribute(QUIZ_FUNC, "2q", true));
 			addAttribute(new StringAttribute(SKIN_FUNC, "5c", true));
 			addAttribute(new StringAttribute(HEART_FUNC, "3h", true));
 			addAttribute(new StringAttribute(SKIN_TEMP, "4t", true));
+			addAttribute(new BooleanAttribute(GENERATE_RANDOM_DATA, false, true));
+			addAttribute(new GridPointAttribute(HEART_RATE_RANGE, new GridPoint(40, 200), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(CONDUCTANCE_RANGE, new GridPoint(100, 1000), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(TEMP_RANGE, new GridPoint(60, 105), -100000, 100000, -10000, 10000));
+			
+			addAttribute(new GridPointAttribute(HEART_RATE_RANGE, new GridPoint(40, 200), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(CONDUCTANCE_RANGE, new GridPoint(100, 1000), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(TEMP_RANGE, new GridPoint(60, 105), -100000, 100000, -10000, 10000));
+			
+			addAttribute(new GridPointAttribute(HEART_RATE_ABS_RANGE, new GridPoint(40, 200), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(CONDUCTANCE_ABS_RANGE, new GridPoint(100, 1000), -100000, 100000, -10000, 10000));
+			addAttribute(new GridPointAttribute(TEMP_ABS_RANGE, new GridPoint(60, 105), -100000, 100000, -10000, 10000));
 		}
 
 		@Override
@@ -213,38 +265,14 @@ public class FitnessApp {
 			// TODO Auto-generated method stub
 			return null;
 		}
-
-
 	}
 
 	public static class SurveyQuestions extends MathObject{
 
-		private static String[] questions = {
-
-			"In the last month, how often have you been upset because of something that happened unexpectedly?",
-			"In the last month, how often have you felt that you were unable to control the important things in your life?",
-			"In the last month, how often have you felt nervous and \"stressed\"?",
-			"In the last month, how often have you dealt successfully with irritating life hassles?",
-			"In the last month, how often have you felt that you were effectively coping with important changes that were occurring in your life?",
-			"In the last month, how often have you felt confident about your ability to handle your personal problems?",
-			"In the last month, how often have you felt that things were going your way?",
-			"In the last month, how often have you found that you could not cope with all the things that you had to do?",
-			"In the last month, how often have you been able to control irritations in your life?",
-			"In the last month, how often have you felt that you were on top of things?",
-			"In the last month, how often have you been angered because of things that happened that were outside of your control?",
-			"In the last month, how often have you found yourself thinking about things that you have to accomplish?",
-			"In the last month, how often have you been able to control the way you spend your time?",
-			"In the last month, how often have you felt difficulties were piling up so high that you could not overcome them?",
-		};
-
 		public static final String SURVEY = "survey";
 
 		public static final String[] possibleValues = {
-				"Never",
-				"Sometimes",
-				"Usually",
-				"Almost Always",
-				"Always"
+				NEVER, SOMETIMES, USUALLY, ALMOST_ALWAYS, ALWAYS
 		};
 
 		public SurveyQuestions() {
@@ -254,7 +282,7 @@ public class FitnessApp {
 		@Override
 		public void addDefaultAttributes() {
 			for ( String q : questions){
-				addAttribute(new EnumeratedAttribute(q, possibleValues));
+				addAttribute(new EnumeratedAttribute(q, USUALLY, possibleValues));
 			}
 		}
 
@@ -373,8 +401,7 @@ public class FitnessApp {
 	}
 
 	public void createGUI() {
-
-		frame = new JFrame("Stress Application");
+		
 		frame.addWindowListener(new WindowListener() {
 			@Override public void windowActivated(WindowEvent arg0) {}
 			@Override public void windowClosed(WindowEvent arg0) {}
@@ -438,7 +465,7 @@ public class FitnessApp {
 		GridBagConstraints bCon = new GridBagConstraints();
 
 		bCon.gridx = 0;
-		bCon.gridwidth = 3;
+		bCon.gridwidth = 4;
 		bCon.gridy = 0;
 		bCon.weightx = .5;
 		bCon.insets = new Insets(5, 5, 5, 5);
@@ -554,7 +581,7 @@ public class FitnessApp {
 		bCon.fill = GridBagConstraints.HORIZONTAL;
 		bCon.gridx = 0;
 		bCon.weighty = .1;
-		bCon.gridwidth = 3;
+		bCon.gridwidth = 4;
 
 		scrollbar.addMouseMotionListener(new MouseMotionListener() {
 
@@ -761,8 +788,37 @@ public class FitnessApp {
 		 */
 
 	}
+	
+	/**
+	 * 
+	 * Check if this value is within an acceptable range for the graph. If it is add it
+	 * to the list of points in the line graph.
+	 * 
+	 * This is where raw spike removal takes place.
+	 * 
+	 * @param graphObject - the graph to modify
+	 * @param val - the new value
+	 * @return - success of add
+	 */
+	public boolean addValue(GraphObject graphObject, GridPoint val){
+		GridPointAttribute absoluteRange;
+		if ( graphObject == heartRateGraphData )
+			absoluteRange = (GridPointAttribute) appProps.getAttributeWithName(HEART_RATE_ABS_RANGE);
+		else if ( graphObject == skinTemperatureGraphData )
+			absoluteRange = (GridPointAttribute) appProps.getAttributeWithName(TEMP_ABS_RANGE);
+		else{ // skin conductance or the composite graph, do not do spike removal
+			graphObject.getLineGraphPoints().addValue(new GridPointAttribute("", val));
+			return true;
+		}
+		
+		if ( val.gety() < absoluteRange.getValue().gety() &&  val.gety() > absoluteRange.getValue().getx()){
+			graphObject.getLineGraphPoints().addValue(new GridPointAttribute("", val));
+			return true;
+		}
+		return false;
+	}
 
-	public  void repaintAll(){
+	public void repaintAll(){
 		heartRateGraph.repaint();
 		skinConductanceGraph.repaint();
 		skinTemperatureGraph.repaint();
@@ -813,7 +869,7 @@ public class FitnessApp {
 		double currTime =  ellapsedTime / 1000.0;
 		try {
 			String newPt;
-			if (counter % 15 == 0){
+			if (counter % 15 == 0 && (Boolean) appProps.getAttributeValue(GENERATE_RANDOM_DATA) == true){
 				
 				newPt = "(" + currTime + "," + (rand.nextInt(randMax) - 100) + ")";
 				heartRateGraphData.getLineGraphPoints().addValueWithString(newPt);
@@ -846,6 +902,7 @@ public class FitnessApp {
 						appProps.getAttributeValue(SKIN_TEMP);
 				System.out.println(formula);
 				Node ex = Expression.parseNode(formula);
+				try{
 				ex = ex.replace("h", new Number(heartRateGraphData.getLineGraphPoints()
 								.getLastValue().getValue().gety()));
 				ex = ex.replace("c", new Number(skinConductanceGraphData.getLineGraphPoints()
@@ -856,6 +913,10 @@ public class FitnessApp {
 				newPt = "(" + currTime + "," + ex.numericSimplify().toStringRepresentation() + ")";
 				System.out.println(ex.smartNumericSimplify().toStringRepresentation());
 				compositeGraphData.getLineGraphPoints().addValueWithString(newPt);
+				}
+				catch( Exception ex2){
+					; // do nothing
+				}
 			}
 			
 			if ( currTime > 15.0){
@@ -893,8 +954,6 @@ public class FitnessApp {
 			summaryGraphData.getBarGraphLabels().addValueWithString("Skin Temp.");
 			summaryGraphData.getBarGraphLabels().addValueWithString("Skin Cond.");
 			summaryGraphData.getBarGraphLabels().addValueWithString("Stress");
-			summaryGraphData.setyMax(100.0);
-			summaryGraphData.setyMin(-10.0);
 			summaryGraphData.autoAdjustGrid();
 			summaryGraphData.getBarGraphValues().removeAll();
 
@@ -908,12 +967,46 @@ public class FitnessApp {
 				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
 			}
 			for ( Double d : findAverage(compositeGraphData)){
+				System.out.println("comp va: " + d);
 				summaryGraphData.getBarGraphValues().addValueWithString(d.toString());
 			}
+			double max = Double.MIN_VALUE;
+			for ( DoubleAttribute dAtt : summaryGraphData.getBarGraphValues().getValues()){
+				if (dAtt.getValue() > max){
+					max = dAtt.getValue();
+				}
+			}
+			
+			summaryGraphData.setyMax(max + max / 15.0);
+			summaryGraphData.setyMin(-1 * max / 10);
+			summaryGraphData.autoAdjustGrid();
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}
-
+		
+		// calculate the starting stress score based on the survey.
+		
+		int startingStress = 28;
+		int[] positiveQuestions = {1, 2, 3, 8, 11, 12, 14};
+		int counter = 1;
+		boolean isPos = false;
+		for ( String str : questions){
+			isPos = false;
+			for (Integer i : positiveQuestions){
+				if ( counter == i )
+					isPos = true;
+			}
+			if (isPos)
+				startingStress += surveyNumericValue( (String) survey.getAttributeValue(str));
+			else 
+				startingStress -= surveyNumericValue( (String) survey.getAttributeValue(str));
+			
+			counter++;
+		}
+		
+		System.out.println("Starting stress: " + startingStress + " / " + 56);
+		double normalizedStress = 100.0 * startingStress / 56.0;
+		
 		final JComponent[] inputs = new JComponent[] {
 				summaryGraph,
 				new JLabel("Overall Average, Average Before Mark, Average After Mark"),
@@ -921,11 +1014,21 @@ public class FitnessApp {
 				new JLabel("Skin Temperature: " + averages(skinTemperatureGraphData)),
 				new JLabel("Skin Conductance: " + averages(skinConductanceGraphData)),
 				new JLabel("Overall Stress: " + averages(compositeGraphData)),*/
-				new JLabel("Starting Stress Value: need to calculate this"),
+				new JLabel("Starting Stress Value: " +  String.format("%.1f", normalizedStress)) ,
 
 		};
 		int input = JOptionPane.showConfirmDialog(null, 
-				inputs, "Workout Summary", JOptionPane.PLAIN_MESSAGE);
+				inputs, "Workout Summary",JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, 
+				new ImageIcon(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)));
+	}
+	
+	public int surveyNumericValue(String s){
+		if (s.equals(NEVER))			return 0;
+		else if (s.equals(SOMETIMES))	return 1;
+		else if (s.equals(USUALLY))		return 2;
+		else if (s.equals(ALMOST_ALWAYS))return 3;
+		else if (s.equals(ALWAYS))		return 4;
+		else 							return Integer.MAX_VALUE;
 	}
 	
 	public String averages(GraphObject graphData){
@@ -952,8 +1055,17 @@ public class FitnessApp {
 		timeAtSignalStart = new Date().getTime();
 		signalRefresh.start();
 		signalGraphData.getLineGraphPoints().removeAll();
+		try {
+			signalGraphData.setxMin(0);
+			signalGraphData.setxMax(5.0);
+		} catch (AttributeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		int input = JOptionPane.showConfirmDialog(null, 
-				inputs, "Signal Check", JOptionPane.PLAIN_MESSAGE);
+				inputs, "Signal Check", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, 
+				new ImageIcon(new BufferedImage(1, 1, BufferedImage.TYPE_INT_ARGB)));
 		signalRefresh.stop();
 
 	}
@@ -969,6 +1081,10 @@ public class FitnessApp {
 			problemDialog.dispose();
 		}
 		problemDialog = new JDialog();
+	
+		ImageIcon img = getIcon("img/ChiBandAppLogo2.png");
+		problemDialog.setIconImage(img.getImage());
+		
 		problemDialog.getContentPane().setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
 		con.fill = GridBagConstraints.BOTH;
@@ -1009,7 +1125,7 @@ public class FitnessApp {
 		con.fill = GridBagConstraints.NONE;
 		problemDialog.getContentPane().add(confirmButton, con);
 		problemDialog.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
-		problemDialog.pack();
+		problemDialog.setMinimumSize(new Dimension(300, 350));
 		problemDialog.validate();
 
 		problemDialog.setVisible(true);

@@ -94,6 +94,7 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 			con.gridy = 0;
 			con.insets = new Insets(2, 2, 2, 2);
 			Font f = new Font("Arial", Font.PLAIN, 12);
+			Font smallF = new Font("Arial", Font.PLAIN, 11);
 			JLabel label = new JLabel(mAtt.getName());
 			label.setFont(f);
 			add(label, con);
@@ -116,7 +117,10 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 					}
 	
 				});
-				button.setFont(f);
+				if ( mAtt.getValue().equals(s)){
+					button.setSelected(true);
+				}
+				button.setFont(smallF);
 				this.add(button, con);
 				group.add(button);
 				con.gridx++;

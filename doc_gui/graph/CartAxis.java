@@ -199,6 +199,8 @@ public class CartAxis extends GraphComponent{
 
 			//draw x numbers on top, so the lines don't draw over them
 			for (Double d : xNumbers){
+				if ( graph.barGraph.values.size() > 0 ) // don't draw x numbers on bar graphs
+					break;
 				if ( ! numbersClose(d %( graph.X_STEP * xNumFreq), graph.X_STEP * xNumFreq) &&
 						! numbersClose(d %( graph.X_STEP * xNumFreq), 0) )
 				{// this number should not be drawn

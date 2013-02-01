@@ -10,6 +10,7 @@ import gnu.io.SerialPortEventListener;
 import java.util.Date;
 import java.util.Enumeration;
 
+import doc.GridPoint;
 import doc.mathobjects.GraphObject;
 
 public class SerialTest implements SerialPortEventListener {
@@ -98,70 +99,73 @@ public class SerialTest implements SerialPortEventListener {
 	public synchronized void serialEvent(SerialPortEvent oEvent) {
 		System.out.println("read input");
 		//synchronized(app){
-			//if ( ! app.timer.isRunning())
-			//return;
+		//if ( ! app.timer.isRunning())
+		//return;
 
-			if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-				try {
-					int available = input.available();
-					byte chunk[] = new byte[available];
-					input.read(chunk, 0, available);
+		if (oEvent.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
+			try {
+				int available = input.available();
+				byte chunk[] = new byte[available];
+				input.read(chunk, 0, available);
 
-					String str = new String(chunk);
+				String str = new String(chunk);
 
-					//System.out.println(chunk);
+				//System.out.println(chunk);
 
-					GraphObject graph = null;
-					double val;
-					System.out.println(str);
-					String[] inputs = str.split("\n");
-					double currTime = (new Date().getTime() - app.timeAtStart)/1000.0;
-					double defaultTime = currTime;
-					for ( String s : inputs) {
-						if ( s.length() < 3)
+				GraphObject graph = null;
+				double val;
+				System.out.println(str);
+				String[] inputs = str.split("\n");
+				double currTime = app.ellapsedTime / 1000.0;
+				double defaultTime = currTime;
+				System.out.println(inputs.length);
+				for ( String s : inputs) {
+					if ( s.length() < 3)
+						continue;
+					System.out.println(s);
+					currTime = defaultTime;
+					graph = null;
+					//System.out.println(s);
+					val = Double.parseDouble(s.substring(1));
+					switch(s.charAt(0)){
+					case 'T':
+						graph = app.skinTemperatureGraphData;
+						val /= 100;
+						if ( ! app.timer.isRunning())
 							continue;
-						currTime = defaultTime;
-						graph = null;
-						//System.out.println(s);
-						val = Double.parseDouble(s.substring(1));
-						switch(s.charAt(0)){
-						case 'T':
-							graph = app.skinTemperatureGraphData;
-							val /= 100;
-							if ( ! app.timer.isRunning())
-								return;
-							break;
-						case 'G': // skin conductance
-							graph = app.skinConductanceGraphData;
-							if ( ! app.timer.isRunning())
-								return;
-							break;
-						case 'S': // not used - signal
-							graph = app.signalGraphData;
-							currTime = (new Date().getTime() - app.timeAtSignalStart)/1000.0;
-							if ( ! app.signalRefresh.isRunning())
-								return;
-							break;
+						break;
+					case 'G': // skin conductance
+						graph = app.skinConductanceGraphData;
+						if ( ! app.timer.isRunning())
+							continue;
+						break;
+					case 'S': // not used - signal
+						graph = app.signalGraphData;
+						currTime = (new Date().getTime() - app.timeAtSignalStart)/1000.0;
+						if ( ! app.signalRefresh.isRunning())
+							continue;
+						break;
 
-						case 'Q': // not needed
+					case 'Q': // not needed
 
-							break;
-						case 'B':
-							graph = app.heartRateGraphData;
-							if ( ! app.timer.isRunning())
-								return;
-							break;
-						}
-						if (graph != null){
-
-							graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + val + ")");
-
-							//graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + "-8418" + ")");
-						}
+						break;
+					case 'B':
+						graph = app.heartRateGraphData;
+						System.out.println(str);
+						if ( ! app.timer.isRunning())
+							continue;
+						break;
 					}
-				} catch (Exception e) {
-					e.printStackTrace();
+					if (graph != null){
+
+						app.addValue(graph, new GridPoint( currTime, val));
+
+						//graph.getLineGraphPoints().addValueWithString( "(" + currTime + "," + "-8418" + ")");
+					}
 				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			//}
 		}
 		// Ignore all the other eventTypes, but you should consider the other ones.
