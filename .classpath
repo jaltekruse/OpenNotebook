@@ -2,6 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/jason/Software/arduino-1.0.3/lib/RXTXcomm.jar"/>
-	<classpathentry kind="output" path=""/>
+	<classpathentry kind="lib" path="/home/jason/tech/aLearnLAMP/httpcomponents-client-4.1.3/lib/httpmime-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/home/jason/tech/aLearnLAMP/httpcomponents-client-4.1.3/lib/httpclient-4.1.3.jar"/>
+	<classpathentry kind="lib" path="/home/jason/tech/aLearnLAMP/httpcomponents-client-4.1.3/lib/httpcore-4.1.4.jar"/>
+	<classpathentry kind="lib" path="/home/jason/tech/aLearnLAMP/httpcomponents-client-4.1.3/lib/commons-codec-1.4.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

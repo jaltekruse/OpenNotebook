@@ -23,7 +23,7 @@ import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc.attributes.UUIDAttribute;
 
-public abstract class MathObject {
+public abstract class MathObject implements Cloneable{
 
 	protected MathObjectContainer parentContainer;
 
@@ -32,8 +32,6 @@ public abstract class MathObject {
 	private Vector<ListAttribute<?>> attrLists;
 	
 	private Vector<NamedObjectList<MathObject>> objectLists;
-	
-	private Vector<Object> subObjects;
 	
 	// this will often be unused for now, only for identifying sub-objects in the above list
 	// later it could be used to refer to objects in scripts
@@ -66,8 +64,7 @@ public abstract class MathObject {
 			"oval.png", "triangle.png", "regularPolygon.png", "trapezoid.png",
 			"parallelogram.png", "arrow.png", "cube.png", "cylinder.png",
 			"cone.png", "numberLine.png", "graph.png", "text.png",
-			"expression.png", "answerBox.png", "pyramid.png", null, null, null,
-			null };
+			"expression.png", "answerBox.png", "pyramid.png", null, null, null, null };
     
 	public static final MathObject[] objects = { new LineObject(),
 			new RectangleObject(), new OvalObject(), new TriangleObject(),
@@ -77,7 +74,7 @@ public abstract class MathObject {
 			new GraphObject(), new TextObject(), new ExpressionObject(),
 			new AnswerBoxObject(), null, new Grouping(),
 			new VariableValueInsertionProblem(), new GeneratedProblem(),
-			new ProblemNumberObject() };
+			new ProblemNumberObject()};
 
 	public static final String MAKE_SQUARE = "Make Height and Width equal",
 			ALIGN_PAGE_LEFT = "Align page left",
@@ -678,14 +675,6 @@ public abstract class MathObject {
 
 	public void setObjectLists(Vector<NamedObjectList<MathObject>> objectLists) {
 		this.objectLists = objectLists;
-	}
-
-	public Vector<Object> getSubObjects() {
-		return subObjects;
-	}
-
-	public void setSubObjects(Vector<Object> subObjects) {
-		this.subObjects = subObjects;
 	}
 
 	public String getName() {

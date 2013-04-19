@@ -31,6 +31,8 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.Scrollable;
 
+import doc.Document;
+import doc.mathobjects.MathObject;
 import doc.mathobjects.ProblemGenerator;
 
 public class ProblemListPanel extends JPanel {
@@ -48,6 +50,9 @@ public class ProblemListPanel extends JPanel {
 	private Vector<ProblemGenerator> selectedProblems;
 	private Vector<Integer> selectedFrequencies;
 	private Vector<ProblemGenerator> problemsMatchingSearch;
+	private DocViewerPanel previewPanel;
+	
+	int problemBuffer = 10;
 
 	public ProblemListPanel(NotebookPanel notebook) {
 		notebookPanel = notebook;
@@ -76,27 +81,37 @@ public class ProblemListPanel extends JPanel {
 		con.weighty = .01;
 		con.gridwidth = 2;
 		setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-		JLabel label = new JLabel("<html>This menu allows you to generate lists " +
-				"of problems on your documents.<html>");
+		JLabel label = new JLabel("<html><h2>Generate Problems</h2></html>");
 		label.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
 		add(label , con);
-		con.gridy++;
-		label = new JLabel("<html>Select one or more of the formulas, " +
-				"then specify how frequently you would like each to appear.<html>");
-		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
-		add(label, con);
-		con.gridy++;
-
+		
 		con.weightx = .1;
 		con.gridy++;
+		con.fill = GridBagConstraints.HORIZONTAL;
+		con.anchor = GridBagConstraints.CENTER;
 		con.gridx = 0;
 		con.gridwidth = 1;
 		add(new JLabel("Search"), con);
 		JTextField field = new JTextField();
 		con.weightx = 1;
 		con.gridx = 1;
-		con.insets = new Insets(0, 10, 0, 5);
+		con.insets = new Insets(5, 5, 5, 5);
 		add(field, con);
+		
+		this.addComponentListener(new ComponentListener(){
+
+			@Override public void componentHidden(ComponentEvent arg0) {}
+			@Override public void componentMoved(ComponentEvent arg0) {}
+			@Override public void componentShown(ComponentEvent arg0) {}
+			
+			@Override public void componentResized(ComponentEvent arg0) {
+				if ( previewPanel.getWidth() > previewPanel.getDoc().getWidth() + 2 * previewPanel.getDocOuterBorder()){
+					previewPanel.getDoc().setWidth(previewPanel.getWidth() - 3 * previewPanel.getDocOuterBorder());
+				}
+				previewPanel.resizeViewWindow();
+			}
+			
+		});
 
 		con.fill = GridBagConstraints.BOTH;
 		con.weighty = 1;
@@ -109,54 +124,86 @@ public class ProblemListPanel extends JPanel {
 		scrollPane.getVerticalScrollBar().setUnitIncrement(12);
 		problemList.revalidate();
 		add( scrollPane, con);
+		
+		
+		con.fill = GridBagConstraints.HORIZONTAL;
+		con.weightx = 1;
+		con.weighty = .1;
 		con.gridy++;
+		add(new JLabel("Preview"), con);
+		
+		con.gridx++;
 		con.weighty = 0;
 		con.fill = GridBagConstraints.NONE;
-		con.anchor = GridBagConstraints.LINE_END;
+		con.anchor = GridBagConstraints.FIRST_LINE_END;
 		con.insets = new Insets(5, 5, 0, 0);
 		JButton generationButton = new JButton("Generate Probelms");
 		add(generationButton, con);
+		
 		generationButton.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent ev) {
-				if ( selectedProblems.size() == 0){
-					JOptionPane.showMessageDialog(null,
-							"No problems are selected.",
-							"Error",
-							JOptionPane.ERROR_MESSAGE);
-					return;
-				}
-				int num = getNumberFromUser();
-				if ( num == -1){// user cancelled the action
-					return;
-				}
-				String directions = selectedProblems.get(0).getDirections();
-				if (  selectedProblems.size() > 1)
-				{// there is more than one problem, check to make sure they
-					// have the same directions, or prompt the user for a
-					// new set of directions that applies to all of them.
-					boolean directionsMatch = true;
-					for ( ProblemGenerator gen : selectedProblems){
-						if ( ! gen.getDirections().equalsIgnoreCase(directions)){
-							directionsMatch = false;
-							break;
-						}
-					}
-					if ( ! directionsMatch){
-						// prompt user for new set of directions
-						directions = promtForDirections(selectedProblems);
-						if ( directions == null){
-							return;
-						}
-					}
-				}
-				notebookPanel.getCurrentDocViewer().getDoc().generateProblems(
-						selectedProblems, selectedFrequencies, num, directions);
-				notebookPanel.getCurrentDocViewer().addUndoState();
+				generateProblems();
 			}
 			
 		});
+		
+		Document newDoc = new Document("");
+		newDoc.addBlankPage();
+		newDoc.setxMargin(0);
+		newDoc.setyMargin(0);
+		newDoc.setWidth(430);
+		newDoc.setHeight(150);
+		previewPanel = new DocViewerPanel(newDoc, null, notebook);
+		previewPanel.setDocOuterBorder(5);
+		previewPanel.setDocAlignment(OpenNotebook.ALIGN_DOCS_CENTER);
+		previewPanel.zoomIn();
+		previewPanel.zoomIn();
+		previewPanel.zoomIn();
+		con.fill = GridBagConstraints.BOTH;
+		con.weighty = 1;
+		con.gridx = 0;
+		con.gridwidth = 2;
+		con.gridy++;
+		add( previewPanel, con);
+	}
+	
+	public void generateProblems(){
+		if ( selectedProblems.size() == 0){
+			JOptionPane.showMessageDialog(null,
+					"No problems are selected.",
+					"Error",
+					JOptionPane.ERROR_MESSAGE);
+			return;
+		}
+		int num = getNumberFromUser();
+		if ( num == -1){// user cancelled the action
+			return;
+		}
+		String directions = selectedProblems.get(0).getDirections();
+		if (  selectedProblems.size() > 1)
+		{// there is more than one problem, check to make sure they
+			// have the same directions, or prompt the user for a
+			// new set of directions that applies to all of them.
+			boolean directionsMatch = true;
+			for ( ProblemGenerator gen : selectedProblems){
+				if ( ! gen.getDirections().equalsIgnoreCase(directions)){
+					directionsMatch = false;
+					break;
+				}
+			}
+			if ( ! directionsMatch){
+				// prompt user for new set of directions
+				directions = promtForDirections(selectedProblems);
+				if ( directions == null){
+					return;
+				}
+			}
+		}
+		notebookPanel.getCurrentDocViewer().getDoc().generateProblems(
+				selectedProblems, selectedFrequencies, num, directions);
+		notebookPanel.getCurrentDocViewer().addUndoState();
 	}
 
 	public JPanel createPanelForProblems() {
@@ -195,8 +242,23 @@ public class ProblemListPanel extends JPanel {
 						selectedFrequencies.remove(selectedProblems.indexOf(g));
 						selectedProblems.remove(g);
 					}
+					previewPanel.getDoc().getPage(0).removeAllObjects();
+					
+
+					// set the page size big to prevent problem generation from spawning pages
+					previewPanel.getDoc().setHeight(5000);
+					previewPanel.getDoc().setWidth(5000);
+					previewPanel.getDoc().generateProblem(g);
+					MathObject mObj = previewPanel.getDoc().getPage(0).getObjects().get(0);
+					System.out.println("new obj:" + mObj + " " + mObj.getWidth() + ", " + mObj.getHeight());
+					previewPanel.getDoc().setWidth(mObj.getWidth() + 2 * problemBuffer);
+					previewPanel.getDoc().setHeight(mObj.getHeight() + 2 * problemBuffer);
+					System.out.println("page:" + previewPanel.getDoc().getWidth() 
+							+ ", " + previewPanel.getDoc().getHeight());
+					mObj.setxPos(problemBuffer);
+					mObj.setyPos(problemBuffer);
+					previewPanel.resizeViewWindow();
 				}
-				
 			});
 			frequencyChoices = new JComboBox(frequencies);
 			panel.add(checkbox, con);

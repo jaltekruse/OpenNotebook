@@ -192,36 +192,6 @@ public class NumberLine {
 
 			g.setFont(oldFont);
 		}
-
-		private boolean numbersClose(double num1, double num2){
-			if ( Math.abs( num1 - num2) < .00001){
-				return true;
-			}
-			return false;
-		}
-		
-		private String doubleToString(double d, double round){
-			String ptText;
-			if ( numbersClose(d % round, 0)){
-				d = d / round * round;
-			}
-			else if ( numbersClose( d % round, round)){
-				d = ((d / round) + 1 ) * round;
-			}
-			if ( ((Double)d).toString().length() > 5){
-				ptText = String.format("%.4G", d);
-			}
-			else{
-				if ( (int) d == d){
-					ptText = (int) d + ""; 
-				}
-				else{
-					ptText = d + "";
-				}
-			}
-			return ptText;
-		}
-
 	}
 
 }

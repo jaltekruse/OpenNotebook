@@ -287,9 +287,22 @@ public class Document {
 		return new PointInDocument(getPageIndex(lastPageWithStuff), getxMargin() + 10,
 				lastObjectYPos + 10);
 	}
-
+	
+	public void generateProblem(ProblemGenerator generator){
+		Vector<ProblemGenerator> generators = new Vector<ProblemGenerator>();
+		generators.add(generator);
+		Vector<Integer> frequencies = new Vector<Integer>();
+		frequencies.add(100);
+		generateProblems(generators, frequencies, 1, null, false);
+	}
+	
 	public void generateProblems(Vector<ProblemGenerator> generators,
 			Vector<Integer> frequencies, int numberOfProblems, String directions) {
+		generateProblems(generators, frequencies, numberOfProblems, directions, true);
+	}
+
+	public void generateProblems(Vector<ProblemGenerator> generators,
+			Vector<Integer> frequencies, int numberOfProblems, String directions, boolean problemNumbers) {
 		GeneratedProblem[] newProblems = new GeneratedProblem[numberOfProblems];
 		int difficulty;
 		for (ProblemGenerator gen : generators){
@@ -316,11 +329,11 @@ public class Document {
 						.generateProblem(ProblemGenerator.HARD);
 			}
 		}
-		layoutProblems(newProblems, directions, this);
+		layoutProblems(newProblems, directions, this, problemNumbers);
 		docPanel.repaint();
 	}
 	
-	public static void layoutProblems(MathObject[] objects, String directions, Document doc) {
+	public static void layoutProblems(MathObject[] objects, String directions, Document doc, boolean problemNumbers) {
 
 		int extraMarginForDirections = 5;
 		PointInDocument pt = doc.findFirstWhitespace();
@@ -381,23 +394,25 @@ public class Document {
 				curryPos = currentPage.getyMargin() + minimumBufferSpace;
 				mObj.setyPos(curryPos);
 			}
-			// add a number for this problem
-			problemNumber = new ProblemNumberObject(currentPage, mObj.getxPos() - 38,
-					mObj.getyPos(), 35, 20, lastProblemNumber);
-			// draw it in the background so its height is set properly
-			doc.getDocViewerPanel().drawObjectInBackground(problemNumber);
-			// to accommodate problems of different heights, the number should be layed out either in the
-			// center of the height of the problem, or at the top if it is very large
-			if ( problemNumber.getHeight() * 4 >= mObj.getHeight()){
-				problemNumber.setyPos(mObj.getyPos() + (int)
-						Math.round( (mObj.getHeight()/2.0) - (problemNumber.getHeight()/2.0)));
-				//				problemNumber.setyPos(mObj.getyPos() + (mObj.getHeight() - problemNumber.getHeight())/2);
+			if (problemNumbers){
+				// add a number for this problem
+				problemNumber = new ProblemNumberObject(currentPage, mObj.getxPos() - 38,
+						mObj.getyPos(), 35, 20, lastProblemNumber);
+				// draw it in the background so its height is set properly
+				doc.getDocViewerPanel().drawObjectInBackground(problemNumber);
+				// to accommodate problems of different heights, the number should be layed out either in the
+				// center of the height of the problem, or at the top if it is very large
+				if ( problemNumber.getHeight() * 4 >= mObj.getHeight()){
+					problemNumber.setyPos(mObj.getyPos() + (int)
+							Math.round( (mObj.getHeight()/2.0) - (problemNumber.getHeight()/2.0)));
+					//				problemNumber.setyPos(mObj.getyPos() + (mObj.getHeight() - problemNumber.getHeight())/2);
+				}
+				else{
+					problemNumber.setyPos(mObj.getyPos() + problemNumber.getHeight());
+				}
+				currentPage.addObject(problemNumber);
+				lastProblemNumber++;
 			}
-			else{
-				problemNumber.setyPos(mObj.getyPos() + problemNumber.getHeight());
-			}
-			currentPage.addObject(problemNumber);
-			lastProblemNumber++;
 			currentPage.addObject(mObj);
 			mObj.setParentContainer(currentPage);
 			currColumn++;

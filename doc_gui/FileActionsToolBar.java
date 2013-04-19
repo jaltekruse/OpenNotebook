@@ -36,7 +36,7 @@ public class FileActionsToolBar extends JToolBar {
 	public FileActionsToolBar(NotebookPanel p){
 		this.setFloatable(false);
 		notebookPanel = p;
-		Icon icon;
+		Icon icon; 
 		
 		icon = notebookPanel.getIcon("img/save.png");
 
@@ -150,14 +150,14 @@ public class FileActionsToolBar extends JToolBar {
 		};
 
 		
-		new OCButton("frame", "open frame", 1, 1, 2, 0, this){
-
-			@Override
-			public void associatedAction(){
-				notebookPanel.createWorkspace(null);
-			}
-		};
-		
+//		new OCButton("frame", "open frame", 1, 1, 2, 0, this){
+//
+//			@Override
+//			public void associatedAction(){
+//				notebookPanel.createWorkspace(null);
+//			}
+//		};
+//		
 		
 		if ( ! notebookPanel.isInStudentMode()){
 			ImageIcon addPageIcon = notebookPanel.getIcon("img/newPage.png");

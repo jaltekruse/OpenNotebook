@@ -22,9 +22,9 @@ public class ProblemDatabase {
 
 	private Vector<ProblemGenerator> problems;
 	private static final ExpressionGenerator[] expressionGenerators = {
-		new BasicArithmeticExpression(), new BasicAssociativeProperty(), new AssociativePropertiesWithVariables(),
-		new BasicAddition(), new BasicAdditionWithNegatives(), new BasicAdditionAndSubraction(),
-		new PropertyOfOppositiesWithVariables(), new AdditionPropertyOfEquality(), new BasicDistributiveProperty()
+//		new BasicArithmeticExpression(), new BasicAssociativeProperty(), new AssociativePropertiesWithVariables(),
+//		new BasicAddition(), new BasicAdditionWithNegatives(), new BasicAdditionAndSubraction(),
+//		new PropertyOfOppositiesWithVariables(), new AdditionPropertyOfEquality(), new BasicDistributiveProperty()
 	};
 	private CaseInsensitiveMap tagIndex;
 	public static final String NAME = "ProblemDatabase";

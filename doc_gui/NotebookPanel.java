@@ -5,7 +5,6 @@
  * inform the project leader at altekrusejason@gmail.com to report where
  * the file was found and delete it immediately. 
  */
-
 package doc_gui;
 
 import java.awt.BorderLayout;
@@ -104,7 +103,6 @@ public class NotebookPanel extends SubPanel {
 	private DocViewerPanel workSpace;
 	private JTabbedPane docTabs;
 	private Vector<DocTabClosePanel> tabLabels;
-	private NotebookPanel thisNotebookPanel;
 	private PageGUI pageGUI = new PageGUI();
 
 	private MathObject objToPlace;
@@ -119,6 +117,7 @@ public class NotebookPanel extends SubPanel {
 	private JFrame textFrame, workspaceFrame;
 	private DocViewerPanel workspaceDoc;
 	private ObjectToolBar objectToolbar;
+	private ProblemListPanel problemListPanel;
 
 	// flag to track if the last action that was performed was closing a
 	// tab, if the user closes the tab just before the "+" (add new doc)
@@ -143,7 +142,6 @@ public class NotebookPanel extends SubPanel {
 		super(null);
 		System.out.println("start making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		setOpenNotebook(openbook);
-		thisNotebookPanel = this;
 
 		justClosedTab = false;
 
@@ -159,11 +157,15 @@ public class NotebookPanel extends SubPanel {
 		System.out.println("checkpoint 1:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		docTabs = new JTabbedPane();
 		docTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		//		JSplitPane splitPane = new JSplitPane();
-		//		splitPane.setRightComponent(docTabs);
-		//		splitPane.setLeftComponent(null);
+		JSplitPane splitPane = new JSplitPane();
+		problemListPanel = new ProblemListPanel(this);
+		
+		//splitPane.setRightComponent(docTabs);
+		//splitPane.setLeftComponent(problemListPanel);
+		//splitPane.setDividerLocation(450);
 
 		add(docTabs, BorderLayout.CENTER);
+		//add(docTabs, BorderLayout.CENTER);
 		System.out.println("after docTabs:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 
 		JPanel topToolBars = new JPanel();
@@ -1105,7 +1107,7 @@ public class NotebookPanel extends SubPanel {
 		// add new doc
 		docTabs.add(openDocs.get(openDocs.size() - 1),
 				openDocs.get(openDocs.size() - 1).getDoc().getName());
-		DocTabClosePanel temp = new DocTabClosePanel(thisNotebookPanel,
+		DocTabClosePanel temp = new DocTabClosePanel(this,
 				openDocs.get(openDocs.size() - 1));
 		tabLabels.add(temp);
 		docTabs.setTabComponentAt(openDocs.size() - 1, temp);
@@ -1126,6 +1128,7 @@ public class NotebookPanel extends SubPanel {
 
 	public ImageIcon getIcon(String filename) {
 		try {
+			System.out.println(filename);
 			BufferedImage image = ImageIO.read(getClass().getClassLoader()
 					.getResourceAsStream(filename));
 			return new ImageIcon(image);

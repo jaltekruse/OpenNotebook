@@ -16,6 +16,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import math_rendering.Cursor;
 import math_rendering.RootNodeGraphic;
 import tree.ExpressionParser;
 import doc.attributes.StringAttribute;
@@ -148,6 +149,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 							g.fillRect(r.xPos - 4, r.yPos - 4, r.getWidth() + 8, r.getHeight() + 8);
 							g.setColor(Color.BLACK);
 						}
+						//r.setCursor(new Cursor(r.getRoot().getMostInnerWest(),0));
 						r.draw();
 					}
 				} catch (NodeException e) {

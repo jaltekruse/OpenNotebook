@@ -22,6 +22,8 @@ ALIGN_PAGE_LEFT	doc/mathobjects/MathObject.java	/^			ALIGN_PAGE_LEFT = "Align pa
 ALIGN_PAGE_RIGHT	doc/mathobjects/MathObject.java	/^			ALIGN_PAGE_RIGHT = "Align page right",$/;"	f	class:MathObject
 ALIGN_PAGE_TOP	doc/mathobjects/MathObject.java	/^			ALIGN_PAGE_TOP = "Align page top",$/;"	f	class:MathObject
 ALIGN_PAGE_VERTICAL_CENTER	doc/mathobjects/MathObject.java	/^			ALIGN_PAGE_VERTICAL_CENTER = "Align with vertical page center",$/;"	f	class:MathObject
+ALMOST_ALWAYS	doc_gui/FitnessApp.java	/^	public static final String NEVER = "Never", SOMETIMES = "Sometimes", USUALLY = "Usually", ALMOST_ALWAYS = "Almost Always",$/;"	f	class:FitnessApp
+ALWAYS	doc_gui/FitnessApp.java	/^			ALWAYS = "Always";$/;"	f	class:FitnessApp
 ALWAYS_SHOW_STEPS	doc/mathobjects/ExpressionObject.java	/^			STEPS = "steps", ALWAYS_SHOW_STEPS = "always show steps",$/;"	f	class:ExpressionObject
 AND	tree/Operator.java	/^	AND(1, null),		OR(1, null),		NE(1, null),		GTE(1, null),		LTE(1, null),$/;"	e	enum:Operator	file:
 ANSWER_BOX_OBJ	doc/mathobjects/MathObject.java	/^	public static final String ANSWER_BOX_OBJ = "AnswerBox",$/;"	f	class:MathObject
@@ -46,7 +48,7 @@ AnswerBoxGUI	doc_gui/mathobject_gui/AnswerBoxGUI.java	/^public class AnswerBoxGU
 AnswerBoxObject	doc/mathobjects/AnswerBoxObject.java	/^	public AnswerBoxObject() {}$/;"	m	class:AnswerBoxObject
 AnswerBoxObject	doc/mathobjects/AnswerBoxObject.java	/^	public AnswerBoxObject(MathObjectContainer p){$/;"	m	class:AnswerBoxObject
 AnswerBoxObject	doc/mathobjects/AnswerBoxObject.java	/^	public AnswerBoxObject(Page p, int x, int y, int w, int h) {$/;"	m	class:AnswerBoxObject
-AnswerBoxObject	doc/mathobjects/AnswerBoxObject.java	/^public class AnswerBoxObject extends MathObject {$/;"	c
+AnswerBoxObject	doc/mathobjects/AnswerBoxObject.java	/^public class AnswerBoxObject extends MathObject implements Gradeable {$/;"	c
 ArrowObject	doc/mathobjects/ArrowObject.java	/^	public ArrowObject() {$/;"	m	class:ArrowObject
 ArrowObject	doc/mathobjects/ArrowObject.java	/^	public ArrowObject(MathObjectContainer p){$/;"	m	class:ArrowObject
 ArrowObject	doc/mathobjects/ArrowObject.java	/^	public ArrowObject(MathObjectContainer p, int x, int y, int w, int h, int t) {$/;"	m	class:ArrowObject
@@ -54,7 +56,10 @@ ArrowObject	doc/mathobjects/ArrowObject.java	/^public class ArrowObject extends 
 AssociativePropertiesWithVariables	doc/expression_generators/AssociativePropertiesWithVariables.java	/^public class AssociativePropertiesWithVariables extends ExpressionGenerator {$/;"	c
 AttributeException	doc/attributes/AttributeException.java	/^	public AttributeException(String s){$/;"	m	class:AttributeException
 AttributeException	doc/attributes/AttributeException.java	/^public class AttributeException extends Exception {$/;"	c
-BACKING_STORE_AVAIL	doc_gui/OpenNotebook.java	/^	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail";$/;"	f	class:OpenNotebook	file:
+BACKING_STORE_AVAIL	doc_gui/OpenNotebook.java	/^	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail", DATABASE_FILENAME = "ProblemDatabase";$/;"	f	class:OpenNotebook	file:
+BAR_GRAPH_GROUP_SIZE	doc/mathobjects/GraphObject.java	/^			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",$/;"	f	class:GraphObject
+BAR_GRAPH_LABELS	doc/mathobjects/GraphObject.java	/^			BAR_GRAPH_LABELS = "Bar graph labels", RAW_SPIKE_REMOVAL = "Raw spike removal",$/;"	f	class:GraphObject
+BAR_GRAPH_VALUES	doc/mathobjects/GraphObject.java	/^			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",$/;"	f	class:GraphObject
 BIG_FONT	math_rendering/RootNodeGraphic.java	/^		BIG_FONT, SMALL_FONT$/;"	e	enum:RootNodeGraphic.FontSize	file:
 BOOLEAN_ATTRIBUTE	doc/attributes/MathObjectAttribute.java	/^	public static final String BOOLEAN_ATTRIBUTE = "boolean", DOUBLE_ATTRIBUTE = "double",$/;"	f	class:MathObjectAttribute
 BRACKET	tree/Operator.java	/^	PAREN(6, null),	BRACKET(6, null),	CURL_BRAC(6, null),$/;"	e	enum:Operator	file:
@@ -62,6 +67,8 @@ BRING_TO_BOTTOM	doc/mathobjects/Grouping.java	/^			BRING_TO_BOTTOM = "Bring All 
 BRING_TO_LEFT	doc/mathobjects/Grouping.java	/^	public static final String STORE_IN_DATABASE = "Store in Database", BRING_TO_LEFT = "Bring All to Left",$/;"	f	class:Grouping
 BRING_TO_RIGHT	doc/mathobjects/Grouping.java	/^			BRING_TO_RIGHT = "Bring All to Right", BRING_TO_TOP = "Bring All to Top",$/;"	f	class:Grouping
 BRING_TO_TOP	doc/mathobjects/Grouping.java	/^			BRING_TO_RIGHT = "Bring All to Right", BRING_TO_TOP = "Bring All to Top",$/;"	f	class:Grouping
+BarGraph	doc_gui/graph/BarGraph.java	/^	public BarGraph(Graph g) {$/;"	m	class:BarGraph
+BarGraph	doc_gui/graph/BarGraph.java	/^public class BarGraph extends GraphComponent {$/;"	c
 BasicAddition	doc/expression_generators/BasicAddition.java	/^public class BasicAddition extends ExpressionGenerator {$/;"	c
 BasicAdditionAndSubraction	doc/expression_generators/BasicAdditionAndSubraction.java	/^public class BasicAdditionAndSubraction extends ExpressionGenerator {$/;"	c
 BasicAdditionWithNegatives	doc/expression_generators/BasicAdditionWithNegatives.java	/^public class BasicAdditionWithNegatives extends ExpressionGenerator {$/;"	c
@@ -88,10 +95,14 @@ CARET	math_rendering/ExponentGraphic.java	/^		CARET, SUPERSCRIPT$/;"	e	enum:Expo
 CEILING	tree/Operator.java	/^	LOG(5, "log"),		ABS(5, "abs"),		FLOOR(5, "floor"),	CEILING(5, "ceil"),	INT(5, "int"),$/;"	e	enum:Operator	file:
 CENTER	doc/mathobjects/TextObject.java	/^	public static final String LEFT = "Left", RIGHT = "Right", CENTER = "Center", ALIGNMENT = "alignment";$/;"	f	class:TextObject
 CHILD_NAME	doc/attributes/ListAttribute.java	/^								CHILD_NAME = "childName",	NAME = "name",		TYPE = "type";$/;"	f	class:ListAttribute
+CHI_BAND_PREFS	doc_gui/FitnessApp.java	/^			CHI_BAND_PREFS = "Chi Band prefs";$/;"	f	class:FitnessApp
 COLON	expression/Operator.java	/^			COLON, DIAGONAL_BAR, HORIZONTAL_BAR, OBELUS;$/;"	e	enum:Operator.Division.Format	file:
 COLOR_ATTRIBUTE	doc/attributes/MathObjectAttribute.java	/^			STRING_ATTRIBUTE = "string", COLOR_ATTRIBUTE = "color", DATE = "date",$/;"	f	class:MathObjectAttribute
 COMBINE_LIKE_TERMS	doc/mathobjects/ExpressionObject.java	/^	public static String	COMBINE_LIKE_TERMS = "Combine like terms",$/;"	f	class:ExpressionObject
 COMBO_BOX	doc_gui/attribute_panels/EnumeratedAdjuster.java	/^	public static final int COMBO_BOX = 1, RADIO_BUTTON_ROW = 2, RADIO_BUTTON_COLOUMN = 3;$/;"	f	class:EnumeratedAdjuster
+COM_PORT	doc_gui/FitnessApp.java	/^	public static final String COM_PORT = "com port", DATA_RATE = "Data rate",$/;"	f	class:FitnessApp
+CONDUCTANCE_ABS_RANGE	doc_gui/FitnessApp.java	/^			HEART_RATE_ABS_RANGE = "Heart Rate Absolute Range", CONDUCTANCE_ABS_RANGE = "Conductance Absolute Range",$/;"	f	class:FitnessApp
+CONDUCTANCE_RANGE	doc_gui/FitnessApp.java	/^			CONDUCTANCE_RANGE = "Conductance Range", TEMP_ABS_RANGE = "Skin Temp Absolute Range",$/;"	f	class:FitnessApp
 CONE_OBJECT	doc/mathobjects/MathObject.java	/^			CYLINDER_OBJ = "Cylinder", CONE_OBJECT = "Cone",$/;"	f	class:MathObject
 CORRECT_ANSWERS	doc/mathobjects/AnswerBoxObject.java	/^	public static final String FONT_SIZE = "font size", STUDENT_ANSWER = "student answer", CORRECT_ANSWERS = "correct answers",$/;"	f	class:AnswerBoxObject
 CORRECT_ANSWERS	doc/mathobjects/ExpressionObject.java	/^			CORRECT_ANSWERS = "correct answers";$/;"	f	class:ExpressionObject
@@ -138,12 +149,15 @@ CylinderObject	doc/mathobjects/CylinderObject.java	/^	public CylinderObject(){$/
 CylinderObject	doc/mathobjects/CylinderObject.java	/^	public CylinderObject(MathObjectContainer p){$/;"	m	class:CylinderObject
 CylinderObject	doc/mathobjects/CylinderObject.java	/^public class CylinderObject extends MathObject {$/;"	c
 CylinderObjectGUI	doc_gui/mathobject_gui/CylinderObjectGUI.java	/^public class CylinderObjectGUI extends MathObjectGUI<CylinderObject> {$/;"	c
-DATABASE_FILENAME	doc_gui/OpenNotebook.java	/^	private static final String DATABASE_FILENAME = "ProblemDatabase";$/;"	f	class:OpenNotebook	file:
+DATABASE_FILENAME	doc_gui/OpenNotebook.java	/^	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail", DATABASE_FILENAME = "ProblemDatabase";$/;"	f	class:OpenNotebook	file:
 DATABASE_PATH	doc_gui/OpenNotebook.java	/^	private static final String DATABASE_PATH = "databasePath",$/;"	f	class:OpenNotebook	file:
+DATA_RATE	doc_gui/FitnessApp.java	/^	public static final String COM_PORT = "com port", DATA_RATE = "Data rate",$/;"	f	class:FitnessApp
+DATA_RATE	doc_gui/SerialTest.java	/^	private static final int DATA_RATE = 115200;$/;"	f	class:SerialTest	file:
+DATA_RATE	doc_gui/SerialTest2.java	/^	private static final int DATA_RATE = 9600;$/;"	f	class:SerialTest2	file:
 DATE	doc/Document.java	/^			FOOTER = "footer", AUTHOR = "author", DATE = "date",$/;"	f	class:Document
 DATE	doc/attributes/MathObjectAttribute.java	/^			STRING_ATTRIBUTE = "string", COLOR_ATTRIBUTE = "color", DATE = "date",$/;"	f	class:MathObjectAttribute
 DATE	doc/mathobjects/ProblemGenerator.java	/^			TAGS = "tags", DIRECTIONS = "directions", DATE = "date",$/;"	f	class:ProblemGenerator
-DEBUG	doc/xml/DocReader.java	/^	private boolean DEBUG = false;$/;"	f	class:DocReader	file:
+DEBUG	doc/xml/DocReader.java	/^	private boolean DEBUG = true;$/;"	f	class:DocReader	file:
 DEBUG	doc/xml/OldReader.java	/^	private boolean DEBUG = false;$/;"	f	class:OldReader	file:
 DECIMAL_ANSWER	doc/expression_generators/ExUtil.java	/^	public static String DECIMAL_ANSWER = "decimalAnswer";$/;"	f	class:ExUtil
 DEFAULT_GRID	doc/mathobjects/GraphObject.java	/^	public static final String DEFAULT_GRID = "default grid",$/;"	f	class:GraphObject
@@ -192,14 +206,14 @@ Division	expression/Operator.java	/^		public Division(Format format) {$/;"	m	cla
 Division	expression/Operator.java	/^	public static class Division extends BinaryOperator {$/;"	c	class:Operator
 DivisionGraphic	math_rendering/DivisionGraphic.java	/^	public DivisionGraphic(Expression b, RootNodeGraphic gr) {$/;"	m	class:DivisionGraphic
 DivisionGraphic	math_rendering/DivisionGraphic.java	/^public class DivisionGraphic extends BinExpressionGraphic {$/;"	c
-DocMouseListener	doc_gui/DocMouseListener.java	/^	public DocMouseListener(DocViewerPanel docPanel){$/;"	m	class:DocMouseListener
-DocMouseListener	doc_gui/DocMouseListener.java	/^public class DocMouseListener implements MouseInputListener{$/;"	c
+DocMouseListener	doc_gui/DocMouseListener.java	/^	public DocMouseListener(DocViewerPanel docPanel) {$/;"	m	class:DocMouseListener
+DocMouseListener	doc_gui/DocMouseListener.java	/^public class DocMouseListener implements MouseInputListener {$/;"	c
 DocPrinter	doc_gui/DocPrinter.java	/^public class DocPrinter implements Printable{$/;"	c
 DocReader	doc/xml/DocReader.java	/^	public DocReader(){$/;"	m	class:DocReader
 DocReader	doc/xml/DocReader.java	/^public class DocReader extends DefaultHandler {$/;"	c
 DocTabClosePanel	doc_gui/DocTabClosePanel.java	/^	public DocTabClosePanel(NotebookPanel n, DocViewerPanel dvp){$/;"	m	class:DocTabClosePanel
 DocTabClosePanel	doc_gui/DocTabClosePanel.java	/^public class DocTabClosePanel extends JPanel{$/;"	c
-DocViewerPanel	doc_gui/DocViewerPanel.java	/^	public DocViewerPanel(Document d, TopLevelContainerOld t, OpenNotebook book){$/;"	m	class:DocViewerPanel
+DocViewerPanel	doc_gui/DocViewerPanel.java	/^	public DocViewerPanel(Document d, TopLevelContainerOld t, NotebookPanel book){$/;"	m	class:DocViewerPanel
 DocViewerPanel	doc_gui/DocViewerPanel.java	/^public class DocViewerPanel extends JDesktopPane{$/;"	c
 Document	doc/Document.java	/^	public Document(String name) {$/;"	m	class:Document
 Document	doc/Document.java	/^public class Document {$/;"	c
@@ -230,7 +244,7 @@ EMAIL_PATTERN	doc/attributes/EmailAttribute.java	/^	private static final String 
 EMPTY	doc_gui/graph/GraphCalculation.java	/^	public static final double EMPTY = Double.MAX_VALUE;$/;"	f	class:GraphCalculation
 EMPTY	doc_gui/graph/Selection.java	/^	public static final double EMPTY = Double.MAX_VALUE;$/;"	f	class:Selection
 ENTRY	doc/attributes/ListAttribute.java	/^	public static final String	LIST = "list", 				ENTRY = "entry",	VAL = "v",$/;"	f	class:ListAttribute
-ENUMERATED_ATTRIUBTE	doc/attributes/MathObjectAttribute.java	/^			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator";$/;"	f	class:MathObjectAttribute
+ENUMERATED_ATTRIUBTE	doc/attributes/MathObjectAttribute.java	/^			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator",$/;"	f	class:MathObjectAttribute
 EQ	tree/Operator.java	/^	ASSIGN(1, "="),		GT(1, null),		LT(1, null),		EQ(1, null),		NOT(1, null),$/;"	e	enum:Operator	file:
 EXPANDED_PIC	doc_gui/attribute_panels/ListAdjuster.java	/^	private static final String NOT_EXPANDED_PIC = "notExpandedList.png", EXPANDED_PIC = "expandedList.png";$/;"	f	class:ListAdjuster	file:
 EXPRESSION	doc/attributes/VariableGenProperties.java	/^	private static final String RANDOM = "random", EXPRESSION = "expression", MINIMUM = "mininimum",$/;"	f	class:VariableGenProperties	file:
@@ -302,6 +316,7 @@ ExpressionParser	tree/ExpressionParser.java	/^public class ExpressionParser {$/;
 FACT	tree/Operator.java	/^	ROUND(5, "round"),	NEG(5, "neg"),		FACT(5, "!"), INTEGRAL(5, "integral"),$/;"	e	enum:Operator	file:
 FILENAME	doc/Document.java	/^	public static final String FILENAME = "filename", HEADER = "header",$/;"	f	class:Document
 FILL_COLOR	doc/mathobjects/MathObject.java	/^			LINE_THICKNESS = "line thickness", FILL_COLOR = "fill color",$/;"	f	class:MathObject
+FITNESS_APP_PROPS	doc/mathobjects/MathObject.java	/^			FITNESS_APP_PROPS = "FitnessAppProps";$/;"	f	class:MathObject
 FLIP_HORIZONTALLY	doc/mathobjects/MathObject.java	/^			FLIP_HORIZONTALLY = "flip horizontally",$/;"	f	class:MathObject
 FLIP_VERTICALLY	doc/mathobjects/MathObject.java	/^			FLIP_VERTICALLY = "flip vertically",$/;"	f	class:MathObject
 FLOOR	tree/Operator.java	/^	LOG(5, "log"),		ABS(5, "abs"),		FLOOR(5, "floor"),	CEILING(5, "ceil"),	INT(5, "int"),$/;"	e	enum:Operator	file:
@@ -314,6 +329,11 @@ FOOTER	doc/Document.java	/^			FOOTER = "footer", AUTHOR = "author", DATE = "date
 FRACTION_ANSWER	doc/expression_generators/ExUtil.java	/^	public static String FRACTION_ANSWER = "fractionAnswer";$/;"	f	class:ExUtil
 FileActionsToolBar	doc_gui/FileActionsToolBar.java	/^	public FileActionsToolBar(NotebookPanel p){$/;"	m	class:FileActionsToolBar
 FileActionsToolBar	doc_gui/FileActionsToolBar.java	/^public class FileActionsToolBar extends JToolBar {$/;"	c
+FitnessApp	doc_gui/FitnessApp.java	/^	public FitnessApp(){$/;"	m	class:FitnessApp
+FitnessApp	doc_gui/FitnessApp.java	/^public class FitnessApp {$/;"	c
+FitnessAppProperties	doc_gui/FitnessApp.java	/^		public FitnessAppProperties() {$/;"	m	class:FitnessApp.FitnessAppProperties
+FitnessAppProperties	doc_gui/FitnessApp.java	/^	public static class FitnessAppProperties extends MathObject{$/;"	c	class:FitnessApp
+FitnessAppRunner	doc_gui/FitnessAppRunner.java	/^public class FitnessAppRunner {$/;"	c
 FontSize	math_rendering/RootNodeGraphic.java	/^	public enum FontSize{$/;"	g	class:RootNodeGraphic
 Format	expression/Operator.java	/^		public enum Format implements DisplayFormat {$/;"	g	class:Operator.Division
 Format	expression/Operator.java	/^		public enum Format implements DisplayFormat {$/;"	g	class:Operator.Exponent
@@ -329,10 +349,12 @@ Functional	tree/Functional.java	/^public abstract class Functional extends Expre
 GENERATED_PROBLEM	doc/mathobjects/MathObject.java	/^			PYRAMID_OBJECT = "Pyramid", GENERATED_PROBLEM = "GeneratedProblem",$/;"	f	class:MathObject
 GENERATE_NEW	doc/mathobjects/ProblemGenerator.java	/^			GENERATE_NEW = "Generate Problems", STORE_IN_DATABASE = "Store in Database";$/;"	f	class:ProblemGenerator
 GENERATE_NEW_PROBLEM	doc/mathobjects/GeneratedProblem.java	/^	public static final String GENERATE_NEW_PROBLEM = "Gernerate New Problem",$/;"	f	class:GeneratedProblem
+GENERATE_RANDOM_DATA	doc_gui/FitnessApp.java	/^			SKIN_TEMP = "Skin Temp Func (t)", GENERATE_RANDOM_DATA = "Generate Random Data",$/;"	f	class:FitnessApp
 GENERATION_METHOD	doc/attributes/VariableGenProperties.java	/^			MAX = "maximum", ROUND_TO = "round to", GENERATION_METHOD = "Generation Method",$/;"	f	class:VariableGenProperties	file:
 GENERATORS	doc/Document.java	/^			AUTHOR_ID = "authorID", GENERATORS = "generators",$/;"	f	class:Document
 GEN_LIST	doc/mathobjects/GeneratedProblem.java	/^			DIFFICULTY = "difficulty", GEN_LIST = "generator IDs";$/;"	f	class:GeneratedProblem
 GRAD	tree/ExpressionParser.java	/^	public static final int GRAD = 3;$/;"	f	class:ExpressionParser
+GRADE	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word", TOTAL_POINTS = "total points", STUDENT_SCORE = "student score", GRADE = "Grade";$/;"	f	class:AnswerBoxObject
 GRAPH_OBJ	doc/mathobjects/MathObject.java	/^			EXPRESSION_OBJ = "Expression", GRAPH_OBJ = "Graph",$/;"	f	class:MathObject
 GRID_POINT_ATTRIBUTE	doc/attributes/MathObjectAttribute.java	/^			GRID_POINT_ATTRIBUTE = "point", INTEGER_ATTRIBUTE = "int",$/;"	f	class:MathObjectAttribute
 GROUPING	doc/mathobjects/MathObject.java	/^			GROUPING = "Grouping",$/;"	f	class:MathObject
@@ -346,6 +368,7 @@ GeneratedProblem	doc/mathobjects/GeneratedProblem.java	/^public class GeneratedP
 GenericAdjustmentPanel	doc_gui/attribute_panels/GenericAdjustmentPanel.java	/^	public GenericAdjustmentPanel(MathObjectAttribute mAtt,$/;"	m	class:GenericAdjustmentPanel
 GenericAdjustmentPanel	doc_gui/attribute_panels/GenericAdjustmentPanel.java	/^public class GenericAdjustmentPanel extends AdjustmentPanel{$/;"	c
 GlassPane	doc_gui/GlassPane.java	/^public class GlassPane extends JComponent{$/;"	c
+Gradeable	doc/mathobjects/Gradeable.java	/^public interface Gradeable {$/;"	i
 Graph	doc_gui/graph/Graph.java	/^	public Graph(){$/;"	m	class:Graph
 Graph	doc_gui/graph/Graph.java	/^public class Graph {$/;"	c
 GraphCalculation	doc_gui/graph/GraphCalculation.java	/^	public GraphCalculation(Graph g, Vector<SingleGraph> graphs, Selection s){$/;"	m	class:GraphCalculation
@@ -391,12 +414,19 @@ Grouping	doc/mathobjects/Grouping.java	/^	public Grouping(MathObjectContainer p,
 Grouping	doc/mathobjects/Grouping.java	/^public class Grouping extends MathObject implements MathObjectContainer{$/;"	c
 HARD	doc/mathobjects/ProblemGenerator.java	/^	public static final int EASY = 10, MEDIUM = 20, HARD = 30;$/;"	f	class:ProblemGenerator
 HEADER	doc/Document.java	/^	public static final String FILENAME = "filename", HEADER = "header",$/;"	f	class:Document
+HEART_FUNC	doc_gui/FitnessApp.java	/^			SKIN_FUNC = "Skin Conductance Func (c)", HEART_FUNC = "Heart Rate Func (h)",$/;"	f	class:FitnessApp
+HEART_RATE_ABS_RANGE	doc_gui/FitnessApp.java	/^			HEART_RATE_ABS_RANGE = "Heart Rate Absolute Range", CONDUCTANCE_ABS_RANGE = "Conductance Absolute Range",$/;"	f	class:FitnessApp
+HEART_RATE_RANGE	doc_gui/FitnessApp.java	/^			TEMP_RANGE = "Skin Temp Range", HEART_RATE_RANGE = "Heart Rate Range",$/;"	f	class:FitnessApp
 HEIGHT	doc/mathobjects/MathObject.java	/^	public static final String WIDTH = "width", HEIGHT = "height",$/;"	f	class:MathObject
 HIGH	doc_gui/ProblemListPanel.java	/^	private static final String LOW = "low", AVERAGE = "average", HIGH = "high";$/;"	f	class:ProblemListPanel	file:
 HORIZONTAL	doc/mathobjects/LineObject.java	/^			RIGHT_TOP = "right top", HORIZONTAL = "horizontal", VERTICAL = "vertical";$/;"	f	class:LineObject
 HORIZONTAL	math_rendering/DivisionGraphic.java	/^		SLASH, DIAGONAL, HORIZONTAL$/;"	e	enum:DivisionGraphic.Style	file:
 HORIZONTALLY_FLIPPED	doc/mathobjects/MathObject.java	/^			HORIZONTALLY_FLIPPED = "horizontally flipped",$/;"	f	class:MathObject
 HORIZONTAL_BAR	expression/Operator.java	/^			COLON, DIAGONAL_BAR, HORIZONTAL_BAR, OBELUS;$/;"	e	enum:Operator.Division.Format	file:
+HRVGraphData	doc_gui/FitnessApp.java	/^	GraphObject HRVGraphData;$/;"	f	class:FitnessApp
+HRVLabel	doc_gui/FitnessApp.java	/^	JLabel HRVLabel;$/;"	f	class:FitnessApp
+HRV_BAR_GRAPH_FUNC	doc_gui/FitnessApp.java	/^			HRV_BAR_GRAPH_FUNC = "HRV Bar Graph Func (h)", HRV_NN_THRESHOLD = "HRV nn threshold",$/;"	f	class:FitnessApp
+HRV_NN_THRESHOLD	doc_gui/FitnessApp.java	/^			HRV_BAR_GRAPH_FUNC = "HRV Bar Graph Func (h)", HRV_NN_THRESHOLD = "HRV nn threshold",$/;"	f	class:FitnessApp
 IMPLICIT	expression/Operator.java	/^			ASTERISK, DOT, IMPLICIT, X;$/;"	e	enum:Operator.Multiplication.Format	file:
 IMP_MULT	tree/Operator.java	/^	MULTIPLY(3, "*"), 	IMP_MULT(3, null),	DIVIDE(3, "\/"),		DIV_BAR(3, null), $/;"	e	enum:Operator	file:
 INT	tree/Operator.java	/^	LOG(5, "log"),		ABS(5, "abs"),		FLOOR(5, "floor"),	CEILING(5, "ceil"),	INT(5, "int"),$/;"	e	enum:Operator	file:
@@ -416,6 +446,8 @@ IdentifierGraphic	math_rendering/IdentifierGraphic.java	/^	public IdentifierGrap
 IdentifierGraphic	math_rendering/IdentifierGraphic.java	/^public class IdentifierGraphic extends NodeGraphic {$/;"	c
 ImageSelection	doc_gui/NotebookPanel.java	/^		public ImageSelection(Image image) {$/;"	m	class:NotebookPanel.ImageSelection
 ImageSelection	doc_gui/NotebookPanel.java	/^	private static class ImageSelection implements Transferable {$/;"	c	class:NotebookPanel
+ImageSwitcherButton	doc_gui/ImageSwitcherButton.java	/^	public ImageSwitcherButton(Icon bi, String tip, int gridwidth,$/;"	m	class:ImageSwitcherButton
+ImageSwitcherButton	doc_gui/ImageSwitcherButton.java	/^public class ImageSwitcherButton extends OCButton{$/;"	c
 ImpliedMultGraphic	math_rendering/ImpliedMultGraphic.java	/^	public ImpliedMultGraphic(Expression e, RootNodeGraphic gr) {$/;"	m	class:ImpliedMultGraphic
 ImpliedMultGraphic	math_rendering/ImpliedMultGraphic.java	/^public class ImpliedMultGraphic extends BinExpressionGraphic {$/;"	c
 IntegerAttribute	doc/attributes/IntegerAttribute.java	/^	public IntegerAttribute(String n){$/;"	m	class:IntegerAttribute
@@ -439,11 +471,13 @@ LANDSCAPE	doc/Document.java	/^	public static final int LANDSCAPE = 2;$/;"	f	clas
 LAST_PROBLEM_NUMBER	doc/Document.java	/^			OPEN_NOTEBOOK_DOC = "OpenNotebookDoc", LAST_PROBLEM_NUMBER = "lastProblemNumber",$/;"	f	class:Document
 LEFT	doc/mathobjects/TextObject.java	/^	public static final String LEFT = "Left", RIGHT = "Right", CENTER = "Center", ALIGNMENT = "alignment";$/;"	f	class:TextObject
 LEFT_TOP	doc/mathobjects/LineObject.java	/^	public static final String ORIENTATION = "orientation", LEFT_TOP = "left top",$/;"	f	class:LineObject
-LETTER	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word";$/;"	f	class:AnswerBoxObject
+LETTER	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word", TOTAL_POINTS = "total points", STUDENT_SCORE = "student score", GRADE = "Grade";$/;"	f	class:AnswerBoxObject
 LIMIT_NOT_SET	doc/attributes/DoubleAttribute.java	/^	public static final double LIMIT_NOT_SET = Double.MAX_VALUE;$/;"	f	class:DoubleAttribute
 LIMIT_NOT_SET	doc/attributes/IntegerAttribute.java	/^	public static int LIMIT_NOT_SET = Integer.MAX_VALUE;$/;"	f	class:IntegerAttribute
 LINE_COLOR	doc/mathobjects/MathObject.java	/^			LINE_COLOR = "line color";$/;"	f	class:MathObject
-LINE_OBJECT	doc/mathobjects/MathObject.java	/^			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line";$/;"	f	class:MathObject
+LINE_GRAPH	doc/mathobjects/GraphObject.java	/^			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",$/;"	f	class:GraphObject
+LINE_GRAPH_COLOR	doc/mathobjects/GraphObject.java	/^			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",$/;"	f	class:GraphObject
+LINE_OBJECT	doc/mathobjects/MathObject.java	/^			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line",$/;"	f	class:MathObject
 LINE_SIZE	doc_gui/graph/Graph.java	/^	public int X_SIZE, Y_SIZE, LINE_SIZE, LINE_SIZE_DEFAULT = 2, NUM_FREQ, X_PIC_ORIGIN, Y_PIC_ORIGIN, FONT_SIZE;$/;"	f	class:Graph
 LINE_SIZE_DEFAULT	doc_gui/graph/Graph.java	/^	public int X_SIZE, Y_SIZE, LINE_SIZE, LINE_SIZE_DEFAULT = 2, NUM_FREQ, X_PIC_ORIGIN, Y_PIC_ORIGIN, FONT_SIZE;$/;"	f	class:Graph
 LINE_THICKNESS	doc/mathobjects/MathObject.java	/^			LINE_THICKNESS = "line thickness", FILL_COLOR = "fill color",$/;"	f	class:MathObject
@@ -453,6 +487,8 @@ LOG	tree/Operator.java	/^	LOG(5, "log"),		ABS(5, "abs"),		FLOOR(5, "floor"),	CEI
 LOW	doc_gui/ProblemListPanel.java	/^	private static final String LOW = "low", AVERAGE = "average", HIGH = "high";$/;"	f	class:ProblemListPanel	file:
 LT	tree/Operator.java	/^	ASSIGN(1, "="),		GT(1, null),		LT(1, null),		EQ(1, null),		NOT(1, null),$/;"	e	enum:Operator	file:
 LTE	tree/Operator.java	/^	AND(1, null),		OR(1, null),		NE(1, null),		GTE(1, null),		LTE(1, null),$/;"	e	enum:Operator	file:
+LineGraph	doc_gui/graph/LineGraph.java	/^	public LineGraph(Graph g, Color c, Vector<GridPoint> linePoints ) throws NodeException{$/;"	m	class:LineGraph
+LineGraph	doc_gui/graph/LineGraph.java	/^public class LineGraph extends SingleGraph {$/;"	c
 LineObject	doc/mathobjects/LineObject.java	/^	public LineObject(){$/;"	m	class:LineObject
 LineObject	doc/mathobjects/LineObject.java	/^	public LineObject(Page p){$/;"	m	class:LineObject
 LineObject	doc/mathobjects/LineObject.java	/^public class LineObject extends MathObject {$/;"	c
@@ -515,9 +551,12 @@ MathObjectAttribute	doc/attributes/MathObjectAttribute.java	/^	public MathObject
 MathObjectAttribute	doc/attributes/MathObjectAttribute.java	/^public abstract class MathObjectAttribute<K> {$/;"	c
 MathObjectContainer	doc/mathobjects/MathObjectContainer.java	/^public interface MathObjectContainer {$/;"	i
 MathObjectGUI	doc_gui/mathobject_gui/MathObjectGUI.java	/^public abstract class MathObjectGUI<K extends MathObject>{$/;"	c
-MathObjectMenu	doc_gui/object_menus/MathObjectMenu.java	/^public class MathObjectMenu extends JPopupMenu {$/;"	c
 Matrix	tree/Matrix.java	/^public class Matrix extends Number {$/;"	c
 MissingValue	tree/MissingValue.java	/^public class MissingValue extends Number{$/;"	c
+ModifiedFlowLayout	doc_gui/ModifiedFlowLayout.java	/^        public ModifiedFlowLayout(int align) {$/;"	m	class:ModifiedFlowLayout
+ModifiedFlowLayout	doc_gui/ModifiedFlowLayout.java	/^    public ModifiedFlowLayout() {$/;"	m	class:ModifiedFlowLayout
+ModifiedFlowLayout	doc_gui/ModifiedFlowLayout.java	/^    public ModifiedFlowLayout(int align, int hgap, int vgap) {$/;"	m	class:ModifiedFlowLayout
+ModifiedFlowLayout	doc_gui/ModifiedFlowLayout.java	/^public class ModifiedFlowLayout extends FlowLayout {$/;"	c
 Multiplication	expression/Operator.java	/^		public Multiplication() {$/;"	m	class:Operator.Multiplication
 Multiplication	expression/Operator.java	/^		public Multiplication(Format format) {$/;"	m	class:Operator.Multiplication
 Multiplication	expression/Operator.java	/^	public static class Multiplication extends BinaryOperator {$/;"	c	class:Operator
@@ -528,6 +567,7 @@ NAME	doc/mathobjects/ProblemGenerator.java	/^			AUTHOR = "author", NAME = "group
 NE	tree/Operator.java	/^	AND(1, null),		OR(1, null),		NE(1, null),		GTE(1, null),		LTE(1, null),$/;"	e	enum:Operator	file:
 NEG	tree/Operator.java	/^	ROUND(5, "round"),	NEG(5, "neg"),		FACT(5, "!"), INTEGRAL(5, "integral"),$/;"	e	enum:Operator	file:
 NEGATION	doc/expression_generators/ExUtil.java	/^	public static String NEGATION = "negation";$/;"	f	class:ExUtil
+NEVER	doc_gui/FitnessApp.java	/^	public static final String NEVER = "Never", SOMETIMES = "Sometimes", USUALLY = "Usually", ALMOST_ALWAYS = "Almost Always",$/;"	f	class:FitnessApp
 NORTHEAST_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int NORTHEAST_DOT = 2;$/;"	f	class:MathObjectGUI
 NORTHWEST_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int NORTHWEST_DOT = 0;$/;"	f	class:MathObjectGUI
 NORTH_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int NORTH_DOT = 1;$/;"	f	class:MathObjectGUI
@@ -543,6 +583,8 @@ NUMBER_LINE	doc/mathobjects/MathObject.java	/^			NUMBER_LINE = "NumberLine", OVA
 NUMBER_TYPE	doc/attributes/VariableGenProperties.java	/^			NUMBER_TYPE = "number type", $/;"	f	class:VariableGenProperties	file:
 NUM_FREQ	doc_gui/graph/Graph.java	/^	public int X_SIZE, Y_SIZE, LINE_SIZE, LINE_SIZE_DEFAULT = 2, NUM_FREQ, X_PIC_ORIGIN, Y_PIC_ORIGIN, FONT_SIZE;$/;"	f	class:Graph
 NUM_SIDES	doc/mathobjects/RegularPolygonObject.java	/^	public static final String NUM_SIDES = "number of sides";$/;"	f	class:RegularPolygonObject
+NamedObjectList	doc/mathobjects/NamedObjectList.java	/^	public NamedObjectList(String listName){$/;"	m	class:NamedObjectList
+NamedObjectList	doc/mathobjects/NamedObjectList.java	/^public class NamedObjectList<T extends MathObject>{$/;"	c
 NaturalLog	expression/Operator.java	/^	public static class NaturalLog extends UnaryFunction {$/;"	c	class:Operator
 Negation	expression/Operator.java	/^	public static class Negation extends UnaryFunction {$/;"	c	class:Operator
 NegationGraphic	math_rendering/NegationGraphic.java	/^	public NegationGraphic(Expression v,$/;"	m	class:NegationGraphic
@@ -631,13 +673,16 @@ PARALLELOGRAM_OBJ	doc/mathobjects/MathObject.java	/^			PARALLELOGRAM_OBJ = "Para
 PAREN	tree/Operator.java	/^	PAREN(6, null),	BRACKET(6, null),	CURL_BRAC(6, null),$/;"	e	enum:Operator	file:
 PLACING_SINGLE_OBJECT	doc_gui/NotebookPanel.java	/^	public static final int PLACING_SINGLE_OBJECT = 1;$/;"	f	class:NotebookPanel
 PLAIN_TEXT	doc/mathobjects/AnswerBoxObject.java	/^			ANSWER_TYPE = "answer type", EXPRESSION = "expression", PLAIN_TEXT = "plain text", NUMBER = "number",$/;"	f	class:AnswerBoxObject
-POINTS	doc/mathobjects/GraphObject.java	/^			POINTS = "points";$/;"	f	class:GraphObject
+POINTS	doc/mathobjects/GraphObject.java	/^			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",$/;"	f	class:GraphObject
+POINTS_REMOVED	doc/mathobjects/GraphObject.java	/^			RUNNING_SLOPE_AVE = "Running slope average",POINTS_REMOVED = "Points removed",$/;"	f	class:GraphObject
 POL_AX_STEP	doc_gui/graph/Graph.java	/^	THETA_STEP, THETA_MIN,THETA_MAX, POL_STEP, POL_AX_STEP;$/;"	f	class:Graph
 POL_STEP	doc_gui/graph/Graph.java	/^	THETA_STEP, THETA_MIN,THETA_MAX, POL_STEP, POL_AX_STEP;$/;"	f	class:Graph
 PORTRAIT	doc/Document.java	/^	public static final int PORTRAIT = 1;$/;"	f	class:Document
+PORT_NAMES	doc_gui/SerialTest.java	/^	private static final String PORT_NAMES[] = { $/;"	f	class:SerialTest	file:
+PORT_NAMES	doc_gui/SerialTest2.java	/^	private static final String PORT_NAMES[] = { $/;"	f	class:SerialTest2	file:
 POWER	tree/Operator.java	/^	POWER(4, "^"),		SUPERSCRIPT_POWER(2, null),$/;"	e	enum:Operator	file:
 PRESS	doc_gui/OnScreenMathKeypad.java	/^	public static final int PRESS = Integer.MAX_VALUE - 1, RELEASE = Integer.MAX_VALUE - 2;$/;"	f	class:OnScreenMathKeypad
-PROBLEM_NUMBER_OBJECT	doc/mathobjects/MathObject.java	/^			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line";$/;"	f	class:MathObject
+PROBLEM_NUMBER_OBJECT	doc/mathobjects/MathObject.java	/^			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line",$/;"	f	class:MathObject
 PYRAMID_OBJECT	doc/mathobjects/MathObject.java	/^			PYRAMID_OBJECT = "Pyramid", GENERATED_PROBLEM = "GeneratedProblem",$/;"	f	class:MathObject
 Page	doc/Page.java	/^	public Page(Document doc){$/;"	m	class:Page
 Page	doc/Page.java	/^public class Page implements MathObjectContainer{$/;"	c
@@ -673,7 +718,6 @@ ProblemGenerator	doc/mathobjects/ProblemGenerator.java	/^	public ProblemGenerato
 ProblemGenerator	doc/mathobjects/ProblemGenerator.java	/^	public ProblemGenerator(MathObjectContainer p) {$/;"	m	class:ProblemGenerator
 ProblemGenerator	doc/mathobjects/ProblemGenerator.java	/^	public ProblemGenerator(MathObjectContainer p, int x, int y, int w, int h) {$/;"	m	class:ProblemGenerator
 ProblemGenerator	doc/mathobjects/ProblemGenerator.java	/^public abstract class ProblemGenerator extends Grouping implements Cloneable{$/;"	c
-ProblemGenerator	generation/ProblemGenerator.java	/^public class ProblemGenerator {$/;"	c
 ProblemList	doc_gui/ProblemListPanel.java	/^	private class ProblemList extends JPanel implements Scrollable{$/;"	c	class:ProblemListPanel
 ProblemListPanel	doc_gui/ProblemListPanel.java	/^	public ProblemListPanel(NotebookPanel notebook) {$/;"	m	class:ProblemListPanel
 ProblemListPanel	doc_gui/ProblemListPanel.java	/^public class ProblemListPanel extends JPanel {$/;"	c
@@ -682,10 +726,12 @@ ProblemNumberObject	doc/mathobjects/ProblemNumberObject.java	/^	public ProblemNu
 ProblemNumberObject	doc/mathobjects/ProblemNumberObject.java	/^	public ProblemNumberObject(MathObjectContainer p, int x, int y, int width, int height, int i){$/;"	m	class:ProblemNumberObject
 ProblemNumberObject	doc/mathobjects/ProblemNumberObject.java	/^public class ProblemNumberObject extends TextObject {$/;"	c
 PropertyOfOppositiesWithVariables	doc/expression_generators/PropertyOfOppositiesWithVariables.java	/^public class PropertyOfOppositiesWithVariables extends ExpressionGenerator {$/;"	c
+QUIZ_FUNC	doc_gui/FitnessApp.java	/^			QUIZ_FUNC = "Quiz Score Func (q)",$/;"	f	class:FitnessApp
 RAD	tree/ExpressionParser.java	/^	public static final int RAD = 1;$/;"	f	class:ExpressionParser
 RADIO_BUTTON_COLOUMN	doc_gui/attribute_panels/EnumeratedAdjuster.java	/^	public static final int COMBO_BOX = 1, RADIO_BUTTON_ROW = 2, RADIO_BUTTON_COLOUMN = 3;$/;"	f	class:EnumeratedAdjuster
 RADIO_BUTTON_ROW	doc_gui/attribute_panels/EnumeratedAdjuster.java	/^	public static final int COMBO_BOX = 1, RADIO_BUTTON_ROW = 2, RADIO_BUTTON_COLOUMN = 3;$/;"	f	class:EnumeratedAdjuster
 RANDOM	doc/attributes/VariableGenProperties.java	/^	private static final String RANDOM = "random", EXPRESSION = "expression", MINIMUM = "mininimum",$/;"	f	class:VariableGenProperties	file:
+RAW_SPIKE_REMOVAL	doc/mathobjects/GraphObject.java	/^			BAR_GRAPH_LABELS = "Bar graph labels", RAW_SPIKE_REMOVAL = "Raw spike removal",$/;"	f	class:GraphObject
 RECTANGLE	doc/mathobjects/MathObject.java	/^			RECTANGLE = "Rectangle", TEXT_OBJ = "Text",$/;"	f	class:MathObject
 REGULAR_POLYGON_OBJECT	doc/mathobjects/MathObject.java	/^			REGULAR_POLYGON_OBJECT = "RegularPolygon", ARROW_OBJECT = "Arrow",$/;"	f	class:MathObject
 RELEASE	doc_gui/OnScreenMathKeypad.java	/^	public static final int PRESS = Integer.MAX_VALUE - 1, RELEASE = Integer.MAX_VALUE - 2;$/;"	f	class:OnScreenMathKeypad
@@ -696,6 +742,7 @@ RIGHT_TOP	doc/mathobjects/LineObject.java	/^			RIGHT_TOP = "right top", HORIZONT
 ROTATE_CLOCKWISE_90	doc/mathobjects/MathObject.java	/^			ROTATE_CLOCKWISE_90 = "rotate clockwise (90)",$/;"	f	class:MathObject
 ROUND	tree/Operator.java	/^	ROUND(5, "round"),	NEG(5, "neg"),		FACT(5, "!"), INTEGRAL(5, "integral"),$/;"	e	enum:Operator	file:
 ROUND_TO	doc/attributes/VariableGenProperties.java	/^			MAX = "maximum", ROUND_TO = "round to", GENERATION_METHOD = "Generation Method",$/;"	f	class:VariableGenProperties	file:
+RUNNING_SLOPE_AVE	doc/mathobjects/GraphObject.java	/^			RUNNING_SLOPE_AVE = "Running slope average",POINTS_REMOVED = "Points removed",$/;"	f	class:GraphObject
 RadicalGraphic	math_rendering/RadicalGraphic.java	/^	public RadicalGraphic(Expression v, RootNodeGraphic compExGraphic) {$/;"	m	class:RadicalGraphic
 RadicalGraphic	math_rendering/RadicalGraphic.java	/^public class RadicalGraphic extends UnaryExpressionGraphic {$/;"	c
 RandomGenerator	expression/Operator.java	/^	public static class RandomGenerator extends Function {$/;"	c	class:Operator
@@ -714,6 +761,8 @@ Root	expression/Operator.java	/^	public static class Root extends Function {$/;"
 RootNodeGraphic	math_rendering/RootNodeGraphic.java	/^	public RootNodeGraphic(Node n){$/;"	m	class:RootNodeGraphic
 RootNodeGraphic	math_rendering/RootNodeGraphic.java	/^public class RootNodeGraphic{$/;"	c
 SCRIPTS	doc/mathobjects/ProblemGenerator.java	/^	public static final String SCRIPTS = "scripts", UUID_STR = "uuid",$/;"	f	class:ProblemGenerator
+SELECTION	doc/attributes/MathObjectAttribute.java	/^			SELECTION = "selection";$/;"	f	class:MathObjectAttribute
+SELECTION	doc/mathobjects/GraphObject.java	/^			SELECTION = "selection",$/;"	f	class:GraphObject
 SHOW_AXIS	doc/mathobjects/GraphObject.java	/^			SHOW_AXIS = "show axis", SHOW_NUMBERS = "show numbers",$/;"	f	class:GraphObject
 SHOW_AXIS	doc_gui/graph/Graph.java	/^	public boolean SHOW_GRID, SHOW_AXIS, SHOW_NUMBERS;$/;"	f	class:Graph
 SHOW_BOX	doc/mathobjects/TextObject.java	/^	public static final String TEXT = "text",  FONT_SIZE = "font size", SHOW_BOX = "show border";$/;"	f	class:TextObject
@@ -723,9 +772,13 @@ SHOW_NUMBERS	doc/mathobjects/GraphObject.java	/^			SHOW_AXIS = "show axis", SHOW
 SHOW_NUMBERS	doc_gui/graph/Graph.java	/^	public boolean SHOW_GRID, SHOW_AXIS, SHOW_NUMBERS;$/;"	f	class:Graph
 SIMPLIFY	doc/mathobjects/ExpressionObject.java	/^			SIMPLIFY = "Simplify",$/;"	f	class:ExpressionObject
 SIN	tree/Operator.java	/^	SIN(5, "sin"),		COS(5, "cos"),$/;"	e	enum:Operator	file:
+SKIN_FUNC	doc_gui/FitnessApp.java	/^			SKIN_FUNC = "Skin Conductance Func (c)", HEART_FUNC = "Heart Rate Func (h)",$/;"	f	class:FitnessApp
+SKIN_TEMP	doc_gui/FitnessApp.java	/^			SKIN_TEMP = "Skin Temp Func (t)", GENERATE_RANDOM_DATA = "Generate Random Data",$/;"	f	class:FitnessApp
 SLASH	math_rendering/DivisionGraphic.java	/^		SLASH, DIAGONAL, HORIZONTAL$/;"	e	enum:DivisionGraphic.Style	file:
 SMALL_FONT	math_rendering/RootNodeGraphic.java	/^		BIG_FONT, SMALL_FONT$/;"	e	enum:RootNodeGraphic.FontSize	file:
+SMALL_KEYBOARD_IMAGE	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public static ImageIcon SMALL_KEYBOARD_IMAGE = getIcon("smallKeyboard.png");$/;"	f	class:ObjectPropertiesFrame
 SOLVE	tree/Operator.java	/^	SOLVE(7, "solve")$/;"	e	enum:Operator	file:
+SOMETIMES	doc_gui/FitnessApp.java	/^	public static final String NEVER = "Never", SOMETIMES = "Sometimes", USUALLY = "Usually", ALMOST_ALWAYS = "Almost Always",$/;"	f	class:FitnessApp
 SOUTHEAST_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int SOUTHEAST_DOT = 4;$/;"	f	class:MathObjectGUI
 SOUTHWEST_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int SOUTHWEST_DOT = 6;$/;"	f	class:MathObjectGUI
 SOUTH_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int SOUTH_DOT = 5;$/;"	f	class:MathObjectGUI
@@ -740,6 +793,8 @@ STRETCH_HORIZONTALLY	doc/mathobjects/Grouping.java	/^			BRING_TO_BOTTOM = "Bring
 STRETCH_VERTICALLY	doc/mathobjects/Grouping.java	/^			STRETCH_VERTICALLY = "Stretch all Vertically", DISTRIBUTE_VERTICALLY = "Distribute Vertically",$/;"	f	class:Grouping
 STRING_ATTRIBUTE	doc/attributes/MathObjectAttribute.java	/^			STRING_ATTRIBUTE = "string", COLOR_ATTRIBUTE = "color", DATE = "date",$/;"	f	class:MathObjectAttribute
 STUDENT_ANSWER	doc/mathobjects/AnswerBoxObject.java	/^	public static final String FONT_SIZE = "font size", STUDENT_ANSWER = "student answer", CORRECT_ANSWERS = "correct answers",$/;"	f	class:AnswerBoxObject
+STUDENT_SCORE	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word", TOTAL_POINTS = "total points", STUDENT_SCORE = "student score", GRADE = "Grade";$/;"	f	class:AnswerBoxObject
+SUBSET_NNS	doc/mathobjects/GraphObject.java	/^			TOTAL_NNS = "Total NNs", SUBSET_NNS = "Subset nns";$/;"	f	class:GraphObject
 SUBTRACT	tree/Operator.java	/^	ADD(2, "+"),		SUBTRACT(2, "-"),$/;"	e	enum:Operator	file:
 SUBTRACTION	doc/expression_generators/ExUtil.java	/^	public static String SUBTRACTION = "subtraction";$/;"	f	class:ExUtil
 SUBTRACT_FROM_BOTH_SIDES	doc/mathobjects/ExpressionObject.java	/^			SUBTRACT_FROM_BOTH_SIDES = "Subtract from both sides",$/;"	f	class:ExpressionObject
@@ -747,6 +802,7 @@ SUB_IN_VALUE	doc/mathobjects/ExpressionObject.java	/^			SUB_IN_VALUE = "Substitu
 SUPERSCRIPT	expression/Operator.java	/^			CARET, SUPERSCRIPT;$/;"	e	enum:Operator.Exponent.Format	file:
 SUPERSCRIPT	math_rendering/ExponentGraphic.java	/^		CARET, SUPERSCRIPT$/;"	e	enum:ExponentGraphic.Style	file:
 SUPERSCRIPT_POWER	tree/Operator.java	/^	POWER(4, "^"),		SUPERSCRIPT_POWER(2, null),$/;"	e	enum:Operator	file:
+SURVEY	doc_gui/FitnessApp.java	/^		public static final String SURVEY = "survey";$/;"	f	class:FitnessApp.SurveyQuestions
 SampleListPanel	doc_gui/SampleListPanel.java	/^	public SampleListPanel(NotebookPanel notebook){$/;"	m	class:SampleListPanel
 SampleListPanel	doc_gui/SampleListPanel.java	/^public class SampleListPanel extends JPanel{$/;"	c
 ScriptHelpPanel	doc_gui/ScriptHelpPanel.java	/^public class ScriptHelpPanel extends JPanel{$/;"	c
@@ -755,10 +811,15 @@ Selection	doc_gui/graph/Selection.java	/^	public Selection(){$/;"	m	class:Select
 Selection	doc_gui/graph/Selection.java	/^	public Selection(double a){$/;"	m	class:Selection
 Selection	doc_gui/graph/Selection.java	/^	public Selection(double a, double b){$/;"	m	class:Selection
 Selection	doc_gui/graph/Selection.java	/^public class Selection {$/;"	c
+SelectionAttribute	doc/attributes/SelectionAttribute.java	/^	public SelectionAttribute(String n, Selection val, boolean userEditable) {$/;"	m	class:SelectionAttribute
+SelectionAttribute	doc/attributes/SelectionAttribute.java	/^public class SelectionAttribute extends MathObjectAttribute<Selection> {$/;"	c
 SelectionGraphic	doc_gui/graph/SelectionGraphic.java	/^	public SelectionGraphic(Graph g, Color c) {$/;"	m	class:SelectionGraphic
 SelectionGraphic	doc_gui/graph/SelectionGraphic.java	/^	public SelectionGraphic(Graph g, Color c, double a) {$/;"	m	class:SelectionGraphic
 SelectionGraphic	doc_gui/graph/SelectionGraphic.java	/^	public SelectionGraphic(Graph g, Color c, double a, double b) {$/;"	m	class:SelectionGraphic
 SelectionGraphic	doc_gui/graph/SelectionGraphic.java	/^public class SelectionGraphic extends GraphComponent {$/;"	c
+SerialTest	doc_gui/SerialTest.java	/^	public SerialTest(FitnessApp app){$/;"	m	class:SerialTest
+SerialTest	doc_gui/SerialTest.java	/^public class SerialTest implements SerialPortEventListener {$/;"	c
+SerialTest2	doc_gui/SerialTest2.java	/^public class SerialTest2 implements SerialPortEventListener {$/;"	c
 Sine	expression/Operator.java	/^	public static class Sine extends UnaryFunction {$/;"	c	class:Operator
 SingleGraph	doc_gui/graph/SingleGraph.java	/^	public SingleGraph(Graph g){$/;"	m	class:SingleGraph
 SingleGraph	doc_gui/graph/SingleGraph.java	/^public abstract class SingleGraph extends GraphComponent {$/;"	c
@@ -777,13 +838,21 @@ Style	math_rendering/ExponentGraphic.java	/^	public static enum Style{$/;"	g	cla
 SubPanel	doc_gui/SubPanel.java	/^	public SubPanel(TopLevelContainerOld topLevelComp) {$/;"	m	class:SubPanel
 SubPanel	doc_gui/SubPanel.java	/^public class SubPanel extends JPanel {$/;"	c
 Subtraction	expression/Operator.java	/^	public static class Subtraction extends BinaryOperator {$/;"	c	class:Operator
+SurveyQuestions	doc_gui/FitnessApp.java	/^		public SurveyQuestions() {$/;"	m	class:FitnessApp.SurveyQuestions
+SurveyQuestions	doc_gui/FitnessApp.java	/^	public static class SurveyQuestions extends MathObject{$/;"	c	class:FitnessApp
 TAGS	doc/mathobjects/ProblemGenerator.java	/^			TAGS = "tags", DIRECTIONS = "directions", DATE = "date",$/;"	f	class:ProblemGenerator
 TAN	tree/Operator.java	/^	TAN(5, "tan"),		INV_COS(5, "cos-1"),	INV_SIN(5, "sin-1"),	INV_TAN(5, "tan-1"),	LN(5, "ln"),$/;"	e	enum:Operator	file:
+TEMP_ABS_RANGE	doc_gui/FitnessApp.java	/^			CONDUCTANCE_RANGE = "Conductance Range", TEMP_ABS_RANGE = "Skin Temp Absolute Range",$/;"	f	class:FitnessApp
+TEMP_RANGE	doc_gui/FitnessApp.java	/^			TEMP_RANGE = "Skin Temp Range", HEART_RATE_RANGE = "Heart Rate Range",$/;"	f	class:FitnessApp
 TEXT	doc/mathobjects/TextObject.java	/^	public static final String TEXT = "text",  FONT_SIZE = "font size", SHOW_BOX = "show border";$/;"	f	class:TextObject
 TEXT_OBJ	doc/mathobjects/MathObject.java	/^			RECTANGLE = "Rectangle", TEXT_OBJ = "Text",$/;"	f	class:MathObject
 THETA_MAX	doc_gui/graph/Graph.java	/^	THETA_STEP, THETA_MIN,THETA_MAX, POL_STEP, POL_AX_STEP;$/;"	f	class:Graph
 THETA_MIN	doc_gui/graph/Graph.java	/^	THETA_STEP, THETA_MIN,THETA_MAX, POL_STEP, POL_AX_STEP;$/;"	f	class:Graph
 THETA_STEP	doc_gui/graph/Graph.java	/^	THETA_STEP, THETA_MIN,THETA_MAX, POL_STEP, POL_AX_STEP;$/;"	f	class:Graph
+TIME_OUT	doc_gui/SerialTest.java	/^	private static final int TIME_OUT = 10000;$/;"	f	class:SerialTest	file:
+TIME_OUT	doc_gui/SerialTest2.java	/^	private static final int TIME_OUT = 2000;$/;"	f	class:SerialTest2	file:
+TOTAL_NNS	doc/mathobjects/GraphObject.java	/^			TOTAL_NNS = "Total NNs", SUBSET_NNS = "Subset nns";$/;"	f	class:GraphObject
+TOTAL_POINTS	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word", TOTAL_POINTS = "total points", STUDENT_SCORE = "student score", GRADE = "Grade";$/;"	f	class:AnswerBoxObject
 TRAPEZOID_OBJ	doc/mathobjects/MathObject.java	/^			TRIANGLE_OBJ = "Triangle", TRAPEZOID_OBJ = "Trapezoid",$/;"	f	class:MathObject
 TRIANGLE_OBJ	doc/mathobjects/MathObject.java	/^			TRIANGLE_OBJ = "Triangle", TRAPEZOID_OBJ = "Trapezoid",$/;"	f	class:MathObject
 TRIANGLE_TYPE	doc/mathobjects/TriangleObject.java	/^			TRIANGLE_TYPE = "triangle type"; $/;"	f	class:TriangleObject
@@ -813,6 +882,7 @@ USER_NAME	doc_gui/OpenNotebook.java	/^			USER_NAME = "userName";$/;"	f	class:Ope
 USE_DECIALS	doc/expression_generators/ExUtil.java	/^	public static String USE_DECIALS = "deciamls";$/;"	f	class:ExUtil
 USE_INTEGERS	doc/expression_generators/ExUtil.java	/^	public static String USE_INTEGERS = "integers";$/;"	f	class:ExUtil
 USE_VARIABLES	doc/expression_generators/ExUtil.java	/^	public static String USE_VARIABLES = "variables";$/;"	f	class:ExUtil
+USUALLY	doc_gui/FitnessApp.java	/^	public static final String NEVER = "Never", SOMETIMES = "Sometimes", USUALLY = "Usually", ALMOST_ALWAYS = "Almost Always",$/;"	f	class:FitnessApp
 UUIDAttribute	doc/attributes/UUIDAttribute.java	/^	public UUIDAttribute(String n) {$/;"	m	class:UUIDAttribute
 UUIDAttribute	doc/attributes/UUIDAttribute.java	/^	public UUIDAttribute(String n, UUID id) {$/;"	m	class:UUIDAttribute
 UUIDAttribute	doc/attributes/UUIDAttribute.java	/^	public UUIDAttribute(String n, UUID id, boolean userEditable) {$/;"	m	class:UUIDAttribute
@@ -834,7 +904,7 @@ VAL	doc/attributes/ListAttribute.java	/^	public static final String	LIST = "list
 VALUE	doc/attributes/MathObjectAttribute.java	/^	public static final String NAME = "name", VALUE = "value";$/;"	f	class:MathObjectAttribute
 VAR_INSERTION_PROBLEM	doc/mathobjects/MathObject.java	/^			VAR_INSERTION_PROBLEM = "VarInsertionProblem",$/;"	f	class:MathObject
 VAR_NAME_ATTRIBUTE	doc/attributes/MathObjectAttribute.java	/^			EMAIL_ATTRIBUTE = "email", UUID_ATTRIBUTE = "uuid", VAR_NAME_ATTRIBUTE = "varName",$/;"	f	class:MathObjectAttribute
-VAR_VAL_GENERATOR	doc/attributes/MathObjectAttribute.java	/^			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator";$/;"	f	class:MathObjectAttribute
+VAR_VAL_GENERATOR	doc/attributes/MathObjectAttribute.java	/^			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator",$/;"	f	class:MathObjectAttribute
 VERTICAL	doc/mathobjects/LineObject.java	/^			RIGHT_TOP = "right top", HORIZONTAL = "horizontal", VERTICAL = "vertical";$/;"	f	class:LineObject
 VERTICALLY_FLIPPED	doc/mathobjects/MathObject.java	/^			VERTICALLY_FLIPPED = "vertically flipped", FONT_SIZE = "font size";$/;"	f	class:MathObject
 VIEW_PROBLEM_FORMULA	doc/mathobjects/GeneratedProblem.java	/^			UUID_STR = "uuid", VIEW_PROBLEM_FORMULA = "View Problem Formula",$/;"	f	class:GeneratedProblem
@@ -865,7 +935,7 @@ VariableValueInsertionProblem	doc/mathobjects/VariableValueInsertionProblem.java
 VariableValueInsertionProblem	doc/mathobjects/VariableValueInsertionProblem.java	/^public class VariableValueInsertionProblem extends ProblemGenerator {$/;"	c
 WEST_DOT	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static final int WEST_DOT = 7;$/;"	f	class:MathObjectGUI
 WIDTH	doc/mathobjects/MathObject.java	/^	public static final String WIDTH = "width", HEIGHT = "height",$/;"	f	class:MathObject
-WORD	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word";$/;"	f	class:AnswerBoxObject
+WORD	doc/mathobjects/AnswerBoxObject.java	/^			LETTER = "letter", WORD = "word", TOTAL_POINTS = "total points", STUDENT_SCORE = "student score", GRADE = "Grade";$/;"	f	class:AnswerBoxObject
 X	expression/Operator.java	/^			ASTERISK, DOT, IMPLICIT, X;$/;"	e	enum:Operator.Multiplication.Format	file:
 X_MARGIN	doc/Document.java	/^			X_MARGIN = "xMargin", Y_MARGIN = "yMargin";$/;"	f	class:Document
 X_MAX	doc/mathobjects/GraphObject.java	/^			X_MAX = "xMax", Y_MAX = "yMax", EXPRESSION = "y=",$/;"	f	class:GraphObject
@@ -900,11 +970,11 @@ actionCancelled	doc/mathobjects/MathObject.java	/^	private boolean actionCancell
 actionPerformed	doc_gui/attribute_panels/ListAdjuster.java	/^		public void actionPerformed(ActionEvent e) {$/;"	m	class:ListAdjuster.CloseButtonListener
 actionPerformed	doc_gui/attribute_panels/ListAdjuster.java	/^		public void actionPerformed(ActionEvent e) {$/;"	m	class:ListAdjuster.ExpandedButtonListener
 actionPerformed	doc_gui/attribute_panels/ListAdjuster.java	/^		public void actionPerformed(ActionEvent e) {$/;"	m	class:ListAdjuster.NotExpandedButtonListener
-actionPicFiles	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private static final String[] actionPicFiles = { "makeSquare.png", "adjustSizeAndPosition.png",$/;"	f	class:ObjectPropertiesFrame	file:
+actionPicInfo	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private static final Object[][] actionPicInfo = { $/;"	f	class:ObjectPropertiesFrame	file:
 actionWasCancelled	doc/mathobjects/MathObject.java	/^	public boolean actionWasCancelled() {$/;"	m	class:MathObject
 actions	doc/mathobjects/MathObject.java	/^	private Vector<String> actions;$/;"	f	class:MathObject	file:
 actions	doc_gui/DocViewerPanel.java	/^	private Vector<Document> actions;$/;"	f	class:DocViewerPanel	file:
-actionsWithPics	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private static final String[] actionsWithPics = { MathObject.MAKE_SQUARE, MathObject.ADJUST_SIZE_AND_POSITION,$/;"	f	class:ObjectPropertiesFrame	file:
+add	doc/mathobjects/NamedObjectList.java	/^	public void add(T obj){$/;"	m	class:NamedObjectList
 add	expression/Number.java	/^	public Number add(Number o) {$/;"	m	class:Number
 add	tree/Decimal.java	/^	public Expression add(Expression e) throws EvalException$/;"	m	class:Decimal
 add	tree/Expression.java	/^	public Expression add(Expression e) throws EvalException$/;"	m	class:Expression
@@ -920,6 +990,7 @@ addBinOp	tree/ExpressionParser.java	/^	public void addBinOp(Operator o) throws P
 addBlankPage	doc/Document.java	/^	public void addBlankPage() {$/;"	m	class:Document
 addCalcInfoBox	doc_gui/graph/GraphCalculationGraphics.java	/^	public void addCalcInfoBox(CalcInfoBox cib){$/;"	m	class:GraphCalculationGraphics
 addChild	doc/expression_generators/ExUtil.java	/^	public static Node addChild( Expression ex, Node n ){$/;"	m	class:ExUtil
+addContents	doc_gui/FitnessApp.java	/^	private void addContents(Container container){$/;"	m	class:FitnessApp	file:
 addContents	doc_gui/OpenNotebook.java	/^	private void addContents(Container c) {$/;"	m	class:OpenNotebook	file:
 addCorrectAnswer	doc/mathobjects/AnswerBoxObject.java	/^	public void addCorrectAnswer(String s) throws AttributeException{$/;"	m	class:AnswerBoxObject
 addCorrectAnswer	doc/mathobjects/ExpressionObject.java	/^	public void addCorrectAnswer(String s) throws AttributeException{$/;"	m	class:ExpressionObject
@@ -943,6 +1014,8 @@ addDefaultAttributes	doc/mathobjects/RegularPolygonObject.java	/^	public void ad
 addDefaultAttributes	doc/mathobjects/TextObject.java	/^	public void addDefaultAttributes() {$/;"	m	class:TextObject
 addDefaultAttributes	doc/mathobjects/TrapezoidObject.java	/^	public void addDefaultAttributes() {$/;"	m	class:TrapezoidObject
 addDefaultAttributes	doc/mathobjects/TriangleObject.java	/^	protected void addDefaultAttributes() {$/;"	m	class:TriangleObject
+addDefaultAttributes	doc_gui/FitnessApp.java	/^		protected void addDefaultAttributes(){$/;"	m	class:FitnessApp.FitnessAppProperties
+addDefaultAttributes	doc_gui/FitnessApp.java	/^		public void addDefaultAttributes() {$/;"	m	class:FitnessApp.SurveyQuestions
 addDerivative	doc_gui/graph/GraphCalculationGraphics.java	/^	public void addDerivative(Derivative d){$/;"	m	class:GraphCalculationGraphics
 addDoc	doc_gui/NotebookPanel.java	/^	public void addDoc(Document doc) {$/;"	m	class:NotebookPanel
 addExpression	doc/mathobjects/GraphObject.java	/^	public void addExpression(String s) throws AttributeException{$/;"	m	class:GraphObject
@@ -955,15 +1028,15 @@ addGraphActions	doc/mathobjects/GraphObject.java	/^	private void addGraphActions
 addGroupActions	doc/mathobjects/Grouping.java	/^	public void addGroupActions(){$/;"	m	class:Grouping
 addGroupAttributes	doc/mathobjects/Grouping.java	/^	public void addGroupAttributes() {$/;"	m	class:Grouping
 addIntegral	doc_gui/graph/GraphCalculationGraphics.java	/^	public void addIntegral(Integral i){$/;"	m	class:GraphCalculationGraphics
-addKeyboardShortcuts	doc_gui/KeyboardShortcuts.java	/^	public static void addKeyboardShortcuts(final NotebookPanel notebookPanel){$/;"	m	class:KeyboardShortcuts
+addKeyboardShortcuts	doc_gui/KeyboardShortcuts.java	/^	public static void addKeyboardShortcuts(final JPanel panel, final NotebookPanel notebookPanel){$/;"	m	class:KeyboardShortcuts
 addList	doc/mathobjects/MathObject.java	/^	public boolean addList(ListAttribute l) {$/;"	m	class:MathObject
-addNewValue	doc/attributes/ListAttribute.java	/^	public void addNewValue() throws AttributeException{$/;"	m	class:ListAttribute
+addNewValue	doc/attributes/ListAttribute.java	/^	public synchronized void addNewValue() throws AttributeException{$/;"	m	class:ListAttribute
 addNodeOnRandomSide	doc/expression_generators/ExUtil.java	/^	public static Node addNodeOnRandomSide(Node oldNode, Node newNode, Operator o){$/;"	m	class:ExUtil
 addNodeToExpression	expression/Node.java	/^	public Node addNodeToExpression(Node n){$/;"	m	class:Node
 addObject	doc/Page.java	/^	public boolean addObject(MathObject mObj){$/;"	m	class:Page
 addObject	doc/mathobjects/Grouping.java	/^	public boolean addObject(MathObject mObj){$/;"	m	class:Grouping
 addObject	doc/mathobjects/MathObjectContainer.java	/^	public boolean addObject(MathObject mObj);$/;"	m	interface:MathObjectContainer
-addObjectButtons	doc_gui/ObjectToolBar.java	/^	public static void addObjectButtons(JComponent c, final NotebookPanel notebookPanel){$/;"	m	class:ObjectToolBar
+addObjectButtons	doc_gui/ObjectToolBar.java	/^	public void addObjectButtons(JComponent c, final NotebookPanel notebookPanel){$/;"	m	class:ObjectToolBar
 addObjectFromPage	doc/mathobjects/Grouping.java	/^	public boolean addObjectFromPage(MathObject mObj){$/;"	m	class:Grouping
 addObjectToSelection	doc_gui/DocViewerPanel.java	/^	public void addObjectToSelection(MathObject newObj){$/;"	m	class:DocViewerPanel
 addPage	doc/Document.java	/^	public void addPage(Page p) {$/;"	m	class:Document
@@ -994,15 +1067,16 @@ addTriangleAttributes	doc/mathobjects/TriangleObject.java	/^	private void addTri
 addUnaryOp	tree/ExpressionParser.java	/^	public void addUnaryOp(Operator o) throws ParseException{$/;"	m	class:ExpressionParser
 addUndoState	doc_gui/DocViewerPanel.java	/^	public void addUndoState(){$/;"	m	class:DocViewerPanel
 addVG	math_rendering/ExpressionModification.java	/^	public void addVG(NodeGraphic vg){$/;"	m	class:ExpressionModification
-addValue	doc/attributes/ListAttribute.java	/^	public void addValue(K value){$/;"	m	class:ListAttribute
+addValue	doc/attributes/ListAttribute.java	/^	public synchronized void addValue(K value){$/;"	m	class:ListAttribute
+addValue	doc_gui/FitnessApp.java	/^	public boolean addValue(GraphObject graphObject, GridPoint val){$/;"	m	class:FitnessApp
 addValue	tree/ExpressionParser.java	/^	public void addValue(Expression v) throws ParseException{$/;"	m	class:ExpressionParser
-addValueWithString	doc/attributes/ListAttribute.java	/^	public void addValueWithString(String s) throws AttributeException{$/;"	m	class:ListAttribute
+addValueWithString	doc/attributes/ListAttribute.java	/^	public synchronized void addValueWithString(String s) throws AttributeException{$/;"	m	class:ListAttribute
 additionOps	expression/NodeParser.java	/^	private List<String> additionOps = $/;"	f	class:NodeParser	file:
 adjustChildrenToGroupChange	doc/mathobjects/Grouping.java	/^	private void adjustChildrenToGroupChange(){$/;"	m	class:Grouping	file:
 adjustMargins	doc_gui/NotebookPanel.java	/^	public void adjustMargins(){$/;"	m	class:NotebookPanel
 adjustProblemList	doc_gui/ProblemListPanel.java	/^	public void adjustProblemList(){$/;"	m	class:ProblemListPanel
 adjustSizeToFitChildren	doc/mathobjects/Grouping.java	/^	public void adjustSizeToFitChildren(){$/;"	m	class:Grouping
-adjustTempGroupSelection	doc_gui/DocMouseListener.java	/^	private boolean adjustTempGroupSelection(){$/;"	m	class:DocMouseListener	file:
+adjustTempGroupSelection	doc_gui/DocMouseListener.java	/^	private boolean adjustTempGroupSelection() {$/;"	m	class:DocMouseListener	file:
 adjusters	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private Vector<AdjustmentPanel> adjusters;$/;"	f	class:ObjectPropertiesFrame	file:
 alignments	doc/mathobjects/TextObject.java	/^	public static final String[] alignments = {LEFT, RIGHT, CENTER};$/;"	f	class:TextObject
 allChildrenFilled	tree/BinExpression.java	/^	public boolean allChildrenFilled() {$/;"	m	class:BinExpression
@@ -1010,15 +1084,19 @@ allChildrenFilled	tree/Expression.java	/^	public abstract boolean allChildrenFil
 allChildrenFilled	tree/Identifier.java	/^	public boolean allChildrenFilled() {$/;"	m	class:Identifier
 allChildrenFilled	tree/Number.java	/^	public boolean allChildrenFilled() {$/;"	m	class:Number
 allChildrenFilled	tree/UnaryExpression.java	/^	public boolean allChildrenFilled() {$/;"	m	class:UnaryExpression
+allGraphsHaveData	doc_gui/FitnessApp.java	/^	public boolean allGraphsHaveData(){$/;"	m	class:FitnessApp
+allToolBars	doc_gui/ObjectToolBar.java	/^	private static Vector<ObjectToolBar> allToolBars = new Vector<ObjectToolBar>();$/;"	f	class:ObjectToolBar	file:
 allowEmptyArguments	expression/NodeParser.java	/^	private boolean allowEmptyArguments = false;$/;"	f	class:NodeParser	file:
 allowEmptyArguments	expression/NodeParser.java	/^	public void allowEmptyArguments(boolean allowEmptyArguments) {$/;"	m	class:NodeParser
 allowLongIdentifiers	expression/NodeParser.java	/^	private boolean allowLongIdentifiers = false;$/;"	f	class:NodeParser	file:
 allowLongIdentifiers	expression/NodeParser.java	/^	public void allowLongIdentifiers(boolean allowLongIdentifiers) {$/;"	m	class:NodeParser
-allowReals	generation/ProblemGenerator.java	/^	private boolean allowReals = false;$/;"	f	class:ProblemGenerator	file:
 alswaysShowSteps	doc/mathobjects/ExpressionObject.java	/^	public boolean alswaysShowSteps(){$/;"	m	class:ExpressionObject
 angleUnitSelect	doc_gui/OnScreenMathKeypad.java	/^	private JComboBox angleUnitSelect;$/;"	f	class:OnScreenMathKeypad	file:
 angleUnits	tree/ExpressionParser.java	/^	private int angleUnits;$/;"	f	class:ExpressionParser	file:
 answerBoxGUI	doc_gui/PageGUI.java	/^	public AnswerBoxGUI answerBoxGUI;$/;"	f	class:PageGUI
+app	doc_gui/FitnessAppRunner.java	/^	private static FitnessApp app;$/;"	f	class:FitnessAppRunner	file:
+app	doc_gui/SerialTest.java	/^	private static FitnessApp app;$/;"	f	class:SerialTest	file:
+appProps	doc_gui/FitnessApp.java	/^	FitnessAppProperties appProps = new FitnessAppProperties();$/;"	f	class:FitnessApp
 application	doc_gui/OpenNotebook.java	/^	private static OpenNotebook application;$/;"	f	class:OpenNotebook	file:
 apply	expression/Equation.java	/^	public Equation apply(Function f) throws NodeException {$/;"	m	class:Equation
 apply	expression/Function.java	/^	public Node apply(List<Node> arguments) throws NodeException {$/;"	m	class:Function
@@ -1036,6 +1114,7 @@ assign	tree/Fraction.java	/^	public Expression assign(Expression v) throws EvalE
 assign	tree/Identifier.java	/^	public Expression assign(Expression e) throws EvalException {$/;"	m	class:Identifier
 associatedAction	doc_gui/OCButton.java	/^	public void associatedAction() {$/;"	m	class:OCButton
 attTypes	doc/attributes/MathObjectAttribute.java	/^	public static final String[] attTypes = {	BOOLEAN_ATTRIBUTE,		DOUBLE_ATTRIBUTE,$/;"	f	class:MathObjectAttribute
+attrLists	doc/mathobjects/MathObject.java	/^	private Vector<ListAttribute<?>> attrLists;$/;"	f	class:MathObject	file:
 attributeNameInError	doc/xml/DocReader.java	/^	String attributeNameInError;$/;"	f	class:DocReader
 attributeNameInError	doc/xml/OldReader.java	/^	private String attributeNameInError;$/;"	f	class:OldReader	file:
 attributeValueInError	doc/xml/DocReader.java	/^	String attributeValueInError;$/;"	f	class:DocReader
@@ -1043,9 +1122,15 @@ attributeValueInError	doc/xml/OldReader.java	/^	private String attributeValueInE
 attributes	doc/Document.java	/^	private Vector<MathObjectAttribute> attributes;$/;"	f	class:Document	file:
 attributes	doc/attributes/VariableGenProperties.java	/^	private Vector<MathObjectAttribute> attributes;$/;"	f	class:VariableGenProperties	file:
 attributes	doc/mathobjects/MathObject.java	/^	private Vector<MathObjectAttribute<?>> attributes;$/;"	f	class:MathObject	file:
+autoAdjustGrid	doc/mathobjects/GraphObject.java	/^	public void autoAdjustGrid(){$/;"	m	class:GraphObject
+autoAdjustGrid	doc_gui/graph/Graph.java	/^	public void autoAdjustGrid(){$/;"	m	class:Graph
+autoFixGraph	doc_gui/FitnessApp.java	/^	public void autoFixGraph(GraphObject g){$/;"	m	class:FitnessApp
+autoScale	doc_gui/FitnessApp.java	/^	public void autoScale(GraphObject... graphs){$/;"	m	class:FitnessApp
+averages	doc_gui/FitnessApp.java	/^	public String averages(GraphObject graphData){$/;"	m	class:FitnessApp
 background	doc_gui/DocViewerPanel.java	/^	private BufferedImage background;$/;"	f	class:DocViewerPanel	file:
 backingStoreAvailable	doc_gui/OpenNotebook.java	/^	private static boolean backingStoreAvailable() {$/;"	m	class:OpenNotebook	file:
 badTag	doc/xml/DocReader.java	/^	String badTag;$/;"	f	class:DocReader
+barGraph	doc_gui/graph/Graph.java	/^	public BarGraph barGraph;$/;"	f	class:Graph
 belowPage	doc/PointInDocument.java	/^	private boolean outSidePage, belowPage;$/;"	f	class:PointInDocument	file:
 bigFont	math_rendering/RootNodeGraphic.java	/^	private Font bigFont, smallFont;$/;"	f	class:RootNodeGraphic	file:
 bigFontSize	math_rendering/RootNodeGraphic.java	/^	public int xPos, yPos, bigFontSize;$/;"	f	class:RootNodeGraphic
@@ -1071,7 +1156,6 @@ canHoldChildren	tree/Number.java	/^	public boolean canHoldChildren() {$/;"	m	cla
 canHoldChildren	tree/UnaryExpression.java	/^	public boolean canHoldChildren() {$/;"	m	class:UnaryExpression
 cartAxis	doc_gui/graph/Graph.java	/^	private CartAxis cartAxis;$/;"	f	class:Graph	file:
 cbrt	expression/Number.java	/^	public Number cbrt() {$/;"	m	class:Number
-ceiling	generation/ProblemGenerator.java	/^	private double ceiling = 50;$/;"	f	class:ProblemGenerator	file:
 changeTrigButtons	doc_gui/OnScreenMathKeypad.java	/^	private void changeTrigButtons(){$/;"	m	class:OnScreenMathKeypad	file:
 checkParens	expression/NodeParser.java	/^	public String checkParens(String s){$/;"	m	class:NodeParser
 checkbox	doc_gui/attribute_panels/BooleanAdjustmentPanel.java	/^	private JCheckBox checkbox;$/;"	f	class:BooleanAdjustmentPanel	file:
@@ -1090,7 +1174,7 @@ clipBoardContents	doc_gui/NotebookPanel.java	/^	private MathObject clipBoardCont
 clone	doc/Document.java	/^	public Document clone() {$/;"	m	class:Document
 clone	doc/GridPoint.java	/^	public GridPoint clone(){$/;"	m	class:GridPoint
 clone	doc/Page.java	/^	public Page clone(){$/;"	m	class:Page
-clone	doc/attributes/ListAttribute.java	/^	public ListAttribute<K> clone(){$/;"	m	class:ListAttribute
+clone	doc/attributes/ListAttribute.java	/^	public synchronized ListAttribute<K> clone(){$/;"	m	class:ListAttribute
 clone	doc/attributes/MathObjectAttribute.java	/^	public MathObjectAttribute clone(){$/;"	m	class:MathObjectAttribute
 clone	doc/mathobjects/Grouping.java	/^	public Grouping clone() {$/;"	m	class:Grouping
 clone	doc/mathobjects/MathObject.java	/^	public MathObject clone() {$/;"	m	class:MathObject
@@ -1120,6 +1204,8 @@ cloneNode	expression/Identifier.java	/^	public Identifier cloneNode() throws Nod
 cloneNode	expression/Node.java	/^	public abstract Node cloneNode() throws NodeException;$/;"	m	class:Node
 cloneNode	expression/Number.java	/^	public Number cloneNode() {$/;"	m	class:Number
 cloneNode	expression/Variable.java	/^	public Variable cloneNode() throws NodeException {$/;"	m	class:Variable
+close	doc_gui/SerialTest.java	/^	public synchronized void close() {$/;"	m	class:SerialTest
+close	doc_gui/SerialTest2.java	/^	public synchronized void close() {$/;"	m	class:SerialTest2
 closeBrackets	expression/NodeParser.java	/^	private List<String> closeBrackets =$/;"	f	class:NodeParser	file:
 closeCurrentViewer	doc_gui/NotebookPanel.java	/^	public void closeCurrentViewer(){$/;"	m	class:NotebookPanel
 closeDocViewer	doc_gui/NotebookPanel.java	/^	public void closeDocViewer(DocViewerPanel docPanel) {$/;"	m	class:NotebookPanel
@@ -1131,16 +1217,24 @@ color	doc_gui/graph/SelectionGraphic.java	/^	private Color color;$/;"	f	class:Se
 color	doc_gui/graph/SingleGraph.java	/^	private Color color;$/;"	f	class:SingleGraph	file:
 colorChooser	doc_gui/attribute_panels/ColorAdjustmentPanel.java	/^	private static final JColorChooser colorChooser = new JColorChooser();;$/;"	f	class:ColorAdjustmentPanel	file:
 colorLabel	doc_gui/attribute_panels/ColorAdjustmentPanel.java	/^	private JLabel colorLabel;$/;"	f	class:ColorAdjustmentPanel	file:
+colors	doc_gui/graph/BarGraph.java	/^	Color[] colors = {$/;"	f	class:BarGraph
 compareTo	doc/Document.java	/^		public int compareTo(ObjectAndPosition o) {$/;"	m	class:Document.ObjectAndPosition
 compareTo	doc/PointInDocument.java	/^	public int compareTo(PointInDocument other) {$/;"	m	class:PointInDocument
 compareTo	doc/attributes/Date.java	/^	public int compareTo(Date other) {$/;"	m	class:Date
 compareTo	expression/Number.java	/^	public int compareTo(Number arg0) {$/;"	m	class:Number
 components	math_rendering/RootNodeGraphic.java	/^	private Vector<NodeGraphic> components;$/;"	f	class:RootNodeGraphic	file:
+compositeGraph	doc_gui/FitnessApp.java	/^	JPanel compositeGraph;$/;"	f	class:FitnessApp
+compositeGraphData	doc_gui/FitnessApp.java	/^	GraphObject compositeGraphData;$/;"	f	class:FitnessApp
+compositeLabel	doc_gui/FitnessApp.java	/^	JLabel compositeLabel;$/;"	f	class:FitnessApp
+computeMinSize	doc_gui/ModifiedFlowLayout.java	/^    private Dimension computeMinSize(Container target) {$/;"	m	class:ModifiedFlowLayout	file:
+computeRunningComposite	doc_gui/FitnessApp.java	/^	public double computeRunningComposite(double heartRate, double skinCond, double skinTemp){$/;"	m	class:FitnessApp
+computeSize	doc_gui/ModifiedFlowLayout.java	/^    private Dimension computeSize(Container target) {$/;"	m	class:ModifiedFlowLayout	file:
 coneGUI	doc_gui/PageGUI.java	/^	public ConeObjectGUI coneGUI;$/;"	f	class:PageGUI
 connected	doc_gui/graph/GraphWithExpression.java	/^	private boolean connected;$/;"	f	class:GraphWithExpression	file:
 containedBelow	math_rendering/NodeGraphic.java	/^	public boolean containedBelow(NodeGraphic vg){$/;"	m	class:NodeGraphic
 containerStack	doc/xml/DocReader.java	/^	private Vector<Grouping> containerStack;$/;"	f	class:DocReader	file:
 containerStack	doc/xml/OldReader.java	/^	private Vector<Grouping> containerStack;$/;"	f	class:OldReader	file:
+contains	doc/attributes/ListAttribute.java	/^	public synchronized boolean contains(Object obj){$/;"	m	class:ListAttribute
 containsGeneratedProblems	doc/mathobjects/Grouping.java	/^	public boolean containsGeneratedProblems(){$/;"	m	class:Grouping
 containsIdentifier	expression/Expression.java	/^	public boolean containsIdentifier() {$/;"	m	class:Expression
 containsIdentifier	expression/Node.java	/^	public abstract boolean containsIdentifier();$/;"	m	class:Node
@@ -1160,14 +1254,20 @@ cos	tree/Expression.java	/^	public Expression cos() throws EvalException{$/;"	m	
 cos	tree/Fraction.java	/^	public Expression cos() throws EvalException {$/;"	m	class:Fraction
 cos	tree/Identifier.java	/^	public Expression cos() throws EvalException {$/;"	m	class:Identifier
 countVertices	doc/mathobjects/PolygonObject.java	/^	public int countVertices(){$/;"	m	class:PolygonObject
+counter	doc_gui/FitnessApp.java	/^	int counter = 0;$/;"	f	class:FitnessApp
 createAndShowGUI	doc_gui/OpenNotebook.java	/^	private static void createAndShowGUI(boolean askMode, boolean blankDoc, boolean studentMode) {$/;"	m	class:OpenNotebook	file:
 createButton	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private void createButton(final String actionName, int width, int height,$/;"	m	class:ObjectPropertiesFrame	file:
 createExpressionModifier	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private JPanel createExpressionModifier(){$/;"	m	class:ObjectPropertiesFrame	file:
+createGUI	doc_gui/FitnessApp.java	/^	public void createGUI() {$/;"	m	class:FitnessApp
 createGraphNavigator	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private JPanel createGraphNavigator(){$/;"	m	class:ObjectPropertiesFrame	file:
 createMathObject	doc_gui/DocViewerPanel.java	/^	public void createMathObject(String type){$/;"	m	class:DocViewerPanel
 createPanelForProblems	doc_gui/ProblemListPanel.java	/^	public JPanel createPanelForProblems() {$/;"	m	class:ProblemListPanel
 createProbelmDialog	doc_gui/NotebookPanel.java	/^	public void createProbelmDialog() {$/;"	m	class:NotebookPanel
+createPropertiesDialog	doc_gui/FitnessApp.java	/^	public void createPropertiesDialog() {$/;"	m	class:FitnessApp
 createSampleDialog	doc_gui/NotebookPanel.java	/^	private void createSampleDialog() {$/;"	m	class:NotebookPanel	file:
+createSignalDialog	doc_gui/FitnessApp.java	/^	public void createSignalDialog(){$/;"	m	class:FitnessApp
+createSummaryDialog	doc_gui/FitnessApp.java	/^	public void createSummaryDialog(){$/;"	m	class:FitnessApp
+createSurveyDialog	doc_gui/FitnessApp.java	/^	public void createSurveyDialog() {$/;"	m	class:FitnessApp
 createTempDirectory	doc_gui/NotebookPanel.java	/^	public static File createTempDirectory() throws IOException{$/;"	m	class:NotebookPanel
 createTextViewer	doc_gui/NotebookPanel.java	/^	public void createTextViewer(String string) {$/;"	m	class:NotebookPanel
 createWindowListener	doc_gui/OpenNotebook.java	/^	private static WindowListener createWindowListener() {$/;"	m	class:OpenNotebook	file:
@@ -1205,8 +1305,8 @@ detectBorderCollision	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static
 detectDotCollision	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static boolean detectDotCollision(int dotVal, Point clickPos, MathObject object,$/;"	m	class:MathObjectGUI
 detectObjectCollision	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static boolean detectObjectCollision(Point clickPos, MathObject object,$/;"	m	class:MathObjectGUI
 detectResizeDotCollision	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static int detectResizeDotCollision(Point clickPos, MathObject object,$/;"	m	class:MathObjectGUI
-detectResizeOrMove	doc_gui/DocMouseListener.java	/^	private boolean detectResizeOrMove(MouseEvent e){$/;"	m	class:DocMouseListener	file:
-displayFormat	doc_gui/attribute_panels/EnumeratedAdjuster.java	/^	private int displayFormat = 1;$/;"	f	class:EnumeratedAdjuster	file:
+detectResizeOrMove	doc_gui/DocMouseListener.java	/^	private boolean detectResizeOrMove(MouseEvent e) {$/;"	m	class:DocMouseListener	file:
+displayFormat	doc_gui/attribute_panels/EnumeratedAdjuster.java	/^	private int displayFormat = 2;$/;"	f	class:EnumeratedAdjuster	file:
 displayParentheses	expression/Node.java	/^	private boolean displayParentheses = false;$/;"	f	class:Node	file:
 displayParentheses	expression/Node.java	/^	public boolean displayParentheses() {$/;"	m	class:Node
 disposeOfChildDialogs	doc_gui/NotebookPanel.java	/^	public void disposeOfChildDialogs(){$/;"	m	class:NotebookPanel
@@ -1238,6 +1338,7 @@ doc.attributes	doc/attributes/GridPointAttribute.java	/^package doc.attributes;$
 doc.attributes	doc/attributes/IntegerAttribute.java	/^package doc.attributes;$/;"	p
 doc.attributes	doc/attributes/ListAttribute.java	/^package doc.attributes;$/;"	p
 doc.attributes	doc/attributes/MathObjectAttribute.java	/^package doc.attributes;$/;"	p
+doc.attributes	doc/attributes/SelectionAttribute.java	/^package doc.attributes;$/;"	p
 doc.attributes	doc/attributes/StringAttribute.java	/^package doc.attributes;$/;"	p
 doc.attributes	doc/attributes/UUIDAttribute.java	/^package doc.attributes;$/;"	p
 doc.attributes	doc/attributes/VariableGenProperties.java	/^package doc.attributes;$/;"	p
@@ -1263,11 +1364,13 @@ doc.mathobjects	doc/mathobjects/CylinderObject.java	/^package doc.mathobjects;$/
 doc.mathobjects	doc/mathobjects/DecimalRectangle.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/ExpressionObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/GeneratedProblem.java	/^package doc.mathobjects;$/;"	p
+doc.mathobjects	doc/mathobjects/Gradeable.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/GraphObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/Grouping.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/LineObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/MathObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/MathObjectContainer.java	/^package doc.mathobjects;$/;"	p
+doc.mathobjects	doc/mathobjects/NamedObjectList.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/NumberLineObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/OvalObject.java	/^package doc.mathobjects;$/;"	p
 doc.mathobjects	doc/mathobjects/ParallelogramObject.java	/^package doc.mathobjects;$/;"	p
@@ -1290,7 +1393,7 @@ docPanel	doc_gui/DocMouseListener.java	/^	private DocViewerPanel docPanel;$/;"	f
 docPanel	doc_gui/DocViewerPanel.java	/^	private JPanel docPanel;$/;"	f	class:DocViewerPanel	file:
 docPanel	doc_gui/PageGUI.java	/^	private DocViewerPanel docPanel;$/;"	f	class:PageGUI	file:
 docPropsFrame	doc_gui/DocViewerPanel.java	/^	private JInternalFrame docPropsFrame;$/;"	f	class:DocViewerPanel	file:
-docScrollPane	doc_gui/DocViewerPanel.java	/^	private JScrollPane docScrollPane;$/;"	f	class:DocViewerPanel	file:
+docScrollPane	doc_gui/DocViewerPanel.java	/^	JScrollPane docScrollPane;$/;"	f	class:DocViewerPanel
 docTabs	doc_gui/NotebookPanel.java	/^	private JTabbedPane docTabs;$/;"	f	class:NotebookPanel	file:
 doc_gui	doc_gui/DocMouseListener.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/DocPrinter.java	/^package doc_gui;$/;"	p
@@ -1298,8 +1401,12 @@ doc_gui	doc_gui/DocTabClosePanel.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/DocViewerPanel.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/DocumentException.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/FileActionsToolBar.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/FitnessApp.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/FitnessAppRunner.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/GlassPane.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/ImageSwitcherButton.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/KeyboardShortcuts.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/ModifiedFlowLayout.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/NotebookKeyboardListener.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/NotebookMenuBar.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/NotebookPanel.java	/^package doc_gui;$/;"	p
@@ -1312,6 +1419,8 @@ doc_gui	doc_gui/PageGUI.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/ProblemListPanel.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/SampleListPanel.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/ScriptHelpPanel.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/SerialTest.java	/^package doc_gui;$/;"	p
+doc_gui	doc_gui/SerialTest2.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/SubPanel.java	/^package doc_gui;$/;"	p
 doc_gui	doc_gui/TopLevelContainerOld.java	/^package doc_gui;$/;"	p
 doc_gui.attribute_panels	doc_gui/attribute_panels/AdjustmentPanel.java	/^package doc_gui.attribute_panels;$/;"	p
@@ -1323,6 +1432,7 @@ doc_gui.attribute_panels	doc_gui/attribute_panels/ListAdjuster.java	/^package do
 doc_gui.attribute_panels	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^package doc_gui.attribute_panels;$/;"	p
 doc_gui.attribute_panels	doc_gui/attribute_panels/StringAdjustmentPanel.java	/^package doc_gui.attribute_panels;$/;"	p
 doc_gui.attribute_panels	doc_gui/attribute_panels/VariableGenerationAdjuster.java	/^package doc_gui.attribute_panels;$/;"	p
+doc_gui.graph	doc_gui/graph/BarGraph.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/CalcInfoBox.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/CartAxis.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/Derivative.java	/^package doc_gui.graph;$/;"	p
@@ -1335,6 +1445,7 @@ doc_gui.graph	doc_gui/graph/GraphWithExpression.java	/^package doc_gui.graph;$/;
 doc_gui.graph	doc_gui/graph/GraphedCartFunction.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/GraphedPolarExpression.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/Integral.java	/^package doc_gui.graph;$/;"	p
+doc_gui.graph	doc_gui/graph/LineGraph.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/NumberLine.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/PointOnGrid.java	/^package doc_gui.graph;$/;"	p
 doc_gui.graph	doc_gui/graph/PolAxis.java	/^package doc_gui.graph;$/;"	p
@@ -1356,23 +1467,27 @@ doc_gui.mathobject_gui	doc_gui/mathobject_gui/OvalObjectGUI.java	/^package doc_g
 doc_gui.mathobject_gui	doc_gui/mathobject_gui/PolygonObjectGUI.java	/^package doc_gui.mathobject_gui;$/;"	p
 doc_gui.mathobject_gui	doc_gui/mathobject_gui/TextObjectGUI.java	/^package doc_gui.mathobject_gui;$/;"	p
 doc_gui.mathobject_gui	doc_gui/mathobject_gui/TriangleObjectGUI.java	/^package doc_gui.mathobject_gui;$/;"	p
-doc_gui.object_menus	doc_gui/object_menus/MathObjectMenu.java	/^package doc_gui.object_menus;$/;"	p
 documents	doc_gui/ProblemListPanel.java	/^	private String[] documents = { "Teacher Mode Tutorial",$/;"	f	class:ProblemListPanel	file:
 documents	doc_gui/SampleListPanel.java	/^	private String[] documents = { "Teacher Mode Tutorial", "Problem Generation Tutorial",$/;"	f	class:SampleListPanel	file:
 dotRadius	doc_gui/mathobject_gui/PolygonObjectGUI.java	/^	private static final int dotRadius = 3;$/;"	f	class:PolygonObjectGUI	file:
-doubleToString	doc_gui/graph/CartAxis.java	/^	public static String doubleToString(double d, double round){$/;"	m	class:CartAxis
+doubleToString	doc_gui/graph/GraphComponent.java	/^	public static String doubleToString(double d, double round){$/;"	m	class:GraphComponent
 doubleToString	doc_gui/graph/NumberLine.java	/^		private String doubleToString(double d, double round){$/;"	m	class:NumberLine.NumberLineComponent	file:
 dragDisk	doc_gui/graph/Graph.java	/^	private DragDisk dragDisk;$/;"	f	class:Graph	file:
-dragMouseToPlaceObj	doc_gui/DocMouseListener.java	/^	private boolean dragMouseToPlaceObj(MouseEvent e){$/;"	m	class:DocMouseListener	file:
-dragMouseToResizeObj	doc_gui/DocMouseListener.java	/^	private boolean dragMouseToResizeObj(MouseEvent e){$/;"	m	class:DocMouseListener	file:
+dragDiskShowing	doc_gui/FitnessApp.java	/^	draggingGraph, dragDiskShowing;$/;"	f	class:FitnessApp
+dragMouseToPlaceObj	doc_gui/DocMouseListener.java	/^	private boolean dragMouseToPlaceObj(MouseEvent e) {$/;"	m	class:DocMouseListener	file:
+dragMouseToResizeObj	doc_gui/DocMouseListener.java	/^	private boolean dragMouseToResizeObj(MouseEvent e) {$/;"	m	class:DocMouseListener	file:
+dragSelection	doc_gui/FitnessApp.java	/^	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,$/;"	f	class:FitnessApp
 draggingDot	doc_gui/DocMouseListener.java	/^	private boolean draggingDot, draggingObject, objPlacementRequiresMouseDrag,$/;"	f	class:DocMouseListener	file:
+draggingGraph	doc_gui/FitnessApp.java	/^	draggingGraph, dragDiskShowing;$/;"	f	class:FitnessApp
 draggingObject	doc_gui/DocMouseListener.java	/^	private boolean draggingDot, draggingObject, objPlacementRequiresMouseDrag,$/;"	f	class:DocMouseListener	file:
+draw	doc_gui/graph/BarGraph.java	/^	public void draw(Graphics g) throws EvalException, ParseException,$/;"	m	class:BarGraph
 draw	doc_gui/graph/CartAxis.java	/^	public void draw(Graphics g) {$/;"	m	class:CartAxis
 draw	doc_gui/graph/DragDisk.java	/^	public void draw(Graphics g) {$/;"	m	class:DragDisk
 draw	doc_gui/graph/GraphCalculationGraphics.java	/^	public void draw(Graphics g) {$/;"	m	class:GraphCalculationGraphics
 draw	doc_gui/graph/GraphComponent.java	/^	public abstract void draw(Graphics g) throws EvalException, ParseException, NodeException;$/;"	m	class:GraphComponent
 draw	doc_gui/graph/GraphWithExpression.java	/^	public void draw(Graphics g) throws EvalException, ParseException, NodeException {$/;"	m	class:GraphWithExpression
 draw	doc_gui/graph/GraphedCartFunction.java	/^	public void draw(Graphics g){$/;"	m	class:GraphedCartFunction
+draw	doc_gui/graph/LineGraph.java	/^	public void draw(Graphics g){$/;"	m	class:LineGraph
 draw	doc_gui/graph/NumberLine.java	/^		public void draw(Graphics g) throws EvalException, ParseException {$/;"	m	class:NumberLine.NumberLineComponent
 draw	doc_gui/graph/PointOnGrid.java	/^	public void draw(Graphics g) throws EvalException, ParseException {$/;"	m	class:PointOnGrid
 draw	doc_gui/graph/SelectionGraphic.java	/^	public void draw(Graphics g) {$/;"	m	class:SelectionGraphic
@@ -1397,6 +1512,7 @@ draw	math_rendering/RootNodeGraphic.java	/^	public void draw(NodeGraphic n) thro
 draw	math_rendering/UnaryExpressionGraphic.java	/^	public void draw() {$/;"	m	class:UnaryExpressionGraphic
 draw	math_rendering/UnaryPostGraphic.java	/^	public void draw() {$/;"	m	class:UnaryPostGraphic
 drawAllBelow	math_rendering/NodeGraphic.java	/^	public void drawAllBelow() throws NodeException{$/;"	m	class:NodeGraphic
+drawBars	doc_gui/graph/BarGraph.java	/^	public void drawBars(Graphics g, int space, int startX, int width, int valueIndex){;$/;"	m	class:BarGraph
 drawCursor	math_rendering/AbsoluteValueGraphic.java	/^	public void drawCursor(){$/;"	m	class:AbsoluteValueGraphic
 drawCursor	math_rendering/BinExpressionGraphic.java	/^	public void drawCursor(){$/;"	m	class:BinExpressionGraphic
 drawCursor	math_rendering/DecimalGraphic.java	/^	public void drawCursor(){$/;"	m	class:DecimalGraphic
@@ -1445,6 +1561,7 @@ drawTracer	doc_gui/graph/GraphComponent.java	/^	protected void drawTracer(double
 e	tree/ExpressionParser.java	/^	private Expression e;$/;"	f	class:ExpressionParser	file:
 east	math_rendering/NodeGraphic.java	/^	private NodeGraphic north, south, east, west;$/;"	f	class:NodeGraphic	file:
 edit	doc_gui/NotebookMenuBar.java	/^	JMenu mode, view, file, edit;$/;"	f	class:NotebookMenuBar
+ellapsedTime	doc_gui/FitnessApp.java	/^	long ellapsedTime = 0;$/;"	f	class:FitnessApp
 emptyArguments	expression/NodeParser.java	/^	public boolean emptyArguments() {$/;"	m	class:NodeParser
 end	doc_gui/graph/Selection.java	/^	private double start, end;$/;"	f	class:Selection	file:
 endDocument	doc/xml/DocReader.java	/^	public void endDocument(){$/;"	m	class:DocReader
@@ -1506,6 +1623,7 @@ exportToXML	doc/ProblemDatabase.java	/^	public String exportToXML(){$/;"	m	class
 exportToXML	doc/attributes/ColorAttribute.java	/^	public String exportToXML(){$/;"	m	class:ColorAttribute
 exportToXML	doc/attributes/ListAttribute.java	/^	public String exportToXML(){$/;"	m	class:ListAttribute
 exportToXML	doc/attributes/MathObjectAttribute.java	/^	public String exportToXML(){$/;"	m	class:MathObjectAttribute
+exportToXML	doc/attributes/SelectionAttribute.java	/^	public String exportToXML(){$/;"	m	class:SelectionAttribute
 exportToXML	doc/mathobjects/Grouping.java	/^	public String exportToXML(){$/;"	m	class:Grouping
 exportToXML	doc/mathobjects/MathObject.java	/^	public String exportToXML() {$/;"	m	class:MathObject
 expression	doc_gui/graph/GraphWithExpression.java	/^	private Node expression;$/;"	f	class:GraphWithExpression	file:
@@ -1535,7 +1653,9 @@ file	doc_gui/NotebookMenuBar.java	/^	JMenu mode, view, file, edit;$/;"	f	class:N
 fileChooser	doc_gui/NotebookPanel.java	/^	private JFileChooser fileChooser;$/;"	f	class:NotebookPanel	file:
 fileChooser	doc_gui/OpenNotebook.java	/^	private static JFileChooser fileChooser;$/;"	f	class:OpenNotebook	file:
 fileName	doc/xml/DocReader.java	/^	String fileName;$/;"	f	class:DocReader
+finalize	doc_gui/ObjectToolBar.java	/^	public void finalize(){$/;"	m	class:ObjectToolBar
 findAllProblemNumbersInGroup	doc/Document.java	/^	private Vector<ObjectAndPosition> findAllProblemNumbersInGroup(Grouping g){$/;"	m	class:Document	file:
+findAverage	doc_gui/FitnessApp.java	/^	public double[] findAverage(GraphObject graph){$/;"	m	class:FitnessApp
 findCursorXPos	math_rendering/AbsoluteValueGraphic.java	/^	public int findCursorXPos(){$/;"	m	class:AbsoluteValueGraphic
 findCursorXPos	math_rendering/DecimalGraphic.java	/^	public int findCursorXPos(){$/;"	m	class:DecimalGraphic
 findCursorXPos	math_rendering/DivisionGraphic.java	/^	private int findCursorXPos() {$/;"	m	class:DivisionGraphic	file:
@@ -1560,7 +1680,6 @@ flipPointVertically	doc_gui/mathobject_gui/CubeObjectGUI.java	/^	private void fl
 flipSides	doc/expression_generators/ExUtil.java	/^	public static Expression flipSides(Expression ex){$/;"	m	class:ExUtil
 flipVertically	doc/mathobjects/MathObject.java	/^	protected GridPoint[] flipVertically(GridPoint[] points) {$/;"	m	class:MathObject
 flipVertically	doc/mathobjects/MathObject.java	/^	public void flipVertically() {$/;"	m	class:MathObject
-floor	generation/ProblemGenerator.java	/^	private double floor = -50;$/;"	f	class:ProblemGenerator	file:
 focusAttributField	doc_gui/attribute_panels/AdjustmentPanel.java	/^	public abstract void focusAttributField();$/;"	m	class:AdjustmentPanel
 focusAttributField	doc_gui/attribute_panels/BooleanAdjustmentPanel.java	/^	public void focusAttributField() {$/;"	m	class:BooleanAdjustmentPanel
 focusAttributField	doc_gui/attribute_panels/ColorAdjustmentPanel.java	/^	public void focusAttributField() {$/;"	m	class:ColorAdjustmentPanel
@@ -1584,6 +1703,7 @@ formatter	doc_gui/attribute_panels/GenericAdjustmentPanel.java	/^	private static
 formula	expression/Function.java	/^	private Node formula;$/;"	f	class:Function	file:
 foundBadTag	doc/xml/DocReader.java	/^	boolean hadAttributeError, foundBadTag, readingGenerators, readingList, readingProblemDatabase;$/;"	f	class:DocReader
 frac2Dec	tree/Fraction.java	/^	public static Decimal frac2Dec(Fraction f){$/;"	m	class:Fraction
+frame	doc_gui/FitnessApp.java	/^	JFrame frame;$/;"	f	class:FitnessApp
 frame	doc_gui/OpenNotebook.java	/^	private static JFrame frame;$/;"	f	class:OpenNotebook	file:
 frameBounds	doc_gui/DocViewerPanel.java	/^	private Rectangle frameBounds = new Rectangle(5, 5, 250, 300);$/;"	f	class:DocViewerPanel	file:
 freePoints	doc_gui/graph/Graph.java	/^	private Vector<PointOnGrid> freePoints;$/;"	f	class:Graph	file:
@@ -1603,7 +1723,6 @@ generateExpression	doc/expression_generators/ExpressionGenerator.java	/^	protect
 generateExpression	doc/expression_generators/PropertyOfOppositiesWithVariables.java	/^	protected Node[] generateExpression(int difficulty) throws NodeException {$/;"	m	class:PropertyOfOppositiesWithVariables
 generateExpressionGraphic	math_rendering/RootNodeGraphic.java	/^	public void generateExpressionGraphic(Graphics g, $/;"	m	class:RootNodeGraphic
 generateExpressionGraphic	math_rendering/RootNodeGraphic.java	/^	public void generateExpressionGraphic(Graphics2D g, int x1, int y1) throws Exception{$/;"	m	class:RootNodeGraphic
-generateLinear	generation/ProblemGenerator.java	/^	public Equation generateLinear() {$/;"	m	class:ProblemGenerator
 generateNewProblem	doc/mathobjects/GeneratedProblem.java	/^	public GeneratedProblem generateNewProblem() {$/;"	m	class:GeneratedProblem
 generateNewVersion	doc/Document.java	/^	public boolean generateNewVersion(){$/;"	m	class:Document
 generateNewVersion	doc/mathobjects/Grouping.java	/^	public void generateNewVersion(){$/;"	m	class:Grouping
@@ -1613,10 +1732,10 @@ generateProblem	doc/expression_generators/ExpressionGenerator.java	/^	public Gen
 generateProblem	doc/mathobjects/ProblemGenerator.java	/^	public abstract GeneratedProblem generateProblem(int difficuty);$/;"	m	class:ProblemGenerator
 generateProblem	doc/mathobjects/VariableValueInsertionProblem.java	/^	public GeneratedProblem generateProblem(int difficulty){$/;"	m	class:VariableValueInsertionProblem
 generateProblems	doc/Document.java	/^	public void generateProblems(Vector<ProblemGenerator> generators,$/;"	m	class:Document
+generateRandomData	doc_gui/FitnessApp.java	/^	private void generateRandomData() {$/;"	m	class:FitnessApp	file:
 generateRandomExpressions	doc/expression_generators/ExUtil.java	/^	public static String[] generateRandomExpressions(){$/;"	m	class:ExUtil
 generateVertices	doc/mathobjects/RegularPolygonObject.java	/^	private GridPoint[] generateVertices(){$/;"	m	class:RegularPolygonObject	file:
 generateWorksheet	doc_gui/NotebookPanel.java	/^	public void generateWorksheet() {$/;"	m	class:NotebookPanel
-generation	generation/ProblemGenerator.java	/^package generation;$/;"	p
 generationMethods	doc/attributes/VariableGenProperties.java	/^	private static final String[] generationMethods = {"Random", "Expression"};$/;"	f	class:VariableGenProperties	file:
 generators	doc/Document.java	/^	private Vector<ProblemGenerator> generators;$/;"	f	class:Document	file:
 get	doc/ProblemDatabase.java	/^	    public ProblemGenerator get(String key) {$/;"	m	class:ProblemDatabase.CaseInsensitiveMap
@@ -1624,6 +1743,7 @@ get	expression/Number.java	/^	public static Number get(double value) {$/;"	m	cla
 getActions	doc/mathobjects/MathObject.java	/^	public Vector<String> getActions() {$/;"	m	class:MathObject
 getAdjustedVertices	doc/mathobjects/LineObject.java	/^	public GridPoint[] getAdjustedVertices(){$/;"	m	class:LineObject
 getAdjustedVertices	doc/mathobjects/PolygonObject.java	/^	public GridPoint[] getAdjustedVertices(){$/;"	m	class:PolygonObject
+getAdjuster	doc_gui/FitnessApp.java	/^	public  AdjustmentPanel getAdjuster(MathObjectAttribute mAtt,$/;"	m	class:FitnessApp
 getAdjuster	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public static AdjustmentPanel getAdjuster(MathObjectAttribute mAtt,$/;"	m	class:ObjectPropertiesFrame
 getAlignment	doc/mathobjects/TextObject.java	/^	public String getAlignment(){$/;"	m	class:TextObject
 getAllProblems	doc/ProblemDatabase.java	/^	public Vector<ProblemGenerator> getAllProblems() {$/;"	m	class:ProblemDatabase
@@ -1649,6 +1769,9 @@ getAttributes	doc/Document.java	/^	public Vector<MathObjectAttribute> getAttribu
 getAttributes	doc/mathobjects/MathObject.java	/^	public Vector<MathObjectAttribute<?>> getAttributes() {$/;"	m	class:MathObject
 getAuthor	doc/Document.java	/^	public String getAuthor() {$/;"	m	class:Document
 getAuthor	doc/mathobjects/ProblemGenerator.java	/^	public String getAuthor() {$/;"	m	class:ProblemGenerator
+getBarGraphGroupSize	doc/mathobjects/GraphObject.java	/^	public int getBarGraphGroupSize(){$/;"	m	class:GraphObject
+getBarGraphLabels	doc/mathobjects/GraphObject.java	/^	public synchronized ListAttribute<StringAttribute> getBarGraphLabels(){$/;"	m	class:GraphObject
+getBarGraphValues	doc/mathobjects/GraphObject.java	/^	public synchronized ListAttribute<DoubleAttribute> getBarGraphValues(){$/;"	m	class:GraphObject
 getBigFont	math_rendering/RootNodeGraphic.java	/^	public Font getBigFont(){$/;"	m	class:RootNodeGraphic
 getBounds	doc/mathobjects/MathObject.java	/^	public Rectangle getBounds() {$/;"	m	class:MathObject
 getCalcInfoBoxes	doc_gui/graph/GraphCalculationGraphics.java	/^	public Vector<CalcInfoBox> getCalcInfoBoxes(){$/;"	m	class:GraphCalculationGraphics
@@ -1682,7 +1805,7 @@ getCorrectAnswers	doc/mathobjects/ExpressionObject.java	/^	public Vector<StringA
 getCurrResizeDot	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public int getCurrResizeDot() {$/;"	m	class:MathObjectGUI
 getCurrValue	math_rendering/ExpressionGraphicCursor.java	/^	public NodeGraphic getCurrValue() {$/;"	m	class:ExpressionGraphicCursor
 getCurrentDocViewer	doc_gui/NotebookPanel.java	/^	public DocViewerPanel getCurrentDocViewer() {$/;"	m	class:NotebookPanel
-getCurrentDragDot	doc_gui/DocMouseListener.java	/^	public int getCurrentDragDot(){$/;"	m	class:DocMouseListener
+getCurrentDragDot	doc_gui/DocMouseListener.java	/^	public int getCurrentDragDot() {$/;"	m	class:DocMouseListener
 getCurrentPage	doc_gui/DocViewerPanel.java	/^	public Page getCurrentPage(){$/;"	m	class:DocViewerPanel
 getCursor	math_rendering/RootNodeGraphic.java	/^	public Cursor getCursor() {$/;"	m	class:RootNodeGraphic
 getDatabase	doc_gui/NotebookPanel.java	/^	public ProblemDatabase getDatabase(){$/;"	m	class:NotebookPanel
@@ -1755,8 +1878,10 @@ getHeightDenom	math_rendering/DivisionGraphic.java	/^	public int getHeightDenom(
 getHeightNumer	math_rendering/DivisionGraphic.java	/^	public int getHeightNumer() {$/;"	m	class:DivisionGraphic
 getHorizontallyOppositeDot	doc_gui/mathobject_gui/MathObjectGUI.java	/^	private static int getHorizontallyOppositeDot(int dotVal){$/;"	m	class:MathObjectGUI	file:
 getIcon	doc_gui/DocViewerPanel.java	/^	public ImageIcon getIcon(String fileName){$/;"	m	class:DocViewerPanel
+getIcon	doc_gui/FitnessApp.java	/^	public ImageIcon getIcon(String filename){$/;"	m	class:FitnessApp
 getIcon	doc_gui/NotebookPanel.java	/^	public ImageIcon getIcon(String filename) {$/;"	m	class:NotebookPanel
-getIconForAction	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public ImageIcon getIconForAction(String actionName){$/;"	m	class:ObjectPropertiesFrame
+getIcon	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public static ImageIcon getIcon(String filename){$/;"	m	class:ObjectPropertiesFrame
+getIconForAction	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public static ImageIcon getIconForAction(String actionName){$/;"	m	class:ObjectPropertiesFrame
 getIdentifier	expression/Identifier.java	/^	public String getIdentifier() {$/;"	m	class:Identifier
 getIndependentVar	doc_gui/graph/GraphWithExpression.java	/^	public String getIndependentVar() {$/;"	m	class:GraphWithExpression
 getInnerPoint	doc/mathobjects/CubeObject.java	/^	public static GridPoint getInnerPoint() {$/;"	m	class:CubeObject
@@ -1770,7 +1895,7 @@ getLastFocused	doc/Document.java	/^	public MathObject getLastFocused() {$/;"	m	c
 getLastPage	doc/Document.java	/^	public Page getLastPage() {$/;"	m	class:Document
 getLastProblemNumber	doc/Document.java	/^	public int getLastProblemNumber() {$/;"	m	class:Document
 getLastStep	doc/mathobjects/ExpressionObject.java	/^	public String getLastStep(){$/;"	m	class:ExpressionObject
-getLastValue	doc/attributes/ListAttribute.java	/^	public K getLastValue(){$/;"	m	class:ListAttribute
+getLastValue	doc/attributes/ListAttribute.java	/^	public synchronized K getLastValue(){$/;"	m	class:ListAttribute
 getLeftChild	tree/BinExpression.java	/^	public Expression getLeftChild(){$/;"	m	class:BinExpression
 getLeftGraphic	math_rendering/BinExpressionGraphic.java	/^	public NodeGraphic getLeftGraphic(){$/;"	m	class:BinExpressionGraphic
 getLeftGraphic	math_rendering/DotMultiplication.java	/^	public NodeGraphic getLeftGraphic(){$/;"	m	class:DotMultiplication
@@ -1778,8 +1903,10 @@ getLeftGraphic	math_rendering/ImpliedMultGraphic.java	/^	public NodeGraphic getL
 getLengthLast	tree/ExpressionParser.java	/^	public int getLengthLast(){$/;"	m	class:ExpressionParser
 getLhs	expression/Equation.java	/^	public Node getLhs() {$/;"	m	class:Equation
 getLineColor	doc/mathobjects/LineObject.java	/^	public Color getLineColor(){$/;"	m	class:LineObject
+getLineGraphColor	doc/mathobjects/GraphObject.java	/^	public Color getLineGraphColor(){$/;"	m	class:GraphObject
+getLineGraphPoints	doc/mathobjects/GraphObject.java	/^	public synchronized ListAttribute<GridPointAttribute> getLineGraphPoints(){$/;"	m	class:GraphObject
 getList	doc_gui/attribute_panels/ListAdjuster.java	/^	public ListAttribute getList(){$/;"	m	class:ListAdjuster
-getListWithName	doc/mathobjects/MathObject.java	/^	public ListAttribute<?> getListWithName(String n) {$/;"	m	class:MathObject
+getListWithName	doc/mathobjects/MathObject.java	/^	public synchronized ListAttribute<?> getListWithName(String n) {$/;"	m	class:MathObject
 getLists	doc/mathobjects/MathObject.java	/^	public Vector<ListAttribute<?>> getLists() {$/;"	m	class:MathObject
 getLocationOnScreen	doc_gui/TopLevelContainerOld.java	/^public Point getLocationOnScreen();$/;"	m	interface:TopLevelContainerOld
 getLowerHeight	math_rendering/NodeGraphic.java	/^	public int getLowerHeight() {$/;"	m	class:NodeGraphic
@@ -1807,10 +1934,12 @@ getMostInnerEast	math_rendering/NodeGraphic.java	/^	public NodeGraphic getMostIn
 getMostInnerNorth	math_rendering/NodeGraphic.java	/^	public NodeGraphic getMostInnerNorth() {$/;"	m	class:NodeGraphic
 getMostInnerSouth	math_rendering/NodeGraphic.java	/^	public NodeGraphic getMostInnerSouth() {$/;"	m	class:NodeGraphic
 getMostInnerWest	math_rendering/NodeGraphic.java	/^	public NodeGraphic getMostInnerWest() {$/;"	m	class:NodeGraphic
-getMouseCode	doc_gui/DocMouseListener.java	/^	public int getMouseCode(MouseEvent e){$/;"	m	class:DocMouseListener
+getMouseCode	doc_gui/DocMouseListener.java	/^	public int getMouseCode(MouseEvent e) {$/;"	m	class:DocMouseListener
 getName	doc/Document.java	/^	public String getName() {$/;"	m	class:Document
 getName	doc/attributes/ListAttribute.java	/^	public String getName() {$/;"	m	class:ListAttribute
 getName	doc/attributes/MathObjectAttribute.java	/^	public String getName() {$/;"	m	class:MathObjectAttribute
+getName	doc/mathobjects/MathObject.java	/^	public String getName() {$/;"	m	class:MathObject
+getName	doc/mathobjects/NamedObjectList.java	/^	public String getName(){$/;"	m	class:NamedObjectList
 getName	doc/mathobjects/ProblemGenerator.java	/^	public String getName() {$/;"	m	class:ProblemGenerator
 getName	tree/Identifier.java	/^	public String getName(){$/;"	m	class:Identifier
 getName	tree/NumberWithName.java	/^	public String getName(){$/;"	m	class:NumberWithName
@@ -1829,6 +1958,7 @@ getObjectBounds	doc/mathobjects/Grouping.java	/^	public Vector<DecimalRectangle>
 getObjectCreationMode	doc_gui/NotebookPanel.java	/^	public int getObjectCreationMode() {$/;"	m	class:NotebookPanel
 getObjectID	doc/mathobjects/MathObject.java	/^	public UUID getObjectID() {$/;"	m	class:MathObject
 getObjectImageName	doc/mathobjects/MathObject.java	/^	public static String getObjectImageName(String type) {$/;"	m	class:MathObject
+getObjectLists	doc/mathobjects/MathObject.java	/^	public Vector<NamedObjectList<MathObject>> getObjectLists() {$/;"	m	class:MathObject
 getObjectPos	doc_gui/DocViewerPanel.java	/^	public Point getObjectPos(MathObject mObj){$/;"	m	class:DocViewerPanel
 getObjectWithAnswer	doc/mathobjects/AnswerBoxObject.java	/^	public AnswerBoxObject getObjectWithAnswer(){$/;"	m	class:AnswerBoxObject
 getObjectWithAnswer	doc/mathobjects/ExpressionObject.java	/^	public ExpressionObject getObjectWithAnswer(){$/;"	m	class:ExpressionObject
@@ -1837,6 +1967,7 @@ getObjectWithAnswer	doc/mathobjects/MathObject.java	/^	public MathObject getObje
 getObjects	doc/Page.java	/^	public Vector<MathObject> getObjects() {$/;"	m	class:Page
 getObjects	doc/mathobjects/Grouping.java	/^	public Vector<MathObject> getObjects() {$/;"	m	class:Grouping
 getObjects	doc/mathobjects/MathObjectContainer.java	/^	public Vector<MathObject> getObjects();$/;"	m	interface:MathObjectContainer
+getObjects	doc/mathobjects/NamedObjectList.java	/^	public Vector<T> getObjects(){$/;"	m	class:NamedObjectList
 getObjet	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public MathObject getObjet(){$/;"	m	class:ObjectPropertiesFrame
 getOpenNotebook	doc_gui/NotebookPanel.java	/^	public OpenNotebook getOpenNotebook() {$/;"	m	class:NotebookPanel
 getOperator	expression/Expression.java	/^	public Operator getOperator() {$/;"	m	class:Expression
@@ -1887,7 +2018,6 @@ getProblemHoldingDocument	doc/mathobjects/ProblemGenerator.java	/^	public Docume
 getProblemID	doc/mathobjects/ProblemGenerator.java	/^	public UUID getProblemID() {$/;"	m	class:ProblemGenerator
 getProblemNumbersInOrder	doc/Document.java	/^	private Vector<ObjectAndPosition> getProblemNumbersInOrder(){$/;"	m	class:Document	file:
 getProblemWithUUID	doc/ProblemDatabase.java	/^	public ProblemGenerator getProblemWithUUID(UUID uuid){$/;"	m	class:ProblemDatabase
-getPropertiesFrame	doc_gui/OpenNotebook.java	/^	public ObjectPropertiesFrame getPropertiesFrame(MathObject obj){$/;"	m	class:OpenNotebook
 getRandomMessage	doc/xml/DocReader.java	/^	public static String getRandomMessage(){$/;"	m	class:DocReader
 getResult	doc_gui/graph/GraphCalculation.java	/^	public double getResult() {$/;"	m	class:GraphCalculation
 getRhs	expression/Equation.java	/^	public Node getRhs() {$/;"	m	class:Equation
@@ -1898,6 +2028,7 @@ getRightGraphic	math_rendering/ImpliedMultGraphic.java	/^	public NodeGraphic get
 getRoot	math_rendering/RootNodeGraphic.java	/^	public NodeGraphic getRoot(){$/;"	m	class:RootNodeGraphic
 getRootNode	expression/Node.java	/^	public VarList getRootNode() {$/;"	m	class:Node
 getRootNodeGraphic	math_rendering/NodeGraphic.java	/^	public RootNodeGraphic getRootNodeGraphic() {$/;"	m	class:NodeGraphic
+getRunningSlopAverage	doc/mathobjects/GraphObject.java	/^	public double getRunningSlopAverage(){$/;"	m	class:GraphObject
 getScripts	doc/mathobjects/ProblemGenerator.java	/^	public ListAttribute<StringAttribute> getScripts() {$/;"	m	class:ProblemGenerator
 getScrollPane	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public JScrollPane getScrollPane(){$/;"	m	class:ObjectPropertiesFrame
 getScrollableBlockIncrement	doc_gui/ProblemListPanel.java	/^		public int getScrollableBlockIncrement(Rectangle arg0, int arg1,$/;"	m	class:ProblemListPanel.ProblemList
@@ -1907,6 +2038,7 @@ getScrollableUnitIncrement	doc_gui/ProblemListPanel.java	/^		public int getScrol
 getSelectedColor	math_rendering/NodeGraphic.java	/^	public Color getSelectedColor(){$/;"	m	class:NodeGraphic
 getSelectedPage	doc_gui/DocViewerPanel.java	/^	public Page getSelectedPage(){$/;"	m	class:DocViewerPanel
 getSelectedVals	math_rendering/RootNodeGraphic.java	/^	public Vector<NodeGraphic> getSelectedVals() {$/;"	m	class:RootNodeGraphic
+getSelection	doc/mathobjects/GraphObject.java	/^	public Selection getSelection(){$/;"	m	class:GraphObject
 getSelection	doc_gui/graph/Graph.java	/^	public SelectionGraphic getSelection() {$/;"	m	class:Graph
 getSelection	doc_gui/graph/GraphCalculation.java	/^	public Selection getSelection() {$/;"	m	class:GraphCalculation
 getSelection	doc_gui/graph/SelectionGraphic.java	/^	public Selection getSelection(){$/;"	m	class:SelectionGraphic
@@ -1923,6 +2055,7 @@ getStart	doc_gui/graph/SelectionGraphic.java	/^	public double getStart(){$/;"	m	
 getStringWidth	math_rendering/RootNodeGraphic.java	/^	public int getStringWidth(String s, Font f){$/;"	m	class:RootNodeGraphic
 getStudentActions	doc/mathobjects/MathObject.java	/^	public Vector<String> getStudentActions() {$/;"	m	class:MathObject
 getStudentAnswer	doc/mathobjects/AnswerBoxObject.java	/^	public String getStudentAnswer(){$/;"	m	class:AnswerBoxObject
+getSubObjects	doc/mathobjects/MathObject.java	/^	public Vector<Object> getSubObjects() {$/;"	m	class:MathObject
 getSubjectsCovered	doc/Document.java	/^	public Vector<String> getSubjectsCovered() {$/;"	m	class:Document
 getSymbol	expression/Operator.java	/^		public String getSymbol() {$/;"	m	class:Operator.AbsoluteValue
 getSymbol	expression/Operator.java	/^		public String getSymbol() {$/;"	m	class:Operator.Addition
@@ -1955,6 +2088,7 @@ getThickness	doc/mathobjects/LineObject.java	/^	public int getThickness(){$/;"	m
 getThickness	doc/mathobjects/OvalObject.java	/^	public int getThickness() {$/;"	m	class:OvalObject
 getThickness	doc/mathobjects/PolygonObject.java	/^	public int getThickness() {$/;"	m	class:PolygonObject
 getTopLevelContainer	doc_gui/SubPanel.java	/^	public TopLevelContainerOld getTopLevelContainer(){$/;"	m	class:SubPanel
+getTotalPoints	doc/mathobjects/AnswerBoxObject.java	/^	public int getTotalPoints(){$/;"	m	class:AnswerBoxObject
 getTracers	doc_gui/graph/GraphCalculationGraphics.java	/^	public Vector<Tracer> getTracers(){$/;"	m	class:GraphCalculationGraphics
 getTransferData	doc_gui/NotebookPanel.java	/^		public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {$/;"	m	class:NotebookPanel.ImageSelection
 getTransferDataFlavors	doc_gui/NotebookPanel.java	/^		public DataFlavor[] getTransferDataFlavors() {$/;"	m	class:NotebookPanel.ImageSelection
@@ -1968,6 +2102,7 @@ getType	doc/attributes/EnumeratedAttribute.java	/^	public String getType() {$/;"
 getType	doc/attributes/GridPointAttribute.java	/^	public String getType() {$/;"	m	class:GridPointAttribute
 getType	doc/attributes/IntegerAttribute.java	/^	public String getType() {$/;"	m	class:IntegerAttribute
 getType	doc/attributes/MathObjectAttribute.java	/^	public abstract String getType();$/;"	m	class:MathObjectAttribute
+getType	doc/attributes/SelectionAttribute.java	/^	public String getType() {$/;"	m	class:SelectionAttribute
 getType	doc/attributes/StringAttribute.java	/^	public String getType() {$/;"	m	class:StringAttribute
 getType	doc/attributes/UUIDAttribute.java	/^	public String getType() {$/;"	m	class:UUIDAttribute
 getType	doc/attributes/VariableNameAttribute.java	/^	public String getType() {$/;"	m	class:VariableNameAttribute
@@ -1994,9 +2129,11 @@ getType	doc/mathobjects/TextObject.java	/^	public String getType() {$/;"	m	class
 getType	doc/mathobjects/TrapezoidObject.java	/^	public String getType() {$/;"	m	class:TrapezoidObject
 getType	doc/mathobjects/TriangleObject.java	/^	public String getType() {$/;"	m	class:TriangleObject
 getType	doc/mathobjects/VariableValueInsertionProblem.java	/^	public String getType() {$/;"	m	class:VariableValueInsertionProblem
+getType	doc_gui/FitnessApp.java	/^		public String getType() {$/;"	m	class:FitnessApp.FitnessAppProperties
+getType	doc_gui/FitnessApp.java	/^		public String getType() {$/;"	m	class:FitnessApp.SurveyQuestions
 getUpperHeight	math_rendering/NodeGraphic.java	/^	public int getUpperHeight() {$/;"	m	class:NodeGraphic
 getUserName	doc_gui/OpenNotebook.java	/^	public String getUserName() {$/;"	m	class:OpenNotebook
-getValue	doc/attributes/ListAttribute.java	/^	public K getValue(int i){$/;"	m	class:ListAttribute
+getValue	doc/attributes/ListAttribute.java	/^	public synchronized K getValue(int i){$/;"	m	class:ListAttribute
 getValue	doc/attributes/MathObjectAttribute.java	/^	public K getValue() {$/;"	m	class:MathObjectAttribute
 getValue	expression/Number.java	/^	public double getValue() {$/;"	m	class:Number
 getValue	math_rendering/NodeGraphic.java	/^	public E getValue(){$/;"	m	class:NodeGraphic
@@ -2041,6 +2178,7 @@ getxMax	doc/mathobjects/GraphObject.java	/^	public double getxMax(){$/;"	m	class
 getxMin	doc/mathobjects/GraphObject.java	/^	public double getxMin(){$/;"	m	class:GraphObject
 getxPos	doc/PointInDocument.java	/^	public int getxPos() {$/;"	m	class:PointInDocument
 getxPos	doc/mathobjects/MathObject.java	/^	public int getxPos() {$/;"	m	class:MathObject
+getxStep	doc/mathobjects/GraphObject.java	/^	public double getxStep(){$/;"	m	class:GraphObject
 getxVals	doc_gui/graph/SingleGraph.java	/^	public Vector<Integer> getxVals() {$/;"	m	class:SingleGraph
 gety	doc/GridPoint.java	/^	public double gety(){$/;"	m	class:GridPoint
 getyClick	doc_gui/graph/CalcInfoBox.java	/^	public double getyClick(){$/;"	m	class:CalcInfoBox
@@ -2050,7 +2188,10 @@ getyMax	doc/mathobjects/GraphObject.java	/^	public double getyMax(){$/;"	m	class
 getyMin	doc/mathobjects/GraphObject.java	/^	public double getyMin(){$/;"	m	class:GraphObject
 getyPos	doc/PointInDocument.java	/^	public int getyPos() {$/;"	m	class:PointInDocument
 getyPos	doc/mathobjects/MathObject.java	/^	public int getyPos() {$/;"	m	class:MathObject
+getyStep	doc/mathobjects/GraphObject.java	/^	public double getyStep(){$/;"	m	class:GraphObject
 getyVals	doc_gui/graph/SingleGraph.java	/^	public Vector<Integer> getyVals() {$/;"	m	class:SingleGraph
+grade	doc/mathobjects/AnswerBoxObject.java	/^	public int[] grade(){$/;"	m	class:AnswerBoxObject
+grade	doc/mathobjects/Gradeable.java	/^	public int[] grade();$/;"	m	interface:Gradeable
 graph	doc_gui/graph/GraphCalculation.java	/^	private Graph graph;$/;"	f	class:GraphCalculation	file:
 graph	doc_gui/graph/GraphComponent.java	/^	protected Graph graph;$/;"	f	class:GraphComponent
 graph	doc_gui/graph/NumberLine.java	/^	private Graph graph;$/;"	f	class:NumberLine	file:
@@ -2058,7 +2199,9 @@ graph	doc_gui/mathobject_gui/GraphObjectGUI.java	/^	private Graph graph;$/;"	f	c
 graphCalcGraphics	doc_gui/graph/Graph.java	/^	private GraphCalculationGraphics graphCalcGraphics;$/;"	f	class:Graph	file:
 graphColors	doc_gui/mathobject_gui/GraphObjectGUI.java	/^	public static final Color[] graphColors = {Color.BLUE.darker().darker(), Color.GREEN.darker().darker(),$/;"	f	class:GraphObjectGUI
 graphGUI	doc_gui/PageGUI.java	/^	public GraphObjectGUI graphGUI;$/;"	f	class:PageGUI
+graphGui	doc_gui/FitnessApp.java	/^	GraphObjectGUI graphGui;$/;"	f	class:FitnessApp
 graphNavActions	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private String[] graphNavActions = {GraphObject.MOVE_DOWN, GraphObject.MOVE_UP,$/;"	f	class:ObjectPropertiesFrame	file:
+graphValAt	doc_gui/FitnessApp.java	/^	public double graphValAt(GraphObject graph, double x){$/;"	m	class:FitnessApp
 graphics	math_rendering/RootNodeGraphic.java	/^	private Graphics2D graphics;$/;"	f	class:RootNodeGraphic	file:
 graphing	doc_gui/graph/GraphWithExpression.java	/^	private boolean graphing;$/;"	f	class:GraphWithExpression	file:
 gridx	doc_gui/graph/GraphCalculation.java	/^	private double gridx, gridy;$/;"	f	class:GraphCalculation	file:
@@ -2069,6 +2212,7 @@ gridyToScreen	doc_gui/graph/Graph.java	/^	public int gridyToScreen(double y){$/;
 gridyToScreen	doc_gui/graph/GraphComponent.java	/^	protected int gridyToScreen(double y){$/;"	m	class:GraphComponent
 group	doc/xml/OldReader.java	/^	private Grouping group;$/;"	f	class:OldReader	file:
 group	doc_gui/NotebookPanel.java	/^	public void group() {$/;"	m	class:NotebookPanel
+groupSize	doc_gui/graph/BarGraph.java	/^	public int groupSize = 3;$/;"	f	class:BarGraph
 hadAttributeError	doc/xml/DocReader.java	/^	boolean hadAttributeError, foundBadTag, readingGenerators, readingList, readingProblemDatabase;$/;"	f	class:DocReader
 hadAttributeError	doc/xml/OldReader.java	/^	private boolean hadAttributeError;$/;"	f	class:OldReader	file:
 handleMouseAction	doc_gui/PageGUI.java	/^	public void handleMouseAction(MathObject mObj, int x, int y, int mouseActionCode){$/;"	m	class:PageGUI
@@ -2084,6 +2228,10 @@ hashCode	expression/Node.java	/^	public abstract int hashCode();$/;"	m	class:Nod
 hashCode	expression/Number.java	/^	public int hashCode() {$/;"	m	class:Number
 hashCode	expression/Operator.java	/^	public int hashCode() {$/;"	m	class:Operator
 hashCode	expression/Variable.java	/^	public int hashCode() {$/;"	m	class:Variable
+heartRateGraph	doc_gui/FitnessApp.java	/^	JPanel heartRateGraph;$/;"	f	class:FitnessApp
+heartRateGraphData	doc_gui/FitnessApp.java	/^	GraphObject heartRateGraphData;$/;"	f	class:FitnessApp
+heartRateLabel	doc_gui/FitnessApp.java	/^	JLabel heartRateLabel;$/;"	f	class:FitnessApp
+heartRateSlope	doc_gui/FitnessApp.java	/^	double heartRateSlope = 0, skinTempSlope = 0;$/;"	f	class:FitnessApp
 height	doc/mathobjects/DecimalRectangle.java	/^	private double x, y, width, height;$/;"	f	class:DecimalRectangle	file:
 height	doc_gui/ProblemListPanel.java	/^		private int height;$/;"	f	class:ProblemListPanel.ProblemDescriptionPanel	file:
 height	doc_gui/graph/CalcInfoBox.java	/^	private int width, height;$/;"	f	class:CalcInfoBox	file:
@@ -2100,6 +2248,7 @@ identifiers	expression/NodeParser.java	/^	private List<String> identifiers;$/;"	
 identifiersAsVariables	expression/NodeParser.java	/^	private boolean identifiersAsVariables = false;$/;"	f	class:NodeParser	file:
 identifiersAsVariables	expression/NodeParser.java	/^	public boolean identifiersAsVariables() {$/;"	m	class:NodeParser
 identifiersWithValues	expression/VarList.java	/^	private Vector<String> identifiersWithValues;$/;"	f	class:VarList	file:
+image	doc_gui/FitnessApp.java	/^	ImageIcon image;$/;"	f	class:FitnessApp
 image	doc_gui/NotebookPanel.java	/^		private Image image;$/;"	f	class:NotebookPanel.ImageSelection	file:
 imgFilenames	doc/mathobjects/MathObject.java	/^	public static final String[] imgFilenames = { "line.png", "rectangle.png",$/;"	f	class:MathObject
 inStudentMode	doc_gui/OpenNotebook.java	/^	private static boolean inStudentMode() {$/;"	m	class:OpenNotebook	file:
@@ -2109,8 +2258,12 @@ index	doc_gui/attribute_panels/ListAdjuster.java	/^		private int index;$/;"	f	cl
 index	expression/Variable.java	/^	private int index;$/;"	f	class:Variable	file:
 indexCount	expression/Variable.java	/^	private static int indexCount = 0;$/;"	f	class:Variable	file:
 indexIn	expression/NodeParser.java	/^	private boolean indexIn(String expression, int index, String identifier) {$/;"	m	class:NodeParser	file:
+initialize	doc_gui/SerialTest.java	/^	public void initialize() {$/;"	m	class:SerialTest
+initialize	doc_gui/SerialTest2.java	/^	public void initialize() {$/;"	m	class:SerialTest2
 initializeGUIs	doc_gui/PageGUI.java	/^	public void initializeGUIs(){$/;"	m	class:PageGUI
 innerPoint	doc/mathobjects/CubeObject.java	/^	private static GridPoint innerPoint = new GridPoint(.75, .25);$/;"	f	class:CubeObject	file:
+input	doc_gui/SerialTest.java	/^	private InputStream input;$/;"	f	class:SerialTest	file:
+input	doc_gui/SerialTest2.java	/^	private InputStream input;$/;"	f	class:SerialTest2	file:
 inputs	tree/Functional.java	/^		ArrayList<Expression> inputs;$/;"	f	class:Functional
 insideEdgeOfDisk	doc/mathobjects/ConeObject.java	/^	private GridPoint insideEdgeOfDisk = new GridPoint(.5, .25);$/;"	f	class:ConeObject	file:
 insideEdgeOfDisk	doc/mathobjects/CylinderObject.java	/^	private GridPoint insideEdgeOfDisk = new GridPoint(.5, .25);$/;"	f	class:CylinderObject	file:
@@ -2185,6 +2338,7 @@ isStudentSelectable	doc/mathobjects/ExpressionObject.java	/^	public boolean isSt
 isStudentSelectable	doc/mathobjects/GraphObject.java	/^	public boolean isStudentSelectable(){$/;"	m	class:GraphObject
 isStudentSelectable	doc/mathobjects/MathObject.java	/^	public boolean isStudentSelectable() {$/;"	m	class:MathObject
 isTeacherEditableOnly	doc/attributes/MathObjectAttribute.java	/^	public boolean isTeacherEditableOnly(){$/;"	m	class:MathObjectAttribute
+isTimeToRedraw	doc_gui/FitnessApp.java	/^	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,$/;"	f	class:FitnessApp
 isUnaryPost	tree/Operator.java	/^	public boolean isUnaryPost(){$/;"	m	class:Operator
 isUserEditable	doc/attributes/ListAttribute.java	/^	public boolean isUserEditable() {$/;"	m	class:ListAttribute
 isUserEditable	doc/attributes/MathObjectAttribute.java	/^	public boolean isUserEditable() {$/;"	m	class:MathObjectAttribute
@@ -2197,6 +2351,7 @@ isosocelesVertices	doc/mathobjects/TriangleObject.java	/^	private static final G
 justChangedColor	doc_gui/attribute_panels/ColorAdjustmentPanel.java	/^	private boolean justChangedColor;$/;"	f	class:ColorAdjustmentPanel	file:
 justClosedTab	doc_gui/NotebookPanel.java	/^	private boolean justClosedTab;$/;"	f	class:NotebookPanel	file:
 justDeleted	doc/mathobjects/MathObject.java	/^	private boolean justDeleted = false;$/;"	f	class:MathObject	file:
+justFinishedPic	doc_gui/FitnessApp.java	/^	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,$/;"	f	class:FitnessApp
 keyFocusManager	doc_gui/OCButton.java	/^	public static KeyboardFocusManager keyFocusManager;$/;"	f	class:OCButton
 keyListener	doc_gui/DocViewerPanel.java	/^	private NotebookKeyboardListener keyListener;$/;"	f	class:DocViewerPanel	file:
 keyPressed	doc_gui/NotebookKeyboardListener.java	/^	public void keyPressed(KeyEvent e) {$/;"	m	class:NotebookKeyboardListener
@@ -2204,9 +2359,12 @@ keyReleased	doc_gui/NotebookKeyboardListener.java	/^	public void keyReleased(Key
 keyTyped	doc_gui/NotebookKeyboardListener.java	/^	public void keyTyped(KeyEvent e) {}$/;"	m	class:NotebookKeyboardListener
 keyboardFrame	doc_gui/DocViewerPanel.java	/^	private JInternalFrame keyboardFrame;$/;"	f	class:DocViewerPanel	file:
 lAtt	doc_gui/attribute_panels/ListAdjuster.java	/^	protected ListAttribute lAtt;$/;"	f	class:ListAdjuster
+labels	doc_gui/graph/BarGraph.java	/^	public Vector<String> labels;$/;"	f	class:BarGraph
 last	doc_gui/attribute_panels/ListAdjuster.java	/^	protected AdjustmentPanel last;$/;"	f	class:ListAdjuster
 lastAction	doc_gui/DocViewerPanel.java	/^	private Document lastAction;$/;"	f	class:DocViewerPanel	file:
 lastFocused	doc/Document.java	/^	private MathObject lastFocused;$/;"	f	class:Document	file:
+lastFrameTime	doc_gui/FitnessApp.java	/^	long lastFrameTime = 0;$/;"	f	class:FitnessApp
+lastHit	doc_gui/ObjectToolBar.java	/^	private static ImageSwitcherButton lastHit;$/;"	f	class:ObjectToolBar	file:
 lastPageIndex	doc/Document.java	/^	public int lastPageIndex() {$/;"	m	class:Document
 lastSavedDoc	doc_gui/DocViewerPanel.java	/^	private Document lastSavedDoc;$/;"	f	class:DocViewerPanel	file:
 layoutProblems	doc/Document.java	/^	public static void layoutProblems(MathObject[] objects, String directions, Document doc) {$/;"	m	class:Document
@@ -2216,12 +2374,13 @@ lengthLast	tree/ExpressionParser.java	/^	private int lengthLast;$/;"	f	class:Exp
 lengthLittleTail	math_rendering/RadicalGraphic.java	/^	private int lengthLittleTail;$/;"	f	class:RadicalGraphic	file:
 lhs	expression/Equation.java	/^	private Node lhs;$/;"	f	class:Equation	file:
 lineGUI	doc_gui/PageGUI.java	/^	public LineObjectGUI lineGUI;$/;"	f	class:PageGUI
-linearFunction	generation/ProblemGenerator.java	/^	private static final Function linearFunction;$/;"	f	class:ProblemGenerator	file:
+lineGraph	doc_gui/graph/Graph.java	/^	public LineGraph lineGraph;$/;"	f	class:Graph
+linePoints	doc_gui/graph/LineGraph.java	/^	public Vector<GridPoint> linePoints;$/;"	f	class:LineGraph
 list	doc/xml/DocReader.java	/^	private ListAttribute list;$/;"	f	class:DocReader	file:
 list	doc_gui/ProblemListPanel.java	/^	private JList list;$/;"	f	class:ProblemListPanel	file:
 list	doc_gui/SampleListPanel.java	/^	private JList list;$/;"	f	class:SampleListPanel	file:
 listAdjusters	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private Vector<ListAdjuster> listAdjusters;$/;"	f	class:ObjectPropertiesFrame	file:
-lists	doc/mathobjects/MathObject.java	/^	private Vector<ListAttribute<?>> lists;$/;"	f	class:MathObject	file:
+listName	doc/mathobjects/NamedObjectList.java	/^	private String listName;$/;"	f	class:NamedObjectList	file:
 ln	expression/Number.java	/^	public Number ln() {$/;"	m	class:Number
 log	expression/Number.java	/^	public Number log() {$/;"	m	class:Number
 log	expression/Number.java	/^	public static Number log(Number base, Number argument) {$/;"	m	class:Number
@@ -2229,7 +2388,7 @@ log	tree/Decimal.java	/^	public Decimal log() throws EvalException {$/;"	m	class
 log	tree/Expression.java	/^	public Expression log() throws EvalException{$/;"	m	class:Expression
 log	tree/Fraction.java	/^	public Expression log() throws EvalException {$/;"	m	class:Fraction
 log	tree/Identifier.java	/^	public Expression log() throws EvalException$/;"	m	class:Identifier
-login	doc_gui/ObjectToolBar.java	/^	public static void login(){$/;"	m	class:ObjectToolBar
+login	doc_gui/NotebookPanel.java	/^	public void login(){$/;"	m	class:NotebookPanel
 longIdentifiers	expression/NodeParser.java	/^	public boolean longIdentifiers() {$/;"	m	class:NodeParser
 lowerHeight	math_rendering/NodeGraphic.java	/^	private int upperHeight, lowerHeight;$/;"	f	class:NodeGraphic	file:
 lowestPrecedence	expression/NodeParser.java	/^	private int lowestPrecedence = 0;$/;"	f	class:NodeParser	file:
@@ -2237,12 +2396,17 @@ mAtt	doc_gui/attribute_panels/AdjustmentPanel.java	/^	protected K mAtt;$/;"	f	cl
 mObj	doc/Document.java	/^		private MathObject mObj;$/;"	f	class:Document.ObjectAndPosition	file:
 mObj	doc/xml/DocReader.java	/^	private MathObject mObj;$/;"	f	class:DocReader	file:
 mObj	doc/xml/OldReader.java	/^	MathObject mObj;$/;"	f	class:OldReader
+main	doc_gui/FitnessAppRunner.java	/^	public static void main(String[] args) {$/;"	m	class:FitnessAppRunner
 main	doc_gui/OpenNotebook.java	/^	public static void main(final String[] args) {$/;"	m	class:OpenNotebook
+main	doc_gui/SerialTest2.java	/^	public static void main(String[] args) throws Exception {$/;"	m	class:SerialTest2
 main	expression/Driver.java	/^	public static void main(String[] args) {$/;"	m	class:Driver
 main	tree/TreeTester.java	/^	public static void main(String[] args){$/;"	m	class:TreeTester
 mainPanel	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private JPanel mainPanel;$/;"	f	class:ObjectPropertiesFrame	file:
 makeDocPanel	doc_gui/DocViewerPanel.java	/^	private JPanel makeDocPanel() {$/;"	m	class:DocViewerPanel	file:
+makeErrorDialog	doc_gui/FitnessApp.java	/^	public  void makeErrorDialog(String s){$/;"	m	class:FitnessApp
 makeErrorDialog	doc_gui/OpenNotebook.java	/^	public static void makeErrorDialog(String s) {$/;"	m	class:OpenNotebook
+makeMouseListener	doc_gui/FitnessApp.java	/^	private MouseListener makeMouseListener(){$/;"	m	class:FitnessApp	file:
+makeMouseMotionListener	doc_gui/FitnessApp.java	/^	private MouseMotionListener makeMouseMotionListener(){$/;"	m	class:FitnessApp	file:
 makeNodeGraphic	math_rendering/NodeGraphic.java	/^	public NodeGraphic makeNodeGraphic(Node n) throws RenderException{$/;"	m	class:NodeGraphic
 matchedParens	tree/ExpressionParser.java	/^	private int matchedParens;$/;"	f	class:ExpressionParser	file:
 matcher	doc/attributes/EmailAttribute.java	/^	private static Matcher matcher;$/;"	f	class:EmailAttribute	file:
@@ -2267,6 +2431,7 @@ math_rendering	math_rendering/RenderException.java	/^package math_rendering;$/;"
 math_rendering	math_rendering/RootNodeGraphic.java	/^package math_rendering;$/;"	p
 math_rendering	math_rendering/UnaryExpressionGraphic.java	/^package math_rendering;$/;"	p
 math_rendering	math_rendering/UnaryPostGraphic.java	/^package math_rendering;$/;"	p
+maxScore	doc_gui/FitnessApp.java	/^	int maxScore = 56;$/;"	f	class:FitnessApp
 maxSize	doc/attributes/ListAttribute.java	/^	private int maxSize;$/;"	f	class:ListAttribute	file:
 maximum	doc/attributes/DoubleAttribute.java	/^	private double minimum, maximum;$/;"	f	class:DoubleAttribute	file:
 maximum	doc/attributes/IntegerAttribute.java	/^	private int minimum, maximum;$/;"	f	class:IntegerAttribute	file:
@@ -2275,6 +2440,7 @@ minimalGraphicsMode	doc_gui/OpenNotebook.java	/^	private static boolean minimalG
 minimum	doc/attributes/DoubleAttribute.java	/^	private double minimum, maximum;$/;"	f	class:DoubleAttribute	file:
 minimum	doc/attributes/IntegerAttribute.java	/^	private int minimum, maximum;$/;"	f	class:IntegerAttribute	file:
 minimumBufferSpace	doc/Document.java	/^	private static final int minimumBufferSpace = 40;$/;"	f	class:Document	file:
+minimumLayoutSize	doc_gui/ModifiedFlowLayout.java	/^    public Dimension minimumLayoutSize(Container target) {$/;"	m	class:ModifiedFlowLayout
 mode	doc_gui/NotebookMenuBar.java	/^	JMenu mode, view, file, edit;$/;"	f	class:NotebookMenuBar
 month	doc/attributes/Date.java	/^	private int month;$/;"	f	class:Date	file:
 mostInnerEast	math_rendering/NodeGraphic.java	/^	private NodeGraphic mostInnerNorth, mostInnerSouth, mostInnerWest, mostInnerEast;$/;"	f	class:NodeGraphic	file:
@@ -2283,12 +2449,15 @@ mostInnerSouth	math_rendering/NodeGraphic.java	/^	private NodeGraphic mostInnerN
 mostInnerWest	math_rendering/NodeGraphic.java	/^	private NodeGraphic mostInnerNorth, mostInnerSouth, mostInnerWest, mostInnerEast;$/;"	f	class:NodeGraphic	file:
 mouseClicked	doc_gui/DocMouseListener.java	/^	public void mouseClicked(MouseEvent e) {$/;"	m	class:DocMouseListener
 mouseClicked	doc_gui/mathobject_gui/GraphObjectGUI.java	/^	public void mouseClicked(GraphObject gObj, int x , int y, float zoomLevel){$/;"	m	class:GraphObjectGUI
+mouseDragEvent	doc_gui/FitnessApp.java	/^	public void mouseDragEvent(MouseEvent e, GraphObject graph, JPanel panel){$/;"	m	class:FitnessApp
 mouseDragged	doc_gui/DocMouseListener.java	/^	public void mouseDragged(MouseEvent e) {$/;"	m	class:DocMouseListener
 mouseEntered	doc_gui/DocMouseListener.java	/^	public void mouseEntered(MouseEvent e) {$/;"	m	class:DocMouseListener
 mouseExited	doc_gui/DocMouseListener.java	/^	public void mouseExited(MouseEvent e) {$/;"	m	class:DocMouseListener
 mouseMoved	doc_gui/DocMouseListener.java	/^	public void mouseMoved(MouseEvent arg0) {$/;"	m	class:DocMouseListener
 mousePressed	doc_gui/DocMouseListener.java	/^	public void mousePressed(MouseEvent e) {$/;"	m	class:DocMouseListener
 mouseReleased	doc_gui/DocMouseListener.java	/^	public void mouseReleased(MouseEvent e) {$/;"	m	class:DocMouseListener
+mouseWheelEvent	doc_gui/FitnessApp.java	/^	public void mouseWheelEvent(MouseWheelEvent e, GraphObject graph, JPanel panel){$/;"	m	class:FitnessApp
+mouseX	doc_gui/FitnessApp.java	/^	private double mouseX;$/;"	f	class:FitnessApp	file:
 moveBoxToPoint	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static void moveBoxToPoint(Point clickPos, MathObject object,$/;"	m	class:MathObjectGUI
 moveCursorEast	math_rendering/AbsoluteValueGraphic.java	/^	public void moveCursorEast(){$/;"	m	class:AbsoluteValueGraphic
 moveCursorEast	math_rendering/BinExpressionGraphic.java	/^	public void moveCursorEast(){$/;"	m	class:BinExpressionGraphic
@@ -2333,6 +2502,7 @@ moveCursorWest	math_rendering/ParenGraphic.java	/^	public void moveCursorWest(){
 moveCursorWest	math_rendering/UnaryExpressionGraphic.java	/^	public void moveCursorWest(){$/;"	m	class:UnaryExpressionGraphic
 moveCursorWest	math_rendering/UnaryPostGraphic.java	/^	public void moveCursorWest(){$/;"	m	class:UnaryPostGraphic
 moveResizeDot	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public static void moveResizeDot(MathObject object, int dotVal,$/;"	m	class:MathObjectGUI
+movingSelectionEnd	doc_gui/FitnessApp.java	/^	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,$/;"	f	class:FitnessApp
 multiplicationOps	expression/NodeParser.java	/^	private List<String> multiplicationOps =$/;"	f	class:NodeParser	file:
 multiply	expression/Number.java	/^	public Number multiply(Number o) {$/;"	m	class:Number
 multiply	tree/Decimal.java	/^	public Expression multiply(Expression e) throws EvalException$/;"	m	class:Decimal
@@ -2345,6 +2515,7 @@ n	math_rendering/RootNodeGraphic.java	/^	Node n;$/;"	f	class:RootNodeGraphic
 n	tree/Fraction.java	/^	private int n;$/;"	f	class:Fraction	file:
 name	doc/attributes/ListAttribute.java	/^	private String name;$/;"	f	class:ListAttribute	file:
 name	doc/attributes/MathObjectAttribute.java	/^	private String name;$/;"	f	class:MathObjectAttribute	file:
+name	doc/mathobjects/MathObject.java	/^	private String name;$/;"	f	class:MathObject	file:
 name	tree/Identifier.java	/^	private String name;$/;"	f	class:Identifier	file:
 name	tree/NumberWithName.java	/^	String name;$/;"	f	class:NumberWithName
 natLog	tree/Decimal.java	/^	public Decimal natLog() throws EvalException {$/;"	m	class:Decimal
@@ -2388,6 +2559,8 @@ newInstance	doc/mathobjects/TextObject.java	/^	public MathObject newInstance() {
 newInstance	doc/mathobjects/TrapezoidObject.java	/^	public MathObject newInstance() {$/;"	m	class:TrapezoidObject
 newInstance	doc/mathobjects/TriangleObject.java	/^	public MathObject newInstance() {$/;"	m	class:TriangleObject
 newInstance	doc/mathobjects/VariableValueInsertionProblem.java	/^	public VariableValueInsertionProblem newInstance(){$/;"	m	class:VariableValueInsertionProblem
+newInstance	doc_gui/FitnessApp.java	/^		public MathObject newInstance() {$/;"	m	class:FitnessApp.FitnessAppProperties
+newInstance	doc_gui/FitnessApp.java	/^		public MathObject newInstance() {$/;"	m	class:FitnessApp.SurveyQuestions
 newInstanceWithType	doc/mathobjects/MathObject.java	/^	public static MathObject newInstanceWithType(String type) {$/;"	m	class:MathObject
 nextIndex	expression/Variable.java	/^	private static int nextIndex() {$/;"	m	class:Variable	file:
 nextPage	doc/Document.java	/^	public static Page nextPage(Page currentPage){$/;"	m	class:Document
@@ -2414,7 +2587,7 @@ numLine	doc_gui/mathobject_gui/NumberLineObjectGUI.java	/^	private NumberLine nu
 numLineGUI	doc_gui/PageGUI.java	/^	public NumberLineObjectGUI numLineGUI;$/;"	f	class:PageGUI
 numUndos	doc_gui/DocViewerPanel.java	/^	private static final int numUndos = 30;$/;"	f	class:DocViewerPanel	file:
 numberTypes	doc/attributes/VariableGenProperties.java	/^	private static final String[] numberTypes = {"Integer", "Decimal", "Fraction"};$/;"	f	class:VariableGenProperties	file:
-numbersClose	doc_gui/graph/CartAxis.java	/^	private static boolean numbersClose(double num1, double num2){$/;"	m	class:CartAxis	file:
+numbersClose	doc_gui/graph/GraphComponent.java	/^	protected static boolean numbersClose(double num1, double num2){$/;"	m	class:GraphComponent
 numbersClose	doc_gui/graph/NumberLine.java	/^		private boolean numbersClose(double num1, double num2){$/;"	m	class:NumberLine.NumberLineComponent	file:
 numericSimplify	expression/Expression.java	/^	public Node numericSimplify() throws NodeException {$/;"	m	class:Expression
 numericSimplify	expression/Node.java	/^	public abstract Node numericSimplify() throws NodeException;$/;"	m	class:Node
@@ -2428,24 +2601,28 @@ objPropsFrame	doc_gui/DocViewerPanel.java	/^	private ObjectPropertiesFrame objPr
 objToPlace	doc_gui/NotebookPanel.java	/^	private MathObject objToPlace;$/;"	f	class:NotebookPanel	file:
 object	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private MathObject object;$/;"	f	class:ObjectPropertiesFrame	file:
 objectBounds	doc/mathobjects/Grouping.java	/^	private Vector<DecimalRectangle> objectBounds;$/;"	f	class:Grouping	file:
-objectButtons	doc_gui/ObjectToolBar.java	/^	private static OCButton[] objectButtons = new OCButton[MathObject.objects.length];$/;"	f	class:ObjectToolBar	file:
+objectButtons	doc_gui/ObjectToolBar.java	/^	private ImageSwitcherButton[] objectButtons = new ImageSwitcherButton[MathObject.objects.length];$/;"	f	class:ObjectToolBar	file:
 objectContainedBelow	doc/Page.java	/^	public boolean objectContainedBelow(MathObject o){$/;"	m	class:Page
 objectContainedBelow	doc/mathobjects/Grouping.java	/^	public boolean objectContainedBelow(MathObject o){$/;"	m	class:Grouping
 objectCreationMode	doc_gui/NotebookPanel.java	/^	private int objectCreationMode = 0;$/;"	f	class:NotebookPanel	file:
 objectIDInUse	doc/Document.java	/^	public boolean objectIDInUse(UUID id){$/;"	m	class:Document
 objectIDInUse	doc/Page.java	/^	public boolean objectIDInUse(UUID id){$/;"	m	class:Page
 objectIDInUse	doc/mathobjects/Grouping.java	/^	public boolean objectIDInUse(UUID id){$/;"	m	class:Grouping
+objectLists	doc/mathobjects/MathObject.java	/^	private Vector<NamedObjectList<MathObject>> objectLists;$/;"	f	class:MathObject	file:
+objectToolbar	doc_gui/NotebookPanel.java	/^	private ObjectToolBar objectToolbar;$/;"	f	class:NotebookPanel	file:
 objectWithError	doc/xml/DocReader.java	/^	String objectWithError;$/;"	f	class:DocReader
 objectWithError	doc/xml/OldReader.java	/^	private String objectWithError;$/;"	f	class:OldReader	file:
 objects	doc/Page.java	/^	private Vector<MathObject> objects;$/;"	f	class:Page	file:
 objects	doc/mathobjects/Grouping.java	/^	private Vector<MathObject> objects;$/;"	f	class:Grouping	file:
 objects	doc/mathobjects/MathObject.java	/^	public static final MathObject[] objects = { new LineObject(),$/;"	f	class:MathObject
+objects	doc/mathobjects/NamedObjectList.java	/^	private Vector<T> objects;$/;"	f	class:NamedObjectList	file:
 objectsInGroup	doc/xml/DocReader.java	/^	private Vector<Vector<MathObject>> objectsInGroup;$/;"	f	class:DocReader	file:
 objectsInGroup	doc/xml/OldReader.java	/^	private Vector<MathObject> objectsInGroup;$/;"	f	class:OldReader	file:
 onLeftSideEquation	tree/Expression.java	/^	public boolean onLeftSideEquation(){$/;"	m	class:Expression
 onRightSideEquation	tree/Expression.java	/^	public boolean onRightSideEquation(){$/;"	m	class:Expression
 op	tree/Expression.java	/^	protected Operator op;\/\/the operator associated with this expression$/;"	f	class:Expression
 op	tree/Functional.java	/^		Operator op;$/;"	f	class:Functional
+open	doc_gui/FitnessApp.java	/^	public void open() {$/;"	m	class:FitnessApp
 open	doc_gui/NotebookPanel.java	/^	public void open() {$/;"	m	class:NotebookPanel
 open	doc_gui/NotebookPanel.java	/^	public void open(String docName) {$/;"	m	class:NotebookPanel
 openBook	doc_gui/NotebookMenuBar.java	/^	OpenNotebook openBook;$/;"	f	class:NotebookMenuBar
@@ -2457,8 +2634,11 @@ operatorStrings	expression/NodeParser.java	/^	private List<String> operatorStrin
 orientation	doc/Document.java	/^	private int orientation;$/;"	f	class:Document	file:
 orientations	doc/mathobjects/LineObject.java	/^	public static final String[] orientations = {LEFT_TOP, RIGHT_TOP, VERTICAL, HORIZONTAL};$/;"	f	class:LineObject
 othersInRow	doc_gui/ProblemListPanel.java	/^		private Component[] othersInRow;$/;"	f	class:ProblemListPanel.ProblemDescriptionPanel	file:
+ourNodeName	doc_gui/FitnessApp.java	/^	private static String ourNodeName = "\/doc_gui\/ChiBand";$/;"	f	class:FitnessApp	file:
 ourNodeName	doc_gui/OpenNotebook.java	/^	private static String ourNodeName = "\/doc_gui";$/;"	f	class:OpenNotebook	file:
 outSidePage	doc/PointInDocument.java	/^	private boolean outSidePage, belowPage;$/;"	f	class:PointInDocument	file:
+output	doc_gui/SerialTest.java	/^	private OutputStream output;$/;"	f	class:SerialTest	file:
+output	doc_gui/SerialTest2.java	/^	private OutputStream output;$/;"	f	class:SerialTest2	file:
 outsidePoints	doc/mathobjects/CubeObject.java	/^	private static GridPoint[] outsidePoints = { side1Pt, new GridPoint(0,1),$/;"	f	class:CubeObject	file:
 ovalGUI	doc_gui/PageGUI.java	/^	public OvalObjectGUI ovalGUI;$/;"	f	class:PageGUI
 overhang	math_rendering/AbsoluteValueGraphic.java	/^	private int overhang;$/;"	f	class:AbsoluteValueGraphic	file:
@@ -2472,6 +2652,7 @@ pageGUI	doc_gui/NotebookPanel.java	/^	private PageGUI pageGUI = new PageGUI();$/
 pageHeight	doc/Document.java	/^	private int xMargin, yMargin, pageWidth, pageHeight;$/;"	f	class:Document	file:
 pageWidth	doc/Document.java	/^	private int xMargin, yMargin, pageWidth, pageHeight;$/;"	f	class:Document	file:
 pages	doc/Document.java	/^	private Vector<Page> pages;$/;"	f	class:Document	file:
+paintGraph	doc_gui/FitnessApp.java	/^	public void paintGraph(Graphics g, GraphObject graphData, JPanel panel){$/;"	m	class:FitnessApp
 pairOfCleanAddingNumbers	doc/expression_generators/ExUtil.java	/^	public static double[] pairOfCleanAddingNumbers(int maxSum){$/;"	m	class:ExUtil
 pairOfCleanFactors	doc/expression_generators/ExUtil.java	/^	public static double[] pairOfCleanFactors(int maxProduct){$/;"	m	class:ExUtil
 panelPt2DocPt	doc_gui/DocViewerPanel.java	/^	public PointInDocument panelPt2DocPt(int x, int y){$/;"	m	class:DocViewerPanel
@@ -2498,6 +2679,7 @@ parser	tree/Expression.java	/^	private static ExpressionParser parser;$/;"	f	cla
 paste	doc_gui/NotebookPanel.java	/^	public void paste() {$/;"	m	class:NotebookPanel
 pattern	doc/attributes/EmailAttribute.java	/^	private static Pattern pattern = Pattern.compile(EMAIL_PATTERN);;$/;"	f	class:EmailAttribute	file:
 performAction	doc/mathobjects/MathObject.java	/^	public void performAction(String s) {$/;"	m	class:MathObject
+performSpecialObjectAction	doc/mathobjects/AnswerBoxObject.java	/^	public void performSpecialObjectAction(String s){$/;"	m	class:AnswerBoxObject
 performSpecialObjectAction	doc/mathobjects/ConeObject.java	/^	public void performSpecialObjectAction(String s){}$/;"	m	class:ConeObject
 performSpecialObjectAction	doc/mathobjects/CubeObject.java	/^	public void performSpecialObjectAction(String s){}$/;"	m	class:CubeObject
 performSpecialObjectAction	doc/mathobjects/CylinderObject.java	/^	public void performSpecialObjectAction(String s){}$/;"	m	class:CylinderObject
@@ -2518,14 +2700,18 @@ points	doc/mathobjects/LineObject.java	/^	public static final GridPoint[] points
 polygonGUI	doc_gui/PageGUI.java	/^	public PolygonObjectGUI polygonGUI;$/;"	f	class:PageGUI
 pos	math_rendering/Cursor.java	/^	private int pos;$/;"	f	class:Cursor	file:
 positionWithinValue	math_rendering/ExpressionGraphicCursor.java	/^	private int positionWithinValue;$/;"	f	class:ExpressionGraphicCursor	file:
+positiveQuestions	doc_gui/FitnessApp.java	/^	int[] positiveQuestions = {1, 2, 3, 8, 11, 12, 14};$/;"	f	class:FitnessApp
 possibleValues	doc/attributes/EnumeratedAttribute.java	/^	private String[] possibleValues;$/;"	f	class:EnumeratedAttribute	file:
+possibleValues	doc_gui/FitnessApp.java	/^		public static final String[] possibleValues = {$/;"	f	class:FitnessApp.SurveyQuestions
 power	tree/Decimal.java	/^	public Expression power(Expression e) throws EvalException$/;"	m	class:Decimal
 power	tree/Expression.java	/^	public Expression power(Expression e) throws EvalException$/;"	m	class:Expression
 power	tree/Fraction.java	/^	public Expression power(Expression e) throws EvalException$/;"	m	class:Fraction
 power	tree/Identifier.java	/^	public Expression power(Expression e) throws EvalException$/;"	m	class:Identifier
 prec	tree/Operator.java	/^	private final int prec;$/;"	f	class:Operator	file:
 preferencesDirectorySet	doc_gui/OpenNotebook.java	/^	public static boolean preferencesDirectorySet() {$/;"	m	class:OpenNotebook
-prefs	doc_gui/OpenNotebook.java	/^	private static Preferences prefs = Preferences.userRoot().node(ourNodeName);;$/;"	f	class:OpenNotebook	file:
+preferredLayoutSize	doc_gui/ModifiedFlowLayout.java	/^    public Dimension preferredLayoutSize(Container target) {$/;"	m	class:ModifiedFlowLayout
+prefs	doc_gui/FitnessApp.java	/^	private static Preferences prefs = Preferences.userRoot().node(ourNodeName);$/;"	f	class:FitnessApp	file:
+prefs	doc_gui/OpenNotebook.java	/^	private static Preferences prefs = Preferences.userRoot().node(ourNodeName);$/;"	f	class:OpenNotebook	file:
 print	doc_gui/DocPrinter.java	/^    public int print(Graphics g, PageFormat pf, int page) throws$/;"	m	class:DocPrinter
 print	doc_gui/NotebookPanel.java	/^	public void print() {$/;"	m	class:NotebookPanel
 printTree	expression/Node.java	/^	public void printTree(){$/;"	m	class:Node
@@ -2534,6 +2720,7 @@ printableXOrigin	doc_gui/PageGUI.java	/^	private int printableXOrigin, printable
 printableYOrigin	doc_gui/PageGUI.java	/^	private int printableXOrigin, printableYOrigin;$/;"	f	class:PageGUI	file:
 problem	doc_gui/ProblemListPanel.java	/^		private ProblemGenerator problem;$/;"	f	class:ProblemListPanel.ProblemDescriptionPanel	file:
 problemDatabase	doc/Document.java	/^	private static ProblemDatabase problemDatabase;$/;"	f	class:Document	file:
+problemDialog	doc_gui/FitnessApp.java	/^	JDialog problemDialog;$/;"	f	class:FitnessApp
 problemDialog	doc_gui/NotebookPanel.java	/^	JDialog sampleDialog, problemDialog;$/;"	f	class:NotebookPanel
 problemGenerators	doc/Document.java	/^	private Vector<ProblemGenerator> problemGenerators;$/;"	f	class:Document	file:
 problemHoldingDoc	doc/mathobjects/ProblemGenerator.java	/^	private Document problemHoldingDoc;$/;"	f	class:ProblemGenerator	file:
@@ -2542,7 +2729,6 @@ problems	doc/ProblemDatabase.java	/^	private Vector<ProblemGenerator> problems;$
 problemsMatchingSearch	doc_gui/ProblemListPanel.java	/^	private Vector<ProblemGenerator> problemsMatchingSearch;$/;"	f	class:ProblemListPanel	file:
 promtForDirections	doc_gui/ProblemListPanel.java	/^	public String promtForDirections(Vector<ProblemGenerator> generators){$/;"	m	class:ProblemListPanel
 propertiesFrameRefacoringNeeded	doc_gui/DocViewerPanel.java	/^	public boolean propertiesFrameRefacoringNeeded = false;$/;"	f	class:DocViewerPanel
-propertiesFrames	doc_gui/OpenNotebook.java	/^	private static ObjectPropertiesFrame[] propertiesFrames;$/;"	f	class:OpenNotebook	file:
 pt	doc/Document.java	/^		private PointInDocument pt;$/;"	f	class:Document.ObjectAndPosition	file:
 ptIsOnCloseButton	doc_gui/graph/GraphCalculationGraphics.java	/^	public boolean ptIsOnCloseButton(int x, int y){$/;"	m	class:GraphCalculationGraphics
 ptOn	doc_gui/graph/GraphComponent.java	/^	protected void ptOn(double x, double y, Graphics g) {$/;"	m	class:GraphComponent
@@ -2550,15 +2736,17 @@ pullVarsFromGraphObject	doc_gui/graph/Graph.java	/^	public void pullVarsFromGrap
 pushValsToGraphObject	doc_gui/graph/Graph.java	/^	public void pushValsToGraphObject(GraphObject gObj){$/;"	m	class:Graph
 pushValsToNumberLineObject	doc_gui/graph/NumberLine.java	/^	public void pushValsToNumberLineObject(NumberLineObject gObj){$/;"	m	class:NumberLine
 put	doc/ProblemDatabase.java	/^	    public ProblemGenerator put(String key, ProblemGenerator value) {$/;"	m	class:ProblemDatabase.CaseInsensitiveMap
+questions	doc_gui/FitnessApp.java	/^	private static String[] questions = {$/;"	f	class:FitnessApp	file:
 quit	doc_gui/NotebookPanel.java	/^	public void quit(){$/;"	m	class:NotebookPanel
 quit	doc_gui/OpenNotebook.java	/^	public static void quit() {$/;"	m	class:OpenNotebook
 radius	doc_gui/graph/PointOnGrid.java	/^	private static final int radius = 4;$/;"	f	class:PointOnGrid	file:
 rand	doc/expression_generators/ExUtil.java	/^	private static Random rand = new Random();;$/;"	f	class:ExUtil	file:
+rand	doc_gui/FitnessApp.java	/^	Random rand = new Random();$/;"	f	class:FitnessApp
 rand	expression/Expression.java	/^	public static final Random rand = new Random();$/;"	f	class:Expression
+randMax	doc_gui/FitnessApp.java	/^	int randMax = 100;$/;"	f	class:FitnessApp
 random	doc/Document.java	/^	private static final Random random = new Random();$/;"	f	class:Document	file:
 random	expression/Operator.java	/^		private static Random random = new Random();$/;"	f	class:Operator.RandomGenerator	file:
 random	expression/Operator.java	/^		private static Random random = new Random();$/;"	f	class:Operator.RandomIntGenerator	file:
-random	generation/ProblemGenerator.java	/^	private double random() {$/;"	m	class:ProblemGenerator	file:
 randomAdditionOrSubtraction	doc/expression_generators/ExUtil.java	/^	public static Expression randomAdditionOrSubtraction(int minVal, int maxVal){$/;"	m	class:ExUtil
 randomBoolean	doc/expression_generators/ExUtil.java	/^	public static boolean randomBoolean(){$/;"	m	class:ExUtil
 randomDecimal	doc/expression_generators/ExUtil.java	/^	public static double randomDecimal(double a, double b, double round){$/;"	m	class:ExUtil
@@ -2598,6 +2786,7 @@ readValueFromString	doc/attributes/EnumeratedAttribute.java	/^	public String rea
 readValueFromString	doc/attributes/GridPointAttribute.java	/^	public GridPoint readValueFromString(String s) throws AttributeException {$/;"	m	class:GridPointAttribute
 readValueFromString	doc/attributes/IntegerAttribute.java	/^	public Integer readValueFromString(String s) throws AttributeException {$/;"	m	class:IntegerAttribute
 readValueFromString	doc/attributes/MathObjectAttribute.java	/^	public abstract K readValueFromString(String s) throws AttributeException;$/;"	m	class:MathObjectAttribute
+readValueFromString	doc/attributes/SelectionAttribute.java	/^	public Selection readValueFromString(String s) throws AttributeException {$/;"	m	class:SelectionAttribute
 readValueFromString	doc/attributes/StringAttribute.java	/^	public String readValueFromString(String s) throws AttributeException {$/;"	m	class:StringAttribute
 readValueFromString	doc/attributes/UUIDAttribute.java	/^	public UUID readValueFromString(String s) throws AttributeException {$/;"	m	class:UUIDAttribute
 readValueFromString	doc/attributes/VariableNameAttribute.java	/^	public String readValueFromString(String s) throws AttributeException {$/;"	m	class:VariableNameAttribute
@@ -2607,9 +2796,11 @@ reader	doc_gui/OpenNotebook.java	/^	private static DocReader reader;$/;"	f	class
 readingGenerators	doc/xml/DocReader.java	/^	boolean hadAttributeError, foundBadTag, readingGenerators, readingList, readingProblemDatabase;$/;"	f	class:DocReader
 readingList	doc/xml/DocReader.java	/^	boolean hadAttributeError, foundBadTag, readingGenerators, readingList, readingProblemDatabase;$/;"	f	class:DocReader
 readingProblemDatabase	doc/xml/DocReader.java	/^	boolean hadAttributeError, foundBadTag, readingGenerators, readingList, readingProblemDatabase;$/;"	f	class:DocReader
+recalculateComposite	doc_gui/FitnessApp.java	/^	public void recalculateComposite(){$/;"	m	class:FitnessApp
 redo	doc_gui/DocViewerPanel.java	/^	public void redo(){$/;"	m	class:DocViewerPanel
 redo	doc_gui/NotebookPanel.java	/^	public void redo() {$/;"	m	class:NotebookPanel
 reduce	tree/Fraction.java	/^	public Fraction reduce(){$/;"	m	class:Fraction
+refPoint	doc_gui/FitnessApp.java	/^	boolean refPoint, dragSelection, justFinishedPic, isTimeToRedraw, movingSelectionEnd,$/;"	f	class:FitnessApp
 refactorPageNumbers	doc/Document.java	/^	public void refactorPageNumbers(){$/;"	m	class:Document
 refreshDocNameTabs	doc_gui/NotebookPanel.java	/^	public void refreshDocNameTabs() {$/;"	m	class:NotebookPanel
 removeAction	doc/mathobjects/MathObject.java	/^	public boolean removeAction(String s) {$/;"	m	class:MathObject
@@ -2634,12 +2825,14 @@ removeObject	doc/mathobjects/Grouping.java	/^	public boolean removeObject(MathOb
 removeObject	doc/mathobjects/MathObjectContainer.java	/^	public boolean removeObject(MathObject mObj);$/;"	m	interface:MathObjectContainer
 removePage	doc/Document.java	/^	public void removePage(Page p) {$/;"	m	class:Document
 removeSingleGraph	doc_gui/graph/Graph.java	/^	public void removeSingleGraph(SingleGraph s){$/;"	m	class:Graph
+removeSpikes	doc/mathobjects/GraphObject.java	/^	public boolean removeSpikes(){$/;"	m	class:GraphObject
 removeTempGroup	doc_gui/DocViewerPanel.java	/^	public void removeTempGroup(){$/;"	m	class:DocViewerPanel
 removeValue	doc/attributes/ListAttribute.java	/^	public K removeValue(int i){$/;"	m	class:ListAttribute
-removeValue	doc/attributes/ListAttribute.java	/^	public boolean removeValue(K value){$/;"	m	class:ListAttribute
+removeValue	doc/attributes/ListAttribute.java	/^	public synchronized boolean removeValue(K value){$/;"	m	class:ListAttribute
 repaint	doc_gui/graph/Graph.java	/^	public void repaint(Graphics g, int xSize, int ySize) throws EvalException, ParseException{$/;"	m	class:Graph
 repaint	doc_gui/graph/Graph.java	/^	public void repaint(Graphics g, int xSize, int ySize, float docZoomLevel,$/;"	m	class:Graph
 repaint	doc_gui/graph/NumberLine.java	/^	public void repaint(Graphics g, int xSize, int ySize, float docZoomLevel,$/;"	m	class:NumberLine
+repaintAll	doc_gui/FitnessApp.java	/^	public void repaintAll(){$/;"	m	class:FitnessApp
 repaintDoc	doc_gui/DocViewerPanel.java	/^	public void repaintDoc(){$/;"	m	class:DocViewerPanel
 replace	expression/EmptyValue.java	/^	public Node replace(Identifier identifier, Node node) {$/;"	m	class:EmptyValue
 replace	expression/Expression.java	/^	public Node replace(Identifier identifier, Node node) {$/;"	m	class:Expression
@@ -2693,6 +2886,7 @@ resetValue	doc/attributes/EnumeratedAttribute.java	/^	public void resetValue() {
 resetValue	doc/attributes/GridPointAttribute.java	/^	public void resetValue() {$/;"	m	class:GridPointAttribute
 resetValue	doc/attributes/IntegerAttribute.java	/^	public void resetValue() {$/;"	m	class:IntegerAttribute
 resetValue	doc/attributes/MathObjectAttribute.java	/^	public abstract void resetValue();$/;"	m	class:MathObjectAttribute
+resetValue	doc/attributes/SelectionAttribute.java	/^	public void resetValue() {$/;"	m	class:SelectionAttribute
 resetValue	doc/attributes/StringAttribute.java	/^	public void resetValue() {$/;"	m	class:StringAttribute
 resetValue	doc/attributes/UUIDAttribute.java	/^	public void resetValue() {$/;"	m	class:UUIDAttribute
 resetValue	doc/attributes/VariableNameAttribute.java	/^	public void resetValue() {$/;"	m	class:VariableNameAttribute
@@ -2719,6 +2913,7 @@ safeEval	expression/Operator.java	/^		public Number safeEval(Vector<Number> chil
 safeEval	expression/Operator.java	/^		public Number safeEval(Vector<Number> children) {$/;"	m	class:Operator.UnaryFunction
 safeEval	expression/Operator.java	/^		public abstract Number safeEval(Vector<Number> children);$/;"	m	class:Operator.Function
 sampleDialog	doc_gui/NotebookPanel.java	/^	JDialog sampleDialog, problemDialog;$/;"	f	class:NotebookPanel
+save	doc_gui/FitnessApp.java	/^	public void save() {$/;"	m	class:FitnessApp
 save	doc_gui/NotebookPanel.java	/^	public void save() {$/;"	m	class:NotebookPanel
 screenxToGrid	doc_gui/graph/Graph.java	/^	public double screenxToGrid(int x){$/;"	m	class:Graph
 screenxToGrid	doc_gui/graph/GraphComponent.java	/^	protected double screenxToGrid(int x){$/;"	m	class:GraphComponent
@@ -2727,6 +2922,7 @@ screenyToGrid	doc_gui/graph/GraphComponent.java	/^	protected double screenyToGri
 scrollPane	doc_gui/ProblemListPanel.java	/^	private JScrollPane scrollPane;$/;"	f	class:ProblemListPanel	file:
 scrollPane	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	JScrollPane scrollPane;$/;"	f	class:ObjectPropertiesFrame
 scrollPane	doc_gui/attribute_panels/StringAdjustmentPanel.java	/^	private JScrollPane scrollPane;$/;"	f	class:StringAdjustmentPanel	file:
+scrollbar	doc_gui/FitnessApp.java	/^	JScrollBar scrollbar;$/;"	f	class:FitnessApp
 seekFromLast	expression/NodeParser.java	/^	private int seekFromLast(String expression, String symbol) {$/;"	m	class:NodeParser	file:
 seekFromLast	expression/NodeParser.java	/^	private int seekFromLast(String expression, String symbol, int endpoint) {$/;"	m	class:NodeParser	file:
 selected	math_rendering/NodeGraphic.java	/^	private boolean selected;$/;"	f	class:NodeGraphic	file:
@@ -2788,6 +2984,10 @@ sendCursorInFromWest	math_rendering/UnaryPostGraphic.java	/^	public void sendCur
 sendForward	doc_gui/NotebookPanel.java	/^	public void sendForward() {$/;"	m	class:NotebookPanel
 sendObjectBackward	doc/Page.java	/^	public void sendObjectBackward(MathObject mObj){$/;"	m	class:Page
 sendObjectForward	doc/Page.java	/^	public void sendObjectForward(MathObject mObj){$/;"	m	class:Page
+serialEvent	doc_gui/SerialTest.java	/^	public synchronized void serialEvent(SerialPortEvent oEvent) {$/;"	m	class:SerialTest
+serialEvent	doc_gui/SerialTest2.java	/^	public synchronized void serialEvent(SerialPortEvent oEvent) {$/;"	m	class:SerialTest2
+serialPort	doc_gui/SerialTest.java	/^	SerialPort serialPort;$/;"	f	class:SerialTest
+serialPort	doc_gui/SerialTest2.java	/^	SerialPort serialPort;$/;"	f	class:SerialTest2
 serialVersionUID	doc_gui/DocTabClosePanel.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:DocTabClosePanel	file:
 serialVersionUID	doc_gui/DocumentException.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:DocumentException	file:
 serialVersionUID	doc_gui/OCButton.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:OCButton	file:
@@ -2796,7 +2996,6 @@ serialVersionUID	doc_gui/OnScreenMathKeypad.java	/^	private static final long se
 serialVersionUID	doc_gui/OpenNotebook.java	/^	private static final long serialVersionUID = -5614406937717777249L;$/;"	f	class:OpenNotebook	file:
 serialVersionUID	doc_gui/SubPanel.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:SubPanel	file:
 serialVersionUID	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	private static final long serialVersionUID = 648301575472116469L;$/;"	f	class:ObjectPropertiesFrame	file:
-serialVersionUID	doc_gui/object_menus/MathObjectMenu.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:MathObjectMenu	file:
 serialVersionUID	expression/NodeException.java	/^	private static final long serialVersionUID = -4417281547925532699L;$/;"	f	class:NodeException	file:
 serialVersionUID	expression/NumericException.java	/^	private static final long serialVersionUID = -4503246625847841542L;$/;"	f	class:NumericException	file:
 serialVersionUID	tree/EvalException.java	/^	private static final long serialVersionUID = 1L;$/;"	f	class:EvalException	file:
@@ -2806,7 +3005,7 @@ setAngleUnits	tree/ExpressionParser.java	/^	public void setAngleUnits(int i) {$/
 setAttribute	doc_gui/attribute_panels/AdjustmentPanel.java	/^	public void setAttribute(K att){$/;"	m	class:AdjustmentPanel
 setAttributeValue	doc/attributes/VariableGenProperties.java	/^	public void setAttributeValue(String n, Object o) throws AttributeException{$/;"	m	class:VariableGenProperties
 setAttributeValue	doc/mathobjects/ExpressionObject.java	/^	public boolean setAttributeValue(String n, Object o) throws AttributeException{$/;"	m	class:ExpressionObject
-setAttributeValue	doc/mathobjects/GraphObject.java	/^	public boolean setAttributeValue(String n, Object o) throws AttributeException{$/;"	m	class:GraphObject
+setAttributeValue	doc/mathobjects/GraphObject.java	/^	public synchronized boolean setAttributeValue(String n, Object o) throws AttributeException{$/;"	m	class:GraphObject
 setAttributeValue	doc/mathobjects/MathObject.java	/^	public boolean setAttributeValue(String n, Object o)$/;"	m	class:MathObject
 setAttributeValue	doc/mathobjects/ProblemNumberObject.java	/^	public boolean setAttributeValue(String n, Object o) throws AttributeException{$/;"	m	class:ProblemNumberObject
 setAttributeValueWithString	doc/attributes/VariableGenProperties.java	/^	public void setAttributeValueWithString(String s, String val) throws AttributeException{$/;"	m	class:VariableGenProperties
@@ -2838,7 +3037,7 @@ setConneted	doc_gui/graph/GraphWithExpression.java	/^	public void setConneted(bo
 setCookie	doc_gui/OpenNotebook.java	/^	public static void setCookie(String c) {$/;"	m	class:OpenNotebook
 setCurrResizeDot	doc_gui/mathobject_gui/MathObjectGUI.java	/^	public void setCurrResizeDot(int currResizeDot) {$/;"	m	class:MathObjectGUI
 setCurrValue	math_rendering/ExpressionGraphicCursor.java	/^	public void setCurrValue(NodeGraphic currValue) {$/;"	m	class:ExpressionGraphicCursor
-setCurrentDragDot	doc_gui/DocMouseListener.java	/^	public void setCurrentDragDot(int dot){$/;"	m	class:DocMouseListener
+setCurrentDragDot	doc_gui/DocMouseListener.java	/^	public void setCurrentDragDot(int dot) {$/;"	m	class:DocMouseListener
 setCurrentStateAsLastSaved	doc_gui/DocViewerPanel.java	/^	public void setCurrentStateAsLastSaved(){$/;"	m	class:DocViewerPanel
 setCursor	math_rendering/RootNodeGraphic.java	/^	public void setCursor(Cursor cursor) {$/;"	m	class:RootNodeGraphic
 setCursorPos	math_rendering/AbsoluteValueGraphic.java	/^	public void setCursorPos(int xPixelPos){$/;"	m	class:AbsoluteValueGraphic
@@ -2916,6 +3115,7 @@ setLastProblemNumber	doc/Document.java	/^	public void setLastProblemNumber(int i
 setLeftChild	tree/BinExpression.java	/^	public void setLeftChild(Expression child){$/;"	m	class:BinExpression
 setLeftGraphic	math_rendering/BinExpressionGraphic.java	/^	protected void setLeftGraphic(NodeGraphic vg){$/;"	m	class:BinExpressionGraphic
 setLhs	expression/Equation.java	/^	public void setLhs(Node lhs) {$/;"	m	class:Equation
+setLineGraphColor	doc/mathobjects/GraphObject.java	/^	public void setLineGraphColor(Color c) throws AttributeException{$/;"	m	class:GraphObject
 setLineSize	doc_gui/graph/Graph.java	/^	public void setLineSize(int sizeInPixels) {$/;"	m	class:Graph
 setLineSize	doc_gui/graph/GraphComponent.java	/^	protected void setLineSize(int sizeInPixels) {$/;"	m	class:GraphComponent
 setList	doc_gui/attribute_panels/ListAdjuster.java	/^	public void setList(ListAttribute list){$/;"	m	class:ListAdjuster
@@ -2935,6 +3135,7 @@ setMostInnerSouth	math_rendering/NodeGraphic.java	/^	public void setMostInnerSou
 setMostInnerWest	math_rendering/NodeGraphic.java	/^	public void setMostInnerWest(NodeGraphic mostInnerWest) {$/;"	m	class:NodeGraphic
 setName	doc/attributes/ListAttribute.java	/^	public void setName(String name) {$/;"	m	class:ListAttribute
 setName	doc/attributes/MathObjectAttribute.java	/^	public void setName(String name) {$/;"	m	class:MathObjectAttribute
+setName	doc/mathobjects/MathObject.java	/^	public void setName(String name) {$/;"	m	class:MathObject
 setName	doc/mathobjects/ProblemGenerator.java	/^	public void setName(String s) {$/;"	m	class:ProblemGenerator
 setNorth	math_rendering/NodeGraphic.java	/^	public void setNorth(NodeGraphic north) {$/;"	m	class:NodeGraphic
 setNotebook	doc_gui/DocViewerPanel.java	/^	public void setNotebook(OpenNotebook notebook) {$/;"	m	class:DocViewerPanel
@@ -2948,6 +3149,7 @@ setObject	doc_gui/attribute_panels/ObjectPropertiesFrame.java	/^	public void set
 setObjectBounds	doc/mathobjects/Grouping.java	/^	public void setObjectBounds(Vector<DecimalRectangle> objectBounds) {$/;"	m	class:Grouping
 setObjectCreationMode	doc_gui/NotebookPanel.java	/^	public void setObjectCreationMode(int objectCreationMode) {$/;"	m	class:NotebookPanel
 setObjectID	doc/mathobjects/MathObject.java	/^	public void setObjectID(UUID uuid) {$/;"	m	class:MathObject
+setObjectLists	doc/mathobjects/MathObject.java	/^	public void setObjectLists(Vector<NamedObjectList<MathObject>> objectLists) {$/;"	m	class:MathObject
 setObjects	doc/Page.java	/^	public void setObjects(Vector<MathObject> objects) {$/;"	m	class:Page
 setObjects	doc/mathobjects/Grouping.java	/^	public void setObjects(Vector<MathObject> objects) {$/;"	m	class:Grouping
 setOnScreenKeyBoardVisible	doc_gui/DocViewerPanel.java	/^	public void setOnScreenKeyBoardVisible(boolean visible){$/;"	m	class:DocViewerPanel
@@ -2982,6 +3184,7 @@ setRhs	expression/Equation.java	/^	public void setRhs(Node rhs) {$/;"	m	class:Eq
 setRightChild	tree/BinExpression.java	/^	public void setRightChild(Expression child){$/;"	m	class:BinExpression
 setRightGraphic	math_rendering/BinExpressionGraphic.java	/^	protected void setRightGraphic(NodeGraphic vg){$/;"	m	class:BinExpressionGraphic
 setRootNode	expression/Node.java	/^	public void setRootNode(VarList varList) {$/;"	m	class:Node
+setRunningSlopAverage	doc/mathobjects/GraphObject.java	/^	public void setRunningSlopAverage(double d){$/;"	m	class:GraphObject
 setSampleDialogVisible	doc_gui/NotebookPanel.java	/^	public void setSampleDialogVisible(boolean b) {$/;"	m	class:NotebookPanel
 setScrollBounds	doc_gui/DocViewerPanel.java	/^	public void setScrollBounds(int w, int h){$/;"	m	class:DocViewerPanel
 setSelectAllBelow	math_rendering/NodeGraphic.java	/^	public void setSelectAllBelow(boolean b){$/;"	m	class:NodeGraphic
@@ -2991,6 +3194,7 @@ setSelectedPage	doc_gui/DocViewerPanel.java	/^	public void setSelectedPage(int i
 setSelectedVals	math_rendering/RootNodeGraphic.java	/^	public void setSelectedVals(Vector<NodeGraphic> selectedVals) {$/;"	m	class:RootNodeGraphic
 setSelection	doc_gui/graph/Graph.java	/^	public void setSelection(SelectionGraphic selectionGraphic) {$/;"	m	class:Graph
 setSelection	doc_gui/graph/GraphCalculation.java	/^	public void setSelection(Selection selection) {$/;"	m	class:GraphCalculation
+setSelection	doc_gui/graph/SelectionGraphic.java	/^	public void setSelection(Selection s){$/;"	m	class:SelectionGraphic
 setSelectionRect	doc_gui/DocViewerPanel.java	/^	public void setSelectionRect(RectangleObject selectionRect) {$/;"	m	class:DocViewerPanel
 setShowingDisk	doc_gui/graph/DragDisk.java	/^	public void setShowingDisk(boolean b){$/;"	m	class:DragDisk
 setSide1pts	doc/mathobjects/CylinderObject.java	/^	public void setSide1pts(GridPoint[] side1pts) {$/;"	m	class:CylinderObject
@@ -3002,6 +3206,7 @@ setStudentActions	doc/mathobjects/MathObject.java	/^	public void setStudentActio
 setStudentAnswer	doc/mathobjects/AnswerBoxObject.java	/^	public void setStudentAnswer(String s) throws AttributeException{$/;"	m	class:AnswerBoxObject
 setStudentEditable	doc/attributes/ListAttribute.java	/^	public void setStudentEditable(boolean studentEditable) {$/;"	m	class:ListAttribute
 setStudentEditable	doc/attributes/MathObjectAttribute.java	/^	public void setStudentEditable(boolean studentEditable) {$/;"	m	class:MathObjectAttribute
+setSubObjects	doc/mathobjects/MathObject.java	/^	public void setSubObjects(Vector<Object> subObjects) {$/;"	m	class:MathObject
 setSubjectsCovered	doc/Document.java	/^	public void setSubjectsCovered(Vector<String> subjectsCovered) {$/;"	m	class:Document
 setTeacherEditableOnly	doc/attributes/MathObjectAttribute.java	/^	public void setTeacherEditableOnly(boolean b){$/;"	m	class:MathObjectAttribute
 setText	doc/mathobjects/TextObject.java	/^	public void setText(String s) throws AttributeException{$/;"	m	class:TextObject
@@ -3048,6 +3253,7 @@ setxMin	doc/mathobjects/GraphObject.java	/^	public void setxMin(double d) throws
 setxPos	doc/PointInDocument.java	/^	public void setxPos(int xPos) {$/;"	m	class:PointInDocument
 setxPos	doc/mathobjects/Grouping.java	/^	public void setxPos(int xPos) {$/;"	m	class:Grouping
 setxPos	doc/mathobjects/MathObject.java	/^	public void setxPos(int xPos) {$/;"	m	class:MathObject
+setxStep	doc/mathobjects/GraphObject.java	/^	public void setxStep(double d) throws AttributeException{$/;"	m	class:GraphObject
 setxVals	doc_gui/graph/SingleGraph.java	/^	public void setxVals(Vector<Integer> xVals) {$/;"	m	class:SingleGraph
 sety	doc/GridPoint.java	/^	public void sety(double y){$/;"	m	class:GridPoint
 setyMargin	doc/Document.java	/^	public void setyMargin(String text) throws AttributeException {$/;"	m	class:Document
@@ -3058,8 +3264,9 @@ setyMin	doc/mathobjects/GraphObject.java	/^	public void setyMin(double d) throws
 setyPos	doc/PointInDocument.java	/^	public void setyPos(int yPos) {$/;"	m	class:PointInDocument
 setyPos	doc/mathobjects/Grouping.java	/^	public void setyPos(int yPos) {$/;"	m	class:Grouping
 setyPos	doc/mathobjects/MathObject.java	/^	public void setyPos(int yPos) {$/;"	m	class:MathObject
+setyStep	doc/mathobjects/GraphObject.java	/^	public void setyStep(double d) throws AttributeException{$/;"	m	class:GraphObject
 setyVals	doc_gui/graph/SingleGraph.java	/^	public void setyVals(Vector<Integer> yVals) {$/;"	m	class:SingleGraph
-shiftGraph	doc/mathobjects/GraphObject.java	/^	private void shiftGraph(int xPercent, int yPercent){$/;"	m	class:GraphObject	file:
+shiftGraph	doc/mathobjects/GraphObject.java	/^	public void shiftGraph(int xPercent, int yPercent){$/;"	m	class:GraphObject
 shiftGraph	doc_gui/graph/Graph.java	/^	public void shiftGraph(int xPix, int yPix){$/;"	m	class:Graph
 shiftObjInFrontOfOther	doc/Page.java	/^	public void shiftObjInFrontOfOther(MathObject toMove, MathObject toBeBehind){$/;"	m	class:Page
 shiftToX1	math_rendering/ExpressionGraphic.java	/^	void shiftToX1(int x1) {$/;"	m	class:ExpressionGraphic
@@ -3076,6 +3283,9 @@ side1Pt	doc/mathobjects/CubeObject.java	/^	private static GridPoint side1Pt = ne
 side1pts	doc/mathobjects/CylinderObject.java	/^	private GridPoint[] side1pts = { new GridPoint(0, .125), new GridPoint(0, .875)};$/;"	f	class:CylinderObject	file:
 side2Pt	doc/mathobjects/CubeObject.java	/^			cornerPt = new GridPoint(1,0), side2Pt = new GridPoint(.75, 1);$/;"	f	class:CubeObject	file:
 side2pts	doc/mathobjects/CylinderObject.java	/^	private GridPoint[] side2pts = { new GridPoint(1, .125), new GridPoint(1, .875)};$/;"	f	class:CylinderObject	file:
+signalGraph	doc_gui/FitnessApp.java	/^	JPanel signalGraph;$/;"	f	class:FitnessApp
+signalGraphData	doc_gui/FitnessApp.java	/^	GraphObject signalGraphData;$/;"	f	class:FitnessApp
+signalRefresh	doc_gui/FitnessApp.java	/^	Timer signalRefresh;$/;"	f	class:FitnessApp
 simplify	expression/Node.java	/^	public Node simplify() throws NodeException {$/;"	m	class:Node
 sin	doc_gui/OnScreenMathKeypad.java	/^	private OCButton sin, cos, tan, trigInverse;$/;"	f	class:OnScreenMathKeypad	file:
 sin	expression/Number.java	/^	public Number sin() {$/;"	m	class:Number
@@ -3086,6 +3296,13 @@ sin	tree/Identifier.java	/^	public Expression sin() throws EvalException$/;"	m	c
 singleGraphs	doc_gui/graph/Graph.java	/^	private Vector<SingleGraph> singleGraphs;$/;"	f	class:Graph	file:
 size	expression/VarList.java	/^	public int size(){$/;"	m	class:VarList
 sizeOverhang	math_rendering/DivisionGraphic.java	/^	private int sizeOverhang;$/;"	f	class:DivisionGraphic	file:
+skinConductanceGraph	doc_gui/FitnessApp.java	/^	JPanel skinConductanceGraph;$/;"	f	class:FitnessApp
+skinConductanceGraphData	doc_gui/FitnessApp.java	/^	GraphObject skinConductanceGraphData;$/;"	f	class:FitnessApp
+skinConductanceLabel	doc_gui/FitnessApp.java	/^	JLabel skinConductanceLabel;$/;"	f	class:FitnessApp
+skinTempSlope	doc_gui/FitnessApp.java	/^	double heartRateSlope = 0, skinTempSlope = 0;$/;"	f	class:FitnessApp
+skinTemperatureGraph	doc_gui/FitnessApp.java	/^	JPanel skinTemperatureGraph;$/;"	f	class:FitnessApp
+skinTemperatureGraphData	doc_gui/FitnessApp.java	/^	GraphObject skinTemperatureGraphData;$/;"	f	class:FitnessApp
+skinTemperatureLabel	doc_gui/FitnessApp.java	/^	JLabel skinTemperatureLabel;$/;"	f	class:FitnessApp
 smallFont	math_rendering/RootNodeGraphic.java	/^	private Font bigFont, smallFont;$/;"	f	class:RootNodeGraphic	file:
 smartNumericSimplify	expression/Expression.java	/^	public Node smartNumericSimplify() throws NodeException {$/;"	m	class:Expression
 smartNumericSimplify	expression/Node.java	/^	public abstract Node smartNumericSimplify() throws NodeException;$/;"	m	class:Node
@@ -3133,6 +3350,7 @@ startDocument	doc/xml/DocReader.java	/^	public void startDocument(){$/;"	m	class
 startDocument	doc/xml/OldReader.java	/^	public void startDocument(){$/;"	m	class:OldReader
 startElement	doc/xml/DocReader.java	/^	public void startElement (String uri, String name,$/;"	m	class:DocReader
 startElement	doc/xml/OldReader.java	/^	public void startElement (String uri, String name,$/;"	m	class:OldReader
+startingStress	doc_gui/FitnessApp.java	/^	int startingStress = 28;$/;"	f	class:FitnessApp
 stripAnswers	doc/Document.java	/^	public boolean stripAnswers(){$/;"	m	class:Document
 studentActions	doc/mathobjects/MathObject.java	/^	private Vector<String> studentActions;$/;"	f	class:MathObject	file:
 studentEditable	doc/attributes/ListAttribute.java	/^	private boolean userEditable, studentEditable;$/;"	f	class:ListAttribute	file:
@@ -3142,13 +3360,20 @@ style	math_rendering/ExponentGraphic.java	/^	private Style style;$/;"	f	class:Ex
 subInOldAttributeName	doc/xml/DocReader.java	/^	public String subInOldAttributeName(String s){$/;"	m	class:DocReader
 subInOldAttributeTag	doc/xml/DocReader.java	/^	public String subInOldAttributeTag(String s){$/;"	m	class:DocReader
 subInVal	doc/mathobjects/VariableValueInsertionProblem.java	/^	public MathObject subInVal(String s, Node val, MathObject mObj){$/;"	m	class:VariableValueInsertionProblem
+subObjects	doc/mathobjects/MathObject.java	/^	private Vector<Object> subObjects;$/;"	f	class:MathObject	file:
 subjectsCovered	doc/Document.java	/^	private Vector<String> subjectsCovered;$/;"	f	class:Document	file:
+subsetNNs	doc_gui/FitnessApp.java	/^	int subsetNNs = 0;$/;"	f	class:FitnessApp
 subtract	expression/Number.java	/^	public Number subtract(Number o) {$/;"	m	class:Number
 subtract	tree/Decimal.java	/^	public Expression subtract(Expression e) throws EvalException$/;"	m	class:Decimal
 subtract	tree/Expression.java	/^	public Expression subtract(Expression e) throws EvalException$/;"	m	class:Expression
 subtract	tree/Fraction.java	/^	public Expression subtract(Expression e) throws EvalException$/;"	m	class:Fraction
 subtract	tree/Identifier.java	/^	public Expression subtract(Expression e) throws EvalException$/;"	m	class:Identifier
 subtractNodeFromExpression	expression/Node.java	/^	public Node subtractNodeFromExpression(Node n){$/;"	m	class:Node
+summaryGraph	doc_gui/FitnessApp.java	/^	JPanel summaryGraph;$/;"	f	class:FitnessApp
+summaryGraphData	doc_gui/FitnessApp.java	/^	GraphObject summaryGraphData;$/;"	f	class:FitnessApp
+survey	doc_gui/FitnessApp.java	/^	SurveyQuestions survey = new SurveyQuestions();$/;"	f	class:FitnessApp
+surveyNumericValue	doc_gui/FitnessApp.java	/^	public int surveyNumericValue(String s){$/;"	m	class:FitnessApp
+surveyScore	doc_gui/FitnessApp.java	/^	public double surveyScore(){$/;"	m	class:FitnessApp
 switchTab	doc_gui/NotebookPanel.java	/^	public void switchTab(){$/;"	m	class:NotebookPanel
 switchTabBackward	doc_gui/NotebookPanel.java	/^	public void switchTabBackward(){$/;"	m	class:NotebookPanel
 symbol	tree/Operator.java	/^	private final String symbol;$/;"	f	class:Operator	file:
@@ -3156,6 +3381,8 @@ symbolX1	math_rendering/ExpressionGraphic.java	/^	protected int symbolX1, symbol
 symbolX2	math_rendering/ExpressionGraphic.java	/^	protected int symbolX1, symbolX2, symbolY1, symbolY2;$/;"	f	class:ExpressionGraphic
 symbolY1	math_rendering/ExpressionGraphic.java	/^	protected int symbolX1, symbolX2, symbolY1, symbolY2;$/;"	f	class:ExpressionGraphic
 symbolY2	math_rendering/ExpressionGraphic.java	/^	protected int symbolX1, symbolX2, symbolY1, symbolY2;$/;"	f	class:ExpressionGraphic
+syncGridProperties	doc_gui/FitnessApp.java	/^	public void syncGridProperties(GraphObject prototype, GraphObject... graphs){$/;"	m	class:FitnessApp
+syncGridWithOtherGraph	doc/mathobjects/GraphObject.java	/^	public void syncGridWithOtherGraph(GraphObject o) {$/;"	m	class:GraphObject
 syncValWithVarstorage	tree/Identifier.java	/^	private void syncValWithVarstorage(){$/;"	m	class:Identifier	file:
 tabLabels	doc_gui/NotebookPanel.java	/^	private Vector<DocTabClosePanel> tabLabels;$/;"	f	class:NotebookPanel	file:
 tagIndex	doc/ProblemDatabase.java	/^	private CaseInsensitiveMap tagIndex;$/;"	f	class:ProblemDatabase	file:
@@ -3176,6 +3403,9 @@ textGUI	doc_gui/PageGUI.java	/^	public TextObjectGUI textGUI;$/;"	f	class:PageGU
 thisNotebookPanel	doc_gui/NotebookPanel.java	/^	private NotebookPanel thisNotebookPanel;$/;"	f	class:NotebookPanel	file:
 throwBadArguments	expression/Operator.java	/^	public static void throwBadArguments() throws NodeException {$/;"	m	class:Operator
 time	doc_gui/DocViewerPanel.java	/^	private static Date time;$/;"	f	class:DocViewerPanel	file:
+timeAtSignalStart	doc_gui/FitnessApp.java	/^	long timeAtSignalStart = 0;$/;"	f	class:FitnessApp
+timeAtStart	doc_gui/OpenNotebook.java	/^	public long timeAtStart = new Date().getTime();$/;"	f	class:OpenNotebook
+timer	doc_gui/FitnessApp.java	/^	public Timer timer;$/;"	f	class:FitnessApp
 toDec	tree/Decimal.java	/^	public Decimal toDec() throws EvalException {$/;"	m	class:Decimal
 toDec	tree/Expression.java	/^	public Decimal toDec() throws EvalException{$/;"	m	class:Expression
 toDec	tree/Fraction.java	/^	public Decimal toDec() throws EvalException {$/;"	m	class:Fraction
@@ -3197,6 +3427,7 @@ toStringRepresentation	expression/Identifier.java	/^	public String toStringRepre
 toStringRepresentation	expression/Node.java	/^	public abstract String toStringRepresentation() throws NodeException;$/;"	m	class:Node
 toStringRepresentation	expression/Number.java	/^	public String toStringRepresentation() {$/;"	m	class:Number
 topLevelContainerOld	doc_gui/SubPanel.java	/^	private TopLevelContainerOld topLevelContainerOld;$/;"	f	class:SubPanel	file:
+totalHRVnns	doc_gui/FitnessApp.java	/^	int totalHRVnns = 0;$/;"	f	class:FitnessApp
 tracers	doc_gui/graph/GraphCalculationGraphics.java	/^	Vector<Tracer> tracers;$/;"	f	class:GraphCalculationGraphics
 treatIdentifiersAsVariables	expression/NodeParser.java	/^	public void treatIdentifiersAsVariables(boolean b) {$/;"	m	class:NodeParser
 tree	tree/BinExpression.java	/^package tree;$/;"	p
@@ -3242,9 +3473,11 @@ updateData	doc_gui/attribute_panels/GenericAdjustmentPanel.java	/^	public void u
 updateData	doc_gui/attribute_panels/ListAdjuster.java	/^	public void updateData(){$/;"	m	class:ListAdjuster
 updateData	doc_gui/attribute_panels/StringAdjustmentPanel.java	/^	public void updateData() {$/;"	m	class:StringAdjustmentPanel
 updateField	doc_gui/DocTabClosePanel.java	/^	public void updateField(){$/;"	m	class:DocTabClosePanel
+updateImage	doc_gui/ImageSwitcherButton.java	/^	public void updateImage(){}$/;"	m	class:ImageSwitcherButton
 updateObjectToolFrame	doc_gui/DocViewerPanel.java	/^	public void updateObjectToolFrame(){$/;"	m	class:DocViewerPanel
 updateValue	tree/Identifier.java	/^	public void updateValue(double d) throws EvalException {$/;"	m	class:Identifier
 upperHeight	math_rendering/NodeGraphic.java	/^	private int upperHeight, lowerHeight;$/;"	f	class:NodeGraphic	file:
+usb	doc_gui/FitnessApp.java	/^	final SerialTest usb = new SerialTest(FitnessApp.this);$/;"	f	class:FitnessApp
 userEditable	doc/attributes/ListAttribute.java	/^	private boolean userEditable, studentEditable;$/;"	f	class:ListAttribute	file:
 userEditable	doc/attributes/MathObjectAttribute.java	/^	private boolean userEditable, studentEditable, $/;"	f	class:MathObjectAttribute	file:
 userEditable	doc/mathobjects/ProblemGenerator.java	/^	private boolean userEditable = true;$/;"	f	class:ProblemGenerator	file:
@@ -3257,6 +3490,7 @@ value	tree/Boolean.java	/^	private boolean value;$/;"	f	class:Boolean	file:
 value	tree/Decimal.java	/^	private double value;$/;"	f	class:Decimal	file:
 value	tree/Identifier.java	/^	private Number value;$/;"	f	class:Identifier	file:
 values	doc/attributes/ListAttribute.java	/^	private Vector<K> values;$/;"	f	class:ListAttribute	file:
+values	doc_gui/graph/BarGraph.java	/^	public Vector<Double> values;$/;"	f	class:BarGraph
 varList	expression/Node.java	/^	private VarList varList;$/;"	f	class:Node	file:
 variables	expression/Function.java	/^	private List<Variable> variables;$/;"	f	class:Function	file:
 vars	doc/expression_generators/ExUtil.java	/^	public static String[] vars = { "x", "y", "z", "a", "b", "c", "d", "s", "t", "w", "v", "m", "n", "j", "k", "l"};$/;"	f	class:ExUtil
@@ -3311,7 +3545,8 @@ ySize	math_rendering/RootNodeGraphic.java	/^	int xSize, ySize;$/;"	f	class:RootN
 yVals	doc_gui/graph/SingleGraph.java	/^	private Vector<Integer> yVals;$/;"	f	class:SingleGraph	file:
 year	doc/attributes/Date.java	/^	private int year;$/;"	f	class:Date	file:
 zipDirectory	doc_gui/NotebookPanel.java	/^	public static void zipDirectory(File dir, File zipfile)$/;"	m	class:NotebookPanel
-zoom	doc/mathobjects/GraphObject.java	/^	private void zoom(double rate){$/;"	m	class:GraphObject	file:
+zoom	doc/mathobjects/GraphObject.java	/^	public void zoom(double rate){$/;"	m	class:GraphObject
+zoom	doc/mathobjects/GraphObject.java	/^	public void zoom(double xRate, double yRate){$/;"	m	class:GraphObject
 zoom	doc_gui/graph/Graph.java	/^	public void zoom(double rate) throws EvalException{$/;"	m	class:Graph
 zoomIn	doc_gui/DocViewerPanel.java	/^	public void zoomIn(){$/;"	m	class:DocViewerPanel
 zoomIn	doc_gui/NotebookPanel.java	/^	public void zoomIn() {$/;"	m	class:NotebookPanel

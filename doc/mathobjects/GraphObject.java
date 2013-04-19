@@ -34,7 +34,8 @@ public class GraphObject extends MathObject {
 			SELECTION = "selection",
 			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",
 			BAR_GRAPH_LABELS = "Bar graph labels", RAW_SPIKE_REMOVAL = "Raw spike removal",
-			RUNNING_SLOPE_AVE = "Running slope average";
+			RUNNING_SLOPE_AVE = "Running slope average",POINTS_REMOVED = "Points removed",
+			TOTAL_NNS = "Total NNs", SUBSET_NNS = "Subset nns";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -92,6 +93,11 @@ public class GraphObject extends MathObject {
 			
 			addAttribute(new BooleanAttribute(RAW_SPIKE_REMOVAL, false, false));
 			addAttribute(new DoubleAttribute(RUNNING_SLOPE_AVE, 0, -5000, 5000));
+			
+			addAttribute(new IntegerAttribute(POINTS_REMOVED, 0, 0, 500000, false, false));
+			
+			addAttribute(new IntegerAttribute(TOTAL_NNS, 0, 0, 1000000));
+			addAttribute(new IntegerAttribute(SUBSET_NNS, 0, 0, 1000000));
 			
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");

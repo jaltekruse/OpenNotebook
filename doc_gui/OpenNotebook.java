@@ -5,7 +5,6 @@
  * inform the project leader at altekrusejason@gmail.com to report where
  * the file was found and delete it immediately. 
  */
-
 package doc_gui;
 
 import java.awt.Container;
@@ -72,7 +71,7 @@ public class OpenNotebook extends JApplet {
 	public static final int ALIGN_DOCS_LEFT = 1, ALIGN_DOCS_RIGHT = 2,
 			ALIGN_DOCS_CENTER = 3;
 	private static String ourNodeName = "/doc_gui";
-	private static Preferences prefs = Preferences.userRoot().node(ourNodeName);;
+	private static Preferences prefs = Preferences.userRoot().node(ourNodeName);
 	private static final String DATABASE_PATH = "databasePath",
 			USER_NAME = "userName";
 	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail", DATABASE_FILENAME = "ProblemDatabase";
@@ -429,7 +428,7 @@ public class OpenNotebook extends JApplet {
 		if (!backingStoreAvailable()) {
 			JOptionPane.showMessageDialog(
 							application,
-							"An error occured finding preferences,\n"
+							"An error occured finding preferences on your system,\n"
 									+ "your application will run with default settings.",
 							"Warning", JOptionPane.WARNING_MESSAGE);
 			return;
@@ -473,7 +472,7 @@ public class OpenNotebook extends JApplet {
 	}
 
 	public static String getPreferencesPath() {
-		return (prefs.get(DATABASE_PATH, null) + "/OpenNotebook/");
+		return prefs.get(DATABASE_PATH, null) + "/OpenNotebook/";
 	}
 
 	public static void main(final String[] args) {

@@ -60,10 +60,10 @@ public class RootNodeGraphic{
 //			vg.draw();
 //		}
 //		System.out.println("CEG drawCursor?");
-//		if (cursor.getValueGraphic() != null){
-//			cursor.getValueGraphic().drawCursor();
-//			System.out.println("CEG drawCursor");
-//		}
+		if (cursor.getValueGraphic() != null){
+			//cursor.getValueGraphic().drawCursor();
+			System.out.println("CEG drawCursor");
+		}
 	}
 	
 	public void draw(NodeGraphic n) throws NodeException{

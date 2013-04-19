@@ -46,7 +46,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	
 	@Override
 	public void drawCursor(){
-		
+		System.out.println("draw cursor in decimal");
 		int xPos = findCursorXPos();
 		
 		super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);

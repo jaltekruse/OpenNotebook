@@ -5,7 +5,6 @@
  * inform the project leader at altekrusejason@gmail.com to report where
  * the file was found and delete it immediately. 
  */
-
 package doc_gui;
 
 import java.awt.Color;
@@ -67,7 +66,7 @@ public class DocViewerPanel extends JDesktopPane{
 	 * integer, 25, which much be scaled the same as the page using zoomLevel
 	 * to display documents on the screen at different sizes.
 	 */
-	public static final int DOC_BUFFER_SPACE = 25;
+	private int docOuterBorder = 25;
 	private int currentPage;
 	private MathObject focusedObj;
 	private PageGUI pageGUI;
@@ -79,6 +78,9 @@ public class DocViewerPanel extends JDesktopPane{
 	private OpenNotebook notebook;
 	public boolean propertiesFrameRefacoringNeeded = false;
 	private NotebookKeyboardListener keyListener;
+	
+	// override the default doc alignment
+	private Integer docAlignment = null;
 
 	public DocViewerPanel(Document d, TopLevelContainerOld t, NotebookPanel book){
 		notebook = book.getOpenNotebook();
@@ -97,7 +99,7 @@ public class DocViewerPanel extends JDesktopPane{
 		//		addUndoState();
 		lastSavedDoc = lastAction;
 
-		zoomLevel = 1;
+		zoomLevel = 0.75f;
 		currentPage = 1;
 
 		docPanel = makeDocPanel();
@@ -332,10 +334,11 @@ public class DocViewerPanel extends JDesktopPane{
 		//pixels needed to render a page
 		int pageXSize = (int) (getDoc().getWidth() * zoomLevel);
 		int pageYSize = (int) (getDoc().getHeight() * zoomLevel);
-		int adjustedBufferSpace = (int) (DOC_BUFFER_SPACE * zoomLevel);
+		int adjustedBufferSpace = (int) (getDocOuterBorder() * zoomLevel);
 
 		//space needed including gray boarders around pages
 		int widthNeeded = pageXSize + 2 * adjustedBufferSpace;
+		System.out.println("width needed: " + widthNeeded);
 		int heightNeeded = adjustedBufferSpace;
 
 		//add up space needed for all pages
@@ -559,17 +562,17 @@ public class DocViewerPanel extends JDesktopPane{
 		//pixels needed to render a page, and the minimum border space around it
 		int pageXSize = (int) (getDoc().getWidth() * zoomLevel);
 		int pageYSize = (int) (getDoc().getHeight() * zoomLevel);
-		int adjustedBufferSpace = (int) (DOC_BUFFER_SPACE * zoomLevel);
+		int adjustedBufferSpace = (int) (getDocOuterBorder() * zoomLevel);
 
 		int pagexOrigin = 0;
 		int pageyOrigin = adjustedBufferSpace;
-		if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
+		if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
 			pagexOrigin = (docPanel.getWidth() - pageXSize)/2;
 		}
-		else if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
+		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
 			pagexOrigin = docPanel.getWidth() - pageXSize - adjustedBufferSpace;
 		}
-		else if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
+		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
 			pagexOrigin = adjustedBufferSpace;
 		}
 		else{
@@ -621,22 +624,35 @@ public class DocViewerPanel extends JDesktopPane{
 		//pixels needed to render a page, and the minimum border space around it
 		int pageXSize = (int) (getDoc().getWidth() * zoomLevel);
 		int pageYSize = (int) (getDoc().getHeight() * zoomLevel);
-		int adjustedBufferSpace = (int) (DOC_BUFFER_SPACE * zoomLevel);
+		int adjustedBufferSpace = (int) (getDocOuterBorder() * zoomLevel);
 
-		if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
+		if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
 			return new Point((docPanel.getWidth() - pageXSize)/2,
 					adjustedBufferSpace + pageIndex * (pageYSize + adjustedBufferSpace));
 		}
-		else if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
+		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
 			return new Point(docPanel.getWidth() - pageXSize - adjustedBufferSpace,
 					adjustedBufferSpace + pageIndex * (pageYSize + adjustedBufferSpace));
 		}
-		else if ( notebook.getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
+		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
 			return new Point(adjustedBufferSpace, adjustedBufferSpace + pageIndex * (pageYSize + adjustedBufferSpace));
 		}
 		else{
 			return null;
 		}
+	}
+	
+	public int getDocAlignment(){
+		if (docAlignment == null){
+			return getNotebook().getDocAlignment();
+		}
+		else{
+			return docAlignment;
+		}
+	}
+	
+	public void setDocAlignment(int i){
+		docAlignment = i;
 	}
 
 	public Point getObjectPos(MathObject mObj){
@@ -707,5 +723,13 @@ public class DocViewerPanel extends JDesktopPane{
 
 	public void setKeyListener(NotebookKeyboardListener keyListener) {
 		this.keyListener = keyListener;
+	}
+
+	public int getDocOuterBorder() {
+		return docOuterBorder;
+	}
+
+	public void setDocOuterBorder(int docOuterBorder) {
+		this.docOuterBorder = docOuterBorder;
 	}
 }

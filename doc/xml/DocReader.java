@@ -256,6 +256,9 @@ public class DocReader extends DefaultHandler {
 				if (DEBUG){
 					System.out.println("tag was not attribute " + qName);
 				}
+				if (qName.equals("survey")){
+					int j = 1;
+				}
 				mObj = MathObject.newInstanceWithType(qName);
 				if ( mObj == null){
 					mObj = readOldObjectName(qName);
@@ -309,8 +312,8 @@ public class DocReader extends DefaultHandler {
 	public boolean readAttribute(String uri, String name,
 			String qName, Attributes atts){
 		boolean justAddedAttribute = true;
-		if ( atts.getValue(MathObjectAttribute.NAME).equals("selection")){
-			mObj.getAttributeWithName(atts.getValue(MathObjectAttribute.NAME));
+		if ( qName.equals("enumeratedValue")){
+			boolean tr = true;
 		}
 		if (true || DEBUG){
 			System.out.println("check tag " + atts.getValue("name") + " " +

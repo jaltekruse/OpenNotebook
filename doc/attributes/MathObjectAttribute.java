@@ -17,7 +17,7 @@ import doc.GridPoint;
 import doc.mathobjects.MathObject;
 import doc_gui.graph.Selection;
 
-public abstract class MathObjectAttribute<K> {
+public abstract class MathObjectAttribute<K> implements Cloneable{
 
 
 	public static final String BOOLEAN_ATTRIBUTE = "boolean", DOUBLE_ATTRIBUTE = "double",
@@ -126,7 +126,7 @@ public abstract class MathObjectAttribute<K> {
 
 	public String exportToXML(){
 		System.out.println(getName());
-		return "\t<" + getType() + " " + NAME + "=\"" + getName()
+		return "\t<" + getType() + " " + NAME + "=\"" + formatForXML(getName())
 				+ "\" " + VALUE + "=\"" + formatForXML(getValue().toString()) + "\"/>\n";
 	}
 

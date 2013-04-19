@@ -338,10 +338,12 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			//this line sets the bounds to the actual space it takes to render them
 			if ( getParentContainer() != null)
 			{// if this problem formula is in the background storage for a document
+				System.out.println("21342134 asdfasf@E@$##@$");
 				getParentDoc().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			else
 			{// if this problem formula is actually on a document
+				System.out.println("asdfasf@E@$##@$");
 				getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			newObj.setParentContainer(newProblem.getParentContainer());

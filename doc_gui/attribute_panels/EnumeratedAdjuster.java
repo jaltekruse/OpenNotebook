@@ -21,7 +21,7 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 
 	public static final int COMBO_BOX = 1, RADIO_BUTTON_ROW = 2, RADIO_BUTTON_COLOUMN = 3;
 
-	private int displayFormat = 2;
+	private int displayFormat = COMBO_BOX;
 
 	/**
 	 * Constructor for panel to adjust an EnumeratedAttribute.
@@ -103,13 +103,13 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 			con.gridy++;
 			
 			final ButtonGroup group = new ButtonGroup();
-			for ( String s : mAtt.getPossibleValues()){
+			for ( final String s : mAtt.getPossibleValues()){
 				final JRadioButton button = new JRadioButton(s);
 				button.addActionListener(new ActionListener(){
 	
 					@Override
 					public void actionPerformed(ActionEvent ev) {
-						mAtt.setValue(button.getName());
+						mAtt.setValue(s);
 						if ( notebookPanel != null){
 							notebookPanel.getCurrentDocViewer().addUndoState();
 							notebookPanel.getCurrentDocViewer().repaintDoc();
