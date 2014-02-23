@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class BinExpressionGraphic extends ExpressionGraphic{
 
@@ -40,19 +41,23 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	}
 	
 	@Override
-	public void drawCursor(){
-		String opString = getValue().getOperator().getSymbol();
-		
-		int xPos = symbolX1 + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
-				opString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
-		
-		if ( super.getRootNodeGraphic().getCursor().getPos() == getMaxCursorPos()){
-			xPos += 2 * space;
-		}
+	public void drawCursor() throws NodeException {
+	    int xPos = findCursorXPos();
 		super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
 		super.getRootNodeGraphic().getGraphics().fillRect(xPos, super.symbolY1 - 3, 2, super.symbolY2 - super.symbolY1 + 5);
 		
 	}
+
+    protected int findCursorXPos(){
+        String opString = getValue().getOperator().getSymbol();
+        int xPos = symbolX1 + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
+                opString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
+
+        if ( super.getRootNodeGraphic().getCursor().getPos() == getMaxCursorPos()){
+            xPos += 2 * space;
+        }
+        return xPos;
+    }
 	
 	@Override
 	public int getMaxCursorPos(){
@@ -60,16 +65,18 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
 		String numberString = getValue().getOperator().getSymbol();
 		
 		if (xPixelPos < super.symbolX1){
+            getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic());
 			getLeftGraphic().setCursorPos(xPixelPos);
 			return;
 		}
 			
 		else if (xPixelPos > super.symbolX2){
+            getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic());
 			getRightGraphic().setCursorPos(xPixelPos);
 			return;
 		}
@@ -94,13 +101,27 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 			return;
 		}
+        else if (xPixelPos < startX){
+            getWest().setCursorPos(xPixelPos);
+            getRootNodeGraphic().getCursor().setValueGraphic(getWest());
+        }
+        else if (xPixelPos > startX){
+            getEast().setCursorPos(xPixelPos);
+            getRootNodeGraphic().getCursor().setValueGraphic(getEast());
+        }
 	}
 	
 	@Override
-	public void moveCursorWest(){
-		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
-			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
-		}
+	public void moveCursorWest() throws NodeException {
+		if (super.getRootNodeGraphic().getCursor().getPos() == getMaxCursorPos()){
+            getRootNodeGraphic().getCursor().setPos(getRootNodeGraphic().getCursor().getPos() - 1);
+            return;
+        }
+        else if (super.getRootNodeGraphic().getCursor().getPos() == 1){
+            getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerEast());
+            getLeftGraphic().getMostInnerEast().sendCursorInFromEast((getY2() - getY1())/ 2, this);
+            return;
+        }
 		else{
 			if (getWest() == null)
 			{
@@ -131,11 +152,43 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 			}
 		}
 	}
-	
+
+    @Override
+    public void moveCursorNorth() throws NodeException {
+        if (getNorth() == null)
+        {
+//			System.out.println("nothing to north");
+            return;
+        }
+        else
+        {
+            getNorth().sendCursorInFromSouth(findCursorXPos(), this);
+            return;
+        }
+    }
+
+    @Override
+    public void moveCursorSouth() throws NodeException {
+        if (getSouth() == null)
+        {
+//			System.out.println("nothing to south");
+            return;
+        }
+        else
+        {
+            getSouth().sendCursorInFromNorth(findCursorXPos(), this);
+            return;
+        }
+    }
 	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg){
-		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-		super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos() - 1);
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
+        if (rightChild.hasDescendent(vg) ||  rightChild == vg){
+		    super.getRootNodeGraphic().getCursor().setValueGraphic(this);
+		    super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos() - 1);
+        }
+        else{
+            getRightGraphic().sendCursorInFromEast(yPos, this);
+        }
 	}
 	
 	@Override
@@ -143,6 +196,46 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 		super.getRootNodeGraphic().getCursor().setPos(1);
 	}
+
+    @Override
+    public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
+
+        if (xPos < super.symbolX1){
+            getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic());
+            getLeftGraphic().sendCursorInFromNorth(xPos, this);
+            return;
+        }
+
+        else if (xPos > super.symbolX2){
+            getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic());
+            getRightGraphic().sendCursorInFromNorth(xPos, this);
+            return;
+        }
+        else {
+            getRootNodeGraphic().getCursor().setValueGraphic(this);
+            setCursorPos(xPos);
+        }
+    }
+
+    @Override
+    public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
+
+        if (xPos < super.symbolX1){
+            getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic());
+            getLeftGraphic().sendCursorInFromSouth(xPos, this);
+            return;
+        }
+
+        else if (xPos > super.symbolX2){
+            getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic());
+            getRightGraphic().sendCursorInFromSouth(xPos, this);
+            return;
+        }
+        else {
+            getRootNodeGraphic().getCursor().setValueGraphic(this);
+            setCursorPos(xPos);
+        }
+    }
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {
@@ -156,7 +249,7 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 		Node tempLeft = (super.getValue()).getChild(0);
 		Node tempRight = (super.getValue()).getChild(1);
 		NodeGraphic leftValGraphic = null;
-		NodeGraphic rightValGraphic = null; 
+		NodeGraphic rightValGraphic = null;
 		int[] rightSize = {0,0};
 		int[] leftSize = {0, 0};
 		int[] symbolSize = {0, 0};
@@ -166,9 +259,9 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 		
 		super.getRootNodeGraphic().getComponents().add(leftValGraphic);
 		leftSize = leftValGraphic.requestSize(g, f, x1, y1);
-		
+
 		rightValGraphic = makeNodeGraphic(tempRight);
-		
+
 		rightSize = rightValGraphic.requestSize(g, f, x1, y1);
 		super.getRootNodeGraphic().getComponents().add(rightValGraphic);
 		

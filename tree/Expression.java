@@ -152,46 +152,47 @@ public abstract class Expression {
 	}
 	
 	public Expression integrate(double a, double b,  String indVar, String depVar) throws EvalException{
-		double lastY, currY, aveY, result = 0;
-		int numTraps = 500;
-		parser.getVarList().setVarVal(indVar, (new Decimal(a)));
-		eval();
-		lastY = parser.getVarList().getVarVal(depVar).toDec().getValue();
-		double xStep = (b - a) / numTraps;
-
-		for(int i = 0; i < numTraps; i++){
-			parser.getVarList().updateVarVal(indVar, xStep);
-			eval();
-			currY = parser.getVarList().getVarVal(depVar).toDec().getValue();
-			aveY = (lastY + currY) / 2;
-			result += aveY * xStep;
-			lastY = currY;
-		}
-		return new Decimal(result);
+//		double lastY, currY, aveY, result = 0;
+//		int numTraps = 500;
+//		parser.getVarList().setVarVal(indVar, (new Decimal(a)));
+//		eval();
+//		lastY = parser.getVarList().getVarVal(depVar).toDec().getValue();
+//		double xStep = (b - a) / numTraps;
+//
+//		for(int i = 0; i < numTraps; i++){
+//			parser.getVarList().updateVarVal(indVar, xStep);
+//			eval();
+//			currY = parser.getVarList().getVarVal(depVar).toDec().getValue();
+//			aveY = (lastY + currY) / 2;
+//			result += aveY * xStep;
+//			lastY = currY;
+//		}
+//		return new Decimal(result);
+        return null;
 	}
 	
 	public Expression deriveAtPt(double d, String indVar, String depVar){
-		Number tempX = new Decimal(0);
-		Number tempY = new Decimal(0);
-		tempX = parser.getVarList().getVarVal(indVar);
-		tempY = parser.getVarList().getVarVal(depVar);
-		double xChange = .0000001;
-		try {
-			parser.getVarList().setVarVal(indVar, (new Decimal(d)));
-			eval();
-			double firstY = parser.getVarList().getVarVal(depVar).toDec().getValue();
-			parser.getVarList().setVarVal(indVar, (new Decimal(d + xChange)));
-			eval();
-			double secondY = parser.getVarList().getVarVal(depVar).toDec().getValue();
-			
-			parser.getVarList().setVarVal(indVar, tempX);
-			parser.getVarList().setVarVal(depVar, tempY);
-			return new Decimal( (secondY - firstY) /  xChange);
-			
-		} catch (EvalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		Number tempX = new Decimal(0);
+//		Number tempY = new Decimal(0);
+//		tempX = parser.getVarList().getVarVal(indVar);
+//		tempY = parser.getVarList().getVarVal(depVar);
+//		double xChange = .0000001;
+//		try {
+//			parser.getVarList().setVarVal(indVar, (new Decimal(d)));
+//			eval();
+//			double firstY = parser.getVarList().getVarVal(depVar).toDec().getValue();
+//			parser.getVarList().setVarVal(indVar, (new Decimal(d + xChange)));
+//			eval();
+//			double secondY = parser.getVarList().getVarVal(depVar).toDec().getValue();
+//
+//			parser.getVarList().setVarVal(indVar, tempX);
+//			parser.getVarList().setVarVal(depVar, tempY);
+//			return new Decimal( (secondY - firstY) /  xChange);
+//
+//		} catch (EvalException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		return null;
 	}
 	

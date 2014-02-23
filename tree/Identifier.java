@@ -23,14 +23,12 @@ public class Identifier extends Expression{
 	}
 
 	private void syncValWithVarstorage(){
-		value = getParser().getVarList().getVarVal(name);
+//		value = getParser().getVarList().getVarVal(name);
 	}
 	
 	public Expression setValue(Number n) {
-		if (isMaster()){
-			return value = n;
-		}
-		return getParser().getVarList().setVarVal(name, n);
+//		return getParser().getVarList().setVarVal(name, n);
+        return null;
 	}
 
 	public Number getValue(){
@@ -218,18 +216,6 @@ public class Identifier extends Expression{
 	{
 		syncValWithVarstorage();
 		return value.absoluteValue();
-	}
-
-	@Override
-	public boolean isMaster()
-	{
-		return isMaster;
-	}
-
-	@Override
-	public void setMaster(boolean b)
-	{
-		isMaster = b;
 	}
 
 	@Override

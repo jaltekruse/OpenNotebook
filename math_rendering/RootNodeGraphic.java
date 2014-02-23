@@ -61,7 +61,7 @@ public class RootNodeGraphic{
 //		}
 //		System.out.println("CEG drawCursor?");
 		if (cursor.getValueGraphic() != null){
-			//cursor.getValueGraphic().drawCursor();
+			cursor.getValueGraphic().drawCursor();
 			System.out.println("CEG drawCursor");
 		}
 	}
@@ -84,6 +84,10 @@ public class RootNodeGraphic{
 //		System.out.println("clear all, root:" + root);
 		root.setSelectAllBelow(false);
 	}
+
+    public void setGraphics(Graphics g){
+        graphics = (Graphics2D)g;
+    }
 
 	public void generateExpressionGraphic(Graphics g, 
 			int x1, int y1, int fontSize, float zoomLevel) throws Exception{
@@ -110,6 +114,18 @@ public class RootNodeGraphic{
 		xSize = tempSize[0];
 		ySize = tempSize[1];
 	}
+
+    public int[] requestSize(Graphics g, int x1, int y1, int fontSize, float zoomLevel) throws Exception {
+        xPos = x1;
+        yPos = y1;
+        graphics = (Graphics2D)g;
+        bigFontSize = fontSize;
+        bigFont =  new Font("SansSerif", 0, bigFontSize);
+        smallFont = new Font("SansSerif", 0, (int) (bigFontSize * (3.0/4)));
+        DOC_ZOOM_LEVEL = zoomLevel;
+        int[] ret = root.requestSize(g, bigFont, x1, y1);
+        return ret;
+    }
 	
 	public int getWidth(){
 		return xSize;

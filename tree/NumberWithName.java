@@ -8,7 +8,7 @@
 
 package tree;
 
-public abstract class NumberWithName extends Number implements ValueWithName {
+public abstract class NumberWithName extends Number {
 
 	String name;
 	

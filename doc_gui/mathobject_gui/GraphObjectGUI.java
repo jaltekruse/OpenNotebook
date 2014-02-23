@@ -114,7 +114,7 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 				(int) (gObj.getHeight() * zoomLevel) );
 		/*
 		gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
-		 */
+		*/
 		((Selection)gObj.getAttributeWithName(GraphObject.SELECTION).getValue()).setStart(graph.screenxToGrid(x));
 	}
 }

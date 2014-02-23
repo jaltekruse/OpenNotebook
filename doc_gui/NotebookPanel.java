@@ -103,7 +103,8 @@ public class NotebookPanel extends SubPanel {
 	private DocViewerPanel workSpace;
 	private JTabbedPane docTabs;
 	private Vector<DocTabClosePanel> tabLabels;
-	private PageGUI pageGUI = new PageGUI();
+
+    private PageGUI pageGUI = new PageGUI();
 
 	private MathObject objToPlace;
 

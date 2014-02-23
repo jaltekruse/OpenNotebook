@@ -113,7 +113,9 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	}
 	
 	public void setCursorPos(int xPixelPos){
-		
+
+        // the statement below and the first condition of the else block are reversed in the sendCursorInFrom[North/South]
+        // methods, both should be updated if either changes
 		if (xPixelPos < getX1() + widthParens + space){
 			if (xPixelPos < getX1() + widthParens/2){
 				super.getRootNodeGraphic().getCursor().setPos(0);
@@ -212,7 +214,7 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	
 	@Override
 	public void sendCursorInFromEast(int yPos, NodeGraphic vg){
-		if (super.containedBelow(vg)){
+		if (super.hasDescendent(vg)){
 			System.out.println("move into division from east, containedbelow");
 			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 			super.getRootNodeGraphic().getCursor().setPos(0);
@@ -225,7 +227,7 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	
 	@Override
 	public void sendCursorInFromWest(int yPos, NodeGraphic vg){
-		if (super.containedBelow(vg)){
+		if (super.hasDescendent(vg)){
 			System.out.println("move into division from west, containedbelow");
 			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 			super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
@@ -238,12 +240,28 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	
 	@Override
 	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
-		setCursorPos(xPos);
+        // this is the opposite of two statements above in setCursorPos and is the same as sendCursorInFromNorth,
+        // all should be updated if changes are made
+        if (xPos > getX1() + widthParens + space && xPos < getX2() - widthParens - space)
+        { // if the cursor needs to move into the child
+            getChildGraphic().sendCursorInFromNorth(xPos, this);
+        }
+        else{
+            setCursorPos(xPos);
+        }
 	}
 	
 	@Override
 	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
-		setCursorPos(xPos);
+        // this is the opposite of two statements above in setCursorPos and is the same as sendCursorInFromNorth,
+        // all should be updated if changes are made
+        if (xPos > getX1() + widthParens + space && xPos < getX2() - widthParens - space)
+        { // if the cursor needs to move into the child
+            getChildGraphic().sendCursorInFromSouth(xPos, this);
+        }
+        else{
+		    setCursorPos(xPos);
+        }
 	}
 	
 	@Override

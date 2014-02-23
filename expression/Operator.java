@@ -37,13 +37,13 @@ public abstract class Operator {
 	
 	public abstract Number evaluate(Vector<Number> children) throws NodeException;
 
-	public abstract String format(Vector<String> children) throws NodeException;
+	public abstract String format(Vector<String> children) ;
 
 	public DisplayFormat getFormat() {
 		return null;
 	}
 
-	public String toString(Vector<Node> children) throws NodeException {
+	public String toString(Vector<Node> children) {
 		Vector<String> stringChildren = new Vector<String>();
 		for (Node c : children)
 			stringChildren.add(c.toStringRepresentation());
@@ -52,7 +52,7 @@ public abstract class Operator {
 
 	public static abstract class BinaryOperator extends Operator {
 		@Override
-		public String format(Vector<String> children) throws NodeException {
+		public String format(Vector<String> children) {
 			if (children.size() != 2){
 				throwBadArguments();
 			}

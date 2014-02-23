@@ -278,6 +278,7 @@ public class ExUtil {
 		while( degree < maxDegree && variables.size() > usedVars.size()){
 			
 		}
+        return null;
 	}
 
 	public static Node randomTerm(int degree, String var, int minCoefficient, int maxCoefficient){

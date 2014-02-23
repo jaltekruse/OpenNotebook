@@ -114,10 +114,10 @@ public class Fraction extends Number{
 		{
 			return multiply(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return multiply(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return multiply(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot multiply a(n) " + this.getClass()
@@ -140,10 +140,10 @@ public class Fraction extends Number{
 		{
 			return add(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return add(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return add(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot add a(n) " + this.getClass().getSimpleName()
@@ -166,10 +166,10 @@ public class Fraction extends Number{
 		{
 			return subtract(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return subtract(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return subtract(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot subtract a(n) " + this.getClass().getName()
@@ -192,10 +192,10 @@ public class Fraction extends Number{
 		{
 			return divide(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return divide(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return divide(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot divide a(n) " + this.getClass().getSimpleName()
@@ -226,10 +226,10 @@ public class Fraction extends Number{
 		{
 			return power(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return power(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return power(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot take a(n) " + this.getClass().getSimpleName()

@@ -61,10 +61,10 @@ public class Decimal extends Number
 		{
 			return multiply(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return multiply(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return multiply(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot multiply a(n) " + this.getClass().getSimpleName()
@@ -87,10 +87,10 @@ public class Decimal extends Number
 		{
 			return add(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return add(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return add(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot add a(n) " + this.getClass().getSimpleName()
@@ -113,10 +113,10 @@ public class Decimal extends Number
 		{
 			return subtract(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return subtract(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return subtract(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot add a(n) " + this.getClass().getSimpleName()
@@ -139,10 +139,10 @@ public class Decimal extends Number
 		{
 			return divide(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return divide(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return divide(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot add a(n) " + this.getClass().getSimpleName()
@@ -165,10 +165,10 @@ public class Decimal extends Number
 		{
 			return divide(((Identifier)e).getValue());
 		}
-		else if (e instanceof Constant)
-		{
-			return divide(((Constant)e).getValue());
-		}
+//		else if (e instanceof Constant)
+//		{
+//			return divide(((Constant)e).getValue());
+//		}
 		else
 		{
 			throw new EvalException("Cannot add a(n) " + this.getClass().getSimpleName()

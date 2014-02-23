@@ -41,7 +41,7 @@ public class IdentifierGraphic extends NodeGraphic {
 	}
 
 @Override
-public void drawCursor(){
+public void drawCursor() throws NodeException {
 		
 		int xPos = findCursorXPos();
 		
@@ -51,21 +51,21 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public int getMaxCursorPos(){
-		return getValue().toString().length();
+	public int getMaxCursorPos() throws NodeException {
+		return getValue().toStringRepresentation().length();
 	}
 	
-	public int findCursorXPos(){
+	public int findCursorXPos() throws NodeException {
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
-		String numberString = getValue().toString();
+		String numberString = getValue().toStringRepresentation();
 		return getX1() + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
 				numberString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
-		String numberString = getValue().toString();
+		String numberString = getValue().toStringRepresentation();
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
 		
@@ -107,7 +107,7 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public void moveCursorWest(){
+	public void moveCursorWest() throws NodeException {
 		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
 		}
@@ -125,8 +125,8 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public void moveCursorEast(){
-		if (super.getRootNodeGraphic().getCursor().getPos() < getValue().toString().length()){
+	public void moveCursorEast() throws NodeException {
+		if (super.getRootNodeGraphic().getCursor().getPos() < getValue().toStringRepresentation().length()){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() + 1); 
 		}
 		else{
@@ -143,7 +143,7 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public void moveCursorNorth(){
+	public void moveCursorNorth() throws NodeException {
 		if (getNorth() == null)
 		{
 			System.out.println("nothing to north");
@@ -157,7 +157,7 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public void moveCursorSouth(){
+	public void moveCursorSouth() throws NodeException {
 		if (getSouth() == null)
 		{
 			System.out.println("nothing to south");
@@ -171,8 +171,7 @@ public void drawCursor(){
 	}
 	
 	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg)
-	{
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 		super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos() - 1);
 	}
@@ -185,15 +184,15 @@ public void drawCursor(){
 	}
 
 	@Override
-	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) throws NodeException {
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
 		System.out.println("Dec graphic in from north, cursor: " +
-				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toString());
+				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toStringRepresentation());
 	}
 	
 	@Override
-	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) throws NodeException {
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
 	}

@@ -34,7 +34,7 @@ public abstract class NodeGraphic<E extends Node> {
 	private int numCursorPositions;
 	
 	protected E value;
-	private NodeGraphic north, south, east, west;
+	protected NodeGraphic north, south, east, west;
 	private NodeGraphic mostInnerNorth, mostInnerSouth, mostInnerWest, mostInnerEast;
 	
 	//components that are children of this graphic
@@ -47,17 +47,17 @@ public abstract class NodeGraphic<E extends Node> {
 		value = v;
 	}
 	
-	public void drawCursor(){}
+	public void drawCursor() throws NodeException {}
 	
-	public void setCursorPos(int xPixelPos){}
+	public void setCursorPos(int xPixelPos) throws NodeException {}
 	
-	public void moveCursorWest(){}
+	public void moveCursorWest() throws NodeException {}
 	
-	public void moveCursorEast(){}
+	public void moveCursorEast() throws NodeException {}
+
+	public void moveCursorNorth() throws NodeException {}
 	
-	public void moveCursorNorth(){}
-	
-	public void moveCursorSouth(){}
+	public void moveCursorSouth() throws NodeException {}
 	
 	
 
@@ -71,15 +71,15 @@ public abstract class NodeGraphic<E extends Node> {
 	 * 
 	 * @param yPos
 	 */
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg) {}
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {}
 	
 	public void sendCursorInFromWest(int yPos, NodeGraphic vg) {}
 
-	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) {}
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) throws NodeException {}
 	
-	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) {}
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) throws NodeException {}
 	
-	public int getMaxCursorPos() { return 0; }
+	public int getMaxCursorPos() throws NodeException { return 0; }
 	
 	public void setSelectAllBelow(boolean b){
 		setSelected(b);
@@ -104,13 +104,13 @@ public abstract class NodeGraphic<E extends Node> {
 		return null;
 	}
 	
-	public boolean containedBelow(NodeGraphic vg){
+	public boolean hasDescendent(NodeGraphic vg){
 		for (NodeGraphic v : getComponents()){
-			if (v.equals( vg )){
+			if (v == vg ){
 				return true;
 			}
 			else{
-				if (v.containedBelow(vg))
+				if (v.hasDescendent(vg))
 				{
 					return true;
 				}
@@ -254,7 +254,7 @@ public abstract class NodeGraphic<E extends Node> {
 //		System.out.println(getComponents());
 		for (NodeGraphic vg : getComponents()){
 //			System.out.println(vg.toString());
-			vg.setNorth(north);
+			vg.getMostInnerNorth().setNorth(north);
 		}
 	}
 
@@ -264,10 +264,10 @@ public abstract class NodeGraphic<E extends Node> {
 
 	public void setSouth(NodeGraphic south) {
 		this.south = south;
-//		System.out.println("setSouth: " + getValue().toString());
+//		System.out.println("setSouth: " + getValue().toStringRepresentation());
 		for (NodeGraphic vg : getComponents()){
-//			System.out.println("valGraphic class setChildSouth: " + vg.getValue().toString());
-			vg.setSouth(south);
+//			System.out.println("valGraphic class setChildSouth: " + vg.getValue().toStringRepresentation());
+			vg.getMostInnerSouth().setSouth(south);
 		}
 	}
 

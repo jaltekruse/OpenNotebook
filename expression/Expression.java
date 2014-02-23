@@ -84,7 +84,7 @@ public class Expression extends Node {
 	}
 
 	@Override
-	public String toStringRepresentation() throws NodeException {
+	public String toStringRepresentation() {
 		if (!(o instanceof Operator.Equals) && displayParentheses())
 			return parenthetize(o.toString(children));
 		else

@@ -3,22 +3,23 @@ package doc.mathobjects;
 import java.util.Iterator;
 import java.util.Vector;
 
-public class NamedObjectList<T extends MathObject> implements Iterable<T>{
+public class NamedObjectList implements Iterable<MathObject>{
 	
-	private Vector<T> objects;
+	private Vector<MathObject> objects;
 	private String listName;
+	private MathObject parentObject;
 	
 	public NamedObjectList(String listName){
 		this.listName = listName;
-		objects = new Vector<T>();
+		setObjects(new Vector<MathObject>());
 	}
 	
-	public Vector<T> getObjects(){
+	public Vector<MathObject> getObjects(){
 		return objects;
 	}
 	
-	public void add(T obj){
-		objects.add(obj);
+	public void add(MathObject obj){
+		getObjects().add(obj);
 	}
 	
 	public String getName(){
@@ -26,7 +27,19 @@ public class NamedObjectList<T extends MathObject> implements Iterable<T>{
 	}
 
 	@Override
-	public Iterator<T> iterator() {
-		return objects.iterator();
+	public Iterator<MathObject> iterator() {
+		return getObjects().iterator();
+	}
+
+	public MathObject getParentObject() {
+		return parentObject;
+	}
+
+	public void setParentObject(MathObject parentObject) {
+		this.parentObject = parentObject;
+	}
+
+	public void setObjects(Vector<MathObject> objects) {
+		this.objects = objects;
 	}
 }

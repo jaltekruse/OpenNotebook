@@ -1,6 +1,7 @@
 package doc.mathobjects;
 
 import java.awt.Rectangle;
+import java.util.Collection;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -13,7 +14,6 @@ import doc.attributes.MathObjectAttribute;
 
 public class Grouping extends MathObject implements MathObjectContainer{
 
-	private Vector<MathObject> objects;
 	private Vector<DecimalRectangle> objectBounds;
 
 	public static final String STORE_IN_DATABASE = "Store in Database", BRING_TO_LEFT = "Bring All to Left",
@@ -22,10 +22,10 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			STRETCH_VERTICALLY = "Stretch all Vertically", DISTRIBUTE_VERTICALLY = "Distribute Vertically",
 			DISTRIBUTE_HORIZONTALLY = "Distribute Horizontally",
 			ALIGN_GROUP_VERTICAL_CENTER = "Align to Vertical Group Center",
-			ALIGN_GROUP_HORIZONTAL_CENTER = "Align to Hoizontal Group Center";
+			ALIGN_GROUP_HORIZONTAL_CENTER = "Align to Hoizontal Group Center",
+			OBJECTS = "objects";
 
 	public Grouping(){
-		objects = new Vector<MathObject>();
 		objectBounds = new Vector<DecimalRectangle>();
 		addGroupAttributes();
 		addGroupActions();
@@ -33,7 +33,6 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 	public Grouping(MathObjectContainer p, int x, int y, int w, int h) {
 		super(p, x, y, w, h);
-		objects = new Vector<MathObject>();
 		objectBounds = new Vector<DecimalRectangle>();
 		addGroupAttributes();
 		addGroupActions();
@@ -41,7 +40,6 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 	public Grouping(MathObjectContainer p){
 		super(p);
-		objects = new Vector<MathObject>();
 		objectBounds = new Vector<DecimalRectangle>();
 		addGroupAttributes();
 		addGroupActions();
@@ -62,6 +60,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		addAction(BRING_TO_TOP);
 		addAction(STRETCH_HORIZONTALLY);
 		addAction(STRETCH_VERTICALLY);
+		addObjectList(new NamedObjectList(OBJECTS));
 	}
 
 	public boolean containsProblemNumber(){
@@ -272,7 +271,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	}
 
 	public boolean objectContainedBelow(MathObject o){
-		for (MathObject mObj : objects){
+		for (MathObject mObj : getObjects()){
 			if ( o == mObj){
 				return true;
 			}
@@ -332,22 +331,22 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	}
 
 	public void setObjects(Vector<MathObject> objects) {
-		this.objects = objects;
+		getObjListWithName(OBJECTS).setObjects(objects);
 	}
 
 	public Vector<MathObject> getObjects() {
-		return objects;
+		return (Vector<MathObject>) getObjListWithName(OBJECTS).getObjects();
 	}
 
 	public boolean addObject(MathObject mObj){
-		objects.add(mObj);
+		getObjects().add(mObj);
 		mObj.setParentContainer(this);
 		return true;
 	}
 
 	public void adjustSizeToFitChildren(){
 		Vector<MathObject> temp = getObjects();
-		objects = new Vector<MathObject>();
+		setObjects(new Vector<MathObject>());
 		objectBounds = new Vector<DecimalRectangle>();
 		for (MathObject mObj : temp){
 			mObj.setParentContainer(null);
@@ -365,17 +364,17 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			System.out.println("parent container did not match");
 			return false;
 		}
-		if (objects.size() == 0){
+		if (getObjects().size() == 0){
 			setWidth(mObj.getWidth());
 			setHeight(mObj.getHeight());
 			setxPos(mObj.getxPos());
 			setyPos(mObj.getyPos());
 
-			//positions of objects within Groups are relative to the group origin
+			//positions of getObjects() within Groups are relative to the group origin
 			//and saved in a fraction of the total width/height, instead of number of pixels
 			objectBounds.add(new DecimalRectangle(0,0,1,1));
 			//			getParentPage().shiftObjInFrontOfOther(this, mObj);
-			objects.add(mObj);
+			getObjects().add(mObj);
 			return true;
 		}
 		Rectangle objRect = new Rectangle(mObj.getxPos(), mObj.getyPos(), mObj.getWidth(), mObj.getHeight());
@@ -388,20 +387,20 @@ public class Grouping extends MathObject implements MathObjectContainer{
 					((double) mObj.getyPos() - getyPos())/getHeight(),
 					(double)mObj.getWidth()/getWidth(),
 					(double)mObj.getHeight()/getHeight() ) );
-			objects.add(mObj);
+			getObjects().add(mObj);
 			return true;
 		}
 		else
 		{// the new object is outside of the groups bounds
 
-			//need to temporarily store the currently grouped objects
+			//need to temporarily store the currently grouped getObjects()
 			//to prevent them from being resized with the calls to setWidth
-			// which adjusts the size of the child objects as a side effect
+			// which adjusts the size of the child getObjects() as a side effect
 
 			//they will be added back after the group is resized to accommodate
 			//the new object that was outside of the groups bounds
-			Vector<MathObject> oldObjects = objects;
-			objects = new Vector<MathObject>();
+			Vector<MathObject> oldObjects = getObjects();
+			setObjects(new Vector<MathObject>());
 			objectBounds = new Vector<DecimalRectangle>();
 
 			//add additional height or width to the group if the object is outside
@@ -425,7 +424,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			}
 
 			for (MathObject mathObj : oldObjects){
-				objects.add(mathObj);
+				getObjects().add(mathObj);
 				DecimalRectangle temp = new DecimalRectangle(
 						((double) mathObj.getxPos() - getxPos())/getWidth(),
 						((double) mathObj.getyPos() - getyPos())/getHeight(),
@@ -441,17 +440,17 @@ public class Grouping extends MathObject implements MathObjectContainer{
 					((double) mObj.getyPos() - getyPos())/getHeight(),
 					(double) mObj.getWidth()/getWidth(),
 					(double) mObj.getHeight()/getHeight() ) );
-			objects.add(mObj);
+			getObjects().add(mObj);
 			return true;
 		}
 	}
 
 	public boolean removeObject(MathObject mObj){
-		if ( ! objects.contains(mObj)){
+		if ( ! getObjects().contains(mObj)){
 			return false;
 		}
-		objectBounds.remove(objects.indexOf(mObj));
-		objects.remove(mObj);
+		objectBounds.remove(getObjects().indexOf(mObj));
+		getObjects().remove(mObj);
 		adjustSizeToFitChildren();
 		return true;
 	}
@@ -511,7 +510,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	@Override
 	public boolean removeAllObjects() {
 		// TODO Auto-generated method stub
-		objects = new Vector<MathObject>();
+		getObjects().removeAllElements();
 		objectBounds = new Vector<DecimalRectangle>();
 		return true;
 	}
@@ -519,12 +518,12 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	/**
 	 * This method is sued to move or resize all of the child object in a group after a corresponding
 	 * change to the group is made. This is not a method for adjusting the group size after child
-	 * objects have been modified and possibly been moved outside of the group.
+	 * getObjects() have been modified and possibly been moved outside of the group.
 	 */
 	private void adjustChildrenToGroupChange(){
 		int index = 0;
 		DecimalRectangle tempBounds;
-		for (MathObject mathObj : objects){
+		for (MathObject mathObj : getObjects()){
 			tempBounds = objectBounds.get(index);
 			mathObj.setxPos(getxPos() + (int) Math.round(tempBounds.getX() * getWidth()) );
 			mathObj.setyPos(getyPos() + (int) Math.round(tempBounds.getY() * getHeight()) );

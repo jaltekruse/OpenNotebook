@@ -17,6 +17,7 @@ import doc.PointInDocument;
 import doc.mathobjects.LineObject;
 import doc.mathobjects.MathObject;
 import doc_gui.DocMouseListener;
+import expression.NodeException;
 
 public abstract class MathObjectGUI<K extends MathObject>{
 
@@ -41,6 +42,13 @@ public abstract class MathObjectGUI<K extends MathObject>{
 	public static final int WEST_DOT = 7;
 
 	public abstract void drawMathObject(K object, Graphics g, Point pageOrigin, float zoomLevel);
+
+    public void mouseClicked(MathObject mObj, int x , int y, float zoomLevel){}
+
+    // returns true if this mouse event was consumed by this method
+    public boolean keyPressed(MathObject mObj, char key) throws NodeException {
+        return false;
+    }
 
 	public void drawInteractiveComponents(K object, Graphics g, Point pageOrigin, float zoomLevel){}
 

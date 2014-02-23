@@ -15,6 +15,8 @@ import java.awt.Graphics;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
+
 public class DivisionGraphic extends BinExpressionGraphic {
 
 	public static enum Style{
@@ -61,8 +63,8 @@ public class DivisionGraphic extends BinExpressionGraphic {
 	}
 	
 	@Override
-	public void drawCursor(){
-		String numberString = getValue().toString();
+	public void drawCursor() throws NodeException {
+		String numberString = getValue().toStringRepresentation();
 		
 		int xPos = findCursorXPos();
 		
@@ -127,12 +129,12 @@ public class DivisionGraphic extends BinExpressionGraphic {
 		}
 		else
 		{
-			getNorth().getMostInnerNorth().sendCursorInFromSouth(findCursorXPos(), this);
+			getNorth().getMostInnerSouth().sendCursorInFromSouth(findCursorXPos(), this);
 			return;
 		}
 	}
 	
-	private int findCursorXPos() {
+	protected int findCursorXPos() {
 		// TODO Auto-generated method stub
 		return getX1() + super.getRootNodeGraphic().getCursor().getPos() * (getX2() - getX1()); 
 	}
@@ -146,7 +148,8 @@ public class DivisionGraphic extends BinExpressionGraphic {
 		}
 		else
 		{
-			getSouth().getMostInnerSouth().sendCursorInFromNorth(findCursorXPos(), this);
+            // TODO - see if this revised line workds, before it was requesting the most inner north object of south
+			getSouth().sendCursorInFromNorth(findCursorXPos(), this);
 			return;
 		}
 	}
@@ -154,7 +157,7 @@ public class DivisionGraphic extends BinExpressionGraphic {
 	@Override
 	public void sendCursorInFromEast(int yPos, NodeGraphic vg)
 	{
-		if (super.containedBelow(vg)){
+		if (super.hasDescendent(vg)){
 //			System.out.println("move into division from east, containedbelow");
 			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 			super.getRootNodeGraphic().getCursor().setPos(0);
@@ -169,7 +172,7 @@ public class DivisionGraphic extends BinExpressionGraphic {
 	@Override
 	public void sendCursorInFromWest(int yPos, NodeGraphic vg)
 	{
-		if (super.containedBelow(vg)){
+		if (super.hasDescendent(vg)){
 //			System.out.println("move into division from west, containedbelow");
 			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 			super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
@@ -184,13 +187,23 @@ public class DivisionGraphic extends BinExpressionGraphic {
 	@Override
 	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
 //		System.out.println("Division send in from north, xPos: " + xPos);
-		getRightGraphic().getMostInnerNorth().sendCursorInFromNorth(xPos, this);
+        if ( getLeftGraphic().hasDescendent(vg) || getLeftGraphic() == vg){
+            getRightGraphic().getMostInnerNorth().sendCursorInFromNorth(xPos, this);
+        }
+        else{
+		    getLeftGraphic().getMostInnerNorth().sendCursorInFromNorth(xPos, this);
+        }
 	}
 	
 	@Override
 	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
 //		System.out.println("division send from south");
-		getLeftGraphic().getMostInnerSouth().sendCursorInFromSouth(xPos, this);
+        if ( getRightGraphic().hasDescendent(vg) || getRightGraphic() == vg){
+            getLeftGraphic().getMostInnerSouth().sendCursorInFromSouth(xPos, this);
+        }
+        else{
+            getRightGraphic().getMostInnerSouth().sendCursorInFromSouth(xPos, this);
+        }
 	}
 	
 	/**
@@ -296,6 +309,8 @@ public class DivisionGraphic extends BinExpressionGraphic {
 			rightValGraphic.getMostInnerWest().setWest(this);
 			rightValGraphic.getMostInnerEast().setEast(this);
 //			this.setEast(rightValGraphic.getMostInnerWest());
+            south = rightValGraphic;
+            north = leftValGraphic;
 			
 			symbolX1 = x1;
 			

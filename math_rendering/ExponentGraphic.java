@@ -15,6 +15,7 @@ import java.awt.Graphics;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class ExponentGraphic extends BinExpressionGraphic {
 
@@ -54,39 +55,64 @@ public class ExponentGraphic extends BinExpressionGraphic {
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		//cursor does not exist in this graphic, send to upper child
 		super.getLeftGraphic().getMostInnerSouth().setCursorPos(xPixelPos);
 	}
-	
-	@Override
-	public void moveCursorWest(){}
-	
-	@Override
-	public void moveCursorEast(){
-	}
-	
-	@Override
-	public void moveCursorNorth(){}
-	
-	private int findCursorXPos() {
+
+    @Override
+    public void moveCursorWest() throws NodeException {
+        if (super.getRootNodeGraphic().getCursor().getPos() == 1){
+            getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerEast());
+            getRootNodeGraphic().getCursor().setPos(getRightGraphic().getMostInnerEast().getMaxCursorPos());
+            return;
+        }
+        else{
+            if (getWest() == null)
+            {
+                return;
+            }
+            else
+            {
+                getWest().sendCursorInFromEast((getY2() - getY1())/2, this);
+                return;
+            }
+        }
+    }
+
+    @Override
+    public void moveCursorEast(){
+        if (super.getRootNodeGraphic().getCursor().getPos() == 0){
+//            super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() + 1);
+            getLeftGraphic().sendCursorInFromWest((getY2() - getY1())/2, this);
+        }
+        else{
+            if (getEast() == null)
+            {
+                return;
+            }
+            else
+            {
+                getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
+                return;
+            }
+        }
+    }
+
+	protected int findCursorXPos() {
 		// TODO Auto-generated method stub
 		return getX1() + super.getRootNodeGraphic().getCursor().getPos() * (getX2() - getX1()); 
 	}
 
 	@Override
-	public void moveCursorSouth(){}
-	
-	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg)
-	{
-		if (getLeftGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
+		if (getLeftGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getLeftGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			getWest().sendCursorInFromEast(yPos, vg);
 			return;
 		}
-		else if (getRightGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+		else if (getRightGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getRightGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerWest());
@@ -94,26 +120,37 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		}
 		else
 		{//the cursor was outside of this expression, moving in
-			getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerWest());
-			getRootNodeGraphic().getCursor().setPos(getLeftGraphic().getMaxCursorPos());
+			getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerEast());
+            getRootNodeGraphic().getCursor().setPos(getRightGraphic().getMostInnerEast().getMaxCursorPos());
 		}
 	}
 	
 	@Override
 	public void sendCursorInFromWest(int yPos, NodeGraphic vg)
 	{
-		if (getLeftGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+		if (getLeftGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getLeftGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerWest());
 			getRootNodeGraphic().getCursor().setPos(0);
 		}
-		else if (getRightGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+		else if (getRightGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getRightGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the right child of this exponent
 			System.out.println("send west from rightChild");
-			getRootNodeGraphic().getCursor().setValueGraphic(getEast());
-			getRootNodeGraphic().getCursor().setPos(0);
+            if (getEast() instanceof ParenGraphic || getEast() instanceof  RadicalGraphic){
+                getRootNodeGraphic().getCursor().setValueGraphic(getEast());
+       			getRootNodeGraphic().getCursor().setPos(getRootNodeGraphic().getCursor().getValueGraphic().getMaxCursorPos() - 1);
+                return;
+            }
+            else if ( getEast() instanceof DivisionGraphic) {
+                getRootNodeGraphic().getCursor().setValueGraphic(this);
+                getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
+                return;
+            }
+            getRootNodeGraphic().getCursor().setValueGraphic(this);
+			//getRootNodeGraphic().getCursor().setValueGraphic(getEast());
+			getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
 			return;
 		}
 		else
@@ -123,14 +160,14 @@ public class ExponentGraphic extends BinExpressionGraphic {
 	}
 	
 	@Override
-	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
-		if (getRightGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) throws NodeException {
+		if (getRightGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getRightGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerEast());
 			getRootNodeGraphic().getCursor().setPos(getLeftGraphic().getMostInnerEast().getMaxCursorPos());
 		}
-		else if (getLeftGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+		else if (getLeftGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getLeftGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			if (getSouth() == null)
@@ -146,19 +183,29 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		}
 		else
 		{//the cursor was outside of this expression, moving in
-			getRightGraphic().setCursorPos(xPos);
+            if (xPos >= getX1() && xPos <= getLeftGraphic().getX2()){
+                getLeftGraphic().sendCursorInFromNorth(xPos, this);
+                return;
+            }
+            else if (xPos >= getRightGraphic().getX1() && xPos <= getRightGraphic().getX2()){
+               getRightGraphic().sendCursorInFromNorth(xPos, this);
+                return;
+            }
+            else {
+                setCursorPos(xPos);
+            }
 		}
 	}
 	
 	@Override
-	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
-		if (getLeftGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) throws NodeException {
+		if (getLeftGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getLeftGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerWest());
 			getRootNodeGraphic().getCursor().setPos(0);
 		}
-		if (getRightGraphic().containedBelow(getRootNodeGraphic().getCursor().getValueGraphic()) ||
+		if (getRightGraphic().hasDescendent(getRootNodeGraphic().getCursor().getValueGraphic()) ||
 				this.getRightGraphic().equals(getRootNodeGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the left child of this exponent
 			if (getNorth() == null)
@@ -174,7 +221,17 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		}
 		else
 		{//the cursor was outside of this expression, moving in
-			getLeftGraphic().setCursorPos(xPos);
+            if (xPos >= getX1() && xPos <= getLeftGraphic().getX2()){
+                getLeftGraphic().sendCursorInFromSouth(xPos, this);
+                return;
+            }
+            else if (xPos >= getRightGraphic().getX1() && xPos <= getRightGraphic().getX2()){
+                getRightGraphic().sendCursorInFromSouth(xPos, this);
+                return;
+            }
+            else {
+                setCursorPos(xPos);
+            }
 		}
 	}
 	
@@ -224,10 +281,10 @@ public class ExponentGraphic extends BinExpressionGraphic {
 			
 			//set the west and east fields for inside and outside of the expression
 			setMostInnerEast(this);
-			leftValGraphic.getMostInnerEast().setEast(this);
 			setMostInnerWest(this);
 			setMostInnerSouth(this);
-			
+            setMostInnerNorth(this);
+
 			//the request to move to the east of the exponent will need to go down first
 			//before being sent into the element east of this ExponentGraphic
 			//usual moveEast: 45|+67, cursor at end of 45 -> 45+|67 cursor at end of +
@@ -235,15 +292,13 @@ public class ExponentGraphic extends BinExpressionGraphic {
 			//In this case, the cursor clearly moves down from the superscript
 			//moveEast: 4^5|+67, cursor at end of 5 in superscript -> 4^5|+/67 cursor at start of +
 			
+//			leftValGraphic.setNorth(this);
+//			rightValGraphic.setSouth(this);
 			rightValGraphic.getMostInnerWest().setWest(this);
-			leftValGraphic.setNorth(this);
-			rightValGraphic.setSouth(this);
-			rightValGraphic.setWest(this);
-			rightValGraphic.setEast(this);
-			leftValGraphic.setWest(this);
-			leftValGraphic.setEast(this);
-			setMostInnerNorth(this);
-			
+			rightValGraphic.getMostInnerEast().setEast(this);
+			leftValGraphic.getMostInnerWest().setWest(this);
+			leftValGraphic.getMostInnerEast().setEast(this);
+
 //			//set the west and east fields for inside and outside of the expression
 //			setMostInnerWest(leftValGraphic.getMostInnerWest());
 //			leftValGraphic.getMostInnerEast().setEast(rightValGraphic.getMostInnerWest());
@@ -252,10 +307,10 @@ public class ExponentGraphic extends BinExpressionGraphic {
 //			this.setSouth(leftValGraphic.getMostInnerNorth());
 //			this.setMostInnerWest(leftValGraphic.getMostInnerWest());
 //			this.setMostInnerSouth(leftValGraphic.getMostInnerSouth());
-//			
+//
 //			setMostInnerNorth(rightValGraphic.getMostInnerNorth());
 //			setMostInnerSouth(leftValGraphic.getMostInnerSouth());
-//			
+//
 //			setMostInnerEast(rightValGraphic.getMostInnerEast());
 //			rightValGraphic.getMostInnerSouth().setSouth(leftValGraphic.getMostInnerEast());
 //			rightValGraphic.getMostInnerWest().setWest(leftValGraphic.getMostInnerEast());

@@ -42,4 +42,8 @@ public class Selection {
 	public double getEnd(){
 		return end;
 	}
+	
+	public String toString(){
+		return start + "," + end;
+	}
 }

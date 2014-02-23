@@ -14,6 +14,7 @@ import java.awt.Graphics;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class ImpliedMultGraphic extends BinExpressionGraphic {
 
@@ -33,20 +34,23 @@ private int space;
 			super.getRootNodeGraphic().getGraphics().setColor(Color.black);
 		}
 	}
-	
-	@Override
-	public void drawCursor(){
-		String opString = getValue().getOperator().getSymbol();
-		
-		int xPos = symbolX1 + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
-				opString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
-		
+
+    protected int findCursorXPos(){
+        int xPos = symbolX1;
+
 		if ( super.getRootNodeGraphic().getCursor().getPos() == getMaxCursorPos()){
 			xPos += space;
 		}
+        return xPos;
+    }
+
+	@Override
+	public void drawCursor(){
+		int xPos = findCursorXPos();
+
 		super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
 		super.getRootNodeGraphic().getGraphics().fillRect(xPos, super.symbolY1 - 3, 2, super.symbolY2 - super.symbolY1 + 5);
-		
+
 	}
 	
 	@Override
@@ -55,7 +59,7 @@ private int space;
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
 		String numberString = getValue().getOperator().getSymbol();
 		
@@ -69,13 +73,16 @@ private int space;
 			return;
 		}
 		
-		int startX, endX, xWidth;
-		
-		startX = super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
-				numberString.substring(0, 0)) + symbolX1 - space;
-		endX = super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
-				numberString.substring(0, 1)) + symbolX1 + space;
-		xWidth = endX - startX;
+//		int startX, endX, xWidth;
+//
+//		startX = super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
+//				numberString.substring(0, 0)) + symbolX1 - space;
+//		endX = super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
+//				numberString.substring(0, 1)) + symbolX1 + space;
+//		xWidth = endX - startX;
+
+
+        int startX = symbolX1, endX = symbolX1 + space, xWidth = space;
 		
 		if (startX < xPixelPos && endX > xPixelPos)
 		{//if the x position is inside of a character, check if it is on the first or second
@@ -92,52 +99,42 @@ private int space;
 	}
 	
 	@Override
-	public void moveCursorWest(){
-		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
-			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
-		}
-		else{
-			if (getWest() == null)
-			{
-				return;
-			}
-			else
-			{
-				getWest().sendCursorInFromEast((getY2() - getY1())/2, this);
-				return;
-			}
-		}
+	public void moveCursorWest() throws NodeException {
+        if (getWest() == null)
+        {
+            return;
+        }
+        else
+        {
+            getWest().sendCursorInFromEast((getY2() - getY1())/2, this);
+            return;
+        }
 	}
 	
 	@Override
 	public void moveCursorEast(){
-		if (super.getRootNodeGraphic().getCursor().getPos() < getMaxCursorPos()){
-			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() + 1); 
-		}
-		else{
-			if (getEast() == null)
-			{
-				return;
-			}
-			else
-			{
-				getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
-				return;
-			}
-		}
+        if (getEast() == null)
+        {
+            return;
+        }
+        else
+        {
+            getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
+            return;
+        }
 	}
 	
-	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg){
-		super.getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerEast());
-		super.getRootNodeGraphic().getCursor().setPos(getLeftGraphic().getMostInnerEast().getMaxCursorPos() - 1);
-	}
-	
-	@Override
-	public void sendCursorInFromWest(int yPos, NodeGraphic vg){
-		super.getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerEast());
-		super.getRootNodeGraphic().getCursor().setPos(1);
-	}
+//	@Override
+//	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
+//		super.getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerEast());
+//		super.getRootNodeGraphic().getCursor().setPos(getLeftGraphic().getMostInnerEast().getMaxCursorPos() - 1);
+//	}
+//
+//	@Override
+//	public void sendCursorInFromWest(int yPos, NodeGraphic vg){
+//		super.getRootNodeGraphic().getCursor().setValueGraphic(getRightGraphic().getMostInnerWest());
+//		super.getRootNodeGraphic().getCursor().getValueGraphic().sendCursorInFromWest(yPos, vg);
+//	}
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {

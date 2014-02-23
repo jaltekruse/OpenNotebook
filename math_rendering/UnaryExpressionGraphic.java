@@ -15,6 +15,7 @@ import java.util.Vector;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class UnaryExpressionGraphic extends ExpressionGraphic {
 
@@ -55,9 +56,9 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 		
 	}
 	
-	public int findCursorXPos(){
+	public int findCursorXPos() throws NodeException {
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
-		String numberString = getValue().toString();
+		String numberString = getValue().toStringRepresentation();
 		return getX1() + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
 				numberString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
 	}
@@ -68,7 +69,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
 		String valueString = getValue().getOperator().getSymbol();
 //		System.out.println("set Unary Cursor pos");
@@ -79,7 +80,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 			return;
 		}
 			
-		else if (xPixelPos > super.symbolX2){
+		else if (xPixelPos >= super.symbolX2){
 			getChildGraphic().setCursorPos(xPixelPos);
 			return;
 		}
@@ -109,7 +110,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	}
 	
 	@Override
-	public void moveCursorWest(){
+	public void moveCursorWest() throws NodeException {
 		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
 		}
@@ -138,14 +139,20 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 			}
 			else
 			{
-				getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
+                // this object is nested inside of something (like an exponent) that is stored as its east object
+				if (hasDescendent(getEast())){
+                    getRootNodeGraphic().getCursor().setValueGraphic(getChildGraphic());
+                    childGraphic.sendCursorInFromWest((getY2() - getY1())/2, this);
+                    return;
+                }
+                getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
 				return;
 			}
 		}
 	}
 	
 	@Override
-	public void moveCursorNorth(){
+	public void moveCursorNorth() throws NodeException {
 		if (getNorth() == null)
 		{
 			System.out.println("nothing to north");
@@ -159,7 +166,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	}
 	
 	@Override
-	public void moveCursorSouth(){
+	public void moveCursorSouth() throws NodeException {
 		if (getSouth() == null)
 		{
 			System.out.println("nothing to south");
@@ -185,13 +192,38 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	}
 	
 	@Override
-	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
-		setCursorPos(xPos);
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) throws NodeException {
+        if (xPos < super.symbolX1){
+            super.getRootNodeGraphic().getCursor().setPos(0);
+            super.getRootNodeGraphic().getCursor().setValueGraphic(this);
+            return;
+        }
+
+        else if (xPos >= super.symbolX2){
+            getChildGraphic().sendCursorInFromNorth(xPos, this);
+            return;
+        }
+        else {
+		    setCursorPos(xPos);
+        }
 	}
 	
 	@Override
-	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
-		setCursorPos(xPos);
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) throws NodeException {
+
+        if (xPos < super.symbolX1){
+            super.getRootNodeGraphic().getCursor().setPos(0);
+            super.getRootNodeGraphic().getCursor().setValueGraphic(this);
+            return;
+        }
+
+        else if (xPos >= super.symbolX2){
+            getChildGraphic().sendCursorInFromSouth(xPos, this);
+            return;
+        }
+        else {
+            setCursorPos(xPos);
+        }
 	}
 	
 

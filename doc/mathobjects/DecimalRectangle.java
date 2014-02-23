@@ -1,6 +1,6 @@
 package doc.mathobjects;
 
-public class DecimalRectangle {
+public class DecimalRectangle implements Comparable<DecimalRectangle>{
 
 	private double x, y, width, height;
 	
@@ -47,4 +47,13 @@ public class DecimalRectangle {
 	public String toString(){
 		return "( " + x + " , " + y + " ) [" + width + " , " + height + " ]";
 	}
+
+    @Override
+    public int compareTo(DecimalRectangle dr) {
+        return (dr.height == height && dr.width == width && dr.x == x && dr.y == y) ? 0 : 1;
+    }
+
+    public boolean equals(DecimalRectangle o){
+        return (compareTo(o) == 0 ? true : false);
+    }
 }

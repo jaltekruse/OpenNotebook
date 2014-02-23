@@ -53,5 +53,10 @@ public class SelectionAttribute extends MathObjectAttribute<Selection> {
 		// TODO Auto-generated method stub
 		return SELECTION;
 	}
+	
+	@Override
+	public String toString(){
+		return getValue().getStart() + "," + getValue().getEnd();
+	}
 
 }

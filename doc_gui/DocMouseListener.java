@@ -657,8 +657,7 @@ public class DocMouseListener implements MouseInputListener {
 
 		if (tempGroup.getParentContainer() != null) {
 			if (tempGroup.getObjects().size() == 1) {// there is one one object
-				// left in the temporary
-				// group
+				// left in the temporary group
 				docPanel.setFocusedObject(tempGroup.getObjects().get(0));
 				docPanel.ungroupTempGroup();
 			}

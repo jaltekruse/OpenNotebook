@@ -131,46 +131,46 @@ public class GraphCalculationGraphics extends GraphComponent {
 			double result = Double.MAX_VALUE;
 			for (Derivative d : derivatives){
 				for( SingleGraph sg : d.getInvolvedGraphs()){
-					if (sg instanceof GraphedCartFunction){
-						g.setColor(Color.black);
-						d.getSelection();
-						d.getSelection().getStart();
-						graph.getParser().getVarList().setVarVal(((GraphedCartFunction)sg)
-								.getIndependentVar().getName(), new Decimal(d.getSelection().getStart()));
-//						System.out.println();
-//						System.out.println("class GraphCalculationGraphics:");
-//						System.out.println("graph: " + ((GraphWithExpression) sg).getExpression().toString());
-//						System.out.println("selectionStart: " + d.getSelection().getStart());
-//						System.out.println("derivative: " + ((GraphWithExpression) sg).getExpression().deriveAtPt(
-//								d.getSelection().getStart(),"x", "y").toDec().getValue());
-						
-						result = ((GraphWithExpression) sg).getExpression().deriveAtPt(
-								d.getSelection().getStart(),"x", "y").toDec().getValue();
-						d.setResult(result);
-						d.setGridX(d.getSelection().getStart());
-						double y = ((GraphedCartFunction)sg).getExpression().eval().toDec().getValue();
-						d.setGridY(y);
-						super.drawTangent(d.getSelection().getStart(), y, result, Color.BLACK, g);
-					}
+//					if (sg instanceof GraphedCartFunction){
+//						g.setColor(Color.black);
+//						d.getSelection();
+//						d.getSelection().getStart();
+//						graph.getParser().getVarList().setVarVal(((GraphedCartFunction)sg)
+//								.getIndependentVar().getName(), new Decimal(d.getSelection().getStart()));
+////						System.out.println();
+////						System.out.println("class GraphCalculationGraphics:");
+////						System.out.println("graph: " + ((GraphWithExpression) sg).getExpression().toString());
+////						System.out.println("selectionStart: " + d.getSelection().getStart());
+////						System.out.println("derivative: " + ((GraphWithExpression) sg).getExpression().deriveAtPt(
+////								d.getSelection().getStart(),"x", "y").toDec().getValue());
+//
+//						result = ((GraphWithExpression) sg).getExpression().deriveAtPt(
+//								d.getSelection().getStart(),"x", "y").toDec().getValue();
+//						d.setResult(result);
+//						d.setGridX(d.getSelection().getStart());
+//						double y = ((GraphedCartFunction)sg).getExpression().eval().toDec().getValue();
+//						d.setGridY(y);
+//						super.drawTangent(d.getSelection().getStart(), y, result, Color.BLACK, g);
+//					}
 				}
 			}
 			
-			for (Tracer t : tracers){
-				for( SingleGraph sg : t.getInvolvedGraphs()){
-					if (sg instanceof GraphedCartFunction){
-						g.setColor(Color.black);
-						t.getSelection();
-						t.getSelection().getStart();
-						((GraphedCartFunction)sg).getIndependentVar().setValue(new Decimal(
-								t.getSelection().getStart()));
-						result = ((GraphedCartFunction)sg).getExpression().eval().toDec().getValue();
-						t.setResult(result);
-						t.setGridX(t.getSelection().getStart());
-						t.setGridY(t.getResult());
-						super.drawTracer(t.getSelection().getStart(), result, g);
-					}
-				}
-			}
+//			for (Tracer t : tracers){
+//				for( SingleGraph sg : t.getInvolvedGraphs()){
+//					if (sg instanceof GraphedCartFunction){
+//						g.setColor(Color.black);
+//						t.getSelection();
+//						t.getSelection().getStart();
+//						((GraphedCartFunction)sg).getIndependentVar().setValue(new Decimal(
+//								t.getSelection().getStart()));
+//						result = ((GraphedCartFunction)sg).getExpression().eval().toDec().getValue();
+//						t.setResult(result);
+//						t.setGridX(t.getSelection().getStart());
+//						t.setGridY(t.getResult());
+//						super.drawTracer(t.getSelection().getStart(), result, g);
+//					}
+//				}
+//			}
 			
 		} catch (Exception e){
 			e.printStackTrace();
@@ -186,98 +186,98 @@ public class GraphCalculationGraphics extends GraphComponent {
 		float[] scales = { 1f, 1f, 1f, 0.3f };
 		float[] offsets = new float[4];
 		RescaleOp rop = new RescaleOp(scales, offsets, null);
-		
-		for (Integral i : integrals){
-			for ( SingleGraph sg : i.getInvolvedGraphs()){
-				if (sg instanceof GraphedCartFunction){
-
-					GraphedCartFunction gcf = (GraphedCartFunction) sg;
-					
-					//used to temporarily store the value stored in the independent and dependent vars,
-					//this will allow it to be restored after graphing, so that if in the terminal a
-					//value was assigned to x, it will not be overriden by the action of graphing
-					Number xVal = gcf.getIndependentVar().getValue();
-					Number yVal = gcf.getDependentVar().getValue();
-					
-					graphCompPic = new BufferedImage(graph.X_SIZE, graph.Y_SIZE, BufferedImage.TYPE_4BYTE_ABGR);
-					Graphics picG = graphCompPic.getGraphics();
-					double currX, currY;
-					try{
-						//System.out.println(funcEqtn);
-						Expression expression = gcf.getParser().ParseExpression(gcf.getFuncEqtn());
-						
-						//the small extra value added prevents error when starting at 0
-						gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart() + graph.X_PIXEL/21));
-						if (i.getSelection().getStart() < graph.X_MIN){
-							gcf.getIndependentVar().setValue(new Decimal(graph.X_MIN));
-						}
-						expression.eval();
-						for (int j = 1; j < graph.X_SIZE; j++)
-						{//go through each pixel from the start of the selection to  
-							gcf.getIndependentVar().updateValue(graph.X_PIXEL);
-							expression.eval();
-							currX = gcf.getIndependentVar().getValue().toDec().getValue();
-							currY = gcf.getDependentVar().getValue().toDec().getValue();
-							
-							if (currX > i.getSelection().getEnd()){
-								break;
-							}
-							if (currX >= i.getSelection().getStart() && currX <= i.getSelection().getEnd()) {
-								gcf.setColor(gcf.getColor().brighter());
-								graph.LINE_SIZE = 1;
-								if (currY < graph.Y_MAX && currY > graph.Y_MIN)
-									drawLineSeg(currX, 0, currX, currY, gcf.getColor(), picG);
-								else if (currY <= graph.Y_MIN)
-									drawLineSeg(currX, 0, currX, graph.Y_MIN, gcf.getColor(), picG);
-								else if (currY >= graph.Y_MAX)
-									drawLineSeg(currX, 0, currX, graph.Y_MAX, gcf.getColor(), picG);
-								else
-									;// do nothing
-								gcf.setColor(gcf.getColor().darker());
-							}
-						}
-						((Graphics2D)g).drawImage(graphCompPic, rop, 0, 0);
-						
-						//draw the edges fully opaque so they can be easily seen
-						if (i.getSelection().getStart() > graph.X_MIN && 
-								i.getSelection().getStart() < graph.X_MAX){
-							graph.LINE_SIZE = 1;
-							gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart()));
-							drawLineSeg(i.getSelection().getStart(), 0, i.getSelection().getStart(),
-									gcf.getExpression().eval().toDec().getValue(), gcf.getColor().brighter(), g);
-						}
-						if (i.getSelection().getEnd() > graph.X_MIN && 
-								i.getSelection().getEnd() < graph.X_MAX){
-							graph.LINE_SIZE = 1;
-							gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getEnd()));
-							drawLineSeg(i.getSelection().getEnd(), 0, i.getSelection().getEnd(),
-									gcf.getExpression().eval().toDec().getValue(), gcf.getColor().brighter(), g);
-						}
-					} catch (Exception e){
-						e.printStackTrace();
-					}
-					
-					i.setGridX(i.getSelection().getStart() + 
-							(i.getSelection().getEnd() - i.getSelection().getStart() ) / 2);
-					gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart() + 
-							(i.getSelection().getEnd() - i.getSelection().getStart() ) / 2));
-					
-					try {
-						i.setGridY(gcf.getExpression().eval().toDec().getValue());
-//						i.setResult(((GraphWithExpression) sg).getExpression().integrate(
-//								i.getSelection().getStart(), i.getSelection().getEnd(),
-//								"x", "y").toDec().getValue());
-					} catch (EvalException e) {
-						e.printStackTrace();
-					}
-					
-					gcf.getIndependentVar().setValue(xVal);
-					gcf.getDependentVar().setValue(yVal);
-					
-					graphCompPic.flush();
-				}
-			}
-		}
+//
+//		for (Integral i : integrals){
+//			for ( SingleGraph sg : i.getInvolvedGraphs()){
+//				if (sg instanceof GraphedCartFunction){
+//
+//					GraphedCartFunction gcf = (GraphedCartFunction) sg;
+//
+//					//used to temporarily store the value stored in the independent and dependent vars,
+//					//this will allow it to be restored after graphing, so that if in the terminal a
+//					//value was assigned to x, it will not be overriden by the action of graphing
+//					Number xVal = gcf.getIndependentVar().getValue();
+//					Number yVal = gcf.getDependentVar().getValue();
+//
+//					graphCompPic = new BufferedImage(graph.X_SIZE, graph.Y_SIZE, BufferedImage.TYPE_4BYTE_ABGR);
+//					Graphics picG = graphCompPic.getGraphics();
+//					double currX, currY;
+//					try{
+//						//System.out.println(funcEqtn);
+//						Expression expression = gcf.getParser().ParseExpression(gcf.getFuncEqtn());
+//
+//						//the small extra value added prevents error when starting at 0
+//						gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart() + graph.X_PIXEL/21));
+//						if (i.getSelection().getStart() < graph.X_MIN){
+//							gcf.getIndependentVar().setValue(new Decimal(graph.X_MIN));
+//						}
+//						expression.eval();
+//						for (int j = 1; j < graph.X_SIZE; j++)
+//						{//go through each pixel from the start of the selection to
+//							gcf.getIndependentVar().updateValue(graph.X_PIXEL);
+//							expression.eval();
+//							currX = gcf.getIndependentVar().getValue().toDec().getValue();
+//							currY = gcf.getDependentVar().getValue().toDec().getValue();
+//
+//							if (currX > i.getSelection().getEnd()){
+//								break;
+//							}
+//							if (currX >= i.getSelection().getStart() && currX <= i.getSelection().getEnd()) {
+//								gcf.setColor(gcf.getColor().brighter());
+//								graph.LINE_SIZE = 1;
+//								if (currY < graph.Y_MAX && currY > graph.Y_MIN)
+//									drawLineSeg(currX, 0, currX, currY, gcf.getColor(), picG);
+//								else if (currY <= graph.Y_MIN)
+//									drawLineSeg(currX, 0, currX, graph.Y_MIN, gcf.getColor(), picG);
+//								else if (currY >= graph.Y_MAX)
+//									drawLineSeg(currX, 0, currX, graph.Y_MAX, gcf.getColor(), picG);
+//								else
+//									;// do nothing
+//								gcf.setColor(gcf.getColor().darker());
+//							}
+//						}
+//						((Graphics2D)g).drawImage(graphCompPic, rop, 0, 0);
+//
+//						//draw the edges fully opaque so they can be easily seen
+//						if (i.getSelection().getStart() > graph.X_MIN &&
+//								i.getSelection().getStart() < graph.X_MAX){
+//							graph.LINE_SIZE = 1;
+//							gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart()));
+//							drawLineSeg(i.getSelection().getStart(), 0, i.getSelection().getStart(),
+//									gcf.getExpression().eval().toDec().getValue(), gcf.getColor().brighter(), g);
+//						}
+//						if (i.getSelection().getEnd() > graph.X_MIN &&
+//								i.getSelection().getEnd() < graph.X_MAX){
+//							graph.LINE_SIZE = 1;
+//							gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getEnd()));
+//							drawLineSeg(i.getSelection().getEnd(), 0, i.getSelection().getEnd(),
+//									gcf.getExpression().eval().toDec().getValue(), gcf.getColor().brighter(), g);
+//						}
+//					} catch (Exception e){
+//						e.printStackTrace();
+//					}
+//
+//					i.setGridX(i.getSelection().getStart() +
+//							(i.getSelection().getEnd() - i.getSelection().getStart() ) / 2);
+//					gcf.getIndependentVar().setValue(new Decimal(i.getSelection().getStart() +
+//							(i.getSelection().getEnd() - i.getSelection().getStart() ) / 2));
+//
+//					try {
+//						i.setGridY(gcf.getExpression().eval().toDec().getValue());
+////						i.setResult(((GraphWithExpression) sg).getExpression().integrate(
+////								i.getSelection().getStart(), i.getSelection().getEnd(),
+////								"x", "y").toDec().getValue());
+//					} catch (EvalException e) {
+//						e.printStackTrace();
+//					}
+//
+//					gcf.getIndependentVar().setValue(xVal);
+//					gcf.getDependentVar().setValue(yVal);
+//
+//					graphCompPic.flush();
+//				}
+//			}
+//		}
 	}
 	
 	public void drawInfoBoxes(Graphics g){

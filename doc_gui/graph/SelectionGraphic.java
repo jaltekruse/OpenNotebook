@@ -51,14 +51,14 @@ public class SelectionGraphic extends GraphComponent {
 		g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 100));
 		if (selection.getStart() != Selection.EMPTY){
 			if (selection.getEnd() != Selection.EMPTY){
-				g2d.fillRect(gridxToScreen(selection.getStart()) + 3, 0, gridxToScreen(selection.getEnd()) - gridxToScreen(selection.getStart()) - 6, graph.Y_SIZE);
+				g2d.fillRect(gridxToScreen(selection.getStart()) + 3, graph.Y_PIC_ORIGIN, gridxToScreen(selection.getEnd()) - gridxToScreen(selection.getStart()) - 6, graph.Y_SIZE);
 				g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 180));
-				g2d.fillRect(gridxToScreen(selection.getStart()), 0, 3, graph.Y_SIZE);
-				g2d.fillRect(gridxToScreen(selection.getEnd()) - 3, 0, 3, graph.Y_SIZE);
+				g2d.fillRect(gridxToScreen(selection.getStart()), graph.Y_PIC_ORIGIN, 3, graph.Y_SIZE);
+				g2d.fillRect(gridxToScreen(selection.getEnd()) - 3, graph.Y_PIC_ORIGIN, 3, graph.Y_SIZE);
 			}
 			else{
 				g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 180));
-				g2d.fillRect(gridxToScreen(selection.getStart()) - 1, 0, 3, graph.Y_SIZE);
+				g2d.fillRect(gridxToScreen(selection.getStart()) - 1, graph.Y_PIC_ORIGIN, 3, graph.Y_SIZE);
 			}
 		}
 		

@@ -79,6 +79,11 @@ public class PageGUI {
 	public static final int MOUSE_ENTERED = 11;
 	public static final int MOUSE_EXITED = 12;
 
+    public static final char UP = 21;
+    public static final char DOWN = 22;
+    public static final char LEFT = 23;
+    public static final char RIGHT = 24;
+
 	/**
 	 * Constructor used for painting to the screen.
 	 * 
@@ -150,7 +155,13 @@ public class PageGUI {
 
 		}
 		else{
-			//			System.out.println("unreconginzed object (PageGUI.handleMouseAction)");
+						System.out.println("unreconginzed object (PageGUI.handleMouseAction)");
+		}
+	}
+	
+	public void handleKeypress(MathObject mObj, char key){
+		if (mObj instanceof ExpressionObject){
+			docPanel.repaintDoc();
 		}
 	}
 
@@ -169,6 +180,34 @@ public class PageGUI {
 		}
 
 	}
+
+    public MathObjectGUI getGUIForObj(MathObject mObj){
+
+        if (mObj instanceof TextObject){
+            return textGUI;
+        }
+        else if (mObj instanceof OvalObject){
+            return  ovalGUI;
+        }
+        else if (mObj instanceof GraphObject){
+            return graphGUI;
+        }
+        else if (mObj instanceof PolygonObject){
+            return polygonGUI;
+        }
+        else if(mObj instanceof ExpressionObject){
+            return expressionGUI;
+        }
+        else if (mObj instanceof NumberLineObject){
+            return numLineGUI;
+        }
+        else if (mObj instanceof AnswerBoxObject){
+            return answerBoxGUI;
+        }
+        else{
+            throw new RuntimeException("could not find an object GUI for the type, " + mObj.getClass() );
+        }
+    }
 
 	public void drawObject(MathObject mObj, Graphics g, Page p, Point pageOrigin, Rectangle visiblePageSection,
 			float zoomLevel){

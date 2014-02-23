@@ -27,7 +27,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 
-import sun.org.mozilla.javascript.ast.ThrowStatement;
 
 public class FileActionsToolBar extends JToolBar {
 

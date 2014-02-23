@@ -16,6 +16,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import doc.mathobjects.DecimalRectangle;
+import doc.mathobjects.MathObject;
+import doc_gui.PageGUI;
 import math_rendering.Cursor;
 import math_rendering.RootNodeGraphic;
 import tree.ExpressionParser;
@@ -28,10 +31,59 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 
 	private ExpressionParser parser;
 	public static final String EX_ERROR = "Expression Error";
+    private RootNodeGraphic current;
+    private ExpressionObject currentExObj;
+    private String currentEx;
+    boolean currentSelectionStep = false;
+    int currentStepIndex;
+    DecimalRectangle currentPosSize;
+    float currentZoom;
 
 	public ExpressionObjectGUI(){
 		parser = new ExpressionParser();
 	}
+
+    @Override
+    public boolean keyPressed(MathObject mObj, char key) throws NodeException {
+        switch (key){
+            case PageGUI.UP:
+                current.getCursor().getValueGraphic().moveCursorNorth();
+                break;
+            case PageGUI.DOWN:
+                current.getCursor().getValueGraphic().moveCursorSouth();
+                break;
+            case PageGUI.LEFT:
+                current.getCursor().getValueGraphic().moveCursorWest();
+                break;
+            case PageGUI.RIGHT:
+                current.getCursor().getValueGraphic().moveCursorEast();
+                break;
+            case 'm':
+                mObj.performSpecialObjectAction(ExpressionObject.MODIFY_EXPRESSION);
+                break;
+            case 'o':
+                mObj.performSpecialObjectAction(ExpressionObject.OTHER_OPERATIONS);
+                break;
+            case 'u':
+                mObj.performSpecialObjectAction(ExpressionObject.UNDO_STEP);
+                break;
+            case '-':
+                mObj.performSpecialObjectAction(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES);
+                break;
+            case '+':
+                mObj.performSpecialObjectAction(ExpressionObject.ADD_TO_BOTH_SIDES);
+                break;
+            case '*':
+                mObj.performSpecialObjectAction(ExpressionObject.MULTIPLY_BOTH_SIDES);
+                break;
+            case '/':
+                mObj.performSpecialObjectAction(ExpressionObject.DIVIDE_BOTH_SIDES);
+                break;
+            default:
+                return false;
+        }
+        return true;
+    }
 
 	public void drawInteractiveComponents(ExpressionObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
@@ -61,18 +113,36 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			Vector<RootNodeGraphic> expressions = new Vector<RootNodeGraphic>();
 
 			// add the expression
-			rootGraphic = new RootNodeGraphic(n);
 			try {
 				n = Node.parseNode(object.getExpression());
-				rootGraphic = new RootNodeGraphic(n);
-				rootGraphic.generateExpressionGraphic(g, outerBufferSpace + xOrigin,
-						outerBufferSpace + yOrigin, fontSize, zoomLevel);
+                boolean objectChanged = currentSelectionStep || current == null || currentExObj != object ||
+                        ! object.getDecimalRectangleBounds().equals(currentPosSize) || ! currentEx.equals(object.getExpression());
+                if ( objectChanged){
+                    rootGraphic = new RootNodeGraphic(n);
+                    rootGraphic.generateExpressionGraphic(g, outerBufferSpace + xOrigin,
+                            outerBufferSpace + yOrigin, fontSize, zoomLevel);
+                }
+                else if (currentZoom != zoomLevel){
+                    rootGraphic = current;
+                    rootGraphic.requestSize(g, outerBufferSpace + xOrigin,
+                            outerBufferSpace + yOrigin, fontSize, zoomLevel);
+                }
+                else{
+                    rootGraphic = current;
+                    rootGraphic.setGraphics(g);
+                }
 				// keep these next three lines in the try catch block, they should only happen
 				// if they line above does not throw an error
 				expressions.add(rootGraphic);
 				yPosOfSteps.add(rootGraphic.yPos);
 				totalHeight = rootGraphic.getHeight();
 				greatestWidth = rootGraphic.getWidth();
+                currentSelectionStep = false;
+                current = rootGraphic;
+                currentExObj = object;
+                currentEx = object.getExpression();
+                currentPosSize = object.getDecimalRectangleBounds();
+                currentZoom = zoomLevel;
 			} catch (Exception e) {
 				indeciesInError.add(currentIndex);
 				yPosOfSteps.add(outerBufferSpace + yOrigin);
@@ -93,6 +163,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 
 			// add the steps to the list of expressions to render
 			String s;
+            int i = 0;
 			for (StringAttribute mAtt : steps){
 				s = mAtt.getValue();
 				currentIndex++;
@@ -100,6 +171,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 				try{
 					n = Node.parseNode(s);
 					rootGraphic = new RootNodeGraphic(n);
+//                    current = rootGraphic;
 					rootGraphic.generateExpressionGraphic(g, xOrigin + outerBufferSpace,
 							outerBufferSpace + yOrigin + totalHeight, fontSize, zoomLevel);
 					expressions.add(rootGraphic);
@@ -108,6 +180,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 						greatestWidth = rootGraphic.getWidth();
 					}
 					totalHeight += rootGraphic.getHeight();
+                    i++;
 				}catch (Exception e) {
 					indeciesInError.add(currentIndex);
 					totalHeight += errorMessageHeight;
@@ -149,7 +222,8 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 							g.fillRect(r.xPos - 4, r.yPos - 4, r.getWidth() + 8, r.getHeight() + 8);
 							g.setColor(Color.BLACK);
 						}
-						//r.setCursor(new Cursor(r.getRoot().getMostInnerWest(),0));
+                        if ( index != 0)
+    						r.setCursor(new Cursor(null,0));
 						r.draw();
 					}
 				} catch (NodeException e) {
@@ -169,6 +243,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			g2d.setPaint(Color.BLACK);
 			g.drawRect(xOrigin, yOrigin , width, height);
 		}
+
 
 	};
 
@@ -207,6 +282,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 							(int) (object.getHeight() * zoomLevel));
 				}
 				g.setColor(Color.BLACK);
+                ceg.getCursor().setValueGraphic(null);
 				ceg.draw();
 			}
 			else{

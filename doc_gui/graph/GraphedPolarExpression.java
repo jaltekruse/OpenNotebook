@@ -21,8 +21,8 @@ public class GraphedPolarExpression extends GraphWithExpression {
 	 * @throws ParseException 
 	 */
 	
-	public GraphedPolarExpression(String s, Graph g, Color c) {
-		super(s, ep, g, c);
+	public GraphedPolarExpression(String s, Graph g, Color c) throws NodeException {
+		super(s, g, c);
 	}
 	
 	/**

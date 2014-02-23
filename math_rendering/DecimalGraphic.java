@@ -14,6 +14,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Vector;
 
+import expression.NodeException;
 import expression.Number;
 
 public class DecimalGraphic extends NodeGraphic<Number> {
@@ -56,12 +57,12 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	
 	@Override
 	public int getMaxCursorPos(){
-		return getValue().toString().length();
+		return getValue().toStringRepresentation().length();
 	}
 	
 	public int findCursorXPos(){
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
-		String numberString = getValue().toString();
+		String numberString = getValue().toStringRepresentation();
 		return getX1() + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
 				numberString.substring(0, super.getRootNodeGraphic().getCursor().getPos()));
 	}
@@ -69,7 +70,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	@Override
 	public void setCursorPos(int xPixelPos){
 		
-		String numberString = getValue().toString();
+		String numberString = getValue().toStringRepresentation();
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
 		
@@ -111,7 +112,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void moveCursorWest(){
+	public void moveCursorWest() throws NodeException {
 		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
 		}
@@ -130,7 +131,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	
 	@Override
 	public void moveCursorEast(){
-		if (super.getRootNodeGraphic().getCursor().getPos() < getValue().toString().length()){
+		if (super.getRootNodeGraphic().getCursor().getPos() < getValue().toStringRepresentation().length()){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() + 1); 
 		}
 		else{
@@ -147,7 +148,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void moveCursorNorth(){
+	public void moveCursorNorth() throws NodeException {
 		if (getNorth() == null)
 		{
 //			System.out.println("nothing to north");
@@ -161,7 +162,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void moveCursorSouth(){
+	public void moveCursorSouth() throws NodeException {
 		if (getSouth() == null)
 		{
 //			System.out.println("nothing to south");
@@ -193,7 +194,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
 //		System.out.println("Dec graphic in from north, cursor: " +
-//				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toString());
+//				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toStringRepresentation());
 	}
 	
 	@Override

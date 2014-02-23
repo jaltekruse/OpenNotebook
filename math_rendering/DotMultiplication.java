@@ -6,6 +6,7 @@ import java.awt.Graphics;
 
 import expression.Expression;
 import expression.Node;
+import expression.NodeException;
 
 public class DotMultiplication extends BinExpressionGraphic {
 
@@ -58,7 +59,7 @@ private int space;
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
 		String numberString = getValue().getOperator().getSymbol();
 		
@@ -95,7 +96,7 @@ private int space;
 	}
 	
 	@Override
-	public void moveCursorWest(){
+	public void moveCursorWest() throws NodeException {
 		if (super.getRootNodeGraphic().getCursor().getPos() > 0){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() - 1); 
 		}
@@ -131,7 +132,7 @@ private int space;
 	}
 	
 	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg){
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
 		super.getRootNodeGraphic().getCursor().setValueGraphic(getLeftGraphic().getMostInnerEast());
 		super.getRootNodeGraphic().getCursor().setPos(getLeftGraphic().getMostInnerEast().getMaxCursorPos() - 1);
 	}

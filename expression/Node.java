@@ -39,7 +39,7 @@ public abstract class Node implements Cloneable {
 	/**  Returns a {@code String} representation 
 	 * of this expression tree. 
 	 * @throws NodeException */
-	public abstract String toStringRepresentation() throws NodeException;
+	public abstract String toStringRepresentation() ;
 
 	/**
 	 * Returns a deep copy of this {@code Node}; 
@@ -257,13 +257,8 @@ public abstract class Node implements Cloneable {
 			}
 		}
 		else{
-			try {
-				System.out.println( space + n.toStringRepresentation());
-			} catch (NodeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+            System.out.println( space + n.toStringRepresentation());
+        }
 	}
 
 	public abstract Vector<Node> splitOnAddition();

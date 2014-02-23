@@ -31,7 +31,7 @@ public abstract class MathObject implements Cloneable{
 
 	private Vector<ListAttribute<?>> attrLists;
 	
-	private Vector<NamedObjectList<MathObject>> objectLists;
+	private Vector<NamedObjectList> objectLists;
 	
 	// this will often be unused for now, only for identifying sub-objects in the above list
 	// later it could be used to refer to objects in scripts
@@ -113,7 +113,7 @@ public abstract class MathObject implements Cloneable{
 		actions = new Vector<String>();
 		attrLists = new Vector<ListAttribute<?>>();
 		studentActions = new Vector<String>();
-		setObjectLists(new Vector<NamedObjectList<MathObject>>());
+		setObjectLists(new Vector<NamedObjectList>());
 
 		setHorizontallyResizable(true);
 		setVerticallyResizable(true);
@@ -499,6 +499,11 @@ public abstract class MathObject implements Cloneable{
 		return new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
 	}
 
+
+    public DecimalRectangle getDecimalRectangleBounds() {
+        return new DecimalRectangle(getxPos(), getyPos(), getWidth(), getHeight());
+    }
+
 	public void setWidth(int width) {
 		if (width == 0)
 			width = 1;
@@ -563,10 +568,28 @@ public abstract class MathObject implements Cloneable{
 		}
 		return null;
 	}
+	
+	public synchronized NamedObjectList getObjListWithName(String n) {
+		for (NamedObjectList list : objectLists) {
+			if (list.getName().equals(n)) {
+				return list;
+			}
+		}
+		return null;
+	}
 
 	public boolean addList(ListAttribute l) {
 		if (getListWithName(l.getName()) == null) {// the name is not in use
 			attrLists.add(l);
+			l.setParentObject(this);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean addObjectList(NamedObjectList l) {
+		if (getListWithName(l.getName()) == null) {// the name is not in use
+			objectLists.add(l);
 			l.setParentObject(this);
 			return true;
 		}
@@ -669,11 +692,11 @@ public abstract class MathObject implements Cloneable{
 		this.actionCancelled = actionCancelled;
 	}
 
-	public Vector<NamedObjectList<MathObject>> getObjectLists() {
+	public Vector<NamedObjectList> getObjectLists() {
 		return objectLists;
 	}
 
-	public void setObjectLists(Vector<NamedObjectList<MathObject>> objectLists) {
+	public void setObjectLists(Vector<NamedObjectList> objectLists) {
 		this.objectLists = objectLists;
 	}
 

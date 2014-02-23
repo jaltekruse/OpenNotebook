@@ -33,9 +33,7 @@ public class GraphObject extends MathObject {
 			POINTS = "points", LINE_GRAPH = "line graph points", LINE_GRAPH_COLOR = "line graph color",
 			SELECTION = "selection",
 			BAR_GRAPH_VALUES = "Bar graph values", BAR_GRAPH_GROUP_SIZE = "Bar graph group size",
-			BAR_GRAPH_LABELS = "Bar graph labels", RAW_SPIKE_REMOVAL = "Raw spike removal",
-			RUNNING_SLOPE_AVE = "Running slope average",POINTS_REMOVED = "Points removed",
-			TOTAL_NNS = "Total NNs", SUBSET_NNS = "Subset nns";
+			BAR_GRAPH_LABELS = "Bar graph labels";
 	
 	public static final String DEFAULT_GRID = "default grid",
 			ZOOM_IN = "zoom in", ZOOM_OUT = "zoom out", MOVE_LEFT = "move left",
@@ -83,21 +81,13 @@ public class GraphObject extends MathObject {
 					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
 			
 			addList(new ListAttribute<DoubleAttribute>(BAR_GRAPH_VALUES,
-					new DoubleAttribute("", -7E8, 7E8), 50, false, false));
-			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, false));
+					new DoubleAttribute("", -7E8, 7E8), 50, false, true));
+			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, true));
 			
 			addList(new ListAttribute<StringAttribute>(BAR_GRAPH_LABELS,
-					new StringAttribute(""), 100, false, false));
+					new StringAttribute(""), 100, false, true));
 			
 			addAttribute(new SelectionAttribute(SELECTION, new Selection(), false));
-			
-			addAttribute(new BooleanAttribute(RAW_SPIKE_REMOVAL, false, false));
-			addAttribute(new DoubleAttribute(RUNNING_SLOPE_AVE, 0, -5000, 5000));
-			
-			addAttribute(new IntegerAttribute(POINTS_REMOVED, 0, 0, 500000, false, false));
-			
-			addAttribute(new IntegerAttribute(TOTAL_NNS, 0, 0, 1000000));
-			addAttribute(new IntegerAttribute(SUBSET_NNS, 0, 0, 1000000));
 			
 			addAttribute(new DoubleAttribute(X_MIN, -7E8, 7E8, true, true));
 			getAttributeWithName(X_MIN).setValueWithString("-5");
@@ -295,18 +285,6 @@ public class GraphObject extends MathObject {
 	
 	public Selection getSelection(){
 		 return (Selection) getAttributeWithName(SELECTION).getValue();
-	}
-	
-	public boolean removeSpikes(){
-		return ((BooleanAttribute) getAttributeWithName(RAW_SPIKE_REMOVAL)).getValue();
-	}
-	
-	public double getRunningSlopAverage(){
-		return ((DoubleAttribute) getAttributeWithName(RUNNING_SLOPE_AVE)).getValue();
-	}
-	
-	public void setRunningSlopAverage(double d){
-		((DoubleAttribute) getAttributeWithName(RUNNING_SLOPE_AVE)).setValue(d);
 	}
 	
 	public double getxStep(){
