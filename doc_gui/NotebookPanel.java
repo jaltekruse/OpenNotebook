@@ -454,7 +454,7 @@ public class NotebookPanel extends SubPanel {
 		DataOutputStream    printout = null;
 		DataInputStream     dataInput = null;
 		try {
-			url = new URL ("http://localhost/index.php/auth/login");
+			url = new URL ("http://open-math.com/index.php?/auth/login");
 			urlConn = (HttpURLConnection) url.openConnection();
 			urlConn.setDoInput (true);
 			urlConn.setDoOutput (true);
@@ -473,7 +473,9 @@ public class NotebookPanel extends SubPanel {
 			printout.close ();
 			if ( urlConn.getResponseCode() == 302 || urlConn.getResponseCode() == 303){
 				// redirect sent back, need to send out a new request
+				System.out.println(urlConn.getHeaderField("Location"));
 				String cookie = urlConn.getHeaderField("Set-Cookie");
+				System.out.println(cookie);
 				getOpenNotebook().setCookie(cookie);
 				JOptionPane.showMessageDialog(null, "Connection to Open-Math was successful.",
 						"Connection Success", JOptionPane.WARNING_MESSAGE);

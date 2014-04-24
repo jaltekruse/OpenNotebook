@@ -27,6 +27,8 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpParams;
 
+import com.sun.xml.internal.messaging.saaj.packaging.mime.Header;
+
 
 public class FileActionsToolBar extends JToolBar {
 
@@ -59,6 +61,7 @@ public class FileActionsToolBar extends JToolBar {
 		
 		icon = notebookPanel.getIcon("img/save_cloud.png");
 
+        
 		new OCButton(icon, "Save To Open-Math Cloud", 1, 1, 2, 0, this){
 
 			@Override
@@ -90,15 +93,16 @@ public class FileActionsToolBar extends JToolBar {
 				    out.write(doc);
 				    out.close();
 				} catch (IOException e) {
+					e.printStackTrace();
 				}
 				
 				HttpClient client = new DefaultHttpClient();
 				HttpParams params = new BasicHttpParams();
 				params.setParameter("http.protocol.handle-redirects", true);
-				HttpPost post = new HttpPost("http://localhost/index.php/user/upload_doc");
+				HttpPost post = new HttpPost("http://open-math.com/index.php?/user/upload_doc");
 				post.setParams(params);
 				post.setHeader("Cookie", OpenNotebook.getCookie());
-
+				System.out.println("cookie: " + OpenNotebook.getCookie());
 				FileBody fileBody = new FileBody(temp);
 				System.out.println(fileBody.getContentLength());
 				MultipartEntity entity = new MultipartEntity();
@@ -117,14 +121,22 @@ public class FileActionsToolBar extends JToolBar {
 				try {
 
 					HttpResponse response = client.execute(post);
+					System.out.println("code:" + response.getStatusLine().getStatusCode());
 					
+					for (org.apache.http.Header h : response.getAllHeaders() ){
+						System.out.println(h.getName() + " : " + h.getValue());
+					}
 					HttpEntity responseEntity = response.getEntity();
+					
 					DataInputStream dataInput = new DataInputStream (responseEntity.getContent());
 					String str;
+					System.out.println("got a response!!");
+					
 					while (null != ((str = dataInput.readLine())))
 					{
-						System.out.println (str);
+						System.out.println ("resp line:" + str);
 					}
+					
 				    temp.delete();
 				    tempDir.delete();
 				} catch (ClientProtocolException e) {
@@ -147,6 +159,7 @@ public class FileActionsToolBar extends JToolBar {
 			public void associatedAction(){
 			}
 		};
+		
 
 		
 //		new OCButton("frame", "open frame", 1, 1, 2, 0, this){
@@ -267,6 +280,17 @@ public class FileActionsToolBar extends JToolBar {
 				notebookPanel.setSampleDialogVisible(true);
 			}
 		};
+/*
+    new OCButton("Grade", "Grade",
+      1, 1, 3, 0, this){
+
+      @Override
+      public void associatedAction(){
+        notebookPanel.setSampleDialogVisible(true);
+      }
+    };
+    
+    */
 	}
 
 }

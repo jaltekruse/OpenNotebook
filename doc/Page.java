@@ -15,7 +15,7 @@ import java.util.Vector;
 import doc.attributes.MathObjectAttribute;
 import doc.mathobjects.*;
 
-public class Page implements MathObjectContainer{
+public class Page extends MathObject implements MathObjectContainer{
 
 	private Vector<MathObject> objects;
 
@@ -109,8 +109,13 @@ public class Page implements MathObjectContainer{
 		}
 		return newPage;
 	}
-	
-	public void bringObjectToFront(MathObject mObj){
+
+  @Override
+  public MathObject newInstance() {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  public void bringObjectToFront(MathObject mObj){
 		objects.remove(mObj);
 		objects.add(mObj);
 	}
@@ -178,7 +183,12 @@ public class Page implements MathObjectContainer{
 		objects.add(0,mObj);
 	}
 
-	public String exportToXML(){
+  @Override
+  public String getType() {
+    return PAGE;
+  }
+/*
+  public String exportToXML(){
 		//should store page width and height at document level
 		//do not need to allow teachers to mix page orientations
 		String output = "";
@@ -189,6 +199,7 @@ public class Page implements MathObjectContainer{
 		output += "</Page>\n";
 		return output;
 	}
+	*/
 
 	public int getWidth() {
 		return getParentDoc().getWidth();

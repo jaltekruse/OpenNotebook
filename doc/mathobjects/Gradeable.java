@@ -1,6 +1,6 @@
 package doc.mathobjects;
 
-public interface Gradeable {
+public interface Gradeable<T extends Gradeable> {
 
-	public int[] grade();
+	public int[] grade(T answer);
 }

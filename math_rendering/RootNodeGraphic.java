@@ -57,12 +57,12 @@ public class RootNodeGraphic{
 		draw(root);
 //		for (ValueGraphic vg : components){
 //			graphics.setFont(vg.getFont());
-//			vg.draw();
+//			vg.draw()
 //		}
 //		System.out.println("CEG drawCursor?");
 		if (cursor.getValueGraphic() != null){
-			cursor.getValueGraphic().drawCursor();
-			System.out.println("CEG drawCursor");
+			//cursor.getValueGraphic().drawCursor();
+			//System.out.println("CEG drawCursor");
 		}
 	}
 	

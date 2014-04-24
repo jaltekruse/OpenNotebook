@@ -490,6 +490,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 				currentViewer.getFocusedObject().getParentContainer() instanceof Grouping){
 			((Grouping)currentViewer.getFocusedObject().getParentContainer()).adjustSizeToFitChildren();
 		}
+    this.update();
 		currentViewer.repaintDoc();
 	}
 

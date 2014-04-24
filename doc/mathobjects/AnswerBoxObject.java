@@ -10,7 +10,7 @@ import doc.attributes.StringAttribute;
 import doc.attributes.UUIDAttribute;
 import doc_gui.attribute_panels.ObjectPropertiesFrame;
 
-public class AnswerBoxObject extends MathObject implements Gradeable {
+public class AnswerBoxObject extends MathObject implements Gradeable<AnswerBoxObject> {
 
 	public static final String FONT_SIZE = "font size", STUDENT_ANSWER = "student answer", CORRECT_ANSWERS = "correct answers",
 			ANSWER_TYPE = "answer type", EXPRESSION = "expression", PLAIN_TEXT = "plain text", NUMBER = "number",
@@ -34,7 +34,7 @@ public class AnswerBoxObject extends MathObject implements Gradeable {
 
 	@Override
 	public void addDefaultAttributes() {
-		this.addAction(GRADE);
+		//this.addAction(GRADE);
 		addAttribute(new StringAttribute(STUDENT_ANSWER, "", true, true));
 		addList(new ListAttribute<StringAttribute>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
@@ -44,10 +44,10 @@ public class AnswerBoxObject extends MathObject implements Gradeable {
 		addAttribute(new EnumeratedAttribute(ANSWER_TYPE, PLAIN_TEXT, ANSWER_TYPES));
 	}
 	
-	public int[] grade(){
+	public int[] grade(AnswerBoxObject answer){
 		int[] ret = new int[2];
 		if (getAttributeValue(ANSWER_TYPE).equals(PLAIN_TEXT)){
-			if (getListWithName(CORRECT_ANSWERS).contains(getAttributeValue(STUDENT_ANSWER))){
+			if (answer.getListWithName(CORRECT_ANSWERS).contains(getAttributeValue(STUDENT_ANSWER))){
 				System.out.println("contains true");
 				ret[0] = getTotalPoints();
 				ret[1] = getTotalPoints();
@@ -91,7 +91,7 @@ public class AnswerBoxObject extends MathObject implements Gradeable {
 	
 	public void performSpecialObjectAction(String s){
 		if (s.equals(GRADE)){
-			this.grade();
+			this.grade(this);
 		}
 	}
 
