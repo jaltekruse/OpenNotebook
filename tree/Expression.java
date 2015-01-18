@@ -16,6 +16,8 @@ public abstract class Expression {
 	//the parser currently in use, stores the calculator state
 	//used for calculation of trig functions and finding variable values
 	private static ExpressionParser parser;
+	// position of cusor in this element, anything less than 0 means its not here
+	private int cursorPosition;
 	
 	public Expression(ExpressionParser p){
 		parser = p;
@@ -27,7 +29,15 @@ public abstract class Expression {
 		op = o;
 	}
 	
-	public Operator getOperator()
+	public int getCursorPos() {
+		return cursorPosition;	
+	}
+	
+	public void setCursorPos(int cursorPos) {
+		this.cursorPosition = cursorPos;
+	}
+	
+	public Operator getOp()
 	{
 		return op;
 	}
@@ -72,10 +82,10 @@ public abstract class Expression {
 	public Expression findParentTermRoot(){
 		if (hasParent()){
 			if (getParent() instanceof Expression){
-				if ((getParent()).getOperator() != Operator.ADD
-						&& (getParent()).getOperator() != Operator.SUBTRACT
-						&& (getParent()).getOperator() != Operator.EQ
-						&& (getParent()).getOperator() != Operator.ASSIGN){
+				if ((getParent()).getOp() != Operator.ADD
+						&& (getParent()).getOp() != Operator.SUBTRACT
+						&& (getParent()).getOp() != Operator.EQ
+						&& (getParent()).getOp() != Operator.ASSIGN){
 					return getParent().findParentTermRoot();
 				}
 			}
@@ -107,7 +117,7 @@ public abstract class Expression {
 	public boolean onLeftSideEquation(){
 		if (hasParent()){
 			if (getParent() instanceof BinExpression){
-				if (((BinExpression)getParent()).getOperator() == Operator.ASSIGN){
+				if (((BinExpression)getParent()).getOp() == Operator.ASSIGN){
 					if (isLeftChild()){
 						return true;
 					}
@@ -121,7 +131,7 @@ public abstract class Expression {
 	public boolean onRightSideEquation(){
 		if (hasParent()){
 			if (getParent() instanceof BinExpression){
-				if (((BinExpression)getParent()).getOperator() == Operator.ASSIGN){
+				if (((BinExpression)getParent()).getOp() == Operator.ASSIGN){
 					if (isRightChild()){
 						return true;
 					}

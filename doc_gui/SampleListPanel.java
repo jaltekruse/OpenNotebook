@@ -13,7 +13,7 @@ import javax.swing.ListSelectionModel;
 
 public class SampleListPanel extends JPanel{
 
-	private String[] documents = { "Teacher Mode Tutorial", "Problem Generation Tutorial",
+	private String[] documents = { "teacher_overview", "Teacher Mode Tutorial", "Problem Generation Tutorial",
 			"Student Mode Tutorial", "Factoring", "Parabola Graphs",
 			"Sine Graphs", "Proportions", "Linear Graphs",
 			"Word Problems", "Random Quiz"};

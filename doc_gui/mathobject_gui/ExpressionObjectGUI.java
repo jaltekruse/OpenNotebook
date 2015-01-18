@@ -19,8 +19,9 @@ import java.util.Vector;
 import doc.mathobjects.DecimalRectangle;
 import doc.mathobjects.MathObject;
 import doc_gui.PageGUI;
+import math_rendering.CompleteExpressionGraphic;
 import math_rendering.Cursor;
-import math_rendering.RootNodeGraphic;
+import tree.Expression;
 import tree.ExpressionParser;
 import doc.attributes.StringAttribute;
 import doc.mathobjects.ExpressionObject;
@@ -29,15 +30,15 @@ import expression.NodeException;
 
 public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 
-	private ExpressionParser parser;
 	public static final String EX_ERROR = "Expression Error";
-    private RootNodeGraphic current;
+    private CompleteExpressionGraphic current;
     private ExpressionObject currentExObj;
     private String currentEx;
     boolean currentSelectionStep = false;
     int currentStepIndex;
     DecimalRectangle currentPosSize;
     float currentZoom;
+    ExpressionParser parser;
 
 	public ExpressionObjectGUI(){
 		parser = new ExpressionParser();
@@ -96,7 +97,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		int stepBufferSpace = (int) (10 * zoomLevel);
 		Graphics2D g2d = (Graphics2D) g;
 
-		RootNodeGraphic rootGraphic;
+		CompleteExpressionGraphic rootGraphic;
 		if ( ! object.getExpression().equals("")){
 			// if any of the steps cannot be rendered, this information will allow
 			// space to be left for printing an error message in its place
@@ -104,21 +105,21 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			int errorMessageHeight = g.getFontMetrics().getHeight();
 			int errorMessageWidth = g.getFontMetrics().stringWidth(EX_ERROR);
 
-			Node n = null;
+			Expression n = null;
 			int totalHeight = 0;
 			int greatestWidth = 0;
 			Vector<Integer> indeciesInError = new Vector<Integer>();
 			Vector<Integer> yPosOfSteps = new Vector<Integer>();
 			int currentIndex = 0;
-			Vector<RootNodeGraphic> expressions = new Vector<RootNodeGraphic>();
+			Vector<CompleteExpressionGraphic> expressions = new Vector<CompleteExpressionGraphic>();
 
 			// add the expression
 			try {
-				n = Node.parseNode(object.getExpression());
+				n = parser.ParseExpression(object.getExpression());
                 boolean objectChanged = currentSelectionStep || current == null || currentExObj != object ||
                         ! object.getDecimalRectangleBounds().equals(currentPosSize) || ! currentEx.equals(object.getExpression());
                 if ( objectChanged){
-                    rootGraphic = new RootNodeGraphic(n);
+                    rootGraphic = new CompleteExpressionGraphic(n);
                     rootGraphic.generateExpressionGraphic(g, outerBufferSpace + xOrigin,
                             outerBufferSpace + yOrigin, fontSize, zoomLevel);
                 }
@@ -129,7 +130,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
                 }
                 else{
                     rootGraphic = current;
-                    rootGraphic.setGraphics(g);
+                    rootGraphic.setGraphics( (Graphics2D) g);
                 }
 				// keep these next three lines in the try catch block, they should only happen
 				// if they line above does not throw an error
@@ -169,8 +170,8 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 				currentIndex++;
 				totalHeight += stepBufferSpace;
 				try{
-					n = Node.parseNode(s);
-					rootGraphic = new RootNodeGraphic(n);
+					n = parser.ParseExpression(s);
+					rootGraphic = new CompleteExpressionGraphic(n);
 //                    current = rootGraphic;
 					rootGraphic.generateExpressionGraphic(g, xOrigin + outerBufferSpace,
 							outerBufferSpace + yOrigin + totalHeight, fontSize, zoomLevel);
@@ -204,7 +205,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			g.setColor(Color.BLACK);
 			int index = 0;
 			int numberOfSteps = steps.size() + 1;
-			for (RootNodeGraphic r : expressions){
+			for (CompleteExpressionGraphic r : expressions){
 				try {
 					if ( indeciesInError.contains(index)){
 						g.setFont(new Font("SansSerif", 0, fontSize));
@@ -267,12 +268,12 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		int errorMessageHeight = g.getFontMetrics().getHeight();
 		int errorMessageWidth = g.getFontMetrics().stringWidth(EX_ERROR);
 
-		RootNodeGraphic ceg;
+		CompleteExpressionGraphic ceg;
 		try {
 			g.setColor(object.getColor());
 			if ( ! object.getExpression().equals("")){
-				Node n = Node.parseNode(object.getExpression());
-				ceg = new RootNodeGraphic(n);
+				Expression n = parser.ParseExpression(object.getExpression());
+				ceg = new CompleteExpressionGraphic(n);
 				ceg.generateExpressionGraphic(g, bufferSpace + xOrigin,
 						bufferSpace + yOrigin, fontSize, zoomLevel);
 				object.setWidth( (int) (ceg.getWidth() / zoomLevel) + 10);

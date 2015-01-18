@@ -855,11 +855,14 @@ public class NotebookPanel extends SubPanel {
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();
-				f.flush();
-				f.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} finally {
+				try {
+					f.flush();
+					f.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 			JOptionPane.showMessageDialog(null, "Error saving file", "Error",

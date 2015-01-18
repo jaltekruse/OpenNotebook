@@ -10,18 +10,18 @@ package math_rendering;
 
 public class ExpressionGraphicCursor {
 	
-	private NodeGraphic currValue;
+	private ValueGraphic currValue;
 	private int positionWithinValue;
 	
-	public ExpressionGraphicCursor(NodeGraphic vg, int pos){
+	public ExpressionGraphicCursor(ValueGraphic vg, int pos){
 		currValue = vg;
 		positionWithinValue = pos;
 	}
 	
-	public void setCurrValue(NodeGraphic currValue) {
+	public void setCurrValue(ValueGraphic currValue) {
 		this.currValue = currValue;
 	}
-	public NodeGraphic getCurrValue() {
+	public ValueGraphic getCurrValue() {
 		return currValue;
 	}
 

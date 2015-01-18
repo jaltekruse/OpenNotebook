@@ -54,7 +54,7 @@ public class BinExpression extends Expression {
 	}
 	
 	@Override
-	public Operator getOperator(){
+	public Operator getOp(){
 		// has access to op from superclass Expression
 		return op;
 	}
@@ -190,7 +190,7 @@ public class BinExpression extends Expression {
 		String result = new String();
 		if (getLeftChild() != null)
 			result += leftChild.toString();
-		if (getOperator() != null)
+		if (getOp() != null)
 			switch(op){
 			case ADD:
 				result += "+";

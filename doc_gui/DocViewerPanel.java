@@ -99,7 +99,7 @@ public class DocViewerPanel extends JDesktopPane{
 		//		addUndoState();
 		lastSavedDoc = lastAction;
 
-		zoomLevel = 0.75f;
+		zoomLevel = 1.1f;
 		currentPage = 1;
 
 		docPanel = makeDocPanel();

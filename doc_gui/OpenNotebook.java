@@ -75,7 +75,7 @@ public class OpenNotebook extends JApplet {
 	private static final String DATABASE_PATH = "databasePath",
 			USER_NAME = "userName";
 	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail", DATABASE_FILENAME = "ProblemDatabase";
-	private int docAlignment = ALIGN_DOCS_RIGHT;
+	private int docAlignment = ALIGN_DOCS_CENTER;
 	private static boolean minimalGraphicsMode = false;
 	private static String cookie;
 	
@@ -231,7 +231,7 @@ public class OpenNotebook extends JApplet {
 					application.setDocAlignment(ALIGN_DOCS_CENTER);
 				}
 				if (frame.getWidth() <= 1100) {
-					application.setDocAlignment(ALIGN_DOCS_RIGHT);
+					application.setDocAlignment(ALIGN_DOCS_CENTER);
 				}
 
 			}
@@ -497,7 +497,8 @@ public class OpenNotebook extends JApplet {
 					}
 				}
 				else{
-					createAndShowGUI(true, true, false);
+					createAndShowGUI(false, false, true);
+					notebookPanel.open("teacher_overview.mdoc");
 				}
 			}
 		});

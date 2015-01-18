@@ -10,22 +10,22 @@ package math_rendering;
 
 public class Cursor {
 	
-	private NodeGraphic nodeGraphic;
+	private ValueGraphic valueGraphic;
 	private int pos;
 	
 	public Cursor(){}
 	
-	public Cursor(NodeGraphic vg, int p){
+	public Cursor(ValueGraphic vg, int p){
 		setValueGraphic(vg);
 		setPos(p);
 	}
 
-	public void setValueGraphic(NodeGraphic nodeGraphic) {
-		this.nodeGraphic = nodeGraphic;
+	public void setValueGraphic(ValueGraphic valueGraphic) {
+		this.valueGraphic = valueGraphic;
 	}
 
-	public NodeGraphic getValueGraphic() {
-		return nodeGraphic;
+	public ValueGraphic getValueGraphic() {
+		return valueGraphic;
 	}
 
 	public void setPos(int pos) {
