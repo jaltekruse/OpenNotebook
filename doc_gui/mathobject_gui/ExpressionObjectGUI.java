@@ -59,6 +59,12 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
             case PageGUI.RIGHT:
                 current.getCursor().getValueGraphic().moveCursorEast();
                 break;
+            case 's' :
+                mObj.performSpecialObjectAction(ExpressionObject.SUB_IN_VALUE);
+                break;
+            case 't':
+                mObj.performSpecialObjectAction(ExpressionObject.MANUALLY_TYPE_STEP);
+                break;
             case 'm':
                 mObj.performSpecialObjectAction(ExpressionObject.MODIFY_EXPRESSION);
                 break;

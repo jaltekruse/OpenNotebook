@@ -55,6 +55,15 @@ public abstract class Node implements Cloneable {
 	 */
 	public abstract Node replace(Identifier identifier, Node node);
 
+    /**
+     * Sees if the expression contains a particular identifier.
+     * @param identifier - the identifier to search for
+     * @return - true if the identifier found, else false
+     */
+    public boolean containsIdentifier(Identifier identifier) {
+        return false;
+    }
+
 	public Node addNodeToExpression(Node n){
 		try {
 			return new Expression(new Operator.Addition(), (Node) cloneNode(), n.cloneNode());
@@ -116,6 +125,11 @@ public abstract class Node implements Cloneable {
 	public Node replace(String id, Node node) throws NodeException {
 		return replace(new Identifier(id), node);
 	}
+
+
+    public boolean containsIdentifier(String id) throws NodeException {
+        return containsIdentifier(new Identifier(id));
+    }
 
 	public abstract Node collectLikeTerms() throws NodeException;
 

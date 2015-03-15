@@ -47,6 +47,7 @@ import doc.mathobjects.PolygonObject;
 import doc.mathobjects.TextObject;
 import doc.mathobjects.TriangleObject;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookKeyboardListener;
 import doc_gui.NotebookPanel;
 import doc_gui.OCButton;
 
@@ -226,6 +227,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			else if (o instanceof ExpressionObject){
 				panelTabs.add("Expression", tabOneContents);
 				panelTabs.add("Solve", tabTwoContents);
+                tabTwoContents.addKeyListener(new NotebookKeyboardListener(notebookPanel.getOpenNotebook()));
 				panel = tabOneContents;
 			}
 			System.out.println("3 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));

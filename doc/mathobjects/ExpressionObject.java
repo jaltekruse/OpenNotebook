@@ -34,11 +34,11 @@ public class ExpressionObject extends MathObject {
 			SUBTRACT_FROM_BOTH_SIDES = "Subtract from both sides",
 			MULTIPLY_BOTH_SIDES = "Multiply both sides",
 			DIVIDE_BOTH_SIDES = "Divide both sides",
-			SUB_IN_VALUE = "Substitute in value",
-			MODIFY_EXPRESSION = "Modify Expression",
-			MANUALLY_TYPE_STEP = "Manually type step",
-			OTHER_OPERATIONS = "Other operations",
-			UNDO_STEP = "Undo Step";
+			SUB_IN_VALUE = "(S)ubstitute in value",
+			MODIFY_EXPRESSION = "(M)odify Expression",
+			MANUALLY_TYPE_STEP = "Manually (t)ype step",
+			OTHER_OPERATIONS = "(O)ther operations",
+			UNDO_STEP = "(U)ndo Step";
 
 	public static String		EXPRESSION = "expression",
 			STEPS = "steps", ALWAYS_SHOW_STEPS = "always show steps",
@@ -68,8 +68,8 @@ public class ExpressionObject extends MathObject {
 	private void setExpressionActions(){
 		removeAction(MAKE_SQUARE);
 		addAction(MathObject.MAKE_INTO_PROBLEM);
-		addStudentAction(COMBINE_LIKE_TERMS);	
-		addStudentAction(SIMPLIFY);
+		//addStudentAction(COMBINE_LIKE_TERMS);
+		//addStudentAction(SIMPLIFY);
 		addStudentAction(ADD_TO_BOTH_SIDES);
 		addStudentAction(SUBTRACT_FROM_BOTH_SIDES);
 		addStudentAction(MULTIPLY_BOTH_SIDES);
@@ -89,7 +89,7 @@ public class ExpressionObject extends MathObject {
 		addList(new ListAttribute<StringAttribute>(STEPS, new StringAttribute("val"), false));
 		addAttribute(new IntegerAttribute(FONT_SIZE, 1, 50));
 		addAttribute(new ColorAttribute(FILL_COLOR));
-		addAttribute(new BooleanAttribute(ALWAYS_SHOW_STEPS, false, true, false));
+		addAttribute(new BooleanAttribute(ALWAYS_SHOW_STEPS, true, true, false));
 		getAttributeWithName(EXPRESSION).setValue("");
 		getAttributeWithName(FONT_SIZE).setValue(12);
 		getAttributeWithName(FILL_COLOR).setValue(null);
@@ -182,9 +182,10 @@ public class ExpressionObject extends MathObject {
 		else if (s.equals(SUB_IN_VALUE)){
 			String variableStr = "";
 			Node substitute = null;
+            boolean foundVar;
 			do{
 				variableStr = (String)JOptionPane.showInputDialog(
-						null, "Enter a variable to replace.", null,
+						null, "Enter a variable to replace, variables are case sensitive 'a' is not the same as 'A'.", null,
 						JOptionPane.PLAIN_MESSAGE, null, null, null);
 				if ( variableStr == null){
 					setActionCancelled(true);
@@ -193,8 +194,14 @@ public class ExpressionObject extends MathObject {
 				if ( variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0))){
 					JOptionPane.showMessageDialog(null, "Need to enter a single letter.",
 							"Warning", JOptionPane.WARNING_MESSAGE);
+
 				}
-			} while(variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0)));
+                foundVar = Node.parseNode(getLastStep()).containsIdentifier(variableStr);
+                if ( ! foundVar) {
+                    JOptionPane.showMessageDialog(null, "Variable not found in expression.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                }
+			} while(variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0)) && ! foundVar);
 
 			substitute = this.getParentPage().getParentDoc().getDocViewerPanel()
 					.getNotebook().getNotebookPanel().getExpressionFromUser("Enter value or expression to substitute.");

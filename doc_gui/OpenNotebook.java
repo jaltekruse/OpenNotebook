@@ -141,12 +141,7 @@ public class OpenNotebook extends JApplet {
 				addContents(this.getContentPane());
 			}
 			else{
-				if (studentMode){
-					application.setInStudentMode(true);
-				}
-				else{
-					application.setInStudentMode(false);
-				}
+	            application.setInStudentMode(studentMode);
 			}
 		}
 		if (openTutorial) {
@@ -253,8 +248,9 @@ public class OpenNotebook extends JApplet {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
 				System.out.println("resized!!!");
+                // TODO look at this threshold, the object properties frame is wider on mac
 				if (application.getWidth() > 1100) {
-					application.setDocAlignment(ALIGN_DOCS_CENTER);
+					//application.setDocAlignment(ALIGN_DOCS_CENTER);
 				}
 				if (application.getWidth() <= 1100) {
 					application.setDocAlignment(ALIGN_DOCS_RIGHT);

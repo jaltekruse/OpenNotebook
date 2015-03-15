@@ -101,6 +101,18 @@ public class Expression extends Node {
 		return e;
 	}
 
+    @Override
+    public boolean containsIdentifier(Identifier identifier) {
+        boolean ret = false;
+        for (Node n : children) {
+            if (n.containsIdentifier(identifier)) {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
+    }
+
 	@Override
 	public Node replace(Identifier identifier, Node node) {
 		Vector<Node> newChildren = new Vector<Node>();
