@@ -34,7 +34,7 @@ public class SampleListPanel extends JPanel{
 		new OCButton("Open", 0, 0, 0, 0, this){
 			public void associatedAction(){
 				if ( list.getSelectedIndex() >= 0){
-					notebookPanel.open(documents[list.getSelectedIndex()] + ".mdoc");
+					notebookPanel.openSample(documents[list.getSelectedIndex()] + ".mdoc");
 					notebookPanel.setSampleDialogVisible(false);
 				}
 			}

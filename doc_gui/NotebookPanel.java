@@ -30,17 +30,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -987,22 +977,39 @@ public class NotebookPanel extends SubPanel {
 		if ( workspaceFrame != null) workspaceFrame.dispose();
 	}
 
-	public void open(String docName) {
+    public void open(String docFilePath) {
+        File f = new File(docFilePath);
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File not found.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        openHelper(fis, f.getName());
+    }
 
+    public void openHelper(InputStream inStream, String docName) {
+        InputStreamReader inputStreamReader = new InputStreamReader(inStream);
+        try {
+            Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
+            tempDoc.setFilename(docName);
+            addDoc(tempDoc);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error opening file, please send it to the lead developer at\n"
+                            + "dev@open-math.com to help with debugging",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+	public void openSample(String docName) {
 		InputStream inputStream = getClass().getClassLoader()
 				.getResourceAsStream("samples/" + docName);
-		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		try {
-			Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
-			tempDoc.setFilename(docName);
-			addDoc(tempDoc);
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,
-					"Error opening file, please send it to the lead developer at\n"
-							+ "dev@open-math.com to help with debugging",
-							"Error", JOptionPane.ERROR_MESSAGE);
-		}
+        openHelper(inputStream, docName);
 	}
 
 	public void addPage() {
