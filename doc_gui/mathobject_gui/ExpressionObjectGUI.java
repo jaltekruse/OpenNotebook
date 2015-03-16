@@ -59,6 +59,9 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
             case PageGUI.RIGHT:
                 current.getCursor().getValueGraphic().moveCursorEast();
                 break;
+            case 'c' :
+                mObj.performSpecialObjectAction(ExpressionObject.COMBINE_LIKE_TERMS);
+                break;
             case 's' :
                 mObj.performSpecialObjectAction(ExpressionObject.SUB_IN_VALUE);
                 break;
