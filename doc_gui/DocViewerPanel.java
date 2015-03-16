@@ -558,59 +558,93 @@ public class DocViewerPanel extends JDesktopPane{
 		return focusedObj;
 	}
 
+    private class DocSizeMetrics {
+        int pageXSize;
+        int pageYSize;
+        int adjustedBufferSpace;
+        int pageXOrigin;
+        int pageYOrigin;
+
+        public DocSizeMetrics() {
+            pageXSize = (int) (getDoc().getWidth() * zoomLevel);
+            pageYSize = (int) (getDoc().getHeight() * zoomLevel);
+            adjustedBufferSpace = (int) (getDocOuterBorder() * zoomLevel);
+
+            pageXOrigin = 0;
+            pageYOrigin = adjustedBufferSpace;
+            if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
+                pageXOrigin = (docPanel.getWidth() - pageXSize)/2;
+            }
+            else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
+                pageXOrigin = docPanel.getWidth() - pageXSize - adjustedBufferSpace;
+            }
+            else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
+                pageXOrigin = adjustedBufferSpace;
+            }
+            else{
+                throw new RuntimeException("Invalid doc alignment set, this should not be possible");
+            }
+        }
+    }
+
+    public Point docPt2AbsoluteScreenPos(PointInDocument ptInDoc) {
+        Point scrollPanelPos = docScrollPane.getLocationOnScreen();
+        Point panelPoint = docPt2PanelPt(ptInDoc);
+        System.out.println(String.format( "panelPoint: (%s,%s), scrollPanelPos(screenPos): (%s,%s), viewPort:(%s,%s)",
+                panelPoint.x, panelPoint.y,
+                (int) scrollPanelPos.getX(), (int) scrollPanelPos.getY(),
+                docScrollPane.getViewport().getX(),
+                docScrollPane.getViewport().getY()));
+        return new Point(
+                (int) scrollPanelPos.getX() + panelPoint.x - (int)docScrollPane.getViewport().getViewPosition().getX(),
+                (int) scrollPanelPos.getY() + panelPoint.y - (int)docScrollPane.getViewport().getViewPosition().getY()
+        );
+    }
+
+    public Point docPt2PanelPt(PointInDocument ptInDoc) {
+        Point pageOrigin = getPageOrigin(doc.getPage(ptInDoc.getPage()));
+        // TODO - rounding? Is this consistent elsewhere
+        return new Point((int)(pageOrigin.x + ptInDoc.getxPos() * zoomLevel),
+                (int)(pageOrigin.y + ptInDoc.getyPos() * zoomLevel));
+    }
+
 	public PointInDocument panelPt2DocPt(int x, int y){
 		//pixels needed to render a page, and the minimum border space around it
-		int pageXSize = (int) (getDoc().getWidth() * zoomLevel);
-		int pageYSize = (int) (getDoc().getHeight() * zoomLevel);
-		int adjustedBufferSpace = (int) (getDocOuterBorder() * zoomLevel);
+        DocSizeMetrics docSizeMetrics = new DocSizeMetrics();
 
-		int pagexOrigin = 0;
-		int pageyOrigin = adjustedBufferSpace;
-		if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_CENTER){
-			pagexOrigin = (docPanel.getWidth() - pageXSize)/2;
-		}
-		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_RIGHT){
-			pagexOrigin = docPanel.getWidth() - pageXSize - adjustedBufferSpace;
-		}
-		else if ( getDocAlignment() == OpenNotebook.ALIGN_DOCS_LEFT){
-			pagexOrigin = adjustedBufferSpace;
-		}
-		else{
-			return null;
-		}
 		PointInDocument ptInDoc = new PointInDocument();
 		ptInDoc.setOutSidePage(true);
 		ptInDoc.setPage(doc.getNumPages() - 1);
 		//go through all of the pages to look for collisions
 		for (int i = 0; i < doc.getNumPages(); i++){
 
-			if (y > pageyOrigin && y < pageyOrigin + pageYSize){
+			if (y > docSizeMetrics.pageYOrigin && y < docSizeMetrics.pageYOrigin + docSizeMetrics.pageYSize){
 
-				ptInDoc.setyPos((int) ((y - pageyOrigin) / zoomLevel));
+				ptInDoc.setyPos((int) ((y - docSizeMetrics.pageYOrigin) / zoomLevel));
 				ptInDoc.setPage(i);
 				ptInDoc.setOutSidePage(false);
 				break;
 			}
-			else if ( y <= pageyOrigin)
+			else if ( y <= docSizeMetrics.pageYOrigin)
 			{//the click was above this page, but did not hit any previous pages, it must be in the buffer
 				//space between pages
 				ptInDoc.setPage(i);
 				break;
 			}
-			pageyOrigin += pageYSize + adjustedBufferSpace;
+			docSizeMetrics.pageYOrigin += docSizeMetrics.pageYSize + docSizeMetrics.adjustedBufferSpace;
 		}
 
-		if ( y > pageyOrigin + pageYSize)
+		if ( y > docSizeMetrics.pageYOrigin + docSizeMetrics.pageYSize)
 		{// the click was below the last page
 			ptInDoc.setBelowPage(true);
 			ptInDoc.setPage(doc.lastPageIndex());
 		}
 
-		if( x < pagexOrigin || x > pagexOrigin + pageXSize ){
+		if( x < docSizeMetrics.pageXOrigin || x > docSizeMetrics.pageXOrigin + docSizeMetrics.pageXSize ){
 			ptInDoc.setOutSidePage(true);
 		}
 		else{
-			ptInDoc.setxPos((int) ((x - pagexOrigin) / zoomLevel));
+			ptInDoc.setxPos((int) ((x - docSizeMetrics.pageXOrigin) / zoomLevel));
 		}
 
 		return ptInDoc;
