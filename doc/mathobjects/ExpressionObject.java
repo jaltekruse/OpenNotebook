@@ -8,11 +8,12 @@
 
 package doc.mathobjects;
 
-import java.awt.Color;
+import java.awt.*;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
+import doc.PointInDocument;
 import doc.attributes.AttributeException;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.ColorAttribute;
@@ -68,8 +69,8 @@ public class ExpressionObject extends MathObject {
 	private void setExpressionActions(){
 		removeAction(MAKE_SQUARE);
 		addAction(MathObject.MAKE_INTO_PROBLEM);
-		//addStudentAction(COMBINE_LIKE_TERMS);
-		//addStudentAction(SIMPLIFY);
+		addStudentAction(COMBINE_LIKE_TERMS);
+//		addStudentAction(SIMPLIFY);
 		addStudentAction(ADD_TO_BOTH_SIDES);
 		addStudentAction(SUBTRACT_FROM_BOTH_SIDES);
 		addStudentAction(MULTIPLY_BOTH_SIDES);
@@ -157,6 +158,16 @@ public class ExpressionObject extends MathObject {
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
+        if (s.equals(COMBINE_LIKE_TERMS)){
+            try {
+                getListWithName(STEPS).addValueWithString(Expression.parseNode(
+                        getLastStep()).collectLikeTerms().simplify().toStringRepresentation());
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null,
+                        "Error with combining like terms", "Error",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+        }
 		if (s.equals(MAKE_INTO_PROBLEM)){
 			VariableValueInsertionProblem newProblem = new VariableValueInsertionProblem(getParentContainer(), getxPos(),
 					getyPos(), getWidth(), getHeight() );
