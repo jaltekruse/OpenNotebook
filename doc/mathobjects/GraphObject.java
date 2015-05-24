@@ -82,7 +82,7 @@ public class GraphObject extends MathObject {
 			
 			addList(new ListAttribute<DoubleAttribute>(BAR_GRAPH_VALUES,
 					new DoubleAttribute("", -7E8, 7E8), 50, false, true));
-			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, true));
+			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, false));
 			
 			addList(new ListAttribute<StringAttribute>(BAR_GRAPH_LABELS,
 					new StringAttribute(""), 100, false, true));
