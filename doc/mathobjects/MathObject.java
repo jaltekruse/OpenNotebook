@@ -508,9 +508,11 @@ public abstract class MathObject implements Cloneable{
 		if (width == 0)
 			width = 1;
 		getAttributeWithName(WIDTH).setValue(width);
-        if (getParentContainer() instanceof Grouping) {
-            ((Grouping)getParentContainer()).adjustSizeToFitChildren();
-        }
+        // TODO - fix me, was trying to allow movement of single objects within a group
+        // (after selecting them with a double click) but it broke general group movement
+//        if (getParentContainer() instanceof Grouping) {
+//            ((Grouping)getParentContainer()).adjustSizeToFitChildren();
+//        }
 	}
 
 	public int getWidth() {
@@ -521,9 +523,11 @@ public abstract class MathObject implements Cloneable{
 		if (height == 0)
 			height = 1;
 		getAttributeWithName(HEIGHT).setValue(height);
-        if (getParentContainer() instanceof Grouping) {
-            ((Grouping)getParentContainer()).adjustSizeToFitChildren();
-        }
+        // TODO - fix me, was trying to allow movement of single objects within a group
+        // (after selecting them with a double click) but it broke general group movement
+//        if (getParentContainer() instanceof Grouping) {
+//            ((Grouping)getParentContainer()).adjustSizeToFitChildren();
+//        }
 	}
 
 	public int getHeight() {

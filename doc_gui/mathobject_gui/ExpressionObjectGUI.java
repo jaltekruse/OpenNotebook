@@ -165,6 +165,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					object.getListWithName(ExpressionObject.STEPS).getValues();
 			// add all of the correct answers to the list of steps (prevents need for another loop
 			// they are removed from the list after the following loop
+            // TODO - confirm if this works with multiple correct answers
 			for (StringAttribute strAtt : object.getCorrectAnswers()){
 				if ( ! strAtt.getValue().equals("")){
 					steps.add(strAtt);
@@ -237,6 +238,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 						r.draw();
 					}
 				} catch (NodeException e) {
+                    e.printStackTrace();
 					g.setFont(new Font("SansSerif", 0, fontSize));
 					g.setColor(Color.RED);
 					g.drawString(EX_ERROR, r.xPos, r.yPos + errorMessageHeight);

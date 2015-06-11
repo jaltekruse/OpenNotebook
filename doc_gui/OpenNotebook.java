@@ -142,9 +142,9 @@ public class OpenNotebook extends JApplet {
 		}
 		if (openTutorial) {
 			if (application.inStudentMode()) {
-				notebookPanel.openSample("Student Mode Tutorial");
+				notebookPanel.openSample("Student Mode Tutorial.mdoc");
 			} else {
-				notebookPanel.openSample("Teacher Mode Tutorial");
+				notebookPanel.openSample("Teacher Mode Tutorial.mdoc");
 			}
 		}
 	}
