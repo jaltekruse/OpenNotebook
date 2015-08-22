@@ -1157,7 +1157,7 @@ public class NotebookPanel extends SubPanel {
 
 		if ( docPanel.hasBeenModfiedSinceSave() ){
 			// open popup to see ask if user wants to save recent changes
-			Object[] options = { "Close", "Cancel" };
+			Object[] options = { "Close Anyway", "Cancel" };
 			int n = JOptionPane.showOptionDialog(null,
 					"Changes have been made to this document since you last saved.\n"
 							+ "Would you like to continue closing this tab?",
