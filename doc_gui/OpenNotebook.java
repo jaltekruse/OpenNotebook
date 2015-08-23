@@ -490,7 +490,7 @@ public class OpenNotebook extends JApplet {
 				else{
 					createAndShowGUI(false, false, false);
                     notebookPanel.openSample("teacher_overview.mdoc");
-                    notebookPanel.open("/Users/jaltekruse/Dropbox/a_openmath_dev/interface_testing_3_15_2015.mdoc");
+//                    notebookPanel.open("/Users/jaltekruse/Dropbox/a_openmath_dev/interface_testing_3_15_2015.mdoc");
 				}
 			}
 		});

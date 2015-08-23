@@ -109,12 +109,16 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 	}
 
 	public void mouseClicked(GraphObject gObj, int x , int y, float zoomLevel){
-		//add a point to the graph
-		graph.pullVarsFromGraphObject(gObj, (int) (gObj.getWidth() * zoomLevel),
-				(int) (gObj.getHeight() * zoomLevel) );
-		/*
-		gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
-		*/
-		((Selection)gObj.getAttributeWithName(GraphObject.SELECTION).getValue()).setStart(graph.screenxToGrid(x));
+    // disable for now, its just annoying because the selection is not indicated on the menu frame
+    // and cannot be removed
+    if (false) { // deliberately disabled, but this makes sure this code is still compiling (as commenting out would not do
+      //add a point to the graph
+      gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
+      // add a single x value "selection"
+      graph.pullVarsFromGraphObject(gObj, (int) (gObj.getWidth() * zoomLevel),
+          (int) (gObj.getHeight() * zoomLevel) );
+      ((Selection)gObj.getAttributeWithName(GraphObject.SELECTION).getValue()).setStart(graph.screenxToGrid(x));
+    }
+    return;
 	}
 }

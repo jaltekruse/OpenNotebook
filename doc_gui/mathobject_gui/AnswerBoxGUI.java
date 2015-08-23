@@ -26,15 +26,20 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
 		int width = (int) (object.getWidth() * zoomLevel);
 		int height = (int) (object.getHeight() * zoomLevel);
-		
-		if ( ! object.getStudentAnswer().equals("")){
+
+    // TODO - decide how extra whitespace should be handled, should it always be stored?
+    // students may use it to format a multi-line answer
+    // although useful whitespace will likely not coming at the very beginning or very end
+    // of an answer
+		if ( ! object.getStudentAnswer().trim().equals("")){
 			Font f = g.getFont();
-			
-			g.setColor(new Color(180, 255, 100));
+
+//			g.setColor(new Color(180, 255, 100));
+      g.setColor(new Color(150, 210, 255));
 			g.fillRect(xOrigin, yOrigin, width, height);
 	
 			float fontSize = object.getFontSize() * zoomLevel;
-			
+
 		    String message = object.getStudentAnswer();
 			g.setFont(f.deriveFont(fontSize));
 			
@@ -64,7 +69,7 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 			g.setFont(f);
 		}
 		else{
-			g.setColor(new Color(230, 230, 255));
+      g.setColor(new Color(230, 230, 230));
 			g.fillRect(xOrigin, yOrigin, width, height);
 		}
 		g.setColor(Color.BLACK);
