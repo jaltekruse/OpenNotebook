@@ -139,6 +139,12 @@ public class ExpressionObject extends MathObject {
 	}
 
 	public void performSpecialObjectAction(String s){
+		// TODO - define an interface for the data that can be asked from the user
+		// during one of the multi-step actions
+		// TODO - make an implementation of this interface based on dialogs as are
+		// hard coded here
+		// This refactoring will allow for other possible UIs to interact with these
+		// actions in the future
 		if ( ((StringAttribute)getAttributeWithName(EXPRESSION)).getValue() == null || 
 				((StringAttribute)getAttributeWithName(EXPRESSION)).getValue().equals("") ){
 			JOptionPane.showMessageDialog(null,
