@@ -97,11 +97,8 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 
 	public void drawInteractiveComponents(ExpressionObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int fontSize = (int) (object.getFontSize() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin,
+				zoomLevel, object.getFontSize());
 		int outerBufferSpace = (int) (5 * zoomLevel);
 		int stepBufferSpace = (int) (10 * zoomLevel);
 		Graphics2D g2d = (Graphics2D) g;
@@ -110,7 +107,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		if ( ! object.getExpression().equals("")){
 			// if any of the steps cannot be rendered, this information will allow
 			// space to be left for printing an error message in its place
-			g.setFont(new Font("Sans Serif", 0, fontSize));
+			g.setFont(g.getFont().deriveFont(sap.getFontSize()));
 			int errorMessageHeight = g.getFontMetrics().getHeight();
 			int errorMessageWidth = g.getFontMetrics().stringWidth(EX_ERROR);
 
@@ -129,13 +126,13 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
                         ! object.getDecimalRectangleBounds().equals(currentPosSize) || ! currentEx.equals(object.getExpression());
                 if ( objectChanged){
                     rootGraphic = new CompleteExpressionGraphic(n);
-                    rootGraphic.generateExpressionGraphic(g, outerBufferSpace + xOrigin,
-                            outerBufferSpace + yOrigin, fontSize, zoomLevel);
+                    rootGraphic.generateExpressionGraphic(g, outerBufferSpace + sap.getxOrigin(),
+                            outerBufferSpace + sap.getyOrigin(), sap.getFontSize(), zoomLevel);
                 }
                 else if (currentZoom != zoomLevel){
                     rootGraphic = current;
-                    rootGraphic.requestSize(g, outerBufferSpace + xOrigin,
-                            outerBufferSpace + yOrigin, fontSize, zoomLevel);
+                    rootGraphic.requestSize(g, outerBufferSpace + sap.getxOrigin(),
+                            outerBufferSpace + sap.getyOrigin(), sap.getFontSize(), zoomLevel);
                 }
                 else{
                     rootGraphic = current;
@@ -155,7 +152,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
                 currentZoom = zoomLevel;
 			} catch (Exception e) {
 				indeciesInError.add(currentIndex);
-				yPosOfSteps.add(outerBufferSpace + yOrigin);
+				yPosOfSteps.add(outerBufferSpace + sap.getyOrigin());
 				expressions.add(null);
 				totalHeight += errorMessageHeight;
 				greatestWidth = errorMessageWidth;
@@ -183,8 +180,8 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					n = parser.ParseExpression(s);
 					rootGraphic = new CompleteExpressionGraphic(n);
 //                    current = rootGraphic;
-					rootGraphic.generateExpressionGraphic(g, xOrigin + outerBufferSpace,
-							outerBufferSpace + yOrigin + totalHeight, fontSize, zoomLevel);
+					rootGraphic.generateExpressionGraphic(g, sap.getxOrigin() + outerBufferSpace,
+							outerBufferSpace + sap.getyOrigin() + totalHeight, sap.getFontSize(), zoomLevel);
 					expressions.add(rootGraphic);
 					yPosOfSteps.add(rootGraphic.yPos);
 					if (rootGraphic.getWidth() > greatestWidth){
@@ -198,7 +195,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					if (errorMessageWidth > greatestWidth){
 						greatestWidth = errorMessageWidth;
 					}
-					yPosOfSteps.add(outerBufferSpace + yOrigin + totalHeight);
+					yPosOfSteps.add(outerBufferSpace + sap.getyOrigin() + totalHeight);
 				}
 			}
 			// remove the correct answers, so they are not permanently added as steps
@@ -210,7 +207,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			else{
 				g.setColor(Color.white);
 			}
-			g.fillRect(xOrigin, yOrigin, greatestWidth + 2 * outerBufferSpace,
+			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), greatestWidth + 2 * outerBufferSpace,
 					totalHeight + 2 * outerBufferSpace);
 			g.setColor(Color.BLACK);
 			int index = 0;
@@ -218,9 +215,9 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			for (CompleteExpressionGraphic r : expressions){
 				try {
 					if ( indeciesInError.contains(index)){
-						g.setFont(new Font("SansSerif", 0, fontSize));
+						g.setFont(g.getFont().deriveFont(sap.getFontSize()));
 						g.setColor(Color.RED);
-						g.drawString(EX_ERROR, xOrigin + outerBufferSpace,
+						g.drawString(EX_ERROR, sap.getxOrigin() + outerBufferSpace,
 								yPosOfSteps.get(index) + errorMessageHeight);
 						g.setColor(Color.BLACK);
 						index++;
@@ -239,7 +236,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 					}
 				} catch (NodeException e) {
                     e.printStackTrace();
-					g.setFont(new Font("SansSerif", 0, fontSize));
+					g.setFont(g.getFont().deriveFont(sap.getFontSize()));
 					g.setColor(Color.RED);
 					g.drawString(EX_ERROR, r.xPos, r.yPos + errorMessageHeight);
 				}
@@ -253,7 +250,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		else{
 			g2d.setStroke(new BasicStroke());
 			g2d.setPaint(Color.BLACK);
-			g.drawRect(xOrigin, yOrigin , width, height);
+			g.drawRect(sap.getxOrigin(), sap.getyOrigin() , sap.getWidth(), sap.getHeight());
 		}
 
 
@@ -266,16 +263,13 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			return;
 		}
 
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int fontSize = (int) (object.getFontSize() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin,
+				zoomLevel, object.getFontSize());
 		int bufferSpace = (int) (5 * zoomLevel);
 
 		// if any of the steps cannot be rendered, this information will allow
 		// space to be left to print an error message in its place
-		g.setFont(new Font("SansSerif", 0, fontSize));
+		g.setFont(g.getFont().deriveFont(sap.getFontSize()));
 		int errorMessageHeight = g.getFontMetrics().getHeight();
 		int errorMessageWidth = g.getFontMetrics().stringWidth(EX_ERROR);
 
@@ -285,12 +279,12 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			if ( ! object.getExpression().equals("")){
 				Expression n = parser.ParseExpression(object.getExpression());
 				ceg = new CompleteExpressionGraphic(n);
-				ceg.generateExpressionGraphic(g, bufferSpace + xOrigin,
-						bufferSpace + yOrigin, fontSize, zoomLevel);
+				ceg.generateExpressionGraphic(g, bufferSpace + sap.getxOrigin(),
+						bufferSpace + sap.getyOrigin(), sap.getFontSize(), zoomLevel);
 				object.setWidth( (int) (ceg.getWidth() / zoomLevel) + 10);
 				object.setHeight( (int) (ceg.getHeight() / zoomLevel) + 10);
 				if ( object.getColor() != null){
-					g.fillRect(xOrigin, yOrigin, (int) (object.getWidth() * zoomLevel),
+					g.fillRect(sap.getxOrigin(), sap.getyOrigin(), (int) (object.getWidth() * zoomLevel),
 							(int) (object.getHeight() * zoomLevel));
 				}
 				g.setColor(Color.BLACK);
@@ -299,19 +293,19 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			}
 			else{
 				if ( object.getColor() != null){
-					g.fillRect(xOrigin, yOrigin, (int) (object.getWidth() * zoomLevel),
+					g.fillRect(sap.getxOrigin(), sap.getyOrigin(), (int) (object.getWidth() * zoomLevel),
 							(int) (object.getHeight() * zoomLevel));
 				}
 				g.setColor(Color.BLACK);
-				g.drawRect(xOrigin, yOrigin, width, height);
+				g.drawRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			object.setHeight( (int) (errorMessageHeight / zoomLevel) + 10);
 			object.setWidth( (int) (errorMessageWidth / zoomLevel) + 10);
-			g.setFont(new Font("SansSerif", 0, fontSize));
+			g.setFont(g.getFont().deriveFont(sap.getFontSize()));
 			g.setColor(Color.RED);
-			g.drawString(EX_ERROR, xOrigin + bufferSpace, yOrigin + bufferSpace + errorMessageHeight);
+			g.drawString(EX_ERROR, sap.getxOrigin() + bufferSpace, sap.getyOrigin() + bufferSpace + errorMessageHeight);
 		}
 	}
 }

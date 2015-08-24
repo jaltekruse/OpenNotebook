@@ -35,8 +35,9 @@ public class CompleteExpressionGraphic{
 	private Vector<ValueGraphic> components;
 	private Cursor cursor;
 	private ValueGraphic firstSel;
-	public int xPos, yPos, bigFontSize;
-	public static final int defaultBigFontSize = 12;
+	public int xPos, yPos;
+	private float bigFontSize;
+	public static final float defaultBigFontSize = 12f;
 
 	public float DOC_ZOOM_LEVEL;
 	
@@ -50,8 +51,8 @@ public class CompleteExpressionGraphic{
 	public CompleteExpressionGraphic(Expression v){
 		this.v = v;
 		cursor = new Cursor();
-		bigFont =  new Font("SansSerif", 0, defaultBigFontSize);
-		smallFont = new Font("SansSerif", 0, (int) (defaultBigFontSize * (4.0/5)) );
+		bigFont =  new Font("SansSerif", 0, 10).deriveFont(defaultBigFontSize);
+		smallFont = new Font("SansSerif", 0, 10).deriveFont(defaultBigFontSize * (3.0f/4));
 	}
 	
 	public float getSizeAdjustment(){
@@ -92,14 +93,14 @@ public class CompleteExpressionGraphic{
 	}
 
 	public void generateExpressionGraphic(Graphics g, 
-			int x1, int y1, int fontSize, float zoomLevel) throws Exception{
+			int x1, int y1, float fontSize, float zoomLevel) throws Exception{
 		
 		xPos = x1;
 		yPos = y1;
 		graphics = (Graphics2D)g;
 		bigFontSize = fontSize;
-		bigFont =  new Font("SansSerif", 0, bigFontSize);
-		smallFont = new Font("SansSerif", 0, (int) (bigFontSize * (3.0/4)));
+		bigFont =  new Font("SansSerif", 0, 10).deriveFont(fontSize);
+		smallFont = new Font("SansSerif", 0, 10).deriveFont(fontSize * (3.0f/4));
 		DOC_ZOOM_LEVEL = zoomLevel;
 //		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		int[] tempSize = {0, 0};
@@ -121,17 +122,16 @@ public class CompleteExpressionGraphic{
 		generateExpressionGraphic(g, x1, y1, 12, 1);
 	}
 	
-    public int[] requestSize(Graphics g, int x1, int y1, int fontSize, float zoomLevel) throws Exception {
-        xPos = x1;
-        yPos = y1;
-        graphics = (Graphics2D)g;
-        bigFontSize = fontSize;
-        bigFont =  new Font("SansSerif", 0, bigFontSize);
-        smallFont = new Font("SansSerif", 0, (int) (bigFontSize * (3.0/4)));
-        DOC_ZOOM_LEVEL = zoomLevel;
-        int[] ret = root.requestSize(g, bigFont, x1, y1);
-        return ret;
-    }
+	public int[] requestSize(Graphics g, int x1, int y1, float fontSize, float zoomLevel) throws Exception {
+		xPos = x1;
+		yPos = y1;
+		graphics = (Graphics2D)g;
+		bigFontSize = fontSize;
+		bigFont =  new Font("SansSerif", 0, 10).deriveFont(fontSize);
+		smallFont = new Font("SansSerif", 0, (int) (fontSize * (3.0/4)));
+		DOC_ZOOM_LEVEL = zoomLevel;
+		return root.requestSize(g, bigFont, x1, y1);
+	}
 	
 	
 	public int getStringWidth(String s, Font f){
