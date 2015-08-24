@@ -40,7 +40,7 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 	
 			float fontSize = object.getFontSize() * zoomLevel;
 
-		    String message = object.getStudentAnswer();
+		  String message = object.getStudentAnswer();
 			g.setFont(f.deriveFont(fontSize));
 			
 			g.setColor(Color.BLACK);
