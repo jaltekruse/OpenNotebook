@@ -43,7 +43,6 @@ public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 
 	public void drawMathObject(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
-//		System.out.println("draw polygon");
 		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
 		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
 		int width = (int) (object.getWidth() * zoomLevel);
@@ -73,22 +72,27 @@ public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 		g2d.setStroke(new BasicStroke(1));
 	}
 	
-//	public void drawInteractiveComponents(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
-//		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-//		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-//		int width = (int) (object.getWidth() * zoomLevel);
-//		int height = (int) (object.getHeight() * zoomLevel);
-//		int thickness = (int) (object.getThickness() * zoomLevel);
-//		
-//		for (int i = 0; i < object.getVertices().size(); i++){
-//			g.setColor(Color.YELLOW);
-//			g.fillOval((int) (object.getVertices().get(i).getx() * width) + xOrigin - dotRadius,
-//					(int) (object.getVertices().get(i).gety() * height) + yOrigin - dotRadius
-//					, 2 * dotRadius, 2 * dotRadius);
-//			g.setColor(Color.BLACK);
-//			g.drawOval((int) (object.getVertices().get(i).getx() * width) + xOrigin - dotRadius,
-//					(int) (object.getVertices().get(i).gety() * height) + yOrigin - dotRadius
-//					, 2 * dotRadius, 2 * dotRadius);
-//		}
-//	}
+	public void drawInteractiveComponents(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
+		// This is currently unused, this is an alternative to commenting out the code that makes sure it keeps compiling
+		if (false) {
+		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
+		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
+		int width = (int) (object.getWidth() * zoomLevel);
+		int height = (int) (object.getHeight() * zoomLevel);
+		int thickness = (int) (object.getThickness() * zoomLevel);
+
+
+		GridPoint[] pts = object.getAdjustedVertices();
+		for (int i = 0; i < pts.length; i++){
+			g.setColor(Color.YELLOW);
+			g.fillOval((int) (pts[i].getx() * width) + xOrigin - dotRadius,
+					(int) (pts[i].gety() * height) + yOrigin - dotRadius
+					, 2 * dotRadius, 2 * dotRadius);
+			g.setColor(Color.BLACK);
+			g.drawOval((int) (pts[i].getx() * width) + xOrigin - dotRadius,
+					(int) (pts[i].gety() * height) + yOrigin - dotRadius
+					, 2 * dotRadius, 2 * dotRadius);
+		}
+		}
+	}
 }
