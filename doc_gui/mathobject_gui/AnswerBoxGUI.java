@@ -21,11 +21,8 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 	
 	public void drawMathObject(AnswerBoxObject object, Graphics g, Point pageOrigin,
 			float zoomLevel) {
-		
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin,
+				zoomLevel, object.getFontSize());
 
     // TODO - decide how extra whitespace should be handled, should it always be stored?
     // students may use it to format a multi-line answer
@@ -33,15 +30,11 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
     // of an answer
 		if ( ! object.getStudentAnswer().trim().equals("")){
 			Font f = g.getFont();
-
-//			g.setColor(new Color(180, 255, 100));
       g.setColor(new Color(150, 210, 255));
-			g.fillRect(xOrigin, yOrigin, width, height);
+			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 	
-			float fontSize = object.getFontSize() * zoomLevel;
-
 		  String message = object.getStudentAnswer();
-			g.setFont(f.deriveFont(fontSize));
+			g.setFont(f.deriveFont(sap.getFontSize()));
 			
 			g.setColor(Color.BLACK);
 		    Graphics2D graphics2D = (Graphics2D)g;
@@ -54,25 +47,25 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 		    LineBreakMeasurer messageLBM = new LineBreakMeasurer(messageIterator, messageFRC);
 	
 		    Insets insets = new Insets(2,2,2,2);
-		    float wrappingWidth = width - insets.left - insets.right;
-		    float x = xOrigin + insets.left;
-		    float y = yOrigin + insets.top;
+		    float wrappingWidth = sap.getWidth() - insets.left - insets.right;
+		    float x = sap.getxOrigin() + insets.left;
+		    float y = sap.getyOrigin() + insets.top;
 	
 		    while (messageLBM.getPosition() < messageIterator.getEndIndex()) {
 		      TextLayout textLayout = messageLBM.nextLayout(wrappingWidth);
 		      y += textLayout.getAscent();
 		      textLayout.draw(graphics2D, x, y);
 		      y += textLayout.getDescent() + textLayout.getLeading();
-		      x = xOrigin + insets.left;
+		      x = sap.getxOrigin() + insets.left;
 		    }
 
 			g.setFont(f);
 		}
 		else{
       g.setColor(new Color(230, 230, 230));
-			g.fillRect(xOrigin, yOrigin, width, height);
+			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 		}
 		g.setColor(Color.BLACK);
-		g.drawRect(xOrigin, yOrigin, width, height);
+		g.drawRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 	}
 }

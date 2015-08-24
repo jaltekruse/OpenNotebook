@@ -52,6 +52,17 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		return cachedScaleAndPositionObject.populateValuesWithFontSize(object, pageOrigin, zoomLevel, fontSize);
 	}
 
+	protected ScaledSizeAndPosition getSizeAndPositionWithLineThickness(MathObject object, Point pageOrigin,
+																																 float zoomLevel, int lineThickness) {
+		return cachedScaleAndPositionObject.populateValuesWithLineThickness(object, pageOrigin, zoomLevel, lineThickness);
+	}
+
+	protected ScaledSizeAndPosition getSizeAndPositionWithFontAndLineThickness(MathObject object, Point pageOrigin,
+																																			float zoomLevel, int fontSize,
+																																			int lineThickness) {
+		return cachedScaleAndPositionObject.populateAllValues(object, pageOrigin, zoomLevel, fontSize, lineThickness);
+	}
+
 	/**
 	 * Represents the value of the upper left resizing dot.
 	 */

@@ -14,11 +14,8 @@ public class CubeObjectGUI extends MathObjectGUI<CubeObject>{
 
 	public void drawMathObject(CubeObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int thickness = (int) (object.getThickness() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
+				zoomLevel, object.getThickness());
 		
 		Graphics2D g2d = (Graphics2D)g;
 		Color fillColor = object.getColor();
@@ -61,62 +58,62 @@ public class CubeObjectGUI extends MathObjectGUI<CubeObject>{
 		
 		if (fillColor != null){
 			fillShape = new Polygon();
-			fillShape.addPoint( (int) (outsidePoints[0].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[0].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[1].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[1].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[2].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[2].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (innerPt.getx() * width ) + xOrigin,
-					 (int) (innerPt.gety() * height ) + yOrigin);
+			fillShape.addPoint( (int) (outsidePoints[0].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[0].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[1].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[1].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[2].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[2].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (innerPt.getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (innerPt.gety() * sap.getHeight() ) + sap.getyOrigin());
 			g2d.setColor(fillColor);
 			g2d.fillPolygon(fillShape);
 			
 			fillShape = new Polygon();
-			fillShape.addPoint( (int) (outsidePoints[2].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[2].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[3].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[3].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[4].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[4].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (innerPt.getx() * width ) + xOrigin,
-					 (int) (innerPt.gety() * height ) + yOrigin);
+			fillShape.addPoint( (int) (outsidePoints[2].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[2].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[3].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[3].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[4].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[4].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (innerPt.getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (innerPt.gety() * sap.getHeight() ) + sap.getyOrigin());
 			g2d.setColor(MathObjectGUI.brightenColor(fillColor) );
 			g2d.fillPolygon(fillShape);
 			
 			fillShape = new Polygon();
-			fillShape.addPoint( (int) (outsidePoints[4].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[4].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[5].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[5].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (outsidePoints[0].getx() * width ) + xOrigin,
-					 (int) (outsidePoints[0].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (innerPt.getx() * width ) + xOrigin,
-					 (int) (innerPt.gety() * height ) + yOrigin);
+			fillShape.addPoint( (int) (outsidePoints[4].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[4].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[5].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[5].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (outsidePoints[0].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (outsidePoints[0].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (innerPt.getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (innerPt.gety() * sap.getHeight() ) + sap.getyOrigin());
 			g2d.setColor(MathObjectGUI.brightenColor(fillColor) );
 			g2d.fillPolygon(fillShape);
 		}
-		g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER) );
+		g2d.setStroke(new BasicStroke(sap.getLineThickness(), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER) );
 		g2d.setColor(Color.BLACK);
 		
 		Polygon p = new Polygon();
 		for (int i = 0; i < outsidePoints.length; i++){
-			p.addPoint((int) (outsidePoints[i].getx() * width) + xOrigin,
-					(int) (outsidePoints[i].gety() * height) + yOrigin);
+			p.addPoint((int) (outsidePoints[i].getx() * sap.getWidth()) + sap.getxOrigin(),
+					(int) (outsidePoints[i].gety() * sap.getHeight()) + sap.getyOrigin());
 		}
 		
-		g.drawLine((int) (cornerPt.getx() * width) + xOrigin,
-				(int) (cornerPt.gety() * height) + yOrigin ,
-				(int) (innerPt.getx() * width) + xOrigin,
-				(int) (innerPt.gety() * height) + yOrigin);
-		g.drawLine((int) (side1Pt.getx() * width) + xOrigin ,
-				(int) (side1Pt.gety() * height) + yOrigin,
-				(int) (innerPt.getx() * width) + xOrigin,
-				(int) (innerPt.gety() * height) + yOrigin);
-		g.drawLine((int) (side2Pt.getx() * width) + xOrigin,
-				(int) (side2Pt.gety() * height) + yOrigin ,
-				(int) (innerPt.getx() * width) + xOrigin,
-				(int) (innerPt.gety() * height) + yOrigin);
+		g.drawLine((int) (cornerPt.getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (cornerPt.gety() * sap.getHeight()) + sap.getyOrigin() ,
+				(int) (innerPt.getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (innerPt.gety() * sap.getHeight()) + sap.getyOrigin());
+		g.drawLine((int) (side1Pt.getx() * sap.getWidth()) + sap.getxOrigin() ,
+				(int) (side1Pt.gety() * sap.getHeight()) + sap.getyOrigin(),
+				(int) (innerPt.getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (innerPt.gety() * sap.getHeight()) + sap.getyOrigin());
+		g.drawLine((int) (side2Pt.getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (side2Pt.gety() * sap.getHeight()) + sap.getyOrigin() ,
+				(int) (innerPt.getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (innerPt.gety() * sap.getHeight()) + sap.getyOrigin());
 		
 		g2d.drawPolygon(p);
 		

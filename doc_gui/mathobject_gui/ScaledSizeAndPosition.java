@@ -17,6 +17,7 @@ public class ScaledSizeAndPosition {
 	private int width;
 	private int height;
 	private float fontSize;
+	private float lineThickness;
 
 	public ScaledSizeAndPosition populateValues(MathObject object, Point pageOrigin,
 			float zoomLevel) {
@@ -29,16 +30,34 @@ public class ScaledSizeAndPosition {
 
 	public ScaledSizeAndPosition populateValuesWithFontSize(MathObject object, Point pageOrigin,
 																							float zoomLevel, int fontSize) {
-		xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		width =  (int) (object.getWidth() * zoomLevel);
-		height = (int) (object.getHeight() * zoomLevel);
+		populateValues(object, pageOrigin, zoomLevel);
 		this.fontSize = (int) (fontSize * zoomLevel);
 		return this;
 	}
 
+	public ScaledSizeAndPosition populateValuesWithLineThickness(MathObject object, Point pageOrigin,
+																													float zoomLevel, int lineThickness) {
+		populateValues(object, pageOrigin, zoomLevel);
+		this.lineThickness = (int) (lineThickness * zoomLevel);
+		return this;
+	}
+
+	public ScaledSizeAndPosition populateAllValues(MathObject object, Point pageOrigin,
+																								 float zoomLevel, int fontSize, int lineThickness) {
+		// some of the work of these two methods is redundant, but it saves duplicating
+		// any of the calculations here
+		populateValuesWithFontSize(object, pageOrigin, zoomLevel, fontSize);
+		populateValuesWithLineThickness(object, pageOrigin, zoomLevel, lineThickness);
+		return this;
+	}
+
+
 	public float getFontSize() {
 		return fontSize;
+	}
+
+	public float getLineThickness() {
+		return lineThickness;
 	}
 
 	public int getxOrigin() {
