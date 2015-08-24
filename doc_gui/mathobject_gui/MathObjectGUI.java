@@ -26,6 +26,32 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 	private boolean resizeDotBeingDragged;
 
+	// Create one of these that will be reused during each rendering of an object
+	// to avoid short lived object creation
+	private ScaledSizeAndPosition cachedScaleAndPositionObject = new ScaledSizeAndPosition();
+
+	/**
+	 * Get a {@link ScaledSizeAndPosition} object for use in the various methods
+	 * for drawing a particular type of MathObject.
+	 * @return - description of position and measurements of the object taking into account the
+	 *           the provided page origin and zoom level
+	 */
+	protected ScaledSizeAndPosition getSizeAndPosition(MathObject object, Point pageOrigin,
+			float zoomLevel) {
+		return cachedScaleAndPositionObject.populateValues(object, pageOrigin, zoomLevel);
+	}
+
+	/**
+	 * Alternative to the method {@code getSizeAndPosition(MathObject, Point, float)} which will
+	 * populate the font size of the {@link ScaledSizeAndPosition} object as well.
+	 * @return - description of position and measurements of the object taking into account the
+	 *           the provided page origin and zoom level
+	 */
+	protected ScaledSizeAndPosition getSizeAndPositionWithFontSize(MathObject object, Point pageOrigin,
+																																 float zoomLevel, int fontSize) {
+		return cachedScaleAndPositionObject.populateValuesWithFontSize(object, pageOrigin, zoomLevel, fontSize);
+	}
+
 	/**
 	 * Represents the value of the upper left resizing dot.
 	 */

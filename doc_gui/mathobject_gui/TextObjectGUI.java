@@ -29,19 +29,13 @@ public class TextObjectGUI extends MathObjectGUI<TextObject>{
 
 	public void drawMathObject(TextObject object, Graphics g, Point pageOrigin,
 			float zoomLevel) {
-
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin, zoomLevel, object.getFontSize());
 
 		if ( ! object.getText().equals("")){
 			Font f = g.getFont();
 
-			float fontSize = object.getFontSize() * zoomLevel;
-
 			String message = object.getText();
-			g.setFont(f.deriveFont(fontSize));
+			g.setFont(f.deriveFont(sap.getFontSize()));
 
 			g.setColor(Color.BLACK);
 			Graphics2D graphics2D = (Graphics2D)g;
@@ -53,9 +47,9 @@ public class TextObjectGUI extends MathObjectGUI<TextObject>{
 			LineBreakMeasurer messageLBM = new LineBreakMeasurer(messageIterator, messageFRC);
 
 			Insets insets = new Insets(2,2,2,2);
-			float wrappingWidth = width - insets.left - insets.right;
-			float x = xOrigin + insets.left;
-			float y = yOrigin + insets.top;
+			float wrappingWidth = sap.getWidth() - insets.left - insets.right;
+			float x = sap.getxOrigin() + insets.left;
+			float y = sap.getyOrigin() + insets.top;
 
 			try{
 				TextLayout textLayout;
@@ -75,60 +69,52 @@ public class TextObjectGUI extends MathObjectGUI<TextObject>{
 					}
 
 					y += textLayout.getDescent() + textLayout.getLeading();
-					x = xOrigin + insets.left;
+					x = sap.getxOrigin() + insets.left;
 				}
 			} catch(Exception e){
 				System.out.println("error with text rendering");
 			}
 
-			object.setHeight((int) ((y - yOrigin) / zoomLevel));
+			object.setHeight((int) ((y - sap.getyOrigin()) / zoomLevel));
 
 			g.setFont(f);
 		}
 		else{
 			// draw the black box around the text box if nothing is in it
 			g.setColor(Color.BLACK);
-			g.drawRect(xOrigin, yOrigin , (int) (object.getWidth() * zoomLevel)
+			g.drawRect(sap.getxOrigin(), sap.getyOrigin(), (int) (object.getWidth() * zoomLevel)
 					, (int) (object.getHeight() * zoomLevel));
 		}
 		if ( ((BooleanAttribute)object.getAttributeWithName(TextObject.SHOW_BOX)).getValue()){
 			g.setColor(Color.BLACK);
-			g.drawRect(xOrigin, yOrigin, width, height);
+			g.drawRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 		}
 	}
 
+	// Not used, an older alternative implementation of how to render text
+	public void drawMathObject(TextObject object, Graphics g, Point pageOrigin,
+			float zoomLevel, boolean unused) {
+		Font f = g.getFont();
 
-	//	public void drawMathObject(TextObject object, Graphics g, Point pageOrigin,
-	//			float zoomLevel) {
-	//		// TODO Auto-generated method stub
-	//		
-	//		
-	////		System.out.println("draw text");
-	//		Font f = g.getFont();
-	//		
-	//		g.setColor(Color.BLACK);
-	//		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-	//		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-	//		int width = (int) (object.getWidth() * zoomLevel);
-	//		int height = (int) (object.getHeight() * zoomLevel);
-	//		int fontSize = (int) (object.getFontSize() * zoomLevel);
-	//		
-	//		Graphics2D g2d = (Graphics2D)g;
-	//		g2d.setFont(new Font("SansSerif", 0, fontSize));
-	//		//draw lines of text with loop
-	//		
-	//		int textyPos = yOrigin + g.getFontMetrics().getHeight() + (int) (3 * zoomLevel);
-	//		int textxPos = xOrigin + (int) (3 * zoomLevel);
-	//		String s = object.getText();
-	//		g.drawString(s, textxPos, textyPos);
-	//		textyPos += g.getFontMetrics().getHeight();
-	//		
-	//		if ( ((BooleanAttribute)object.getAttributeWithName("showBox")).getValue()){
-	//			g.setColor(Color.BLUE);
-	//			g.drawRect(xOrigin, yOrigin, width, height);
-	//		}
-	//
-	//		g.setFont(f);
-	//	}
+		g.setColor(Color.BLACK);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin, zoomLevel, object.getFontSize());
+
+		Graphics2D g2d = (Graphics2D)g;
+		g2d.setFont(g.getFont().deriveFont(sap.getFontSize()));
+		//draw lines of text with loop
+
+		int textyPos = sap.getyOrigin() + g.getFontMetrics().getHeight() + (int) (3 * zoomLevel);
+		int textxPos = sap.getxOrigin() + (int) (3 * zoomLevel);
+		String s = object.getText();
+		g.drawString(s, textxPos, textyPos);
+		textyPos += g.getFontMetrics().getHeight();
+
+		if ( ((BooleanAttribute)object.getAttributeWithName("showBox")).getValue()){
+			g.setColor(Color.BLUE);
+			g.drawRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
+		}
+
+		g.setFont(f);
+	}
 
 }
