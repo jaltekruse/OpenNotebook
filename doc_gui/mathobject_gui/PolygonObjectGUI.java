@@ -16,12 +16,31 @@ import java.awt.Point;
 import java.awt.Polygon;
 
 import doc.GridPoint;
+import doc.mathobjects.MathObject;
 import doc.mathobjects.PolygonObject;
 
 public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 	
 	private static final int dotRadius = 3;
-	
+
+	public Polygon getCollisionAndSelectionPolygon(MathObject mObj, Point pageOrigin, float zoomLevel) {
+		PolygonObject pObject = (PolygonObject) mObj;
+		int xOrigin = (int) (pageOrigin.getX() + pObject.getxPos() * zoomLevel);
+		int yOrigin = (int) (pageOrigin.getY() + pObject.getyPos() * zoomLevel);
+		int width = (int) (mObj.getWidth() * zoomLevel);
+		int height = (int) (mObj.getHeight() * zoomLevel);
+		GridPoint[] pts = pObject.getAdjustedVertices();
+		int[] xVals = new int[pts.length];
+		int[] yVals = new int[pts.length];
+		int i = 0;
+		for (GridPoint pt : pts) {
+			xVals[i] = (int) (pt.getx() * width) + xOrigin;
+			yVals[i] = (int) (pt.gety() * height) + yOrigin;
+			i++;
+		}
+		return new Polygon(xVals, yVals, pts.length);
+	}
+
 	public void drawMathObject(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
 //		System.out.println("draw polygon");

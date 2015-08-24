@@ -383,7 +383,11 @@ public class PageGUI {
 							// GUI classes, this method to get the polygon should be called in the specific object
 							// this refactoring will simplify this whole class
 							Graphics2D g2d = (Graphics2D)g;
-							g2d.drawPolygon(expressionGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+							if (mathObj instanceof PolygonObject) {
+								g2d.drawPolygon(polygonGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+							} else {
+								g2d.drawPolygon(expressionGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+							}
 							((Graphics2D)g).setStroke(new BasicStroke(1));
 						}
 					}
