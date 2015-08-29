@@ -44,7 +44,6 @@ import doc_gui.mathobject_gui.NumberLineObjectGUI;
 import doc_gui.mathobject_gui.OvalObjectGUI;
 import doc_gui.mathobject_gui.PolygonObjectGUI;
 import doc_gui.mathobject_gui.TextObjectGUI;
-import doc_gui.mathobject_gui.TriangleObjectGUI;
 
 public class PageGUI {
 
@@ -55,7 +54,6 @@ public class PageGUI {
 	public TextObjectGUI textGUI;
 	public OvalObjectGUI ovalGUI;
 	public GraphObjectGUI graphGUI;
-	public TriangleObjectGUI triangleGUI;
 	public PolygonObjectGUI polygonGUI;
 	public ExpressionObjectGUI expressionGUI;
 	public NumberLineObjectGUI numLineGUI;
@@ -106,7 +104,6 @@ public class PageGUI {
 		textGUI = new TextObjectGUI();
 		ovalGUI = new OvalObjectGUI();
 		graphGUI = new GraphObjectGUI();
-		triangleGUI = new TriangleObjectGUI();
 		polygonGUI = new PolygonObjectGUI();
 		expressionGUI = new ExpressionObjectGUI();
 		numLineGUI = new NumberLineObjectGUI();

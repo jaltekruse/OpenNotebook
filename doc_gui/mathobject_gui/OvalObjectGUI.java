@@ -22,21 +22,18 @@ public class OvalObjectGUI extends MathObjectGUI<OvalObject> {
 	public void drawMathObject(OvalObject object, Graphics g, Point pageOrigin,
 			float zoomLevel) {
 		g.setColor(Color.BLACK);
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int thickness = (int) (object.getThickness() * zoomLevel);
-		
+		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
+				zoomLevel, object.getThickness());
+
 		Graphics2D g2d = (Graphics2D)g; 
-		g2d.setStroke(new BasicStroke(thickness));
+		g2d.setStroke(new BasicStroke(sap.getLineThickness()));
 		
 		if (object.getColor() != null){
 			g2d.setColor(object.getColor());
-			g2d.fill(new Ellipse2D.Double(xOrigin, yOrigin, width, height));
+			g2d.fill(new Ellipse2D.Double(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight()));
 		}
 		g2d.setColor(Color.BLACK);
-		g2d.draw(new Ellipse2D.Double(xOrigin, yOrigin, width, height));
+		g2d.draw(new Ellipse2D.Double(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight()));
 		
 		//reset graphics object to draw without additional thickness
 		g2d.setStroke(new BasicStroke());

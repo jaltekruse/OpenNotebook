@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Point;
-import java.util.Vector;
 
 import doc.GridPoint;
 import doc.attributes.DoubleAttribute;
@@ -38,12 +37,8 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 
 	public void drawMathObject(GraphObject object, Graphics g,
 			Point pageOrigin, float zoomLevel) {
-		// TODO Auto-generated method stub
 
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPosition(object, pageOrigin, zoomLevel);
 
 		graph.removeAllSingleGraphs();
 		graph.removeAllPoints();
@@ -88,22 +83,22 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
 			}
 		}
 
-		graph.repaint(g, width , height, zoomLevel, xOrigin, yOrigin, object);
+		graph.repaint(g, sap.getWidth() , sap.getHeight(), zoomLevel, sap.getxOrigin(), sap.getyOrigin(), object);
 
 		if (hadError){
 			FontMetrics fm = g.getFontMetrics();
 			int errorWidth = fm.stringWidth("error");
 			g.setColor(Color.WHITE);
-			g.fillRect((xOrigin + width/2) - errorWidth/2
-					, (yOrigin + height/2) - fm.getHeight()/2,
+			g.fillRect((sap.getxOrigin() + sap.getWidth()/2) - errorWidth/2
+					, (sap.getyOrigin() + sap.getHeight()/2) - fm.getHeight()/2,
 					errorWidth + 4, fm.getHeight() + 4);
 			g.setColor(Color.BLACK);
-			g.drawRect((xOrigin + width/2) - errorWidth/2
-					, (yOrigin + height/2) - fm.getHeight()/2,
+			g.drawRect((sap.getxOrigin() + sap.getWidth()/2) - errorWidth/2
+					, (sap.getyOrigin() + sap.getHeight()/2) - fm.getHeight()/2,
 					errorWidth + 4, fm.getHeight() + 4);
 			g.setColor(Color.RED);
-			g.drawString("error", (xOrigin + width/2) - errorWidth/2 + 2
-					, (yOrigin + height/2) + fm.getHeight()/2);
+			g.drawString("error", (sap.getxOrigin() + sap.getWidth()/2) - errorWidth/2 + 2
+					, (sap.getyOrigin() + sap.getHeight()/2) + fm.getHeight()/2);
 		}
 
 	}
@@ -113,7 +108,7 @@ public class GraphObjectGUI extends MathObjectGUI<GraphObject> {
     // and cannot be removed
     if (false) { // deliberately disabled, but this makes sure this code is still compiling (as commenting out would not do
       //add a point to the graph
-      gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -graph.screenyToGrid(y))));
+      gObj.getPoints().add(new GridPointAttribute("", new GridPoint(graph.screenxToGrid(x), -1 * graph.screenyToGrid(y))));
       // add a single x value "selection"
       graph.pullVarsFromGraphObject(gObj, (int) (gObj.getWidth() * zoomLevel),
           (int) (gObj.getHeight() * zoomLevel) );
