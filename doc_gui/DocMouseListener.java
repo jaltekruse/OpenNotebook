@@ -71,7 +71,7 @@ public class DocMouseListener implements MouseInputListener {
 				objRect = mObj.getBounds();
 				if (objRect.contains(new Point(clickedPt.getxPos(), clickedPt
 						.getyPos())) && mObj != docPanel.getFocusedObject())
-				{// the click occured within an object, that was already selected
+				{// the click occurred within an object, that was already selected
 					if (mObj instanceof Grouping && docPanel.isInStudentMode()) {
 						for (MathObject subObj : ((Grouping) mObj).getObjects()) {
 							objRect = subObj.getBounds();
@@ -357,11 +357,13 @@ public class DocMouseListener implements MouseInputListener {
 			// for individual objects to handle. Or will have to flip between
 			// the two depending
 			// on the state of the selected object
-			// clickedSelectedObj = MathObjectGUI.detectBorderCollision(new
-			// Point(e.getX(), e.getY()),
-			// docPanel.getFocusedObject(), docPanel.getPageOrigin(
-			// docPanel.getFocusedObject().getParentPage()),
-			// docPanel.getZoomLevel());
+      if (false) {
+        clickedSelectedObj = MathObjectGUI.detectBorderCollision(new
+        Point(e.getX(), e.getY()),
+        docPanel.getFocusedObject(), docPanel.getPageOrigin(
+        docPanel.getFocusedObject().getParentPage()),
+        docPanel.getZoomLevel());
+      }
 			clickedSelectedObj = MathObjectGUI.detectObjectCollision(new Point(
 					e.getX(), e.getY()), docPanel.getFocusedObject(),
 					docPanel.getPageOrigin(docPanel.getFocusedObject()

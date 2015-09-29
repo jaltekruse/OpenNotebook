@@ -130,7 +130,7 @@ public class ProblemListPanel extends JPanel {
 		con.weightx = 1;
 		con.weighty = .1;
 		con.gridy++;
-		add(new JLabel("Preview"), con);
+//		add(new JLabel("Preview"), con);
 		
 		con.gridx++;
 		con.weighty = 0;
@@ -166,7 +166,7 @@ public class ProblemListPanel extends JPanel {
 		con.gridx = 0;
 		con.gridwidth = 2;
 		con.gridy++;
-		add( previewPanel, con);
+//		add( previewPanel, con);
 	}
 	
 	public void generateProblems(){

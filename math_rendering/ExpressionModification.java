@@ -8,25 +8,24 @@
 
 package math_rendering;
 
+import java.awt.Graphics;
 import java.util.Vector;
-
-import expression.NodeException;
 
 public class ExpressionModification {
 
-	Vector<NodeGraphic> expressions;
+	Vector<ValueGraphic> expressions;
 	
 	public ExpressionModification(){
-		expressions = new Vector<NodeGraphic>();
+		expressions = new Vector<ValueGraphic>();
 	}
 	
-	public void draw() throws NodeException{
-		for (NodeGraphic vg : expressions){
+	public void draw(){
+		for (ValueGraphic vg : expressions){
 			vg.drawAllBelow();
 		}
 	}
 	
-	public void addVG(NodeGraphic vg){
+	public void addVG(ValueGraphic vg){
 		expressions.add(vg);
 	}
 	

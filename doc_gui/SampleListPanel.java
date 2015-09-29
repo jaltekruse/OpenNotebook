@@ -13,7 +13,7 @@ import javax.swing.ListSelectionModel;
 
 public class SampleListPanel extends JPanel{
 
-	private String[] documents = { "Teacher Mode Tutorial", "Problem Generation Tutorial",
+	private String[] documents = { "teacher_overview", "Teacher Mode Tutorial", "Problem Generation Tutorial",
 			"Student Mode Tutorial", "Factoring", "Parabola Graphs",
 			"Sine Graphs", "Proportions", "Linear Graphs",
 			"Word Problems", "Random Quiz"};
@@ -34,7 +34,7 @@ public class SampleListPanel extends JPanel{
 		new OCButton("Open", 0, 0, 0, 0, this){
 			public void associatedAction(){
 				if ( list.getSelectedIndex() >= 0){
-					notebookPanel.open(documents[list.getSelectedIndex()] + ".mdoc");
+					notebookPanel.openSample(documents[list.getSelectedIndex()] + ".mdoc");
 					notebookPanel.setSampleDialogVisible(false);
 				}
 			}

@@ -115,7 +115,7 @@ public class UnaryExpression extends Expression {
 	@Override
 	public boolean needsChildToLeft() {
 		// TODO Auto-generated method stub
-		if ( getOperator().isUnaryPost()){
+		if ( getOp().isUnaryPost()){
 			return child == null;
 		}
 		else{
@@ -126,7 +126,7 @@ public class UnaryExpression extends Expression {
 	@Override
 	public boolean needsChildToRight() {
 		// TODO Auto-generated method stub
-		if ( getOperator().isUnaryPost()){
+		if ( getOp().isUnaryPost()){
 			return false;
 		}
 		else{

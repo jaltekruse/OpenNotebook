@@ -15,21 +15,18 @@ import doc.mathobjects.PolygonObject;
 public class LineObjectGUI extends MathObjectGUI<LineObject>{
 
 	public void drawMathObject(LineObject object, Graphics g, Point pageOrigin, float zoomLevel){
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int thickness = (int) (object.getThickness() * zoomLevel);
-		
+		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
+				zoomLevel, object.getThickness());
+
 		Graphics2D g2d = (Graphics2D)g; 
 		
-		g2d.setStroke(new BasicStroke(thickness));
+		g2d.setStroke(new BasicStroke(sap.getLineThickness()));
 		
 		GridPoint[] points = object.getAdjustedVertices();
 		
 		for (int i = 0; i < points.length; i++){
-			points[i] = new GridPoint((int) (points[i].getx() * width) + xOrigin,
-					(int) (points[i].gety() * height) + yOrigin);
+			points[i] = new GridPoint((int) (points[i].getx() * sap.getWidth()) + sap.getxOrigin(),
+					(int) (points[i].gety() * sap.getHeight()) + sap.getyOrigin());
 		}
 		
 		if ( Math.abs(points[0].getx() - points[1].getx()) < 5){

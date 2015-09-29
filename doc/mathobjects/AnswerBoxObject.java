@@ -40,7 +40,7 @@ public class AnswerBoxObject extends MathObject implements Gradeable<AnswerBoxOb
 				new StringAttribute(""), 20, true, false));
 		addAttribute(new IntegerAttribute(FONT_SIZE, 12, 1, 50, true, false));
 		addAttribute(new IntegerAttribute(TOTAL_POINTS, 5, 1, 100, true, false));
-		addAttribute(new IntegerAttribute(STUDENT_SCORE, 5, 1, 100, true, false));
+		addAttribute(new IntegerAttribute(STUDENT_SCORE, 5, 0, 100, true, false));
 		addAttribute(new EnumeratedAttribute(ANSWER_TYPE, PLAIN_TEXT, ANSWER_TYPES));
 	}
 	

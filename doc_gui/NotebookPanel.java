@@ -7,21 +7,7 @@
  */
 package doc_gui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -30,17 +16,7 @@ import java.awt.print.PageFormat;
 import java.awt.print.Paper;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
-import java.io.BufferedWriter;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -52,25 +28,11 @@ import java.util.zip.ZipOutputStream;
 import java.awt.datatransfer.DataFlavor;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JToolBar;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import doc.PointInDocument;
 import org.xml.sax.SAXException;
 
 import doc.Document;
@@ -646,13 +608,36 @@ public class NotebookPanel extends SubPanel {
 		return getExpressionFromUser(message, "");
 	}
 
+
+    private String createPopupBelowCurrObject(String message, String defaultInput) {
+
+        MathObject currFocused = this.getCurrentDocViewer().getFocusedObject();
+        PointInDocument ptInDoc = new PointInDocument(
+                // TODO - HAX - fix this
+                this.getCurrentDocViewer().getDoc().getPageIndex(currFocused.getParentPage()),
+                currFocused.getxPos(), currFocused.getyPos() + currFocused.getHeight());
+        JOptionPane optionPane = new JOptionPane(message
+                , JOptionPane.PLAIN_MESSAGE
+                , JOptionPane.DEFAULT_OPTION
+                , null, null, defaultInput);
+        optionPane.setWantsInput(true);
+        optionPane.setInitialSelectionValue(defaultInput);
+        JDialog dialog = optionPane.createDialog(this, "");
+        Point p = getCurrentDocViewer().docPt2AbsoluteScreenPos(ptInDoc);
+        optionPane.selectInitialValue();
+        dialog.setBounds((int) p.getX(), (int)p.getY() + 15, 250, 200);
+        dialog.setVisible(true);
+        dialog.dispose();
+        String result = (String) optionPane.getInputValue();
+        return result.equals("uninitializedValue") ? null : result;
+    }
+
 	public Node getExpressionFromUser(String message, String defaultInput){
 		String lastEx = defaultInput;
 		Node newNode = null;
 		while( true ){
-			lastEx = (String) JOptionPane.showInputDialog(null, message,
-					null, JOptionPane.PLAIN_MESSAGE, null, null, lastEx);
-			if ( lastEx == null){
+			lastEx = createPopupBelowCurrObject(message, lastEx);
+			if ( lastEx == null ){
 				return null;
 			}
 			try{
@@ -689,7 +674,7 @@ public class NotebookPanel extends SubPanel {
 				new JScrollPane(tags),
 		};
 		while (true){
-			int input = JOptionPane.showConfirmDialog(null, 
+			int input = JOptionPane.showConfirmDialog(null,
 					inputs, "Enter Problem Details", JOptionPane.PLAIN_MESSAGE);
 			if ( input == -1){
 				return;
@@ -857,11 +842,14 @@ public class NotebookPanel extends SubPanel {
 		} catch (Exception e) {
 			try {
 				e.printStackTrace();
-				f.flush();
-				f.close();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+			} finally {
+				try {
+					f.flush();
+					f.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
 
 			JOptionPane.showMessageDialog(null, "Error saving file", "Error",
@@ -986,22 +974,39 @@ public class NotebookPanel extends SubPanel {
 		if ( workspaceFrame != null) workspaceFrame.dispose();
 	}
 
-	public void open(String docName) {
+    public void open(String docFilePath) {
+        File f = new File(docFilePath);
+        FileInputStream fis;
+        try {
+            fis = new FileInputStream(f);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "File not found.", "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        openHelper(fis, f.getName());
+    }
 
+    public void openHelper(InputStream inStream, String docName) {
+        InputStreamReader inputStreamReader = new InputStreamReader(inStream);
+        try {
+            Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
+            tempDoc.setFilename(docName);
+            addDoc(tempDoc);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null,
+                    "Error opening file, please send it to the lead developer at\n"
+                            + "dev@open-math.com to help with debugging",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+	public void openSample(String docName) {
 		InputStream inputStream = getClass().getClassLoader()
 				.getResourceAsStream("samples/" + docName);
-		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-		try {
-			Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
-			tempDoc.setFilename(docName);
-			addDoc(tempDoc);
-		} catch (Exception e) {
-			e.printStackTrace();
-			JOptionPane.showMessageDialog(null,
-					"Error opening file, please send it to the lead developer at\n"
-							+ "dev@open-math.com to help with debugging",
-							"Error", JOptionPane.ERROR_MESSAGE);
-		}
+        openHelper(inputStream, docName);
 	}
 
 	public void addPage() {
@@ -1143,8 +1148,9 @@ public class NotebookPanel extends SubPanel {
 	}
 
 	/**
-	 * Used to remove an editor from the tabs, should be modified to ask if user
-	 * wants to save first.
+	 * Used to remove an editor from the tabs.
+     *
+     * TODO - should be modified to ask if user wants to save first.
 	 */
 	public void closeDocViewer(DocViewerPanel docPanel) {
 		if (openDocs.size() == 1) {
@@ -1153,7 +1159,7 @@ public class NotebookPanel extends SubPanel {
 
 		if ( docPanel.hasBeenModfiedSinceSave() ){
 			// open popup to see ask if user wants to save recent changes
-			Object[] options = { "Close", "Cancel" };
+			Object[] options = { "Close Anyway", "Cancel" };
 			int n = JOptionPane.showOptionDialog(null,
 					"Changes have been made to this document since you last saved.\n"
 							+ "Would you like to continue closing this tab?",

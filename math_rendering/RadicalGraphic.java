@@ -13,8 +13,10 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import expression.Expression;
-import expression.Node;
+import tree.Expression;
+import tree.Operator;
+import tree.UnaryExpression;
+import tree.Expression;
 
 public class RadicalGraphic extends UnaryExpressionGraphic {
 
@@ -22,212 +24,46 @@ public class RadicalGraphic extends UnaryExpressionGraphic {
 	private int widthFront;
 	private int heightLeadingTail;
 	private int lengthLittleTail;
-    private int widthParens = 3;
 	
-	public RadicalGraphic(Expression v, RootNodeGraphic compExGraphic) {
+	public RadicalGraphic(UnaryExpression v, CompleteExpressionGraphic compExGraphic) {
 		super(v, compExGraphic);
+		if (v.getChild() instanceof UnaryExpression){
+			if (((UnaryExpression)v.getChild()).getOp() == Operator.PAREN)
+			{//if there is a set of parenthesis inside, remove them
+				v.setChild(((UnaryExpression)v.getChild()).getChild());
+			}
+		}
 		setMostInnerSouth(this);
 		setMostInnerNorth(this);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
 	public void draw() {
 		
+		
 		if (isSelected()){
-			super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
-			super.getRootNodeGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
-			super.getRootNodeGraphic().getGraphics().setColor(Color.black);
+			super.getCompExGraphic().getGraphics().setColor(getSelectedColor());
+			super.getCompExGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
+			super.getCompExGraphic().getGraphics().setColor(Color.black);
 		}
-		getRootNodeGraphic().getGraphics().setStroke(new BasicStroke(
-				(int) (1 * getRootNodeGraphic().DOC_ZOOM_LEVEL * getRootNodeGraphic().getFontSizeAdjustment())));
-		getRootNodeGraphic().getGraphics().drawLine(symbolX1, symbolY2 - heightLeadingTail + lengthLittleTail,
+		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke(
+				(int) (1 * super.getCompExGraphic().DOC_ZOOM_LEVEL)));
+		super.getCompExGraphic().getGraphics().drawLine(symbolX1, symbolY2 - heightLeadingTail + lengthLittleTail,
 				symbolX1 + 3, symbolY2 - heightLeadingTail);
-		getRootNodeGraphic().getGraphics().drawLine(symbolX1 + 3, symbolY2 - heightLeadingTail,
+		super.getCompExGraphic().getGraphics().drawLine(symbolX1 + 3, symbolY2 - heightLeadingTail,
 				symbolX1 + (int) Math.round(0.5 * widthFront), symbolY2);
-		getRootNodeGraphic().getGraphics().drawLine(symbolX1 + (int) Math.round(0.5 * widthFront),
+		super.getCompExGraphic().getGraphics().drawLine(symbolX1 + (int) Math.round(0.5 * widthFront),
 				symbolY2, symbolX1 + widthFront, symbolY1);
-		getRootNodeGraphic().getGraphics().drawLine(symbolX1 + widthFront, symbolY1, 
+		super.getCompExGraphic().getGraphics().drawLine(symbolX1 + widthFront, symbolY1, 
 				symbolX2, symbolY1);
-		getRootNodeGraphic().getGraphics().drawLine(symbolX2, symbolY1, symbolX2, symbolY1 + lengthLittleTail);
-		getRootNodeGraphic().getGraphics().setStroke(new BasicStroke());
+		super.getCompExGraphic().getGraphics().drawLine(symbolX2, symbolY1, symbolX2, symbolY1 + 5);
+		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke());
 	}
 	
-    @Override
-    public void drawCursor(){
-        int cursorPos = super.getRootNodeGraphic().getCursor().getPos();
-
-        super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
-        int height = getY2() - getY1();
-        int extraShift = 5;
-        if (getRootNodeGraphic().getCursor().getPos() == 0 || getRootNodeGraphic().getCursor().getPos() == getMaxCursorPos()){
-            height += 5;
-            extraShift = 0;
-        }
-        super.getRootNodeGraphic().getGraphics().fillRect(findCursorXPos(), getY1() - 3 + extraShift, 2, height);
-        return;
-
-    }
-
-    public int findCursorXPos(){
-        super.getRootNodeGraphic().getGraphics().setFont(getFont());
-        int cursorPos = super.getRootNodeGraphic().getCursor().getPos();
-
-        if (cursorPos == 0){
-            return getX1();
-        }
-        else if (cursorPos == 1){
-            return getX1() + widthParens + space/2;
-        }
-        else if (cursorPos == 2){
-            return getX2() - widthParens - space/2;
-        }
-        else if (cursorPos == 3){
-            return getX2();
-        }
-
-        //should replace this with exception thrown
-        return Integer.MAX_VALUE;
-
-    }
-
-    @Override
-    public int getMaxCursorPos(){
-        return 3;
-    }
-
-    public void setCursorPos(int xPixelPos){
-
-        if (xPixelPos < getX1() + widthParens + space){
-            if (xPixelPos < getX1() + widthParens/2){
-                super.getRootNodeGraphic().getCursor().setPos(0);
-                super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-                return;
-            }
-            else{
-                super.getRootNodeGraphic().getCursor().setPos(1);
-                super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-                return;
-            }
-        }
-        else{
-            if (xPixelPos > getX2() - widthParens - space){
-                if (xPixelPos < getX2() - widthParens/2){
-                    super.getRootNodeGraphic().getCursor().setPos(2);
-                    super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-                    return;
-                }
-                else{
-                    super.getRootNodeGraphic().getCursor().setPos(3);
-                    super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-                    return;
-                }
-            }
-            else{
-                getChildGraphic().setCursorPos(xPixelPos);
-                return;
-            }
-        }
-    }
-
-    @Override
-    public void moveCursorWest(){
-        int cursorPos = getRootNodeGraphic().getCursor().getPos();
-        if (cursorPos == 3 || cursorPos == 1){
-            super.getRootNodeGraphic().getCursor().setPos( cursorPos - 1);
-        }
-        else if (cursorPos == 0){
-            if (getWest() != null){
-                getWest().sendCursorInFromEast((getY2() - getY1())/2, this);
-                return;
-            }
-        }
-        else{
-            getChildGraphic().getMostInnerEast().sendCursorInFromEast((getY2() - getY1())/2, this);
-            return;
-        }
-    }
-
-    @Override
-    public void moveCursorEast(){
-        int cursorPos = getRootNodeGraphic().getCursor().getPos();
-        if (cursorPos == 2 || cursorPos == 0){
-            super.getRootNodeGraphic().getCursor().setPos( cursorPos + 1);
-        }
-        else if (cursorPos == 3){
-            if (getEast() != null){
-                getEast().sendCursorInFromWest((getY2() - getY1())/2, this);
-                return;
-            }
-        }
-        else{
-            getChildGraphic().getMostInnerWest().sendCursorInFromWest((getY2() - getY1())/2, this);
-            return;
-        }
-    }
-
-    @Override
-    public void moveCursorNorth(){
-        if (getNorth() == null)
-        {
-            System.out.println("nothing to north");
-            return;
-        }
-        else
-        {
-            getNorth().sendCursorInFromSouth(findCursorXPos(), this);
-            return;
-        }
-    }
-
-    @Override
-    public void moveCursorSouth(){
-        if (getSouth() == null)
-        {
-            System.out.println("nothing to south");
-            return;
-        }
-        else
-        {
-            getSouth().sendCursorInFromNorth(findCursorXPos(), this);
-            return;
-        }
-    }
-
-    @Override
-    public void sendCursorInFromEast(int yPos, NodeGraphic vg){
-        if (super.hasDescendent(vg)){
-            System.out.println("move into division from east, containedbelow");
-            super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-            super.getRootNodeGraphic().getCursor().setPos(0);
-        }
-        else{
-            super.getRootNodeGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerEast());
-            super.getRootNodeGraphic().getCursor().setPos(getChildGraphic().getMostInnerEast().getMaxCursorPos());
-        }
-    }
-
-    @Override
-    public void sendCursorInFromWest(int yPos, NodeGraphic vg){
-        if (super.hasDescendent(vg)){
-            System.out.println("move into division from west, containedbelow");
-            super.getRootNodeGraphic().getCursor().setValueGraphic(this);
-            super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
-        }
-        else{
-            super.getRootNodeGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerWest());
-            super.getRootNodeGraphic().getCursor().setPos(0);
-        }
-    }
-
-    @Override
-    public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
-        setCursorPos(xPos);
-    }
-
-    @Override
-    public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
-        setCursorPos(xPos);
-    }
+	public void drawCursor(int pos){
+		
+	}
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
@@ -241,36 +77,28 @@ public class RadicalGraphic extends UnaryExpressionGraphic {
 		g.setFont(f);
 		setFont(f);
 		
-		space = (int) (4 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL * getRootNodeGraphic().getFontSizeAdjustment());
-		widthFront = (int) (8 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL* getRootNodeGraphic().getFontSizeAdjustment());
-		heightLeadingTail = (int) (6 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL* getRootNodeGraphic().getFontSizeAdjustment());
-		lengthLittleTail = (int) (3 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL* getRootNodeGraphic().getFontSizeAdjustment());
+		space = (int) (4 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
+		widthFront = (int) (8 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
+		heightLeadingTail = (int) (8 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
+		lengthLittleTail = (int) (3 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
 		
-		// The call to getChild() skips the first paren inside of the operator, the parens are needed to have
-		// an expression inside of a UnaryOp, but they are not usually displayed
-		// if a user wants to show parens, the can use  two pairs of parens: sqrt((5/6))
-		Node tempChild = super.getValue().getChild(0);
-		NodeGraphic childValGraphic = null;
+		Expression tempChild = ((UnaryExpression)super.getValue()).getChild();
+		ValueGraphic childValGraphic = null;
 		int[] childSize = {0,0};
 		int[] symbolSize = {0, 0};
 		int[] totalSize = {0, 0};
 		
-		childValGraphic = makeNodeGraphic(tempChild);
+		childValGraphic = makeValueGraphic(tempChild);
 		childSize = childValGraphic.requestSize(g, f, x1 + widthFront + space, y1 + space);
 		
 		//set the west and east fields for inside an outside of the expression
-
-        setMostInnerWest(this);
-        childValGraphic.getMostInnerEast().setEast(this);
-
-        setMostInnerEast(this);
-        childValGraphic.getMostInnerWest().setWest(this);
-
-        setMostInnerNorth(this);
-        setMostInnerSouth(this);
-
+		setMostInnerWest(this);
+		setEast(childValGraphic.getMostInnerWest());
+		childValGraphic.getMostInnerWest().setWest(this);
+		setMostInnerEast(childValGraphic.getMostInnerEast());
+		
 		setChildGraphic(childValGraphic);
-		super.getRootNodeGraphic().getComponents().add(childValGraphic);
+		super.getCompExGraphic().getComponents().add(childValGraphic);
 		
 		widthFront += (int) Math.round(childSize[1]/14.0);
 		
@@ -303,7 +131,7 @@ public class RadicalGraphic extends UnaryExpressionGraphic {
 		super.setY1(y1);
 		super.setX2(x1 + totalSize[0]);
 		super.setY2(y1 + totalSize[1]);
-		
+		// TODO Auto-generated method stub
 		return totalSize;
 	}
 

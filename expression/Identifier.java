@@ -58,6 +58,11 @@ public class Identifier extends Value {
 			return this;
 	}
 
+    @Override
+    public boolean containsIdentifier(Identifier identifier) {
+        return identifier.equals(this);
+    }
+
 	public String getIdentifier() {
 		return identifier;
 	}

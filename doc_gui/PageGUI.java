@@ -44,7 +44,6 @@ import doc_gui.mathobject_gui.NumberLineObjectGUI;
 import doc_gui.mathobject_gui.OvalObjectGUI;
 import doc_gui.mathobject_gui.PolygonObjectGUI;
 import doc_gui.mathobject_gui.TextObjectGUI;
-import doc_gui.mathobject_gui.TriangleObjectGUI;
 
 public class PageGUI {
 
@@ -55,7 +54,6 @@ public class PageGUI {
 	public TextObjectGUI textGUI;
 	public OvalObjectGUI ovalGUI;
 	public GraphObjectGUI graphGUI;
-	public TriangleObjectGUI triangleGUI;
 	public PolygonObjectGUI polygonGUI;
 	public ExpressionObjectGUI expressionGUI;
 	public NumberLineObjectGUI numLineGUI;
@@ -106,7 +104,6 @@ public class PageGUI {
 		textGUI = new TextObjectGUI();
 		ovalGUI = new OvalObjectGUI();
 		graphGUI = new GraphObjectGUI();
-		triangleGUI = new TriangleObjectGUI();
 		polygonGUI = new PolygonObjectGUI();
 		expressionGUI = new ExpressionObjectGUI();
 		numLineGUI = new NumberLineObjectGUI();
@@ -375,14 +372,19 @@ public class PageGUI {
 				}
 				else if (focusedObj instanceof Grouping){
 					Grouping group = ((Grouping)focusedObj);
-					for (MathObject mathObj : group.getObjects()){
-						if (docPanel != null && group == docPanel.getFocusedObject()){
+					if (docPanel != null && group == docPanel.getFocusedObject()){
+						for (MathObject mathObj : group.getObjects()){
 							g.setColor(Color.BLUE);
 							((Graphics2D)g).setStroke(new BasicStroke(2));
-							g.drawRect((int) (pageOrigin.getX() + mathObj.getxPos() * zoomLevel), 
-									(int) (pageOrigin.getY() + mathObj.getyPos() * zoomLevel ),
-									(int) ( mathObj.getWidth() * zoomLevel ),
-									(int) ( mathObj.getHeight() * zoomLevel ));
+							// TODO - fix this hack, need to make a better mapping between MathObject classes and their corresponding
+							// GUI classes, this method to get the polygon should be called in the specific object
+							// this refactoring will simplify this whole class
+							Graphics2D g2d = (Graphics2D)g;
+							if (mathObj instanceof PolygonObject) {
+								g2d.drawPolygon(polygonGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+							} else {
+								g2d.drawPolygon(expressionGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+							}
 							((Graphics2D)g).setStroke(new BasicStroke(1));
 						}
 					}

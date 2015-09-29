@@ -14,6 +14,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JToolBar;
 
+/*
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -29,6 +30,7 @@ import org.apache.http.params.HttpParams;
 
 import com.sun.xml.internal.messaging.saaj.packaging.mime.Header;
 
+*/
 
 public class FileActionsToolBar extends JToolBar {
 
@@ -58,7 +60,7 @@ public class FileActionsToolBar extends JToolBar {
 				notebookPanel.open();
 			}
 		};
-		
+		/*
 		icon = notebookPanel.getIcon("img/save_cloud.png");
 
         
@@ -159,8 +161,12 @@ public class FileActionsToolBar extends JToolBar {
 			public void associatedAction(){
 			}
 		};
+<<<<<<< HEAD
 		
 
+=======
+*/
+>>>>>>> dev_work
 		
 //		new OCButton("frame", "open frame", 1, 1, 2, 0, this){
 //

@@ -28,7 +28,6 @@ public class OnScreenMathKeypad extends JPanel {
 	private boolean trigInv;
 	private OCButton sin, cos, tan, trigInverse;
 	private JComboBox angleUnitSelect;
-	private NotebookPanel notebook;
 	public static final int PRESS = Integer.MAX_VALUE - 1, RELEASE = Integer.MAX_VALUE - 2;
 	
 	private static Robot robot;
@@ -42,7 +41,6 @@ public class OnScreenMathKeypad extends JPanel {
 
 
 	OnScreenMathKeypad(final NotebookPanel notebook) {
-		this.notebook = notebook;
 		this.setFocusable(false);
 		trigInv = false;
 		this.setLayout(new GridBagLayout());
@@ -78,8 +76,8 @@ public class OnScreenMathKeypad extends JPanel {
 		new OCButton("x", 1, 1, 5, 1, this);
 		new OCButton("y", 1, 1, 5, 2, this);
 		new OCButton("z", 1, 1, 5, 3, this);
-		new OCButton("a", "variable for storage", 1, 1, 5, 4, this);
-		new OCButton("b", "variable for stroage", 1, 1, 5, 5, this);
+		new OCButton("a", 1, 1, 5, 4, this);
+		new OCButton("b", 1, 1, 5, 5, this);
 		new OCButton("c", 1, 1, 5, 6, this);
 		new OCButton("\u03C0", 1, 1, 5, 0, this);
 		new OCButton("i", 1, 1, 6, 1, this);

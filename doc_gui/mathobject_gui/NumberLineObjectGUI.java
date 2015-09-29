@@ -27,18 +27,12 @@ public class NumberLineObjectGUI extends MathObjectGUI<NumberLineObject> {
 	
 	public void drawMathObject(NumberLineObject object, Graphics g, Point pageOrigin,
 			float zoomLevel) {
-		// TODO Auto-generated method stub
-		
+
 		g.setColor(Color.BLACK);
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		double min = ((DoubleAttribute)object.getAttributeWithName("min")).getValue();
-		double max = ((DoubleAttribute)object.getAttributeWithName("max")).getValue();
-		double step = ((DoubleAttribute)object.getAttributeWithName("step")).getValue();
-		
-		numLine.repaint(g, width , height, zoomLevel, xOrigin, yOrigin, object);
+		ScaledSizeAndPosition sap = getSizeAndPosition(object, pageOrigin,
+				zoomLevel);
+
+		numLine.repaint(g, sap.getWidth(), sap.getHeight(), zoomLevel, sap.getxOrigin(), sap.getyOrigin(), object);
 		
 	}
 }

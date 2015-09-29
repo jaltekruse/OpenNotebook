@@ -16,31 +16,45 @@ import java.awt.Point;
 import java.awt.Polygon;
 
 import doc.GridPoint;
+import doc.mathobjects.MathObject;
 import doc.mathobjects.PolygonObject;
 
 public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 	
 	private static final int dotRadius = 3;
-	
+
+	public Polygon getCollisionAndSelectionPolygon(MathObject mObj, Point pageOrigin, float zoomLevel) {
+		PolygonObject pObject = (PolygonObject) mObj;
+
+		ScaledSizeAndPosition sap = getSizeAndPosition(mObj, pageOrigin,
+				zoomLevel);
+		GridPoint[] pts = pObject.getAdjustedVertices();
+		int[] xVals = new int[pts.length];
+		int[] yVals = new int[pts.length];
+		int i = 0;
+		for (GridPoint pt : pts) {
+			xVals[i] = (int) (pt.getx() * sap.getWidth()) + sap.getxOrigin();
+			yVals[i] = (int) (pt.gety() * sap.getHeight()) + sap.getyOrigin();
+			i++;
+		}
+		return new Polygon(xVals, yVals, pts.length);
+	}
+
 	public void drawMathObject(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
-//		System.out.println("draw polygon");
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int thickness = (int) (object.getThickness() * zoomLevel);
-		
+		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
+				zoomLevel, object.getThickness());
+
 		Graphics2D g2d = (Graphics2D)g; 
 		
-		g2d.setStroke(new BasicStroke(thickness));
+		g2d.setStroke(new BasicStroke(sap.getLineThickness()));
 		
 		Polygon p = new Polygon();
 		
 		GridPoint[] points = object.getAdjustedVertices();
 		for (int i = 0; i < points.length; i++){
-			p.addPoint((int) (points[i].getx() * width) + xOrigin,
-					(int) (points[i].gety() * height) + yOrigin);
+			p.addPoint((int) (points[i].getx() * sap.getWidth()) + sap.getxOrigin(),
+					(int) (points[i].gety() * sap.getHeight()) + sap.getyOrigin());
 		}
 		
 		if (object.getColor() != null){
@@ -54,22 +68,22 @@ public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 		g2d.setStroke(new BasicStroke(1));
 	}
 	
-//	public void drawInteractiveComponents(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
-//		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-//		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-//		int width = (int) (object.getWidth() * zoomLevel);
-//		int height = (int) (object.getHeight() * zoomLevel);
-//		int thickness = (int) (object.getThickness() * zoomLevel);
-//		
-//		for (int i = 0; i < object.getVertices().size(); i++){
-//			g.setColor(Color.YELLOW);
-//			g.fillOval((int) (object.getVertices().get(i).getx() * width) + xOrigin - dotRadius,
-//					(int) (object.getVertices().get(i).gety() * height) + yOrigin - dotRadius
-//					, 2 * dotRadius, 2 * dotRadius);
-//			g.setColor(Color.BLACK);
-//			g.drawOval((int) (object.getVertices().get(i).getx() * width) + xOrigin - dotRadius,
-//					(int) (object.getVertices().get(i).gety() * height) + yOrigin - dotRadius
-//					, 2 * dotRadius, 2 * dotRadius);
-//		}
-//	}
+	public void drawInteractiveComponents(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
+		// This is currently unused, this is an alternative to commenting out the code that makes sure it keeps compiling
+		if (false) {
+		ScaledSizeAndPosition sap = getSizeAndPosition(object, pageOrigin,
+				zoomLevel);
+		GridPoint[] pts = object.getAdjustedVertices();
+		for (int i = 0; i < pts.length; i++){
+			g.setColor(Color.YELLOW);
+			g.fillOval((int) (pts[i].getx() * sap.getWidth()) + sap.getxOrigin() - dotRadius,
+					(int) (pts[i].gety() * sap.getWidth()) + sap.getyOrigin() - dotRadius
+					, 2 * dotRadius, 2 * dotRadius);
+			g.setColor(Color.BLACK);
+			g.drawOval((int) (pts[i].getx() * sap.getWidth()) + sap.getxOrigin() - dotRadius,
+					(int) (pts[i].gety() * sap.getHeight()) + sap.getyOrigin() - dotRadius
+					, 2 * dotRadius, 2 * dotRadius);
+		}
+		}
+	}
 }

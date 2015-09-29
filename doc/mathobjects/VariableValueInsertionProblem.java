@@ -169,9 +169,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 	public MathObject subInVal(String s, Node val, MathObject mObj){
 		MathObject newObj = mObj.clone();
 
-		String exString, textString = null;
-		Node expression;
-		
+        // TODO - use inheritance for this
 		if (newObj instanceof Grouping){
 			Grouping newGroup = (Grouping) newObj.clone();
 			newGroup.removeAllObjects();
@@ -181,14 +179,21 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			return newGroup;
 		}
 		else if ( newObj instanceof ExpressionObject){
-			exString = ((ExpressionObject)newObj).getExpression();
+			final String exString = ((ExpressionObject)newObj).getExpression();
+            // TODO - review, make this work with multiple answers
+            final String ansString = ((ExpressionObject)newObj).getCorrectAnswers().get(0).getValue();
 			if (exString != null && ! exString.equals("")){
 				try {
-					expression = Node.parseNode(exString);
+					Node expression = Node.parseNode(exString);
 
 					expression = expression.replace(s, val);
 					((ExpressionObject)newObj).setExpression(expression.toStringRepresentation());
 
+                    Node ansExpression = Node.parseNode(ansString);
+                    ansExpression = ansExpression.replace(s, val);
+                    // TODO - make this work with multiple answers
+                    ((ExpressionObject)newObj).getCorrectAnswers().clear();
+                    ((ExpressionObject)newObj).addCorrectAnswer(ansExpression.toStringRepresentation());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -198,7 +203,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			for ( StringAttribute exAtt : ((GraphObject)newObj).getExpressions()){
 				if (exAtt.getValue() != null && ! exAtt.getValue().equals("")){
 					try {
-						expression = Node.parseNode(exAtt.getValue());
+						Node expression = Node.parseNode(exAtt.getValue());
 						expression = expression.replace(s, val);
 
 						exAtt.setValue(expression.toStringRepresentation());
@@ -209,7 +214,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			}
 		}
 		else if ( newObj instanceof TextObject){
-			textString = replaceInString(s, ((TextObject) newObj).getText() , val);
+			final String textString = replaceInString(s, ((TextObject) newObj).getText() , val);
 			try{
 				((TextObject) newObj).setText(textString);
 			} catch( AttributeException e){

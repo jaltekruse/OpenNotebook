@@ -24,8 +24,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.Preferences;
@@ -41,8 +39,6 @@ import doc.Document;
 import doc.ProblemDatabase;
 import doc.mathobjects.ExpressionObject;
 import doc.mathobjects.GraphObject;
-import doc.mathobjects.MathObject;
-import doc.mathobjects.TriangleObject;
 import doc.xml.DocReader;
 import doc_gui.attribute_panels.ObjectPropertiesFrame;
 
@@ -75,7 +71,7 @@ public class OpenNotebook extends JApplet {
 	private static final String DATABASE_PATH = "databasePath",
 			USER_NAME = "userName";
 	private static final String BACKING_STORE_AVAIL = "BackingStoreAvail", DATABASE_FILENAME = "ProblemDatabase";
-	private int docAlignment = ALIGN_DOCS_RIGHT;
+	private int docAlignment = ALIGN_DOCS_CENTER;
 	private static boolean minimalGraphicsMode = false;
 	private static String cookie;
 	
@@ -141,19 +137,14 @@ public class OpenNotebook extends JApplet {
 				addContents(this.getContentPane());
 			}
 			else{
-				if (studentMode){
-					application.setInStudentMode(true);
-				}
-				else{
-					application.setInStudentMode(false);
-				}
+	            application.setInStudentMode(studentMode);
 			}
 		}
 		if (openTutorial) {
 			if (application.inStudentMode()) {
-				notebookPanel.open("Student Mode Tutorial");
+				notebookPanel.openSample("Student Mode Tutorial.mdoc");
 			} else {
-				notebookPanel.open("Teacher Mode Tutorial");
+				notebookPanel.openSample("Teacher Mode Tutorial.mdoc");
 			}
 		}
 	}
@@ -226,13 +217,13 @@ public class OpenNotebook extends JApplet {
 
 			@Override
 			public void componentResized(ComponentEvent arg0) {
-				System.out.println("resized!!!");
-				if (frame.getWidth() > 1100) {
-					application.setDocAlignment(ALIGN_DOCS_CENTER);
-				}
-				if (frame.getWidth() <= 1100) {
-					application.setDocAlignment(ALIGN_DOCS_RIGHT);
-				}
+//				System.out.println("resized!!!");
+//				if (frame.getWidth() > 1100) {
+//					application.setDocAlignment(ALIGN_DOCS_CENTER);
+//				}
+//				if (frame.getWidth() <= 1100) {
+//					application.setDocAlignment(ALIGN_DOCS_RIGHT);
+//				}
 
 			}
 
@@ -252,13 +243,13 @@ public class OpenNotebook extends JApplet {
 
 			@Override
 			public void componentResized(ComponentEvent arg0) {
-				System.out.println("resized!!!");
-				if (application.getWidth() > 1100) {
-					application.setDocAlignment(ALIGN_DOCS_CENTER);
-				}
-				if (application.getWidth() <= 1100) {
-					application.setDocAlignment(ALIGN_DOCS_RIGHT);
-				}
+//				System.out.println("resized!!!");
+//				if (application.getWidth() > 1100) {
+//					application.setDocAlignment(ALIGN_DOCS_CENTER);
+//				}
+//				if (application.getWidth() <= 1100) {
+//					application.setDocAlignment(ALIGN_DOCS_RIGHT);
+//				}
 
 			}
 
@@ -497,7 +488,9 @@ public class OpenNotebook extends JApplet {
 					}
 				}
 				else{
-					createAndShowGUI(true, true, false);
+					createAndShowGUI(false, false, false);
+                    notebookPanel.openSample("teacher_overview.mdoc");
+//                    notebookPanel.open("/Users/jaltekruse/Dropbox/a_openmath_dev/interface_testing_3_15_2015.mdoc");
 				}
 			}
 		});

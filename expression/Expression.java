@@ -25,6 +25,12 @@ public class Expression extends Node {
 		setChildren(children);
 	}
 
+    public Expression(Operator o, boolean displayParenthesis, Vector<Node> children) {
+        setOperator(o);
+        setChildren(children);
+        setDisplayParentheses(displayParentheses());
+    }
+
 	public Expression(Operator o, Node... children) {
 		Vector<Node> v = new Vector<Node>();
 		for (Node c : children) {
@@ -100,6 +106,18 @@ public class Expression extends Node {
 		e.setDisplayParentheses(displayParentheses());
 		return e;
 	}
+
+    @Override
+    public boolean containsIdentifier(Identifier identifier) {
+        boolean ret = false;
+        for (Node n : children) {
+            if (n.containsIdentifier(identifier)) {
+                ret = true;
+                break;
+            }
+        }
+        return ret;
+    }
 
 	@Override
 	public Node replace(Identifier identifier, Node node) {
@@ -349,7 +367,7 @@ public class Expression extends Node {
 			Vector<Node> args = new Vector<Node>();
 			for (Node c : children)
 				args.add(c.collectLikeTerms());
-			return new Expression(o.clone(), args);
+			return new Expression(o.clone(), true, args);
 		}
 
 		for (Node n : split)
@@ -401,7 +419,7 @@ public class Expression extends Node {
 				combinedTerms.add(staggerMultiplication(commonTerm));
 			}
 
-			additionChildren.add(new Expression(new Operator.Multiplication(),
+			additionChildren.add(new Expression(new Operator.Multiplication(), true,
 					staggerAddition(combinedTerms), likeTerm));
 
 			likeTerm = findDuplicate(expandedTerms);
@@ -650,10 +668,10 @@ public class Expression extends Node {
 		case 1:
 			return children.firstElement();
 		case 2:
-			return new Expression(op.clone(), children);
+			return new Expression(op.clone(), true, children);
 		default:
 			Node last = children.remove(children.size() - 1);
-			return new Expression(op.clone(), stagger(children, op), last);
+			return new Expression(op.clone(), true, stagger(children, op), last);
 		}
 	}
 

@@ -10,6 +10,8 @@ package tree;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xpath.internal.operations.UnaryOperation;
+
 public class ExpressionParser {
 	
 	//an expression to keep track of the current position in the tree
@@ -190,6 +192,12 @@ public class ExpressionParser {
 			hitCloseParen();
 			break;
 		}
+//		
+//		if ( currChar == '\\' ) {
+//			if ( readIdentifier(s, pos++).equalsIgnoreCase("cursor")) {
+//				this.e.setCursorPos(cursorPos);
+//			}
+//		}
 
 		if ((currChar <= '9' && currChar >= '0') || currChar == '.') {
 			readNum(s, currCharNum);
@@ -231,12 +239,24 @@ public class ExpressionParser {
 			{
 				addValue(new MissingValue());
 			}
+			if (e.getOp() == Operator.DIVIDE) {
+				
+			}
 		}
 		int numParensHit = 0;
 		while (e.hasParent() && numParensHit < 1)
 		{
 			e = e.getParent();
-			if (e != null && e.getOperator() == Operator.PAREN){
+			if (e != null && e.getOp() == Operator.DIVIDE) {
+				if (((BinExpression)e).getLeftChild() instanceof UnaryExpression
+						&& ((BinExpression)e).getOp() == Operator.PAREN ) {
+					Expression tempEx = ((UnaryExpression)((BinExpression)e).getLeftChild()).getChild();
+					((UnaryExpression)((BinExpression)e).getLeftChild()).setChild(e);
+					((BinExpression)e).setLeftChild(tempEx);
+					break;
+				}
+			}
+			if (e != null && e.getOp() == Operator.PAREN){
 				numParensHit++;;
 			}
 		}
@@ -315,17 +335,7 @@ public class ExpressionParser {
 		}
 	}
 	
-	/**
-	 * Reads a Variable. Checks if it is an existing variable or constant
-	 * and if it is adds the respective element to the expression.
-	 * addNewValue
-	 * @param s - string to parse
-	 * @param pos - current position
-	 * @return an Operator object
-	 * @throws ParseException 
-	 */
-
-	public void readVar(String s, int pos) throws ParseException{
+	private String readIdentifier(String s, int pos) {
 		int length = 0;
 
 		for (int i = 0; pos + i < s.length(); i++) {
@@ -342,6 +352,23 @@ public class ExpressionParser {
 		lengthLast = length;
 		
 		String varElm = s.substring(pos, pos + length);
+		return varElm;
+	}
+	
+	/**
+	 * Reads a Variable. Checks if it is an existing variable or constant
+	 * and if it is adds the respective element to the expression.
+	 * addNewValue
+	 * @param s - string to parse
+	 * @param pos - current position
+	 * @return an Operator object
+	 * @throws ParseException 
+	 */
+
+	public void readVar(String s, int pos) throws ParseException{
+		String varElm = readIdentifier(s, pos);
+		int length = varElm.length();
+		lengthLast = length;
 		
 		//adds "-1" to the operator for inverse trig functions
 		if ("sin".equals(varElm) || "cos".equals(varElm)
@@ -433,8 +460,8 @@ public class ExpressionParser {
 		if(e instanceof BinExpression){
 			if(((BinExpression)e).getRightChild() == null){
 				((BinExpression)e).setRightChild(v);
-//				if ( ((BinExpression)e).getOperator().isPower() &&
-//						e.getParent().getOperator() == Operator.NEG)
+//				if ( ((BinExpression)e).getOp().isPower() &&
+//						e.getParent().getOp() == Operator.NEG)
 //				{// hack to make parabolic functions evaluate properly
 //					// i.e.  -(x-2)^2+1
 //					System.out.println("123$!@#$#WSD@#$@WED@#e");
@@ -483,7 +510,7 @@ public class ExpressionParser {
 			addValue(new MissingValue());
 		}
 		if (e instanceof UnaryExpression && ((UnaryExpression)e).getChild() != null){
-			if ( o.isPower() && ((UnaryExpression)e).getOperator() == Operator.NEG)
+			if ( o.isPower() && ((UnaryExpression)e).getOp() == Operator.NEG)
 			{// allows -x^2 to evaluate correctly, need to fix this by not assuming
 				// all unary operators have the highest precedence
 				newEx.setLeftChild(((UnaryExpression)e).getChild());
@@ -558,7 +585,7 @@ public class ExpressionParser {
 				vals = new ArrayList<Expression>();
 			}
 			else{
-				if (newEx.getOperator().getPrec() > e.getOperator().getPrec())
+				if (newEx.getOp().getPrec() > e.getOp().getPrec())
 				{// the precedence of the new operation is greater than that
 					//of the last added to the tree
 					if (e instanceof BinExpression){
@@ -575,13 +602,13 @@ public class ExpressionParser {
 					}
 				}
 				else {
-					while(e.hasParent() && newEx.getOperator().getPrec() < e.getOperator().getPrec()
+					while(e.hasParent() && newEx.getOp().getPrec() < e.getOp().getPrec()
 							&& !(e.getParent().isContainerOp())){
 						e = e.getParent();
 					}
 					if (e instanceof BinExpression)
 					{
-						if (e.getOperator().getPrec() < newEx.getOperator().getPrec())
+						if (e.getOp().getPrec() < newEx.getOp().getPrec())
 						{
 							(newEx).setLeftChild(((BinExpression)e).getRightChild());
 							((BinExpression)e).setRightChild(newEx);

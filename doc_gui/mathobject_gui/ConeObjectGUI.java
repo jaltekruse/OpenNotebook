@@ -10,15 +10,12 @@ import java.awt.Polygon;
 import doc.GridPoint;
 import doc.mathobjects.ConeObject;
 
-public class ConeObjectGUI {
+public class ConeObjectGUI extends MathObjectGUI<ConeObject> {
 
 	public void drawMathObject(ConeObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		g.setColor(Color.BLACK);
-		int xOrigin = (int) (pageOrigin.getX() + object.getxPos() * zoomLevel);
-		int yOrigin = (int) (pageOrigin.getY() + object.getyPos() * zoomLevel);
-		int width = (int) (object.getWidth() * zoomLevel);
-		int height = (int) (object.getHeight() * zoomLevel);
-		int thickness = (int) (object.getThickness() * zoomLevel);
+		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
+				zoomLevel, object.getThickness());
 		
 		Graphics2D g2d = (Graphics2D)g;
 		Color fillColor = object.getColor();
@@ -38,46 +35,44 @@ public class ConeObjectGUI {
 		
 		if (fillColor != null){
 			fillShape = new Polygon();
-			fillShape.addPoint( (int) (translated[0].getx() * width ) + xOrigin,
-					 (int) (translated[0].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (translated[1].getx() * width ) + xOrigin,
-					 (int) (translated[1].gety() * height ) + yOrigin);
-			fillShape.addPoint( (int) (translated[2].getx() * width ) + xOrigin,
-					 (int) (translated[2].gety() * height ) + yOrigin);
+			fillShape.addPoint( (int) (translated[0].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (translated[0].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (translated[1].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (translated[1].gety() * sap.getHeight() ) + sap.getyOrigin());
+			fillShape.addPoint( (int) (translated[2].getx() * sap.getWidth() ) + sap.getxOrigin(),
+					 (int) (translated[2].gety() * sap.getHeight() ) + sap.getyOrigin());
 			g2d.setColor(fillColor);
 			g2d.fillPolygon(fillShape);
-			
-			
+
+			g2d.setColor(MathObjectGUI.brightenColor(fillColor));
 			if (object.isFlippedVertically()){
-				g2d.setColor(MathObjectGUI.brightenColor(fillColor));;
-				g2d.fillOval(xOrigin,  yOrigin, width,
-						(int) (object.getInsideEdgeOfDisk().gety() * height));
+				g2d.fillOval(sap.getxOrigin(),  sap.getyOrigin(), sap.getWidth(),
+						(int) (object.getInsideEdgeOfDisk().gety() * sap.getHeight()));
 			}
 			else{
-				g2d.setColor(MathObjectGUI.brightenColor(fillColor));
-				g2d.fillOval(xOrigin,  (int) (object.getPointBehindCone().gety() * height) + yOrigin ,
-						width, (int) (object.getHalfDiskHeight() * height));
+				g2d.fillOval(sap.getxOrigin(),  (int) (object.getPointBehindCone().gety() * sap.getHeight()) + sap.getyOrigin() ,
+						sap.getWidth(), (int) (object.getHalfDiskHeight() * sap.getHeight()));
 			}
 	
 		}
-		g2d.setStroke(new BasicStroke(thickness, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER) );
+		g2d.setStroke(new BasicStroke(sap.getLineThickness(), BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER) );
 		g2d.setColor(Color.BLACK);
 		
-		g.drawLine((int) (translated[0].getx() * width) + xOrigin,
-				(int) (translated[0].gety() * height) + yOrigin ,
-				(int) (translated[1].getx() * width) + xOrigin,
-				(int) (translated[1].gety() * height) + yOrigin );
-		g.drawLine((int) (translated[1].getx() * width) + xOrigin,
-				(int) (translated[1].gety() * height) + yOrigin ,
-				(int) (translated[2].getx() * width) + xOrigin,
-				(int) (translated[2].gety() * height) + yOrigin );
+		g.drawLine((int) (translated[0].getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (translated[0].gety() * sap.getHeight()) + sap.getyOrigin() ,
+				(int) (translated[1].getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (translated[1].gety() * sap.getHeight()) + sap.getyOrigin() );
+		g.drawLine((int) (translated[1].getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (translated[1].gety() * sap.getHeight()) + sap.getyOrigin() ,
+				(int) (translated[2].getx() * sap.getWidth()) + sap.getxOrigin(),
+				(int) (translated[2].gety() * sap.getHeight()) + sap.getyOrigin() );
 		if (object.isFlippedVertically()){
-			g.drawOval(xOrigin,  yOrigin, width,
-					(int) (object.getHalfDiskHeight() * height));
+			g.drawOval(sap.getxOrigin(),  sap.getyOrigin(), sap.getWidth(),
+					(int) (object.getHalfDiskHeight() * sap.getHeight()));
 		}
 		else{
-			g.drawOval(xOrigin,  (int) (object.getPointBehindCone().gety() * height) + yOrigin , width,
-					(int) (object.getHalfDiskHeight() * height));
+			g.drawOval(sap.getxOrigin(),  (int) (object.getPointBehindCone().gety() * sap.getHeight()) + sap.getyOrigin() , sap.getWidth(),
+					(int) (object.getHalfDiskHeight() * sap.getHeight()));
 		}
 		
 		g2d.setStroke(new BasicStroke(1));

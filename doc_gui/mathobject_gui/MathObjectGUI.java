@@ -8,10 +8,7 @@
 
 package doc_gui.mathobject_gui;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Rectangle;
+import java.awt.*;
 
 import doc.PointInDocument;
 import doc.mathobjects.LineObject;
@@ -29,6 +26,43 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 	private boolean resizeDotBeingDragged;
 
+	// Create one of these that will be reused during each rendering of an object
+	// to avoid short lived object creation
+	private ScaledSizeAndPosition cachedScaleAndPositionObject = new ScaledSizeAndPosition();
+
+	/**
+	 * Get a {@link ScaledSizeAndPosition} object for use in the various methods
+	 * for drawing a particular type of MathObject.
+	 * @return - description of position and measurements of the object taking into account the
+	 *           the provided page origin and zoom level
+	 */
+	protected ScaledSizeAndPosition getSizeAndPosition(MathObject object, Point pageOrigin,
+			float zoomLevel) {
+		return cachedScaleAndPositionObject.populateValues(object, pageOrigin, zoomLevel);
+	}
+
+	/**
+	 * Alternative to the method {@code getSizeAndPosition(MathObject, Point, float)} which will
+	 * populate the font size of the {@link ScaledSizeAndPosition} object as well.
+	 * @return - description of position and measurements of the object taking into account the
+	 *           the provided page origin and zoom level
+	 */
+	protected ScaledSizeAndPosition getSizeAndPositionWithFontSize(MathObject object, Point pageOrigin,
+																																 float zoomLevel, int fontSize) {
+		return cachedScaleAndPositionObject.populateValuesWithFontSize(object, pageOrigin, zoomLevel, fontSize);
+	}
+
+	protected ScaledSizeAndPosition getSizeAndPositionWithLineThickness(MathObject object, Point pageOrigin,
+																																 float zoomLevel, int lineThickness) {
+		return cachedScaleAndPositionObject.populateValuesWithLineThickness(object, pageOrigin, zoomLevel, lineThickness);
+	}
+
+	protected ScaledSizeAndPosition getSizeAndPositionWithFontAndLineThickness(MathObject object, Point pageOrigin,
+																																			float zoomLevel, int fontSize,
+																																			int lineThickness) {
+		return cachedScaleAndPositionObject.populateAllValues(object, pageOrigin, zoomLevel, fontSize, lineThickness);
+	}
+
 	/**
 	 * Represents the value of the upper left resizing dot.
 	 */
@@ -43,12 +77,22 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 	public abstract void drawMathObject(K object, Graphics g, Point pageOrigin, float zoomLevel);
 
-    public void mouseClicked(MathObject mObj, int x , int y, float zoomLevel){}
+  public Polygon getCollisionAndSelectionPolygon(MathObject mObj, Point pageOrigin, float zoomLevel) {
+		int width = (int) (mObj.getWidth() * zoomLevel);
+		int height = (int) (mObj.getHeight() * zoomLevel);
+		int xPos = (int) (pageOrigin.getX() + mObj.getxPos() * zoomLevel);
+		int yPos = (int) (pageOrigin.getY() + mObj.getyPos() * zoomLevel);
+		int[] xVals = { xPos, xPos + width, xPos + width, xPos};
+		int[] yVals = { yPos, yPos, yPos + height, yPos + height};
+		return new Polygon(xVals, yVals, 4);
+  }
 
-    // returns true if this mouse event was consumed by this method
-    public boolean keyPressed(MathObject mObj, char key) throws NodeException {
-        return false;
-    }
+  public void mouseClicked(MathObject mObj, int x , int y, float zoomLevel){}
+
+  // returns true if this key event was consumed by this method
+  public boolean keyPressed(MathObject mObj, char key) throws NodeException {
+      return false;
+  }
 
 	public void drawInteractiveComponents(K object, Graphics g, Point pageOrigin, float zoomLevel){}
 
@@ -56,8 +100,8 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 		if ( object instanceof LineObject ){
 			boolean flipped = false;
-			if ( ((LineObject)object).isFlippedHorizontally()) flipped = !flipped;
-			if ( ((LineObject)object).isFlippedVertically()) flipped = !flipped;
+			if ( object.isFlippedHorizontally()) flipped = !flipped;
+			if ( object.isFlippedVertically()) flipped = !flipped;
 			if ( flipped ){
 				drawResizeDot(object, g, pageOrigin, zoomLevel, NORTHEAST_DOT);
 				drawResizeDot(object, g, pageOrigin, zoomLevel, SOUTHWEST_DOT);

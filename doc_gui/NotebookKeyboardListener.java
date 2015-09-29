@@ -20,6 +20,10 @@ public class NotebookKeyboardListener implements KeyListener{
 
         try{
             MathObject foc = notebook.getNotebookPanel().getCurrentDocViewer().getFocusedObject();
+						if (foc == null) {
+							// There is no focused object to accept the event
+							return;
+						}
             switch (e.getKeyCode()){
                 case KeyEvent.VK_DOWN:
                     if (notebook.getNotebookPanel().getCurrentDocViewer().getPageGUI().getGUIForObj(foc).keyPressed(foc, PageGUI.DOWN)){
