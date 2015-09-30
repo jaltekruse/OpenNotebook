@@ -438,18 +438,18 @@ public class DocViewerPanel extends JDesktopPane{
 				getNotebookPanel().getObjToPlace().getType().equals(type))
 		{// the user has hit the button for the same object again, need to cycle through
 			// object placement modes
-			if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.NOT_PLACING_OBJECT)
-				getNotebookPanel().setObjectCreationMode(NotebookPanel.PLACING_SINGLE_OBJECT);
-			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.PLACING_SINGLE_OBJECT)
-				getNotebookPanel().setObjectCreationMode(NotebookPanel.MULTIPLE_OBJECTS);
-			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.MULTIPLE_OBJECTS){
-				getNotebookPanel().setObjectCreationMode(NotebookPanel.NOT_PLACING_OBJECT);
+			if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.ObjectCreationMode.NOT_PLACING_OBJECT)
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.ObjectCreationMode.PLACING_SINGLE_OBJECT);
+			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.ObjectCreationMode.PLACING_SINGLE_OBJECT)
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.ObjectCreationMode.MULTIPLE_OBJECTS);
+			else if ( getNotebookPanel().getObjectCreationMode() == NotebookPanel.ObjectCreationMode.MULTIPLE_OBJECTS){
+				getNotebookPanel().setObjectCreationMode(NotebookPanel.ObjectCreationMode.NOT_PLACING_OBJECT);
 				getNotebookPanel().setObjToPlace(null);
 				return;
 			}
 		}
 		else{
-			getNotebookPanel().setObjectCreationMode(NotebookPanel.PLACING_SINGLE_OBJECT);
+			getNotebookPanel().setObjectCreationMode(NotebookPanel.ObjectCreationMode.PLACING_SINGLE_OBJECT);
 		}
 		getNotebookPanel().setObjToPlace(MathObject.newInstanceWithType(type));
 	}

@@ -11,17 +11,14 @@ package doc_gui;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.Vector;
 
-import javax.swing.JOptionPane;
 import javax.swing.event.MouseInputListener;
 
 import doc.Page;
 import doc.PointInDocument;
 import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
-import doc.mathobjects.MathObjectContainer;
 import doc.mathobjects.ProblemNumberObject;
 import doc.mathobjects.RectangleObject;
 import doc_gui.mathobject_gui.MathObjectGUI;
@@ -206,7 +203,7 @@ public class DocMouseListener implements MouseInputListener {
 			return;
 		} else if (clickedPt.isOutSidePage()) {// click was outside of page
 			if (docPanel.isPlacingObject()) {
-				docPanel.getNotebookPanel().objHadBeenPlaced();
+				docPanel.getNotebookPanel().objHasBeenPlaced();
 				docPanel.ungroupTempGroup();
 			}
 		} else {// the user clicked on a page, but none of the objects were
@@ -236,7 +233,7 @@ public class DocMouseListener implements MouseInputListener {
 			docPanel.addUndoState();
 			docPanel.getNotebookPanel().getObjToPlace().setWidth(50);
 			docPanel.getNotebookPanel().getObjToPlace().setHeight(50);
-			docPanel.getNotebookPanel().objHadBeenPlaced();
+			docPanel.getNotebookPanel().objHasBeenPlaced();
 			objPlacementRequiresMouseDrag = false;
 		}
 		if (selectionRectBeingResized || selectionRectRequiresMouseDrag) {
@@ -270,7 +267,7 @@ public class DocMouseListener implements MouseInputListener {
 		// docPanel.updateObjectToolFrame();
 		draggingDot = false;
 		draggingObject = false;
-		docPanel.getNotebookPanel().objHadBeenPlaced();
+		docPanel.getNotebookPanel().objHasBeenPlaced();
 		objPlacementRequiresMouseDrag = false;
 	}
 

@@ -161,13 +161,10 @@ public class FileActionsToolBar extends JToolBar {
 			public void associatedAction(){
 			}
 		};
-<<<<<<< HEAD
-		
 
-=======
+
 */
->>>>>>> dev_work
-		
+
 //		new OCButton("frame", "open frame", 1, 1, 2, 0, this){
 //
 //			@Override

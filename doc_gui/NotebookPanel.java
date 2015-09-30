@@ -70,10 +70,12 @@ public class NotebookPanel extends SubPanel {
 
 	private MathObject objToPlace;
 
-	public static final int NOT_PLACING_OBJECT = 0;
-	public static final int PLACING_SINGLE_OBJECT = 1;
-	public static final int MULTIPLE_OBJECTS = 2;
-	private int objectCreationMode = 0;
+	public enum ObjectCreationMode {
+		NOT_PLACING_OBJECT,
+		PLACING_SINGLE_OBJECT,
+		MULTIPLE_OBJECTS
+	}
+	private ObjectCreationMode objectCreationMode = ObjectCreationMode.NOT_PLACING_OBJECT;
 
 	//might want to make workspace a list of frames, to allow multiple open at once
 	// would also have to add another list of doc viewers
@@ -1227,17 +1229,17 @@ public class NotebookPanel extends SubPanel {
 		this.objToPlace = objToPlace;
 	}
 
-	public int getObjectCreationMode() {
+	public ObjectCreationMode getObjectCreationMode() {
 		return objectCreationMode;
 	}
 
-	public void setObjectCreationMode(int objectCreationMode) {
+	public void setObjectCreationMode(ObjectCreationMode objectCreationMode) {
 		this.objectCreationMode = objectCreationMode;
 	}
 
 	public boolean isPlacingObj(){
-		if ( getObjectCreationMode() == PLACING_SINGLE_OBJECT ||
-				getObjectCreationMode() == MULTIPLE_OBJECTS){
+		if ( getObjectCreationMode() == ObjectCreationMode.PLACING_SINGLE_OBJECT ||
+				getObjectCreationMode() == ObjectCreationMode.MULTIPLE_OBJECTS){
 			return true;
 		}
 		return false;
@@ -1249,12 +1251,12 @@ public class NotebookPanel extends SubPanel {
 	 * to be placed later, if it was only placing a single object, sets the object
 	 * to place null.
 	 */
-	public void objHadBeenPlaced(){
-		if ( getObjectCreationMode() == MULTIPLE_OBJECTS ){
+	public void objHasBeenPlaced(){
+		if ( getObjectCreationMode() == ObjectCreationMode.MULTIPLE_OBJECTS ){
 			setObjToPlace(MathObject.newInstanceWithType(getObjToPlace().getType()));
 		}
 		else{
-			setObjectCreationMode(NOT_PLACING_OBJECT);
+			setObjectCreationMode(ObjectCreationMode.NOT_PLACING_OBJECT);
 			setObjToPlace(null);
 			objectToolbar.updateButton();
 		}

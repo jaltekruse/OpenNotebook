@@ -126,7 +126,7 @@ public class ObjectToolBar extends JToolBar {
 					// pass event down to current doc window for placing a
 					// mathObj
 					if (lastHit != null && lastHit != this){
-						 notebookPanel.setObjectCreationMode(NotebookPanel.NOT_PLACING_OBJECT);
+						 notebookPanel.setObjectCreationMode(NotebookPanel.ObjectCreationMode.NOT_PLACING_OBJECT);
 						lastHit.updateImage();
 					}
 					lastHit = this;
@@ -135,15 +135,15 @@ public class ObjectToolBar extends JToolBar {
 				}
 				
 				public void updateImage(){
-					if ( notebookPanel.getObjectCreationMode() == NotebookPanel.NOT_PLACING_OBJECT){
+					if ( notebookPanel.getObjectCreationMode() == NotebookPanel.ObjectCreationMode.NOT_PLACING_OBJECT){
 						this.setIcon(objImage);
 						System.out.println("set icon for not placeing");
 						lastHit = null;
 					}
-					else if ( notebookPanel.getObjectCreationMode() == NotebookPanel.PLACING_SINGLE_OBJECT){
+					else if ( notebookPanel.getObjectCreationMode() == NotebookPanel.ObjectCreationMode.PLACING_SINGLE_OBJECT){
 						setIcon(objCreateImage);
 					}
-					else if ( notebookPanel.getObjectCreationMode() == NotebookPanel.MULTIPLE_OBJECTS){
+					else if ( notebookPanel.getObjectCreationMode() == NotebookPanel.ObjectCreationMode.MULTIPLE_OBJECTS){
 						setIcon(objCreateLockImage);
 						return;
 					}
