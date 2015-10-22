@@ -263,8 +263,7 @@ public abstract class MathObject implements Cloneable{
 			setAttributeValue(VERTICALLY_FLIPPED, !isFlippedVertically());
 		} catch (AttributeException e) {
 			// should not happen, just setting boolean
-			System.out
-					.println("error in CylinderGUI.performSpecialObjectAction");
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -445,7 +444,8 @@ public abstract class MathObject implements Cloneable{
 	public void performSpecialObjectAction(String s) {
 
 		if (!actions.contains(s)) {
-			System.out.println("unrecognized action (MathObject)");
+			// TODO - logging
+//			System.out.println("unrecognized action (MathObject)");
 		}
 	}
 
@@ -639,7 +639,6 @@ public abstract class MathObject implements Cloneable{
 
 	public boolean setAttributeValue(String n, Object o)
 			throws AttributeException {
-		System.out.println( this + " set att named: " + n);
 		getAttributeWithName(n).setValue(o);
 		return true;
 	}

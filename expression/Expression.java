@@ -179,7 +179,6 @@ public class Expression extends Node {
 	// }
 
 	public Node multiplyByNode(Node n) {
-		System.out.println("multiply by ex");
 		if (getOperator() instanceof Operator.Addition
 				|| getOperator() instanceof Operator.Subtraction
 				|| (n instanceof Expression && (((Expression) n).getOperator() instanceof Operator.Addition || ((Expression) n)
@@ -258,15 +257,12 @@ public class Expression extends Node {
 			return finalNode;
 		}
 
-//		System.out.println("before dist: " + this.toStringRepresentation());
 		Vector<Node> factors = splitOnMultiplication();
 		Number one = Number.get(1);
 		while (factors.contains(one))
 			factors.remove(one);
 
-//		System.out.println("factors");
 		for (Node n : factors) {
-//			System.out.println(n.toStringRepresentation());
 		}
 
 		if (factors.size() > 1) {
@@ -283,20 +279,14 @@ public class Expression extends Node {
 			if (containsAddOrSub) {
 				Node newNode = factors.get(0).numericSimplify();
 				for (int i = 1; i < factors.size(); i++) {
-//					System.out.println(factors.get(i).numericSimplify());
 					newNode = newNode.multiplyByNode(factors.get(i)
 							.numericSimplify());
 				}
-//				System.out.println("distributed: "
-//						+ newNode.toStringRepresentation());
 
 				newNode = newNode.collectLikeTerms();
-//				System.out.println("after collect:"
-//						+ newNode.toStringRepresentation());
 				addends = newNode.splitOnAddition();
 				if (addends.size() > 1) {
 					for (Node n : addends) {
-//						System.out.println("simp addend");
 						n = n.smartNumericSimplify();
 					}
 					return Expression.staggerAddition(addends)
@@ -321,16 +311,11 @@ public class Expression extends Node {
 			if (simplified.contains(Number.get(0))) {
 				return Number.get(0);
 			}
-//			System.out.println("simp: ");
 			for (int i = 0; i < simplified.size(); i++) {
 				simplified.set(i, simplified.get(i).numericSimplify());
 			}
-//			System.out.println("simple{1): "
-//					+ simplified.get(simplified.size() - 1)
-//							.toStringRepresentation());
 			while (simplified.contains(one))
 				simplified.remove(one);
-			System.out.println();
 			if (simplified.contains(Number.get(1))) {
 				simplified.remove(Number.get(1));
 				return staggerMultiplication(simplified).smartNumericSimplify();

@@ -361,7 +361,6 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		if ( mObj.getParentContainer() != null && getParentContainer() != null 
 				&&getParentContainer() != mObj.getParentContainer())
 		{// cannot add object from another page
-			System.out.println("parent container did not match");
 			return false;
 		}
 		if (getObjects().size() == 0){

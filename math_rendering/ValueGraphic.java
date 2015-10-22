@@ -90,7 +90,6 @@ public abstract class ValueGraphic<E extends Expression> {
 	}
 	
 	public ValueGraphic findValueGraphic(Expression v){
-		System.out.println(this.getValue());
 		ValueGraphic found;
 		for (ValueGraphic vg : getComponents()){
 			if (v.equals( vg.getValue() )){
@@ -175,7 +174,6 @@ public abstract class ValueGraphic<E extends Expression> {
 			}
 			return new UnaryExpressionGraphic((UnaryExpression)v, getCompExGraphic());
 		}
-		System.out.println(v.toString());
 		throw new RenderException("unsupported Value");
 	}
 	
@@ -250,9 +248,7 @@ public abstract class ValueGraphic<E extends Expression> {
 
 	public void setNorth(ValueGraphic north) {
 		this.north = north;
-		System.out.println(getComponents());
 		for (ValueGraphic vg : getComponents()){
-			System.out.println(vg.toString());
 			vg.setNorth(north);
 		}
 	}
@@ -263,9 +259,7 @@ public abstract class ValueGraphic<E extends Expression> {
 
 	public void setSouth(ValueGraphic south) {
 		this.south = south;
-		System.out.println("setSouth: " + getValue().toString());
 		for (ValueGraphic vg : getComponents()){
-			System.out.println("valGraphic class setChildSouth: " + vg.getValue().toString());
 			vg.setSouth(south);
 		}
 	}

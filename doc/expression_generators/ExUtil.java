@@ -47,8 +47,6 @@ public class ExUtil {
 		int minGeneratedVal = 1;
 		int maxGeneratedVal = 10;
 		int numOps;
-		System.out.println(7.84);
-		System.out.println(2.8 * 2.8);
 
 		for (int j = 0; j < numTrials; j++){
 			numOps = (int) randomInt(minNumOps, maxNumOps, false);
@@ -63,12 +61,12 @@ public class ExUtil {
 					numNegatives++;
 				}
 			} catch (NodeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		System.out.println( numZeros + " out of " + numTrials + " trials evaluated to 0.");
-		System.out.println(numNegatives + " out of " + numTrials + " trials evaluated to a negative.");
+		// TODO - add a logger
+//		System.out.println( numZeros + " out of " + numTrials + " trials evaluated to 0.");
+//		System.out.println(numNegatives + " out of " + numTrials + " trials evaluated to a negative.");
 		return expressions;
 	}
 
@@ -300,8 +298,7 @@ public class ExUtil {
 				return ex;
 			}
 		} catch (NodeException e) {
-			System.out.println(e.getMessage());
-			return null;
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -434,7 +431,6 @@ public class ExUtil {
 			if ( ! (newChild instanceof Number) ){
 				// the new child being added is not a number, it will not have to be adjusted
 				// to keep the answer clean
-				System.out.println("adding a non-number");
 				return addNodeOnRandomSide(n, newChild, op);
 			}
 
@@ -443,7 +439,6 @@ public class ExUtil {
 				do{ 
 					newChild = new Number( randomInt(min, max, excludeZero));
 				} while( newNum.getValue() == 0);
-				System.out.println("expression val was 0");
 				return new Expression(op, n, newChild);
 			}
 			else if ( isPrime( expressionVal ) || ( rand.nextBoolean() && ! numberTooBig) )
@@ -460,7 +455,6 @@ public class ExUtil {
 				if ( numberTooBig ){
 					return addRandomOp(n, ops, vars, min, max, maxAbsVal, excludeZero, subtractNegatives, addNegatives);
 				}
-				System.out.println("dividend");
 				double[] factors = getFactors(expressionVal);
 				int factorIndex = rand.nextInt( factors.length );
 				newChild = new Number( factors[factorIndex]);
@@ -549,7 +543,7 @@ public class ExUtil {
 			return new Expression(new Operator.Negation(), true, n);
 		}
 		else{
-			System.out.println("unknown op");
+			throw new RuntimeException("unknown op");
 		}
 
 		return addNodeOnRandomSide(n, newChild, op);

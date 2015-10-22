@@ -142,9 +142,7 @@ public class Document {
 	}
 
 	public ProblemGenerator getGeneratorWithID(UUID id) {
-		System.out.println("check for generateor: " + id.toString());
 		for (ProblemGenerator gen : getGenerators()) {
-			System.out.println("check against : " + gen.toString());
 			if (gen.getProblemID().compareTo(id) == 0) {
 				return gen;
 			}
@@ -177,7 +175,7 @@ public class Document {
 			try {
 				newDoc.addGenerator( (ProblemGenerator) gen.clone());
 			} catch (Exception e) {
-				System.out.println("UUID already in use.");
+				throw new RuntimeException(e);
 			}
 		}
 		for (Page p : pages) {
@@ -438,7 +436,7 @@ public class Document {
 			total += frequencies.get(i);
 		}
 		// this next line should never be reached
-		System.out.println("this line should never be reached, in Document.pickRandomIndex");
+//		System.out.println("this line should never be reached, in Document.pickRandomIndex");
 		return 1;
 	}
 

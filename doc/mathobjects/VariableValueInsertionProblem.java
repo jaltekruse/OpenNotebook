@@ -120,9 +120,8 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			try {
 				getParentContainer().getParentDoc().addGenerator(this);
 			} catch (Exception e1) {
-				// What to do if generator ID collides with another, or if
+				// TODO - What to do if generator ID collides with another, or if
 				// the same generator tries to get added twice
-				System.out.println(e1.getMessage());
 			}
 
 			int numColumns = ( (getParentContainer().getWidth()
@@ -343,12 +342,10 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			//this line sets the bounds to the actual space it takes to render them
 			if ( getParentContainer() != null)
 			{// if this problem formula is in the background storage for a document
-				System.out.println("21342134 asdfasf@E@$##@$");
 				getParentDoc().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			else
 			{// if this problem formula is actually on a document
-				System.out.println("asdfasf@E@$##@$");
 				getProblemHoldingDocument().getDocViewerPanel().drawObjectInBackground(newObj);
 			}
 			newObj.setParentContainer(newProblem.getParentContainer());

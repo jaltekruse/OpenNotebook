@@ -53,7 +53,8 @@ public class DocReader extends DefaultHandler {
 	private Document doc;
 	private Page page;
 	private Vector<Grouping> containerStack;
-	private boolean DEBUG = true;
+	// TODO - add logging system so that this doesn't go to stdout
+	private boolean DEBUG = false;
 
 	// objects added to Groupings ( or subclasses of Grouping ) need to have their attributes 
 	// read in before being added, so their positions can be calculated relative
@@ -315,7 +316,7 @@ public class DocReader extends DefaultHandler {
 		if ( qName.equals("enumeratedValue")){
 			boolean tr = true;
 		}
-		if (true || DEBUG){
+		if (DEBUG){
 			System.out.println("check tag " + atts.getValue("name") + " " +
 					"To see if it is an attribute");
 		}

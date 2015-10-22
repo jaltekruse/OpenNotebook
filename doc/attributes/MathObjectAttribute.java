@@ -125,7 +125,6 @@ public abstract class MathObjectAttribute<K> implements Cloneable{
 	}
 
 	public String exportToXML(){
-		System.out.println(getName());
 		return "\t<" + getType() + " " + NAME + "=\"" + formatForXML(getName())
 				+ "\" " + VALUE + "=\"" + formatForXML(getValue().toString()) + "\"/>\n";
 	}

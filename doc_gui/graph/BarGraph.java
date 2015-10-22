@@ -46,7 +46,6 @@ public class BarGraph extends GraphComponent {
 			drawBars(g, 0, groupX, groupW, i);
 			
 			g.setColor(Color.WHITE);
-			System.out.println(labels.size());
 			String ptText = labels.get(i / groupSize);
 			int width = g.getFontMetrics().stringWidth(ptText);
 			int numberInset = 1;
@@ -77,7 +76,6 @@ public class BarGraph extends GraphComponent {
 			
 			
 			g.setColor(Color.WHITE);
-			System.out.println(labels.size());
 			String ptText = doubleToString(values.get(valueIndex + i), .01);
 			int txtWidth = g.getFontMetrics().stringWidth(ptText);
 			int numberInset = 1;

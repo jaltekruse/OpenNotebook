@@ -192,7 +192,8 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		else if (dotVal == WEST_DOT)
 			return new Point(xOrigin - shiftOut, yOrigin + height/2 - resizeDotRadius);
 		else{
-			System.out.println("Invalid resize dot value");
+			// TODO - logging?
+//			System.out.println("Invalid resize dot value");
 			return null;
 		}
 	}

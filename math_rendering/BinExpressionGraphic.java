@@ -139,7 +139,6 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	public void moveCursorNorth(){
 		if (getNorth() == null)
 		{
-			System.out.println("nothing to north");
 			return;
 		}
 		else
@@ -152,7 +151,6 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	public void moveCursorSouth(){
 		if (getSouth() == null)
 		{
-			System.out.println("nothing to south");
 			return;
 		}
 		else

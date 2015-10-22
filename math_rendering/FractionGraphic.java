@@ -41,7 +41,6 @@ public class FractionGraphic extends ValueGraphic<Fraction>{
 	public void draw() {
 		Graphics g = super.getCompExGraphic().getGraphics();
 		g.setFont(getFont());
-		System.out.println(getFont().getName());
 		FontMetrics fm = g.getFontMetrics();
 		if (style == Style.SLASH || (style == Style.HORIZONTAL && getValue().getDenominator() == 1)){
 			if (isSelected())
@@ -171,7 +170,6 @@ public void drawCursor(){
 	public void moveCursorNorth(){
 		if (getNorth() == null)
 		{
-			System.out.println("nothing to north");
 			return;
 		}
 		else
@@ -184,7 +182,6 @@ public void drawCursor(){
 	public void moveCursorSouth(){
 		if (getSouth() == null)
 		{
-			System.out.println("nothing to south");
 			return;
 		}
 		else
@@ -209,8 +206,6 @@ public void drawCursor(){
 	public void sendCursorInFromNorth(int xPos, ValueGraphic vg){
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
-		System.out.println("Dec graphic in from north, cursor: " +
-				super.getCompExGraphic().getCursor().getValueGraphic().getValue().toString());
 	}
 	
 	public void sendCursorInFromSouth(int xPos, ValueGraphic vg){

@@ -70,8 +70,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	public void setCursorPos(int xPixelPos){
 		
 		String valueString = getValue().getOp().getSymbol();
-		System.out.println("set Unary Cursor pos");
-		
+
 		if (xPixelPos < super.symbolX1){
 			super.getCompExGraphic().getCursor().setPos(0);
 			super.getCompExGraphic().getCursor().setValueGraphic(this);
@@ -144,7 +143,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	public void moveCursorNorth(){
 		if (getNorth() == null)
 		{
-			System.out.println("nothing to north");
 			return;
 		}
 		else
@@ -157,7 +155,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 	public void moveCursorSouth(){
 		if (getSouth() == null)
 		{
-			System.out.println("nothing to south");
 			return;
 		}
 		else
@@ -205,7 +202,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 		int[] symbolSize = {0, 0};
 		int[] totalSize = {0, 0};
 		
-		System.out.println("UnaryValue: " + value.toString());
 		symbolSize[0] = super.getCompExGraphic().getStringWidth(value.getOp().getSymbol(), f) + space;
 		symbolSize[1] = super.getCompExGraphic().getFontHeight(f);
 		childValGraphic = makeValueGraphic(tempChild);

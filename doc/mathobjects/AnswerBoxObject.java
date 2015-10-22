@@ -48,7 +48,6 @@ public class AnswerBoxObject extends MathObject implements Gradeable<AnswerBoxOb
 		int[] ret = new int[2];
 		if (getAttributeValue(ANSWER_TYPE).equals(PLAIN_TEXT)){
 			if (answer.getListWithName(CORRECT_ANSWERS).contains(getAttributeValue(STUDENT_ANSWER))){
-				System.out.println("contains true");
 				ret[0] = getTotalPoints();
 				ret[1] = getTotalPoints();
 				getAttributeWithName(STUDENT_SCORE).setValue(getTotalPoints());

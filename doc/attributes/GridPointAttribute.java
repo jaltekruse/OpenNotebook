@@ -127,8 +127,6 @@ public class GridPointAttribute extends MathObjectAttribute<GridPoint> {
 	 */
 	@Override
 	public GridPoint readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
-		System.out.println(s);
 		StringTokenizer st = new StringTokenizer(s, ", ( )");
 		double x, y;
 		try{

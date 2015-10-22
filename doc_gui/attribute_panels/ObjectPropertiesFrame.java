@@ -182,7 +182,8 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 	 * @param o - object to base menu panel on
 	 */
 	public void generatePanel(MathObject o){
-		System.out.println("generate panel" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		// TODO - stopwatch and logging
+//		System.out.println("generate panel" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		if (o == null){
 			return;
 		}
@@ -203,7 +204,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		con.gridx = 0;
 		con.gridy = 0;
 		
-		System.out.println("end init stuff" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("end init stuff" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if (o instanceof GraphObject || (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode()))
 		{// there are too many attributes and actions for the graph to put them all in one panel
@@ -214,11 +215,9 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			tabOneContents.setLayout(new GridBagLayout());
 			tabTwoContents = new JPanel();
 			tabTwoContents.setLayout(new GridBagLayout());
-			System.out.println("1 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			JScrollPane tabScrollPane = new JScrollPane(panelTabs);
 			tabScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 			tabScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
-			System.out.println("2 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			tabScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			if ( o instanceof GraphObject){
 				panelTabs.add("Nav", tabOneContents);
@@ -231,14 +230,12 @@ public class ObjectPropertiesFrame extends JInternalFrame {
                 tabTwoContents.addKeyListener(new NotebookKeyboardListener(notebookPanel.getOpenNotebook()));
 				panel = tabOneContents;
 			}
-			System.out.println("3 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			this.getContentPane().add(tabScrollPane);
-			System.out.println("4 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		}
 		else{
 			this.getContentPane().add(scrollPane);
 		}
-		System.out.println("done with tabs " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("done with tabs " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		con.weighty = .01;
 		JPanel actionPics = new JPanel();
@@ -256,7 +253,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			}
 		}
 		
-		System.out.println("teacher actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("teacher actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 
 		boolean skipAction;
 		for (final String s : o.getStudentActions()){
@@ -283,7 +280,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			if (pic != null) createButton(s,0,0,0,0, actionPics);
 			else createButton(s,0,0,0,0, otherActions);
 		}
-		System.out.println("student actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("student actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if (otherActions.getComponentCount() != 0)
 		{// only add panel for actions if components have been added to it
@@ -346,7 +343,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			}
 		}
 		
-		System.out.println("end att adjusters:" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("end att adjusters:" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		con.weighty = 1;
 		if (o instanceof GraphObject)
 		{// see above comments about tabs for some objects
@@ -362,7 +359,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 				con.gridy++;
 			}
 		}
-		System.out.println("end lists:" + + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("end lists:" + + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if ( panel.getComponentCount() == 0){
 			panel.add(new JLabel("No actions for this object"), con);
@@ -371,7 +368,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		this.pack();
 		this.update();
 		this.setSize(this.getWidth() + 30, this.getHeight());
-		System.out.println("done making props frame" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("done making props frame" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 	}
 	
 	public void setObject(MathObject o){

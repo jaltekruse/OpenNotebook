@@ -239,19 +239,15 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	private JPanel makeDocPanel() {
-		// TODO Auto-generated method stub
 		return new JPanel(){
 
-
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void paint(Graphics g){
 
-				System.out.println("painting doc:" + (new java.util.Date().getTime() - notebook.timeAtStart));
+				// TODO - Stopwatch and logging
+//				System.out.println("painting doc:" + (new java.util.Date().getTime() - notebook.timeAtStart));
 				//set the graphics object to render text and shapes with smooth lines
 				Graphics2D g2d = (Graphics2D)g;
 				if ( ! OpenNotebook.isMinimalGraphicsMode()){
@@ -324,9 +320,8 @@ public class DocViewerPanel extends JDesktopPane{
 			BufferedImage image = ImageIO.read(getClass().getClassLoader().getResourceAsStream(fileName));
 			return new ImageIcon(image);
 		} catch (IOException e) {
-			System.out.println("cannot find image: " + fileName);
+			throw new RuntimeException("cannot find image: " + fileName);
 		}
-		return null;
 	}
 
 	public void resizeViewWindow(){
@@ -338,7 +333,6 @@ public class DocViewerPanel extends JDesktopPane{
 
 		//space needed including gray boarders around pages
 		int widthNeeded = pageXSize + 2 * adjustedBufferSpace;
-		System.out.println("width needed: " + widthNeeded);
 		int heightNeeded = adjustedBufferSpace;
 
 		//add up space needed for all pages
@@ -472,7 +466,8 @@ public class DocViewerPanel extends JDesktopPane{
 				selectedPage = null;
 			}
 			else{
-				System.out.println("page is not in the document associated with this DocViewerPanel");
+				// TODO - logging
+//				System.out.println("page is not in the document associated with this DocViewerPanel");
 			}
 		}
 	}
@@ -588,17 +583,19 @@ public class DocViewerPanel extends JDesktopPane{
     }
 
     public Point docPt2AbsoluteScreenPos(PointInDocument ptInDoc) {
-        Point scrollPanelPos = docScrollPane.getLocationOnScreen();
-        Point panelPoint = docPt2PanelPt(ptInDoc);
-        System.out.println(String.format( "panelPoint: (%s,%s), scrollPanelPos(screenPos): (%s,%s), viewPort:(%s,%s)",
-                panelPoint.x, panelPoint.y,
-                (int) scrollPanelPos.getX(), (int) scrollPanelPos.getY(),
-                docScrollPane.getViewport().getX(),
-                docScrollPane.getViewport().getY()));
-        return new Point(
-                (int) scrollPanelPos.getX() + panelPoint.x - (int)docScrollPane.getViewport().getViewPosition().getX(),
-                (int) scrollPanelPos.getY() + panelPoint.y - (int)docScrollPane.getViewport().getViewPosition().getY()
-        );
+			Point scrollPanelPos = docScrollPane.getLocationOnScreen();
+			Point panelPoint = docPt2PanelPt(ptInDoc);
+			// TODO - logging
+//        System.out.println(String.format( "panelPoint: (%s,%s), scrollPanelPos(screenPos): (%s,%s), viewPort:(%s,%s)",
+//                panelPoint.x, panelPoint.y,
+//                (int) scrollPanelPos.getX(), (int) scrollPanelPos.getY(),
+//                docScrollPane.getViewport().getX(),
+//                docScrollPane.getViewport().getY()));
+
+			return new Point(
+					(int) scrollPanelPos.getX() + panelPoint.x - (int)docScrollPane.getViewport().getViewPosition().getX(),
+					(int) scrollPanelPos.getY() + panelPoint.y - (int)docScrollPane.getViewport().getViewPosition().getY()
+			);
     }
 
     public Point docPt2PanelPt(PointInDocument ptInDoc) {

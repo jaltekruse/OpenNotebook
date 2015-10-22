@@ -98,8 +98,7 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	public void setCursorPos(int xPixelPos){
 		
 		String valueString = getValue().getOp().getSymbol();
-		System.out.println("set paren Cursor pos");
-		
+
 		if (xPixelPos < getX1() + widthSpaceAndLine + space){
 			if (xPixelPos < getX1() + widthSpaceAndLine/2){
 				super.getCompExGraphic().getCursor().setPos(0);
@@ -169,7 +168,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	public void moveCursorNorth(){
 		if (getNorth() == null)
 		{
-			System.out.println("nothing to north");
 			return;
 		}
 		else
@@ -182,7 +180,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	public void moveCursorSouth(){
 		if (getSouth() == null)
 		{
-			System.out.println("nothing to south");
 			return;
 		}
 		else
@@ -194,7 +191,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	
 	public void sendCursorInFromEast(int yPos, ValueGraphic vg){
 		if (super.containedBelow(vg)){
-			System.out.println("move into division from east, containedbelow");
 			super.getCompExGraphic().getCursor().setValueGraphic(this);
 			super.getCompExGraphic().getCursor().setPos(0);
 		}
@@ -206,7 +202,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	
 	public void sendCursorInFromWest(int yPos, ValueGraphic vg){
 		if (super.containedBelow(vg)){
-			System.out.println("move into division from west, containedbelow");
 			super.getCompExGraphic().getCursor().setValueGraphic(this);
 			super.getCompExGraphic().getCursor().setPos(getMaxCursorPos());
 		}

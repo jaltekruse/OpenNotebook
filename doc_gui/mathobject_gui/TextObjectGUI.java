@@ -53,10 +53,8 @@ public class TextObjectGUI extends MathObjectGUI<TextObject>{
 
 			try{
 				TextLayout textLayout;
-				System.out.println();
 				while (messageLBM.getPosition() < messageIterator.getEndIndex()) {
 					textLayout = messageLBM.nextLayout(wrappingWidth);
-					System.out.println(textLayout.getCharacterCount());
 					y += textLayout.getAscent();
 					if ( object.getAlignment().equals(TextObject.LEFT)){
 						textLayout.draw(graphics2D, x , y);
@@ -72,7 +70,8 @@ public class TextObjectGUI extends MathObjectGUI<TextObject>{
 					x = sap.getxOrigin() + insets.left;
 				}
 			} catch(Exception e){
-				System.out.println("error with text rendering");
+				// TODO - logging and error reporting to user
+//				System.out.println("error with text rendering");
 			}
 
 			object.setHeight((int) ((y - sap.getyOrigin()) / zoomLevel));

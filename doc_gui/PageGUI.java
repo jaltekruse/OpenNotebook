@@ -152,7 +152,8 @@ public class PageGUI {
 
 		}
 		else{
-						System.out.println("unreconginzed object (PageGUI.handleMouseAction)");
+			// TODO - logging
+//			System.out.println("unreconginzed object (PageGUI.handleMouseAction)");
 		}
 	}
 	
@@ -316,7 +317,8 @@ public class PageGUI {
 			}
 		}
 		else{
-			System.out.println("unreconginzed object (printed in PageGUI.drawMathObj)");
+			// TODO - logging
+//			System.out.println("unreconginzed object (printed in PageGUI.drawMathObj)");
 		}
 	}
 

@@ -93,7 +93,7 @@ public class AssociativePropertiesWithVariables extends ExpressionGenerator {
 			getTags().addValueWithString("Mental Math");
 		} catch (AttributeException e) {
 			// should not be thrown
-			System.out.println("error that should not happen in BaiscArithmaticExpression");
+			throw new RuntimeException("error that should not happen in BaiscArithmaticExpression");
 		}
 		setDate(new Date(2,1,2011));
 	}

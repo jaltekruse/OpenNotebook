@@ -125,7 +125,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		else if (getRightGraphic().containedBelow(getCompExGraphic().getCursor().getValueGraphic()) ||
 				this.getRightGraphic().equals(getCompExGraphic().getCursor().getValueGraphic()))
 		{//if the cursor was in the right child of this exponent
-			System.out.println("send west from rightChild");
 			getCompExGraphic().getCursor().setValueGraphic(getEast());
 			getCompExGraphic().getCursor().setPos(0);
 			return;
@@ -148,7 +147,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		{//if the cursor was in the left child of this exponent
 			if (getSouth() == null)
 			{
-				System.out.println("nothing to north");
 				return;
 			}
 			else
@@ -175,7 +173,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 		{//if the cursor was in the left child of this exponent
 			if (getNorth() == null)
 			{
-				System.out.println("nothing to north");
 				return;
 			}
 			else
@@ -277,9 +274,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 			
 			setLeftGraphic(leftValGraphic);
 			setRightGraphic(rightValGraphic);
-			
-			System.out.println("exponent children:" + getComponents());
-			System.out.println(this);
 			
 			rightValGraphic.shiftToX1(x1 + leftSize[0] + spaceBetweenBaseAndSuper);
 			

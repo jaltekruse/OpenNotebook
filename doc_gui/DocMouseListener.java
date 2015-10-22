@@ -338,7 +338,6 @@ public class DocMouseListener implements MouseInputListener {
 				new Point(e.getX(), e.getY()), docPanel.getFocusedObject(),
 				docPanel.getPageOrigin(docPanel.getFocusedObject()
 						.getParentPage()), docPanel.getZoomLevel());
-		// System.out.println("dot: " + dot);
 		if (dot < Integer.MAX_VALUE && !docPanel.isInStudentMode())
 		{// the user clicked on one of the dots for resizing an object
 			draggingDot = true;
@@ -640,7 +639,6 @@ public class DocMouseListener implements MouseInputListener {
 		// objects were selected, that have not been added to the temp group yet
 
 		if (collisionObjects.size() > 0) {
-			System.out.println("two objects to add");
 			tempGroup.setParentContainer(collisionObjects.get(0)
 					.getParentContainer());
 			collisionObjects.get(0).getParentContainer().addObject(tempGroup);

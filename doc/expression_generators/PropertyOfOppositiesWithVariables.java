@@ -62,7 +62,7 @@ public class PropertyOfOppositiesWithVariables extends ExpressionGenerator {
 			getTags().addValueWithString("Variables");
 		} catch (AttributeException e) {
 			// should not be thrown
-			System.out.println("error that should not happen in BaiscArithmaticExpression");
+			throw new RuntimeException(e);
 		}
 		setDate(new Date(2,1,2011));
 	}

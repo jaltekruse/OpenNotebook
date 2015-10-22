@@ -21,7 +21,8 @@ public class SampleListPanel extends JPanel{
 	private NotebookPanel notebookPanel;
 	
 	public SampleListPanel(NotebookPanel notebook){
-		System.out.println("start sample:" + (new java.util.Date().getTime() - notebook.getOpenNotebook().timeAtStart));
+		// TODO - stopwatch and logging
+//		System.out.println("start sample:" + (new java.util.Date().getTime() - notebook.getOpenNotebook().timeAtStart));
 		this.notebookPanel = notebook;
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -39,6 +40,6 @@ public class SampleListPanel extends JPanel{
 				}
 			}
 		};
-		System.out.println("end sample constructor:" + (new java.util.Date().getTime() - notebook.getOpenNotebook().timeAtStart));
+//		System.out.println("end sample constructor:" + (new java.util.Date().getTime() - notebook.getOpenNotebook().timeAtStart));
 	}
 }

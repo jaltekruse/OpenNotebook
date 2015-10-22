@@ -222,7 +222,6 @@ public class OldReader extends DefaultHandler {
 				mObj.addAttribute(mAtt);
 				mObj.setAttributeValue(mAtt.getName(), mAtt.getValue());
 			} catch (AttributeException e) {
-				// TODO Auto-generated catch block
 				if (DEBUG){
 					System.out.println(e.getMessage());
 				}

@@ -137,7 +137,6 @@ public class ObjectToolBar extends JToolBar {
 				public void updateImage(){
 					if ( notebookPanel.getObjectCreationMode() == NotebookPanel.ObjectCreationMode.NOT_PLACING_OBJECT){
 						this.setIcon(objImage);
-						System.out.println("set icon for not placeing");
 						lastHit = null;
 					}
 					else if ( notebookPanel.getObjectCreationMode() == NotebookPanel.ObjectCreationMode.PLACING_SINGLE_OBJECT){
@@ -154,10 +153,8 @@ public class ObjectToolBar extends JToolBar {
 	}
 
 	public static void updateButton(){
-		System.out.println("update button");
 		if (notebookPanel.getObjToPlace() == null && lastHit != null){
 			lastHit.updateImage();
-			System.out.println("update image");
 			return;
 		}
 		/*

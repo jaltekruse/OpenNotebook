@@ -250,11 +250,8 @@ public class ProblemListPanel extends JPanel {
 					previewPanel.getDoc().setWidth(5000);
 					previewPanel.getDoc().generateProblem(g);
 					MathObject mObj = previewPanel.getDoc().getPage(0).getObjects().get(0);
-					System.out.println("new obj:" + mObj + " " + mObj.getWidth() + ", " + mObj.getHeight());
 					previewPanel.getDoc().setWidth(mObj.getWidth() + 2 * problemBuffer);
 					previewPanel.getDoc().setHeight(mObj.getHeight() + 2 * problemBuffer);
-					System.out.println("page:" + previewPanel.getDoc().getWidth() 
-							+ ", " + previewPanel.getDoc().getHeight());
 					mObj.setxPos(problemBuffer);
 					mObj.setyPos(problemBuffer);
 					previewPanel.resizeViewWindow();

@@ -470,12 +470,12 @@ public class OpenNotebook extends JApplet {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				if ( args.length > 0 ){
-					System.out.println("has args " + args[0]);
 					System.out.println(args[1]);
 					
 					if ( args.length > 1){
 						setCookie(args[1]);
-						System.out.println("open remote doc");
+						// TODO - logging
+//						System.out.println("open remote doc");
 						openRemoteDoc(args);
 					}
 					else{// only one argument
@@ -490,7 +490,6 @@ public class OpenNotebook extends JApplet {
 				else{
 					createAndShowGUI(false, false, false);
                     notebookPanel.openSample("teacher_overview.mdoc");
-//                    notebookPanel.open("/Users/jaltekruse/Dropbox/a_openmath_dev/interface_testing_3_15_2015.mdoc");
 				}
 			}
 		});

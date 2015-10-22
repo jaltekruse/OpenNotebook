@@ -105,21 +105,22 @@ public class NotebookPanel extends SubPanel {
 	public NotebookPanel(OpenNotebook openbook) {
 		// create individual GUI elements here
 		super(null);
-		System.out.println("start making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+		// TODO - stopwatch and logging
+//		System.out.println("start making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		setOpenNotebook(openbook);
 
 		justClosedTab = false;
 
 		setFileChooser(new JFileChooser());
 		createSampleDialog();
-		System.out.println("after sample dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("after sample dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		createProbelmDialog();
-		System.out.println("after problem dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("after problem dialog:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		this.setLayout(new BorderLayout());
 
 		KeyboardShortcuts.addKeyboardShortcuts(this, this);
 
-		System.out.println("checkpoint 1:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("checkpoint 1:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 		docTabs = new JTabbedPane();
 		docTabs.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
 		JSplitPane splitPane = new JSplitPane();
@@ -131,7 +132,7 @@ public class NotebookPanel extends SubPanel {
 
 		add(docTabs, BorderLayout.CENTER);
 		//add(docTabs, BorderLayout.CENTER);
-		System.out.println("after docTabs:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("after docTabs:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 
 		JPanel topToolBars = new JPanel();
 		ModifiedFlowLayout layout = new ModifiedFlowLayout(FlowLayout.LEFT);
@@ -141,7 +142,7 @@ public class NotebookPanel extends SubPanel {
 		topToolBars.add(fileActions);
 
 		add(topToolBars, BorderLayout.NORTH);
-		System.out.println("added fileactions toolbar:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("added fileactions toolbar:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 
 		if (!getOpenNotebook().isInStudentMode()) {
 			JToolBar objectActions = new ObjectActionsToolBar(this);
@@ -193,7 +194,7 @@ public class NotebookPanel extends SubPanel {
 
 			}
 		});
-		System.out.println("finish making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
+//		System.out.println("finish making notebookPanel:" + (new java.util.Date().getTime() - openbook.timeAtStart));
 	}
 
 
@@ -437,9 +438,7 @@ public class NotebookPanel extends SubPanel {
 			printout.close ();
 			if ( urlConn.getResponseCode() == 302 || urlConn.getResponseCode() == 303){
 				// redirect sent back, need to send out a new request
-				System.out.println(urlConn.getHeaderField("Location"));
 				String cookie = urlConn.getHeaderField("Set-Cookie");
-				System.out.println(cookie);
 				getOpenNotebook().setCookie(cookie);
 				JOptionPane.showMessageDialog(null, "Connection to Open-Math was successful.",
 						"Connection Success", JOptionPane.WARNING_MESSAGE);
@@ -1138,13 +1137,12 @@ public class NotebookPanel extends SubPanel {
 
 	public ImageIcon getIcon(String filename) {
 		try {
-			System.out.println(filename);
 			BufferedImage image = ImageIO.read(getClass().getClassLoader()
 					.getResourceAsStream(filename));
 			return new ImageIcon(image);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			System.out.println("cannot find image " + filename);
+			// TODO - logging
+//			System.out.println("cannot find image " + filename);
 		}
 		return null;
 	}

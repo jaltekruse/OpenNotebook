@@ -48,7 +48,8 @@ public class ListAdjuster extends JPanel{
 	}
 
 	public void addPanelContent(){
-		System.out.println("start list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		// TODO - stopwatch and logging
+//		System.out.println("start list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		this.removeAll();
 		
 		GridBagConstraints con = new GridBagConstraints();
@@ -126,7 +127,6 @@ public class ListAdjuster extends JPanel{
 					notebookPanel.getCurrentDocViewer().propertiesFrameRefacoringNeeded = true;
 					notebookPanel.getCurrentDocViewer().repaintDoc();
 				} catch (AttributeException e) {
-					// TODO Auto-generated catch block
 					if (!showingDialog){
 						showingDialog = true;
 						JOptionPane.showMessageDialog(null,
@@ -141,7 +141,7 @@ public class ListAdjuster extends JPanel{
 		});
 		this.add(addButton, con);
 //		this.revalidate();
-		System.out.println("finish list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+//		System.out.println("finish list gui" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 	}
 	
 	private class CloseButtonListener implements ActionListener{

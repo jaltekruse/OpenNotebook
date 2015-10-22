@@ -86,8 +86,6 @@ public class CompleteProblem {
 		
 //		smallest.setCursorPos(e.getX());
 		Expression smallVal = smallest.getValue();
-		System.out.println("smallest clicked" + smallVal);
-		System.out.println("smallest's parent:" + smallVal.getParent());
 //		currentCEG.clearSelection();
 		if (smallVal instanceof BinExpression){
 			if (((BinExpression)smallVal).getOp().getPrec() < 3)
@@ -108,7 +106,6 @@ public class CompleteProblem {
 			}
 		}
 		else if (smallVal != null){
-			System.out.println("rootTerm	dsafadf:" + smallest.getValue().findParentTermRoot());
 			ValueGraphic term = currentCEG.getRoot().findValueGraphic(
 					smallest.getValue().findParentTermRoot());
 			if (selectedTerms.contains(term)){
@@ -137,7 +134,6 @@ public class CompleteProblem {
 			height += em.getHeight();
 			height += space;
 		}
-		System.out.println("xPos:" + xPos);
 		if (rootVal instanceof BinExpression){
 			if (((BinExpression) rootVal).getOp() == Operator.ASSIGN){
 				uEx.setChild(((BinExpression)rootVal).getLeftChild());
@@ -167,7 +163,6 @@ public class CompleteProblem {
 		if (selectedTerms.size() == 1){
 			Expression selectedTerm = selectedTerms.get(0).getValue();
 			ValueGraphic currVG = currentCEG.getRoot().findValueGraphic(selectedTerm);
-			System.out.println(selectedTerm.getClass());
 			Expression selectedTermParent = selectedTerm.getParent();
 			String exString = null;
 			String opString = "+";
@@ -184,12 +179,10 @@ public class CompleteProblem {
 				height += em.getHeight();
 				height += space;
 			}
-			System.out.println("xPos:" + xPos);
 			if (rootVal instanceof BinExpression){
 				if (((BinExpression) rootVal).getOp() == Operator.ASSIGN){
 					
 					if (selectedTerm.isRightChild()){
-						System.out.println("selected is right");
 						if (selectedTerm.getParent() instanceof BinExpression){
 							if (((BinExpression)selectedTerm.getParent()).getOp() == Operator.SUBTRACT){
 								//term just needs to be added to other side
@@ -200,7 +193,6 @@ public class CompleteProblem {
 								//negate term before moving to other side
 								opString = "-";
 							}
-							System.out.println("!#@$!@# parent of parent:" + selectedTermParent.getParent());
 							if (selectedTermParent instanceof BinExpression){
 								if (selectedTermParent.isLeftChild()){
 									((BinExpression)selectedTermParent.getParent()).setLeftChild(
@@ -217,7 +209,6 @@ public class CompleteProblem {
 								}
 								else if (selectedTermParent.isRightChild()){
 									if (selectedTermParent.getParent() == currentCEG.getRoot().getValue()){
-										System.out.println("!!!!!selectTerm parent is root");
 									}
 									((BinExpression)selectedTermParent.getParent()).setRightChild(
 											((BinExpression) selectedTermParent).getLeftChild());
@@ -241,7 +232,6 @@ public class CompleteProblem {
 						}
 					}
 					if (selectedTerm.isLeftChild()){
-						System.out.println("selected is left");
 						if (selectedTermParent instanceof BinExpression){
 							if (((BinExpression)selectedTerm.getParent()).getOp() == Operator.SUBTRACT){
 								//term just needs to be added to other side
@@ -252,9 +242,7 @@ public class CompleteProblem {
 								//negate term before moving to other side
 								opString = "-";
 							}
-							System.out.println("!#@$!@# parent of parent:" + selectedTermParent.getParent());
 							if (selectedTermParent.isLeftChild()){
-								System.out.println("selected's parent is leftChild");
 								((BinExpression)selectedTermParent.getParent()).setLeftChild(
 										((BinExpression) selectedTermParent).getRightChild());
 								if (onLeft){
@@ -268,7 +256,6 @@ public class CompleteProblem {
 								}
 							}
 							else if (selectedTermParent.isRightChild()){
-								System.out.println("selected's parent is rightChild");
 								((BinExpression)selectedTermParent.getParent()).setRightChild(
 										((BinExpression) selectedTermParent).getRightChild());
 								if (onLeft){
@@ -288,7 +275,6 @@ public class CompleteProblem {
 						}
 					}
 					try {
-						System.out.println("modified ex:" + exString);
 						ValueGraphic nothing = new NothingGraphic(new MissingValue(), currentCEG);
 						if (opString.equals("-")){
 							selectedTerm = currentCEG.getRoot().getValue().getParser().ParseExpression("-" + selectedTerm.toString());
@@ -298,7 +284,6 @@ public class CompleteProblem {
 						
 						
 						int vgXPos = currVG.getX1();
-						System.out.println("x:" + xPos + " y: " + yPos);
 						vg.requestSize(graphics, currVG.getFont(), vgXPos, yPos + height);
 						vg2.requestSize(graphics, currVG.getFont(), vg2XPos, yPos + height);
 						height += vg.getHeight();

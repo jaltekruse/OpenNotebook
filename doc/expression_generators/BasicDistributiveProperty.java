@@ -67,7 +67,7 @@ public class BasicDistributiveProperty extends ExpressionGenerator {
 			addTags("Distribution", "multiplication", "linear factor", "simplify");
 		} catch (AttributeException e) {
 			// should not be thrown
-			System.out.println("error that should not happen in AdditionPropertyOfEquality");
+			throw new RuntimeException(e);
 		}
 		setDate(new Date(2,1,2011));
 

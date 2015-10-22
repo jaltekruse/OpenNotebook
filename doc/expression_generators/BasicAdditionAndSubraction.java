@@ -38,12 +38,9 @@ public class BasicAdditionAndSubraction extends ExpressionGenerator {
 			maxAbsVal = 100;
 		}
 		Node n[] = new Node[2];
-		n[0] = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
+		n[0] = ExUtil.randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal,
 				maxGeneratedVal, true, false, false, true);
-		System.out.println(n[0].toStringRepresentation());
 		n[1] = n[0].smartNumericSimplify().standardFormat();
-		System.out.println(n[1].toStringRepresentation());
-		System.out.println();
 		return n;
 	}
 
@@ -62,7 +59,7 @@ public class BasicAdditionAndSubraction extends ExpressionGenerator {
 			getTags().addValueWithString("Negation");
 		} catch (AttributeException e) {
 			// should not be thrown
-			System.out.println("error that should not happen in BaiscArithmaticExpression");
+			throw new RuntimeException(e);
 		}
 		setDate(new Date(2,1,2011));
 	}

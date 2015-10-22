@@ -88,7 +88,7 @@ public class BasicAssociativeProperty extends ExpressionGenerator {
 			getTags().addValueWithString("Mental Math");
 		} catch (AttributeException e) {
 			// should not be thrown
-			System.out.println("error that should not happen in BaiscArithmaticExpression");
+			throw new RuntimeException(e);
 		}
 		setDate(new Date(2,1,2011));
 	}

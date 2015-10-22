@@ -48,9 +48,7 @@ public class GraphCalculationGraphics extends GraphComponent {
 				{
 					if (d.getSelection().getEnd() == derivative.getSelection().getEnd())
 					{//this should always be equal to the flag value for empty Double.MAX_VALUE
-						System.out.println("class GraphCalcGraphics");
-						System.out.println("not adding derivative");
-						//possibly send a notification to the user that there request was ignored
+						// TODO - possibly send a notification to the user that their request was ignored
 						return;
 					}
 				}
@@ -68,9 +66,8 @@ public class GraphCalculationGraphics extends GraphComponent {
 				{
 					if (t.getSelection().getEnd() == tracer.getSelection().getEnd())
 					{//this should always be equal to the flag value for empty Double.MAX_VALUE
-						System.out.println("class GraphCalcGraphics");
 						System.out.println("not adding tracer");
-						//possibly send a notification to the user that there request was ignored
+						// TODO - possibly send a notification to the user that there request was ignored
 						return;
 					}
 				}
