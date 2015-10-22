@@ -559,9 +559,10 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			return new ImageIcon(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			System.out.println("cannot find image: " + filename);
+			throw new RuntimeException("cannot find image: " + filename, e);
+		} catch (IllegalArgumentException ex) {
+			throw new RuntimeException("cannot find image: " + filename, ex);
 		}
-		return null;
 	}
 
 	public void update(){
