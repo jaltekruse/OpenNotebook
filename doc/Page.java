@@ -187,7 +187,7 @@ public class Page extends MathObject implements MathObjectContainer{
   public String getType() {
     return PAGE;
   }
-/*
+
   public String exportToXML(){
 		//should store page width and height at document level
 		//do not need to allow teachers to mix page orientations
@@ -199,7 +199,6 @@ public class Page extends MathObject implements MathObjectContainer{
 		output += "</Page>\n";
 		return output;
 	}
-	*/
 
 	public int getWidth() {
 		return getParentDoc().getWidth();

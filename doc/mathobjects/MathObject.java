@@ -53,7 +53,8 @@ public abstract class MathObject implements Cloneable{
 			CYLINDER_OBJ = "Cylinder", CONE_OBJECT = "Cone",
 			REGULAR_POLYGON_OBJECT = "RegularPolygon", ARROW_OBJECT = "Arrow",
 			PYRAMID_OBJECT = "Pyramid", GENERATED_PROBLEM = "GeneratedProblem",
-			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line", PAGE = "page";
+			PROBLEM_NUMBER_OBJECT = "ProblemNumber", LINE_OBJECT = "Line",
+			PAGE = "Page";
 
 	// the order of these three arrays is very important, they are parallel
 	// arrays used to create new instances of objects when all you have is
