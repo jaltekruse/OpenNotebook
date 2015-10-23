@@ -1,15 +1,13 @@
 # OpenNotebook
 An application for creating digital math worksheets that can be completed by students on their computers.
 
-Open Notebook enables math teachers to create documents like worksheets, tests and quizzes easily.
-It includes native tools for adding rich mathematical content like graphs, equations, number lines and
-geometric models with ease.
-The interface is  straightforward, and provides only the tools that are needed for math teachers. Unlike other tools,
-OpenNotebook is designed specifically to work with mathematical content, in a manner that is
-approachable by non-technical users. Many tools exist for programmers and mathematicians, 
-Latex is a favorite among these audiences, and tools like MS Word provide some basic functionality 
-to edit equations, but nothing is available to allow for the creation of complete professional 
-mathematical materials without a steep learning curve.
+Open Notebook enables math teachers to create documents like worksheets, tests and quizzes easily. 
+It includes native tools for adding rich mathematical content like graphs, equations, number 
+lines and geometric models with ease. Many tools exist for programmers and mathematicians, 
+Latex is a favorite among these audiences, and tools like MS Word provide some basic 
+functionality to edit equations. Unfortunately nothing has available to allow for the 
+creation of complete professional mathematical materials without a steep learning 
+curve, until now.
 
 In addition to making documents for print, Open Notebook provides tools to make your worksheets
 interactive. The student mode of Open Notebook allows for the assignments to be completed 
