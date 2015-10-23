@@ -7,11 +7,10 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
-import tree.EvalException;
-import tree.ParseException;
 import doc.attributes.DoubleAttribute;
 import doc.attributes.IntegerAttribute;
 import doc.mathobjects.NumberLineObject;
+import expression.NodeException;
 
 public class NumberLine {
 
@@ -54,11 +53,7 @@ public class NumberLine {
 		graph.NUM_FREQ = 2;
 		try {
 			numLine.draw(g);
-		} catch (EvalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
+		} catch (NodeException e) {
 			e.printStackTrace();
 		}
 		pushValsToNumberLineObject(gObj);
@@ -79,7 +74,7 @@ public class NumberLine {
 		}
 
 		@Override
-		public void draw(Graphics g) throws EvalException, ParseException {
+		public void draw(Graphics g) {
 
 			Font oldFont = g.getFont();
 

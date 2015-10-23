@@ -16,9 +16,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import tree.EvalException;
-import tree.ExpressionParser;
-import tree.ParseException;
 import doc.GridPoint;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.DoubleAttribute;
@@ -41,7 +38,6 @@ public class Graph {
 	private CartAxis cartAxis;
 	private SelectionGraphic selectionGraphic;
 	private DragDisk dragDisk;
-	private ExpressionParser parser;
 	private GraphCalculationGraphics graphCalcGraphics;
 	
 	public Graph(){
@@ -49,7 +45,6 @@ public class Graph {
 		cartAxis = new CartAxis(this);
 //		graphCalcGraphics = new GraphCalculationGraphics(this);
 		singleGraphs = new Vector<SingleGraph>();
-		parser = new ExpressionParser();
 		Vector<GridPoint> linePts = new Vector<GridPoint>();
 		barGraph = new BarGraph(this);
 		selectionGraphic = new SelectionGraphic(this, Color.ORANGE);
@@ -61,7 +56,7 @@ public class Graph {
 		}
 	}
 	
-	public void repaint(Graphics g, int xSize, int ySize) throws EvalException, ParseException{
+	public void repaint(Graphics g, int xSize, int ySize) {
 //		try {
 //			X_MIN = varList.getVarVal("xMin").toDec().getValue();
 //			X_MAX = varList.getVarVal("xMax").toDec().getValue();
@@ -155,12 +150,7 @@ public class Graph {
 		for (SingleGraph sg : singleGraphs){
 			try {
 				sg.draw(g);
-			} catch (EvalException e) {
-				hadError = true;
-			} catch (ParseException e) {
-				hadError = true;
 			} catch (NodeException e) {
-				// TODO Auto-generated catch block
 				hadError = true;
 			}
 		}
@@ -172,10 +162,6 @@ public class Graph {
 			if ( sg.hasFocus() ){
 				try {
 					sg.draw(g);
-				} catch (EvalException e) {
-					hadError = true;
-				} catch (ParseException e) {
-					hadError = true;
 				} catch (NodeException e) {
 					// TODO Auto-generated catch block
 					hadError = true;
@@ -194,25 +180,12 @@ public class Graph {
 			dragDisk.draw(g);
 		}
 		for (PointOnGrid p : freePoints){
-			try {
-				p.draw(g);
-			} catch (EvalException e) {
-				hadError = true;
-			} catch (ParseException e) {
-				hadError = true;
-			}
+			p.draw(g);
 		}
 		try {
 			barGraph.draw(g);
-		} catch (EvalException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (NodeException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			hadError = true;
 		}
 //		graphCalcGraphics.drawInfoBoxes(g);
 		
@@ -338,10 +311,6 @@ public class Graph {
 		addPoint(x * X_PIXEL + X_MIN, -y * Y_PIXEL + Y_MAX);
 	}
 	
-	public ExpressionParser getParser(){
-		return parser;
-	}
-	
 	public void shiftGraph(int xPix, int yPix){
 //		try{
 //			varList.updateVarVal("xMin", (xPix)*X_PIXEL);
@@ -370,7 +339,7 @@ public class Graph {
 		freePoints.removeAllElements();
 	}
 	
-	public void zoom(double rate) throws EvalException{
+	public void zoom(double rate) {
 //		X_MIN = varList.getVarVal("xMin").toDec().getValue();
 //		X_MAX = varList.getVarVal("xMax").toDec().getValue();
 //		Y_MIN = varList.getVarVal("yMin").toDec().getValue();
@@ -391,7 +360,7 @@ public class Graph {
 //		varList.updateVarVal("yMax", (Y_MAX-Y_MIN)*(100-rate)/100);
 	}
 	
-	public void zoomMouseRelative(double rate, int mouseX, int mouseY) throws EvalException{
+	public void zoomMouseRelative(double rate, int mouseX, int mouseY) {
 //		X_MIN = varList.getVarVal("xMin").toDec().getValue();
 //		X_MAX = varList.getVarVal("xMax").toDec().getValue();
 //		Y_MIN = varList.getVarVal("yMin").toDec().getValue();

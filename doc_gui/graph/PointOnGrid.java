@@ -3,9 +3,6 @@ package doc_gui.graph;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import tree.EvalException;
-import tree.ParseException;
-
 public class PointOnGrid extends GraphComponent {
 	
 	private static final int radius = 4;
@@ -19,7 +16,7 @@ public class PointOnGrid extends GraphComponent {
 	}
 
 	@Override
-	public void draw(Graphics g) throws EvalException, ParseException {
+	public void draw(Graphics g) {
 		if (x >= graph.X_MIN && x <= graph.X_MAX && y >= graph.Y_MIN && y <= graph.Y_MAX){
 			int currRadius = (int) (graph.DOC_ZOOM_LEVEL * radius);
 			g.setColor(Color.BLACK);

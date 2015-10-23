@@ -15,11 +15,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.RescaleOp;
 import java.util.Vector;
 
-import tree.Decimal;
-import tree.EvalException;
-import tree.Expression;
-import tree.Number;
-
 public class GraphCalculationGraphics extends GraphComponent {
 
 	Vector<Derivative> derivatives;

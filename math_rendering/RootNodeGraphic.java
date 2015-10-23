@@ -14,7 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Vector;
 
-import tree.Expression;
+import expression.Expression;
 import expression.Node;
 import expression.NodeException;
 import expression.Number;
@@ -61,8 +61,8 @@ public class RootNodeGraphic{
 //		}
 //		System.out.println("CEG drawCursor?");
 		if (cursor.getValueGraphic() != null){
-			cursor.getValueGraphic().drawCursor();
-			System.out.println("CEG drawCursor");
+//			cursor.getValueGraphic().drawCursor();
+//			System.out.println("CEG drawCursor");
 		}
 	}
 	

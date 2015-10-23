@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Vector;
 
-import tree.EvalException;
-import tree.ParseException;
 import expression.NodeException;
 
 public class BarGraph extends GraphComponent {
@@ -32,8 +30,7 @@ public class BarGraph extends GraphComponent {
 	}
 
 	@Override
-	public void draw(Graphics g) throws EvalException, ParseException,
-			NodeException {
+	public void draw(Graphics g) throws NodeException {
 		if (values.size() == 0) {
 			return;
 		}
@@ -46,6 +43,7 @@ public class BarGraph extends GraphComponent {
 			drawBars(g, 0, groupX, groupW, i);
 			
 			g.setColor(Color.WHITE);
+			System.out.println(labels.size());
 			String ptText = labels.get(i / groupSize);
 			int width = g.getFontMetrics().stringWidth(ptText);
 			int numberInset = 1;
@@ -76,6 +74,7 @@ public class BarGraph extends GraphComponent {
 			
 			
 			g.setColor(Color.WHITE);
+			System.out.println(labels.size());
 			String ptText = doubleToString(values.get(valueIndex + i), .01);
 			int txtWidth = g.getFontMetrics().stringWidth(ptText);
 			int numberInset = 1;

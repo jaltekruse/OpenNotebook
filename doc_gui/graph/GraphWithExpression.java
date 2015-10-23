@@ -11,8 +11,6 @@ package doc_gui.graph;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import tree.EvalException;
-import tree.ParseException;
 import expression.Node;
 import expression.NodeException;
 
@@ -60,18 +58,10 @@ public class GraphWithExpression extends SingleGraph{
 	/**
 	 * Constructor that takes all attributes of a function.
 	 * 
-	 * @param exParser- associated 
 	 * @param eqtn - string of equation
 	 * @param ind - string of independent var
 	 * @param dep - string of dependent var
 	 * @param connected - boolean for points to be connected when graphed
-	 * @param trace - boolean for tracing
-	 * @param tracePt - double for value to trace
-	 * @param integral - boolean for taking an integral
-	 * @param startInt - double for start of integral
-	 * @param endInt - double for end of integral
-	 * @param derive - boolean for deriving
-	 * @param dervative - the point to derive at
 	 * @param c - a color to display the function with
 	 * @throws NodeException 
 	 */
@@ -130,8 +120,6 @@ public class GraphWithExpression extends SingleGraph{
 	}
 
 	@Override
-	public void draw(Graphics g) throws EvalException, ParseException, NodeException {
-		// TODO Auto-generated method stub
-		
+	public void draw(Graphics g) throws NodeException {
 	}
 }
