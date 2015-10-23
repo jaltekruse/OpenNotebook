@@ -13,9 +13,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import tree.Operator;
-import tree.UnaryExpression;
-import tree.Expression;
+import expression.Expression;
+import expression.Node;
 
 public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 
@@ -24,17 +23,12 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	
 	//stores the width in pixels of the line on each side of the absolute valuegraphic, 
 	//including space on the inside of the line
-	private int widthSpaceAndLine;
+	private int widthInnerSpaceAndLine;
 	
-	public AbsoluteValueGraphic(UnaryExpression v, CompleteExpressionGraphic compExGraphic) {
+	public AbsoluteValueGraphic(Expression v, RootNodeGraphic compExGraphic) {
 		super(v, compExGraphic);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
-		if (v.getChild() instanceof UnaryExpression){
-			if (((UnaryExpression)v.getChild()).getOp() == Operator.PAREN){
-				v.setChild(((UnaryExpression)v.getChild()).getChild());
-			}
-		}
 		// TODO Auto-generated constructor stub
 	}
 
@@ -42,45 +36,47 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 	public void draw() {
 		// TODO Auto-generated method stub
 		if (isSelected()){
-			super.getCompExGraphic().getGraphics().setColor(getSelectedColor());
-			super.getCompExGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
-			super.getCompExGraphic().getGraphics().setColor(Color.black);
+			super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
+			super.getRootNodeGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
+			super.getRootNodeGraphic().getGraphics().setColor(Color.black);
 		}
 		
-		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke(
-				(int) (1 * super.getCompExGraphic().DOC_ZOOM_LEVEL)));
+		super.getRootNodeGraphic().getGraphics().setStroke(new BasicStroke(
+				(int) (1 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL)));
 		
-		super.getCompExGraphic().getGraphics().drawLine(symbolX1 + (int) Math.round(widthSpaceAndLine/2.0), 
-				getY1(), getX1() + (int) Math.round(widthSpaceAndLine/2.0), getY2());
-		super.getCompExGraphic().getGraphics().drawLine(getX2() - (int) Math.round(widthSpaceAndLine/2.0),
-				getY1(), getX2() - (int) Math.round(widthSpaceAndLine/2.0), getY2());
+		super.getRootNodeGraphic().getGraphics().drawLine(symbolX1 + (int) Math.round(widthInnerSpaceAndLine /2.0),
+				getY1(), getX1() + (int) Math.round(widthInnerSpaceAndLine /2.0), getY2());
+		super.getRootNodeGraphic().getGraphics().drawLine(getX2() - (int) Math.round(widthInnerSpaceAndLine /2.0),
+				getY1(), getX2() - (int) Math.round(widthInnerSpaceAndLine /2.0), getY2());
 		
-		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke());
+		super.getRootNodeGraphic().getGraphics().setStroke(new BasicStroke());
 	}
 	
 
+	@Override
 	public void drawCursor(){
-		int cursorPos = super.getCompExGraphic().getCursor().getPos();
+		int cursorPos = super.getRootNodeGraphic().getCursor().getPos();
 		
-		super.getCompExGraphic().getGraphics().setColor(Color.BLACK);
-		super.getCompExGraphic().getGraphics().fillRect(findCursorXPos(), getY1() - 3, 2,
+		super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
+		super.getRootNodeGraphic().getGraphics().fillRect(findCursorXPos(), getY1() - 3, 2,
 				getY2() - getY1()+ 5);
 		return;
 		
 	}
 	
+	@Override
 	public int findCursorXPos(){
-		super.getCompExGraphic().getGraphics().setFont(getFont());
-		int cursorPos = super.getCompExGraphic().getCursor().getPos();
+		super.getRootNodeGraphic().getGraphics().setFont(getFont());
+		int cursorPos = super.getRootNodeGraphic().getCursor().getPos();
 		
 		if (cursorPos == 0){
 			return getX1() - 1;
 		}
 		else if (cursorPos == 1){
-			return getX1() + widthSpaceAndLine + space/2;
+			return getX1() + widthInnerSpaceAndLine + space/2;
 		}
 		else if (cursorPos == 2){
-			return getX2() - widthSpaceAndLine - space/2;
+			return getX2() - widthInnerSpaceAndLine - space/2;
 		}
 		else if (cursorPos == 3){
 			return getX2();
@@ -91,36 +87,38 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 			
 	}
 	
+	@Override
 	public int getMaxCursorPos(){
 		return 3;
 	}
 	
+	@Override
 	public void setCursorPos(int xPixelPos){
 		
-		String valueString = getValue().getOp().getSymbol();
-
-		if (xPixelPos < getX1() + widthSpaceAndLine + space){
-			if (xPixelPos < getX1() + widthSpaceAndLine/2){
-				super.getCompExGraphic().getCursor().setPos(0);
-				super.getCompExGraphic().getCursor().setValueGraphic(this);
+		String valueString = getValue().getOperator().getSymbol();
+		
+		if (xPixelPos < getX1() + widthInnerSpaceAndLine + space){
+			if (xPixelPos < getX1() + widthInnerSpaceAndLine /2){
+				super.getRootNodeGraphic().getCursor().setPos(0);
+				super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 				return;
 			}
 			else{
-				super.getCompExGraphic().getCursor().setPos(1);
-				super.getCompExGraphic().getCursor().setValueGraphic(this);
+				super.getRootNodeGraphic().getCursor().setPos(1);
+				super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 				return;
 			}
 		}
 		else{
-			if (xPixelPos > getX2() - widthSpaceAndLine - space){
-				if (xPixelPos < getX2() - widthSpaceAndLine/2){
-					super.getCompExGraphic().getCursor().setPos(2);
-					super.getCompExGraphic().getCursor().setValueGraphic(this);
+			if (xPixelPos > getX2() - widthInnerSpaceAndLine - space){
+				if (xPixelPos < getX2() - widthInnerSpaceAndLine /2){
+					super.getRootNodeGraphic().getCursor().setPos(2);
+					super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 					return;
 				}
 				else{
-					super.getCompExGraphic().getCursor().setPos(3);
-					super.getCompExGraphic().getCursor().setValueGraphic(this);
+					super.getRootNodeGraphic().getCursor().setPos(3);
+					super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 					return;
 				}
 			}
@@ -131,10 +129,11 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		}
 	}
 	
+	@Override
 	public void moveCursorWest(){
-		int cursorPos = getCompExGraphic().getCursor().getPos();
+		int cursorPos = getRootNodeGraphic().getCursor().getPos();
 		if (cursorPos == 3 || cursorPos == 1){
-			super.getCompExGraphic().getCursor().setPos( cursorPos - 1); 
+			super.getRootNodeGraphic().getCursor().setPos( cursorPos - 1); 
 		}
 		else if (cursorPos == 0){
 			if (getWest() != null){
@@ -148,10 +147,11 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		}
 	}
 	
+	@Override
 	public void moveCursorEast(){
-		int cursorPos = getCompExGraphic().getCursor().getPos();
+		int cursorPos = getRootNodeGraphic().getCursor().getPos();
 		if (cursorPos == 2 || cursorPos == 0){
-			super.getCompExGraphic().getCursor().setPos( cursorPos + 1); 
+			super.getRootNodeGraphic().getCursor().setPos( cursorPos + 1); 
 		}
 		else if (cursorPos == 3){
 			if (getEast() != null){
@@ -165,6 +165,7 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		}
 	}
 	
+	@Override
 	public void moveCursorNorth(){
 		if (getNorth() == null)
 		{
@@ -177,6 +178,7 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		}
 	}
 	
+	@Override
 	public void moveCursorSouth(){
 		if (getSouth() == null)
 		{
@@ -189,34 +191,50 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		}
 	}
 	
-	public void sendCursorInFromEast(int yPos, ValueGraphic vg){
-		if (super.containedBelow(vg)){
-			super.getCompExGraphic().getCursor().setValueGraphic(this);
-			super.getCompExGraphic().getCursor().setPos(0);
+	@Override
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg){
+		if (super.hasDescendent(vg)){
+			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
+			super.getRootNodeGraphic().getCursor().setPos(0);
 		}
 		else{
-			super.getCompExGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerEast());
-			super.getCompExGraphic().getCursor().setPos(getChildGraphic().getMostInnerEast().getMaxCursorPos());
+			super.getRootNodeGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerEast());
+			super.getRootNodeGraphic().getCursor().setPos(getChildGraphic().getMostInnerEast().getMaxCursorPos());
 		}
 	}
 	
-	public void sendCursorInFromWest(int yPos, ValueGraphic vg){
-		if (super.containedBelow(vg)){
-			super.getCompExGraphic().getCursor().setValueGraphic(this);
-			super.getCompExGraphic().getCursor().setPos(getMaxCursorPos());
+	@Override
+	public void sendCursorInFromWest(int yPos, NodeGraphic vg){
+		if (super.hasDescendent(vg)){
+			super.getRootNodeGraphic().getCursor().setValueGraphic(this);
+			super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos());
 		}
 		else{
-			super.getCompExGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerWest());
-			super.getCompExGraphic().getCursor().setPos(0);
+			super.getRootNodeGraphic().getCursor().setValueGraphic(getChildGraphic().getMostInnerWest());
+			super.getRootNodeGraphic().getCursor().setPos(0);
 		}
 	}
 	
-	public void sendCursorInFromNorth(int xPos, ValueGraphic vg){
-		setCursorPos(xPos);
+	@Override
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
+        if (xPos > getX1() + widthInnerSpaceAndLine + space && xPos < getX2() - widthInnerSpaceAndLine - space)
+        { // if the cursor needs to move into the child
+            getChildGraphic().sendCursorInFromNorth(xPos, this);
+        }
+        else{
+            setCursorPos(xPos);
+        }
 	}
 	
-	public void sendCursorInFromSouth(int xPos, ValueGraphic vg){
-		setCursorPos(xPos);
+	@Override
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
+        if (xPos > getX1() + widthInnerSpaceAndLine + space && xPos < getX2() - widthInnerSpaceAndLine - space)
+        { // if the cursor needs to move into the child
+            getChildGraphic().sendCursorInFromSouth(xPos, this);
+        }
+        else{
+            setCursorPos(xPos);
+        }
 	}
 
 	@Override
@@ -231,9 +249,9 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		//g is used to decide the size of the text to display for this element
 		g.setFont(f);
 		
-		space = (int) (2 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
-		overhang =  (int) (1 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
-		widthSpaceAndLine =  (int) (2 * super.getCompExGraphic().DOC_ZOOM_LEVEL);
+		space = (int) (2 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL);
+		overhang =  (int) (1 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL);
+		widthInnerSpaceAndLine =  (int) (2 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL);
 		
 		//to draw this element later, the font must be the same, so its stored in this object
 		setFont(f);
@@ -245,10 +263,10 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		// The call to getChild() skips the first paren inside of the operator, the parens are needed to have
 		// an expression inside of a UnaryOp, but they are not usually displayed
 		// if a user wants to show parens, the can use  two pairs of parens: abs((5/6))
-		Expression tempChild = ((UnaryExpression)super.getValue()).getChild();
+		Node tempChild = (super.getValue()).getChild(0);
 		
-		ValueGraphic childValGraphic = makeValueGraphic(tempChild);
-		childSize = childValGraphic.requestSize(g, f, x1 + widthSpaceAndLine + space, y1 + overhang);
+		NodeGraphic childValGraphic = makeNodeGraphic(tempChild);
+		childSize = childValGraphic.requestSize(g, f, x1 + widthInnerSpaceAndLine + space, y1 + overhang);
 		
 		//set the west and east fields for inside an outside of the expression
 		setMostInnerWest(this);
@@ -258,12 +276,12 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 		childValGraphic.getMostInnerWest().setWest(this);
 		
 		setChildGraphic(childValGraphic);
-		super.getCompExGraphic().getComponents().add(childValGraphic);
+		super.getRootNodeGraphic().getComponents().add(childValGraphic);
 		
-		widthSpaceAndLine += (int) Math.round(childSize[1]/14.0);
-		childValGraphic.shiftToX1(x1 + widthSpaceAndLine + space);
+		widthInnerSpaceAndLine += (int) Math.round(childSize[1]/14.0);
+		childValGraphic.shiftToX1(x1 + widthInnerSpaceAndLine + space);
 		
-		symbolSize[0] = childSize[0] + space * 2 + widthSpaceAndLine * 2;
+		symbolSize[0] = childSize[0] + space * 2 + widthInnerSpaceAndLine * 2;
 		symbolSize[1] = childSize[1] + overhang * 2;
 		
 		symbolY1 = y1;

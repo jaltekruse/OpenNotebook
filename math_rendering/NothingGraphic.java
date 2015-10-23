@@ -10,16 +10,14 @@ package math_rendering;
 
 import java.awt.BasicStroke;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.Vector;
 
-import tree.MissingValue;
-import tree.Expression;
+import expression.EmptyValue;
 
-public class NothingGraphic extends ValueGraphic {
+public class NothingGraphic extends NodeGraphic<EmptyValue> {
 
-	public NothingGraphic(MissingValue v, CompleteExpressionGraphic compExGraphic) {
+	public NothingGraphic(EmptyValue v, RootNodeGraphic compExGraphic) {
 		super(v, compExGraphic);
 		setMostInnerWest(this);
 		setMostInnerEast(this);
@@ -31,11 +29,11 @@ public class NothingGraphic extends ValueGraphic {
 	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
-		getCompExGraphic().getGraphics().setFont(getFont());
-		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke(
-				(int) (1 * super.getCompExGraphic().DOC_ZOOM_LEVEL)));
-		getCompExGraphic().getGraphics().drawRect(getX1(), getY1(), getX2() - getX1(), getY2() - getY1());
-		super.getCompExGraphic().getGraphics().setStroke(new BasicStroke());
+		getRootNodeGraphic().getGraphics().setFont(getFont());
+		super.getRootNodeGraphic().getGraphics().setStroke(new BasicStroke(
+				(int) (1 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL)));
+		getRootNodeGraphic().getGraphics().drawRect(getX1(), getY1(), getX2() - getX1(), getY2() - getY1());
+		super.getRootNodeGraphic().getGraphics().setStroke(new BasicStroke());
 	}
 	
 	public void drawCursor(int pos){
@@ -60,8 +58,8 @@ public class NothingGraphic extends ValueGraphic {
 		String s = "8";
 		
 		int[] size = new int[2];
-		size[0] = getCompExGraphic().getStringWidth(s, f);
-		size[1] = getCompExGraphic().getFontHeight(f);
+		size[0] = getRootNodeGraphic().getStringWidth(s, f);
+		size[1] = getRootNodeGraphic().getFontHeight(f);
 		setUpperHeight((int) Math.round(size[1]/2.0));
 		setLowerHeight(getUpperHeight());
 		super.setX1(x1);
@@ -74,7 +72,7 @@ public class NothingGraphic extends ValueGraphic {
 	@Override
 	public Vector getComponents() {
 		// TODO Auto-generated method stub
-		return new Vector<ValueGraphic>();
+		return new Vector<NodeGraphic>();
 	}
 
 }

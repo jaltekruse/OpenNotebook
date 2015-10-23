@@ -11,19 +11,14 @@ package math_rendering;
 import java.awt.Font;
 import java.awt.Graphics;
 
-import tree.Expression;
-import tree.Expression;
+import expression.Expression;
 
-public abstract class ExpressionGraphic extends ValueGraphic<Expression> {
+public abstract class ExpressionGraphic extends NodeGraphic<Expression> {
 
 	protected int symbolX1, symbolX2, symbolY1, symbolY2;
 	
-	public ExpressionGraphic(Expression v, CompleteExpressionGraphic compExGraphic) {
-		super(v, compExGraphic);
-		if ( v.getCursorPos() >= 0) {
-			this.getCompExGraphic().getCursor().setValueGraphic(this);
-			this.getCompExGraphic().getCursor().setPos(v.getCursorPos());
-		}
+	public ExpressionGraphic(Expression e, RootNodeGraphic compExGraphic) {
+		super(e, compExGraphic);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -50,9 +45,10 @@ public abstract class ExpressionGraphic extends ValueGraphic<Expression> {
 		return null;
 	}
 
+	@Override
 	void shiftToX1(int x1) {
 		int xChange = x1 - getX1();
-		for (ValueGraphic vg : getComponents()){
+		for (NodeGraphic vg : getComponents()){
 			vg.shiftToX1(vg.getX1() + xChange);
 		}
 		setX2(getX2() + xChange);
@@ -61,9 +57,10 @@ public abstract class ExpressionGraphic extends ValueGraphic<Expression> {
 		setX1(x1);
 	}
 
+	@Override
 	void shiftToY1(int y1) {
 		int yChange = y1 - getY1();
-		for (ValueGraphic vg : getComponents()){
+		for (NodeGraphic vg : getComponents()){
 			vg.shiftToY1(vg.getY1() + yChange);
 		}
 		setY2(getY2() + yChange);

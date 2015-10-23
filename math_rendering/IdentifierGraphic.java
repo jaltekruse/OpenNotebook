@@ -11,43 +11,38 @@ package math_rendering;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.util.Vector;
 
+import expression.Identifier;
 import expression.NodeException;
-import expression.Number;
 
-public class DecimalGraphic extends NodeGraphic<Number> {
+public class IdentifierGraphic extends NodeGraphic {
 
-	public DecimalGraphic(Number n, RootNodeGraphic compExGraphic) {
-		super(n, compExGraphic);
+	public IdentifierGraphic(Identifier i, RootNodeGraphic compExGraphic) {
+		super(i, compExGraphic);
 		setMostInnerWest(this);
 		setMostInnerEast(this);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void draw() {
-		// TODO Auto-generated method stub
+	public void draw() throws NodeException {
 		if (isSelected()){
-//			drawSelection();
+			super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
+			super.getRootNodeGraphic().getGraphics().fillRect(getX1() - 1, getY1() - 1, getX2() - getX1()+ 2, getY2() - getY1() + 2);
+			super.getRootNodeGraphic().getGraphics().setColor(Color.black);
 		}
 		getRootNodeGraphic().getGraphics().setFont(getFont());
-		getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
-		getRootNodeGraphic().getGraphics().drawString(
-				getValue().toStringRepresentation(), getX1(), getY2());
+		getRootNodeGraphic().getGraphics().drawString(getValue().toStringRepresentation(), getX1(), getY2());
 	}
-	
-	public void drawSelection(){
-		super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
-		super.getRootNodeGraphic().getGraphics().fillRect(
-				getX1(), getY1(), getX2() - getX1(), getY2() - getY1());
-	}
-	
-	@Override
-	public void drawCursor(){
-		System.out.println("draw cursor in decimal");
+
+@Override
+public void drawCursor() throws NodeException {
+		
 		int xPos = findCursorXPos();
 		
 		super.getRootNodeGraphic().getGraphics().setColor(Color.BLACK);
@@ -56,11 +51,11 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public int getMaxCursorPos(){
+	public int getMaxCursorPos() throws NodeException {
 		return getValue().toStringRepresentation().length();
 	}
 	
-	public int findCursorXPos(){
+	public int findCursorXPos() throws NodeException {
 		super.getRootNodeGraphic().getGraphics().setFont(getFont());
 		String numberString = getValue().toStringRepresentation();
 		return getX1() + super.getRootNodeGraphic().getGraphics().getFontMetrics().stringWidth(
@@ -68,7 +63,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void setCursorPos(int xPixelPos){
+	public void setCursorPos(int xPixelPos) throws NodeException {
 		
 		String numberString = getValue().toStringRepresentation();
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
@@ -130,7 +125,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void moveCursorEast(){
+	public void moveCursorEast() throws NodeException {
 		if (super.getRootNodeGraphic().getCursor().getPos() < getValue().toStringRepresentation().length()){
 			super.getRootNodeGraphic().getCursor().setPos( super.getRootNodeGraphic().getCursor().getPos() + 1); 
 		}
@@ -151,7 +146,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	public void moveCursorNorth() throws NodeException {
 		if (getNorth() == null)
 		{
-//			System.out.println("nothing to north");
+			System.out.println("nothing to north");
 			return;
 		}
 		else
@@ -165,7 +160,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	public void moveCursorSouth() throws NodeException {
 		if (getSouth() == null)
 		{
-//			System.out.println("nothing to south");
+			System.out.println("nothing to south");
 			return;
 		}
 		else
@@ -176,8 +171,7 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 	
 	@Override
-	public void sendCursorInFromEast(int yPos, NodeGraphic vg)
-	{
+	public void sendCursorInFromEast(int yPos, NodeGraphic vg) throws NodeException {
 		super.getRootNodeGraphic().getCursor().setValueGraphic(this);
 		super.getRootNodeGraphic().getCursor().setPos(getMaxCursorPos() - 1);
 	}
@@ -190,27 +184,34 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 
 	@Override
-	public void sendCursorInFromNorth(int xPos, NodeGraphic vg){
+	public void sendCursorInFromNorth(int xPos, NodeGraphic vg) throws NodeException {
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
-//		System.out.println("Dec graphic in from north, cursor: " +
-//				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toStringRepresentation());
+		System.out.println("Dec graphic in from north, cursor: " +
+				super.getRootNodeGraphic().getCursor().getValueGraphic().getValue().toStringRepresentation());
 	}
 	
 	@Override
-	public void sendCursorInFromSouth(int xPos, NodeGraphic vg){
+	public void sendCursorInFromSouth(int xPos, NodeGraphic vg) throws NodeException {
 //		super.getCompExGraphic().getCursor().setValueGraphic(this);
 		setCursorPos(xPos);
 	}
 	
 	@Override
-	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {
-		// TODO right now prints toString representation, need to make horizonal, and slash representations soon
+	public int[] requestSize(Graphics g, Font f) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int[] requestSize(Graphics g, Font f, int x1, int y1)
+			throws Exception {
 		g.setFont(f);
 		setFont(f);
+		FontMetrics fm = g.getFontMetrics();
 		String s = getValue().toStringRepresentation();
 		int[] size = new int[2];
-		size[0] = getRootNodeGraphic().getStringWidth(s, f);
+		size[0] = fm.stringWidth(s);
 		size[1] = getRootNodeGraphic().getFontHeight(f);
 		setUpperHeight((int) Math.round(size[1]/2.0));
 		setLowerHeight(getUpperHeight());
@@ -222,14 +223,8 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 	}
 
 	@Override
-	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Vector<NodeGraphic> getComponents() {
-		// TODO Auto-generated method stub
+	public Vector getComponents() {
 		return new Vector<NodeGraphic>();
 	}
+
 }
