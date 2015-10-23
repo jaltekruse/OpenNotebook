@@ -498,7 +498,7 @@ public class OpenNotebook extends JApplet {
 				}
 				else{
 					createAndShowGUI(false, false, false);
-                    notebookPanel.openSample("teacher_overview.mdoc");
+//                    notebookPanel.openSample("teacher_overview.mdoc");
 				}
 			}
 		});
