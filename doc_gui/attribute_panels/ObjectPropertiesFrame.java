@@ -1,9 +1,18 @@
 /*
- * This file is part of an application developed by Open Education Inc.
- * The source code of the entire project is the exclusive property of
- * Open Education Inc. If you have received this file in error please
- * inform the project leader at altekrusejason@gmail.com to report where
- * the file was found and delete it immediately. 
+   This file is part of OpenNotebook.
+
+   OpenNotebook is free software: you can redistribute it and/or modify
+   it under the terms of the GNU General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
+
+   OpenNotebook is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU General Public License for more details.
+
+   You should have received a copy of the GNU General Public License
+    along with OpenNotebook.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 package doc_gui.attribute_panels;
@@ -47,7 +56,6 @@ import doc.mathobjects.PolygonObject;
 import doc.mathobjects.TextObject;
 import doc.mathobjects.TriangleObject;
 import doc_gui.DocViewerPanel;
-import doc_gui.NotebookKeyboardListener;
 import doc_gui.NotebookPanel;
 import doc_gui.OCButton;
 
@@ -67,7 +75,6 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			GraphObject.MOVE_LEFT, GraphObject.MOVE_RIGHT, GraphObject.DEFAULT_GRID,
 			GraphObject.ZOOM_IN, GraphObject.ZOOM_OUT};
 	private String[] expressionOpActions = {ExpressionObject.ADD_TO_BOTH_SIDES,
-            ExpressionObject.COMBINE_LIKE_TERMS,
 			ExpressionObject.MULTIPLY_BOTH_SIDES, ExpressionObject.DIVIDE_BOTH_SIDES,
 			ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, ExpressionObject.OTHER_OPERATIONS,
 			ExpressionObject.MANUALLY_TYPE_STEP, ExpressionObject.MODIFY_EXPRESSION,
@@ -182,8 +189,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 	 * @param o - object to base menu panel on
 	 */
 	public void generatePanel(MathObject o){
-		// TODO - stopwatch and logging
-//		System.out.println("generate panel" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("generate panel" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		if (o == null){
 			return;
 		}
@@ -204,7 +210,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		con.gridx = 0;
 		con.gridy = 0;
 		
-//		System.out.println("end init stuff" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("end init stuff" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if (o instanceof GraphObject || (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode()))
 		{// there are too many attributes and actions for the graph to put them all in one panel
@@ -215,9 +221,11 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			tabOneContents.setLayout(new GridBagLayout());
 			tabTwoContents = new JPanel();
 			tabTwoContents.setLayout(new GridBagLayout());
+			System.out.println("1 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			JScrollPane tabScrollPane = new JScrollPane(panelTabs);
 			tabScrollPane.getVerticalScrollBar().setUnitIncrement(16);
 			tabScrollPane.getHorizontalScrollBar().setUnitIncrement(16);
+			System.out.println("2 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			tabScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 			if ( o instanceof GraphObject){
 				panelTabs.add("Nav", tabOneContents);
@@ -227,15 +235,16 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			else if (o instanceof ExpressionObject){
 				panelTabs.add("Expression", tabOneContents);
 				panelTabs.add("Solve", tabTwoContents);
-                tabTwoContents.addKeyListener(new NotebookKeyboardListener(notebookPanel.getOpenNotebook()));
 				panel = tabOneContents;
 			}
+			System.out.println("3 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 			this.getContentPane().add(tabScrollPane);
+			System.out.println("4 " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		}
 		else{
 			this.getContentPane().add(scrollPane);
 		}
-//		System.out.println("done with tabs " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("done with tabs " + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		con.weighty = .01;
 		JPanel actionPics = new JPanel();
@@ -253,7 +262,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			}
 		}
 		
-//		System.out.println("teacher actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("teacher actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 
 		boolean skipAction;
 		for (final String s : o.getStudentActions()){
@@ -280,7 +289,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			if (pic != null) createButton(s,0,0,0,0, actionPics);
 			else createButton(s,0,0,0,0, otherActions);
 		}
-//		System.out.println("student actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("student actions done" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if (otherActions.getComponentCount() != 0)
 		{// only add panel for actions if components have been added to it
@@ -343,7 +352,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			}
 		}
 		
-//		System.out.println("end att adjusters:" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("end att adjusters:" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		con.weighty = 1;
 		if (o instanceof GraphObject)
 		{// see above comments about tabs for some objects
@@ -359,7 +368,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 				con.gridy++;
 			}
 		}
-//		System.out.println("end lists:" + + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("end lists:" + + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 		
 		if ( panel.getComponentCount() == 0){
 			panel.add(new JLabel("No actions for this object"), con);
@@ -368,7 +377,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		this.pack();
 		this.update();
 		this.setSize(this.getWidth() + 30, this.getHeight());
-//		System.out.println("done making props frame" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
+		System.out.println("done making props frame" + (new Date().getTime() - notebookPanel.getOpenNotebook().timeAtStart));
 	}
 	
 	public void setObject(MathObject o){
@@ -408,36 +417,33 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		newPanel.setLayout(new GridBagLayout());
 		ImageIcon pic;
 
-        new OCButton(ExpressionObject.COMBINE_LIKE_TERMS, 4, 1, 0, 0, newPanel){
-            public void associatedAction(){ buttonAction(ExpressionObject.COMBINE_LIKE_TERMS);}
-        };
-		new OCButton(ExpressionObject.SUB_IN_VALUE, 4, 1, 0, 1, newPanel){
+		new OCButton(ExpressionObject.SUB_IN_VALUE, 4, 1, 0, 0, newPanel){
 			public void associatedAction(){ buttonAction(ExpressionObject.SUB_IN_VALUE);}
 		};
-		new OCButton(ExpressionObject.MODIFY_EXPRESSION, 4, 1, 0, 2, newPanel){
+		new OCButton(ExpressionObject.MODIFY_EXPRESSION, 4, 1, 0, 1, newPanel){
 			public void associatedAction(){ buttonAction(ExpressionObject.MODIFY_EXPRESSION);}
 		};
-		new OCButton(ExpressionObject.MANUALLY_TYPE_STEP, 4, 1, 0, 3, newPanel){
+		new OCButton(ExpressionObject.MANUALLY_TYPE_STEP, 4, 1, 0, 2, newPanel){
 			public void associatedAction(){ buttonAction(ExpressionObject.MANUALLY_TYPE_STEP);}
 		};
-		new OCButton(ExpressionObject.UNDO_STEP, 4, 1, 0, 4, newPanel){
+		new OCButton(ExpressionObject.UNDO_STEP, 4, 1, 0, 3, newPanel){
 			public void associatedAction(){ buttonAction(ExpressionObject.UNDO_STEP);}
 		};
 		
 		GridBagConstraints con = new GridBagConstraints();
 		con.fill = GridBagConstraints.HORIZONTAL;
 		con.gridx = 0;
-		con.gridy = 5;
+		con.gridy = 4;
 		con.gridwidth = 4;
 		con.weightx = 1;
 		con.weighty = .02;
 		newPanel.add(new JLabel("Apply to both sides"), con);
 		
-		createButton(ExpressionObject.ADD_TO_BOTH_SIDES, 1, 1, 0, 6, newPanel);
-		createButton(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, 1, 1, 1, 6, newPanel);
-		createButton(ExpressionObject.MULTIPLY_BOTH_SIDES, 1, 1, 2, 6, newPanel);
-		createButton(ExpressionObject.DIVIDE_BOTH_SIDES, 1, 1, 3, 6, newPanel);
-		new OCButton(ExpressionObject.OTHER_OPERATIONS, 4, 1, 0, 7, newPanel){
+		createButton(ExpressionObject.ADD_TO_BOTH_SIDES, 1, 1, 0, 5, newPanel);
+		createButton(ExpressionObject.SUBTRACT_FROM_BOTH_SIDES, 1, 1, 1, 5, newPanel);
+		createButton(ExpressionObject.MULTIPLY_BOTH_SIDES, 1, 1, 2, 5, newPanel);
+		createButton(ExpressionObject.DIVIDE_BOTH_SIDES, 1, 1, 3, 5, newPanel);
+		new OCButton(ExpressionObject.OTHER_OPERATIONS, 4, 1, 0, 6, newPanel){
 			public void associatedAction(){ buttonAction(ExpressionObject.OTHER_OPERATIONS);}
 		};
 		return newPanel;
@@ -493,7 +499,6 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 				currentViewer.getFocusedObject().getParentContainer() instanceof Grouping){
 			((Grouping)currentViewer.getFocusedObject().getParentContainer()).adjustSizeToFitChildren();
 		}
-    this.update();
 		currentViewer.repaintDoc();
 	}
 
@@ -556,10 +561,9 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			return new ImageIcon(image);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			throw new RuntimeException("cannot find image: " + filename, e);
-		} catch (IllegalArgumentException ex) {
-			throw new RuntimeException("cannot find image: " + filename, ex);
+			System.out.println("cannot find image: " + filename);
 		}
+		return null;
 	}
 
 	public void update(){
