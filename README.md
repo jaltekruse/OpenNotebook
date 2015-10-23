@@ -19,7 +19,7 @@ and automated grading of the digital assignments. This will enable teachers to p
 easily analyze their students' performance on each assignment to identify trouble spots and 
 better prepare for class the next day.
 
-To enable reuse of materials, OpenNotebook also include facilities to create not only static
+To enable reuse of materials, OpenNotebook also includes facilities to create not only static
 content, but problem formulas that will let you generate new versions of a worksheet. With these
 powerful tools, we hope to empower teachers to build a world class library of open educational materials
 and provide all of the benefits of digital mathematics to every classroom, absolutely free.
