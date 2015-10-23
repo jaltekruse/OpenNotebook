@@ -76,7 +76,7 @@ public class Identifier extends Value {
 	}
 
 	public static boolean isValidChar(char c) {
-		return Character.isLetter(c);
+		return Character.isLetter(c) || c == 'θ' || c == 'π';
 	}
 
 	@Override
