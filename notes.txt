@@ -1,0 +1,35 @@
+Results from Moodle install - look back at this:
+Server checks
+Name    Information     Report  Plugin  Status
+php_extension   xmlrpc  should be installed and enabled for best results
+
+The xmlrpc extension is needed for hub communication, and useful for web services and Moodle networking
+        Check
+php_setting     opcache.enable  PHP setting should be changed.
+
+PHP opcode caching improves performance and lowers memory requirements, OPcache extension is recommended and fully supported.
+        Check
+
+Useful commands for setting up server apache server:
+    - default mysql port: 3306
+    - apt-get -y install apache2 mysql-client mysql-server php5
+    - apt-get -y install graphviz aspell php5-pspell php5-curl php5-gd php5-intl php5-mysql php5-xmlrpc php5-ldap git-core
+    - sudo /etc/init.d/apache2 restart
+    - hung ssh: ~.
+    - todo mail:
+        - http://askubuntu.com/questions/47609/how-to-have-my-php-send-mail
+    - apache web root
+        - /etc/apache2/conf/httpd.conf
+        - may be in sites-available/000-default.conf instead
+
+Tasks:
+    - implement simple text file based "student overview" page
+        - students upload text docs with single answer in it
+        - figure out how to kick off something at the time when submission is over to
+          aggregate the answers that were incorrect
+    - xml parsing in php, look for elements with an "answer" field
+        - allow for teachers to get up the list of expected answers somehow
+        - compare answers against each solution in each student doc, aggregate incorret work
+        - write incorrect work to a file, with link to student ID and problem number, anything
+          needed to talk to moodle to push partial credit back to the site
+    - enhance OpenNotebook to layout the "Overview page" on launch

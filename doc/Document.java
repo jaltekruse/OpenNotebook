@@ -36,6 +36,7 @@ import doc.mathobjects.ProblemGenerator;
 import doc.mathobjects.ProblemNumberObject;
 import doc.mathobjects.TextObject;
 import doc_gui.DocViewerPanel;
+import doc_gui.NotebookPanel;
 
 public class Document {
 
@@ -310,8 +311,6 @@ public class Document {
 
 	public void generateProblems(Vector<ProblemGenerator> generators,
 			Vector<Integer> frequencies, int numberOfProblems, String directions, boolean problemNumbers) {
-		GeneratedProblem[] newProblems = new GeneratedProblem[numberOfProblems];
-		int difficulty;
 		for (ProblemGenerator gen : generators){
 			gen.setProblemHoldingDocument(this);
 			try {
@@ -321,26 +320,26 @@ public class Document {
 			}
 		}
 		int j = 0;
-		newProblems = new GeneratedProblem[numberOfProblems];
+		Vector <GeneratedProblem> newProblems = new Vector <GeneratedProblem>(numberOfProblems);
 		for (int i = 0; j < numberOfProblems; j++, i++) {
 			if ( i < numberOfProblems / 3){
-				newProblems[i] = generators.get(pickRandomIndex(frequencies))
-						.generateProblem(ProblemGenerator.EASY);
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
+						.generateProblem(ProblemGenerator.EASY));
 			}
 			else if ( i < numberOfProblems * (2.0/3)){
-				newProblems[i] = generators.get(pickRandomIndex(frequencies))
-						.generateProblem(ProblemGenerator.MEDIUM);
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
+						.generateProblem(ProblemGenerator.MEDIUM));
 			}
 			else{
-				newProblems[i] = generators.get(pickRandomIndex(frequencies))
-						.generateProblem(ProblemGenerator.HARD);
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
+						.generateProblem(ProblemGenerator.HARD));
 			}
 		}
 		layoutProblems(newProblems, directions, this, problemNumbers);
 		docPanel.repaint();
 	}
 	
-	public static void layoutProblems(MathObject[] objects, String directions, Document doc, boolean problemNumbers) {
+	public static void layoutProblems(Vector <? extends MathObject> objects, String directions, Document doc, boolean problemNumbers) {
 
 		int extraMarginForDirections = 5;
 		PointInDocument pt = doc.findFirstWhitespace();
@@ -364,7 +363,7 @@ public class Document {
 					2 * extraMarginForDirections, 20, 12, directions);
 			curryPos = pt.getyPos() + directionText.getHeight() + minimumBufferSpace/2;
 			// draw the text in the background, so it has its height set correctly
-			doc.getDocViewerPanel().drawObjectInBackground(directionText);
+			NotebookPanel.drawObjectToImage(directionText);
 			if ( curryPos + greatestHeight < currentPage.getHeight() - currentPage.getyMargin())
 			{// the first row of objects will fit on this page, otherwise move the directions down a page
 				currentPage.addObject(directionText);
@@ -406,7 +405,7 @@ public class Document {
 				problemNumber = new ProblemNumberObject(currentPage, mObj.getxPos() - 38,
 						mObj.getyPos(), 35, 20, lastProblemNumber);
 				// draw it in the background so its height is set properly
-				doc.getDocViewerPanel().drawObjectInBackground(problemNumber);
+				NotebookPanel.drawObjectToImage(problemNumber);
 				// to accommodate problems of different heights, the number should be layed out either in the
 				// center of the height of the problem, or at the top if it is very large
 				if ( problemNumber.getHeight() * 4 >= mObj.getHeight()){
@@ -543,8 +542,6 @@ public class Document {
 			currentPage.getParentDoc().addBlankPage();
 			currentPage = currentPage.getParentDoc().getPage(
 					currentPage.getParentDoc().getNumPages() - 1);
-			currentPage.getParentDoc().getDocViewerPanel()
-			.resizeViewWindow();
 		} else {// there is a next page on the document that the new
 			// objects can be added to
 			currentPage = currentPage.getParentDoc().getPage(

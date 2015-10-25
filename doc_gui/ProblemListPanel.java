@@ -203,6 +203,7 @@ public class ProblemListPanel extends JPanel {
 		}
 		notebookPanel.getCurrentDocViewer().getDoc().generateProblems(
 				selectedProblems, selectedFrequencies, num, directions);
+		notebookPanel.getCurrentDocViewer().resizeViewWindow();
 		notebookPanel.getCurrentDocViewer().addUndoState();
 	}
 
@@ -249,6 +250,7 @@ public class ProblemListPanel extends JPanel {
 					previewPanel.getDoc().setHeight(5000);
 					previewPanel.getDoc().setWidth(5000);
 					previewPanel.getDoc().generateProblem(g);
+					previewPanel.resizeViewWindow();
 					MathObject mObj = previewPanel.getDoc().getPage(0).getObjects().get(0);
 					previewPanel.getDoc().setWidth(mObj.getWidth() + 2 * problemBuffer);
 					previewPanel.getDoc().setHeight(mObj.getHeight() + 2 * problemBuffer);
