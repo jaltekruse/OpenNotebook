@@ -311,8 +311,6 @@ public class Document {
 
 	public void generateProblems(Vector<ProblemGenerator> generators,
 			Vector<Integer> frequencies, int numberOfProblems, String directions, boolean problemNumbers) {
-		Vector <GeneratedProblem> newProblems = new Vector <GeneratedProblem>();
-		int difficulty;
 		for (ProblemGenerator gen : generators){
 			gen.setProblemHoldingDocument(this);
 			try {
@@ -322,18 +320,18 @@ public class Document {
 			}
 		}
 		int j = 0;
-		newProblems = new Vector <GeneratedProblem>();
+		Vector <GeneratedProblem> newProblems = new Vector <GeneratedProblem>(numberOfProblems);
 		for (int i = 0; j < numberOfProblems; j++, i++) {
 			if ( i < numberOfProblems / 3){
-				newProblems.set(i, generators.get(pickRandomIndex(frequencies))
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
 						.generateProblem(ProblemGenerator.EASY));
 			}
 			else if ( i < numberOfProblems * (2.0/3)){
-				newProblems.set(i, generators.get(pickRandomIndex(frequencies))
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
 						.generateProblem(ProblemGenerator.MEDIUM));
 			}
 			else{
-				newProblems.set(i, generators.get(pickRandomIndex(frequencies))
+				newProblems.add(generators.get(pickRandomIndex(frequencies))
 						.generateProblem(ProblemGenerator.HARD));
 			}
 		}
