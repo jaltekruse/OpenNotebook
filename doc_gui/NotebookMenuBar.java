@@ -277,6 +277,7 @@ public class NotebookMenuBar extends JMenuBar {
 		this.add(mode);
 
 		if (openBook.isInStudentMode()){
+			// TODO - change to edit when I rename it elsewhere
 			item = new JMenuItem("Teacher");
 			mode.add(item);
 			item.addActionListener(new ActionListener(){
@@ -294,7 +295,7 @@ public class NotebookMenuBar extends JMenuBar {
 					    options[1]);
 	
 					if (n == 0){ 
-						openBook.setInStudentMode(false);
+						openBook.setMode(OpenNotebook.Mode.EDIT);
 					}
 				}
 			});
@@ -318,7 +319,7 @@ public class NotebookMenuBar extends JMenuBar {
 					    options[1]);
 	
 					if (n == 0){ 
-						openBook.setInStudentMode(true);
+						openBook.setMode(OpenNotebook.Mode.STUDENT);
 					}
 				}
 			});

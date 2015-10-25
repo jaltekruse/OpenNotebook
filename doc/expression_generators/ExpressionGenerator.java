@@ -34,7 +34,7 @@ public abstract class ExpressionGenerator extends ProblemGenerator implements Cl
 		ExpressionObject expressionObj = new ExpressionObject();
 		try {
 			newProblem.setDifficulty(difficulty);
-			newProblem.getListWithName(GeneratedProblem.GEN_LIST).getValues().removeAllElements();
+			newProblem.getListWithName(GeneratedProblem.GEN_LIST).getValues().clear();
 			((ListAttribute<UUIDAttribute>)newProblem.getListWithName(GeneratedProblem.GEN_LIST))
 					.addValueWithString(getProblemID().toString());
 			Node[] n = generateExpression(difficulty);

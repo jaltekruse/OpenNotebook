@@ -41,12 +41,9 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import doc.PointInDocument;
+import doc.*;
 import org.xml.sax.SAXException;
 
-import doc.Document;
-import doc.Page;
-import doc.ProblemDatabase;
 import doc.attributes.AttributeException;
 import doc.attributes.Date;
 import doc.mathobjects.GeneratedProblem;
@@ -1001,19 +998,39 @@ public class NotebookPanel extends SubPanel {
         openHelper(fis, f.getName());
     }
 
+		public Document openDoc(InputStream inStream, String docName) {
+			InputStreamReader inputStreamReader = new InputStreamReader(inStream);
+			Document doc = null;
+			try {
+				doc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
+			} catch (Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(null,
+						"Error opening file",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+			return doc;
+		}
+
     public void openHelper(InputStream inStream, String docName) {
-        InputStreamReader inputStreamReader = new InputStreamReader(inStream);
-        try {
-            Document tempDoc = getOpenNotebook().getFileReader().readDoc(inputStreamReader, docName);
-            tempDoc.setFilename(docName);
-            addDoc(tempDoc);
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null,
-                    "Error opening file",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
+			Document doc = openDoc(inStream, docName);
+			doc.setFilename(docName);
+			addDoc(doc);
     }
+
+	public void openStudentWorkDocs() {
+		int value = getFileChooser().showOpenDialog(this);
+		if (value == JFileChooser.APPROVE_OPTION) {
+			try {
+				new UnZip().unZipIt(getFileChooser().getSelectedFile().toString(), this, getCurrentDocViewer().getDoc());
+			} catch (Exception e) {
+				e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+				JOptionPane.showMessageDialog(null,
+						"Error opening file",
+						"Error", JOptionPane.ERROR_MESSAGE);
+			}
+		}
+	}
 
 	public void openSample(String docName) {
 		InputStream inputStream = getClass().getClassLoader()

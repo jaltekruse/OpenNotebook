@@ -29,7 +29,43 @@ Tasks:
           aggregate the answers that were incorrect
     - xml parsing in php, look for elements with an "answer" field
         - allow for teachers to get up the list of expected answers somehow
-        - compare answers against each solution in each student doc, aggregate incorret work
+        - compare answers against each solution in each student doc, aggregate incorrect work
         - write incorrect work to a file, with link to student ID and problem number, anything
           needed to talk to moodle to push partial credit back to the site
     - enhance OpenNotebook to layout the "Overview page" on launch
+
+After looking at a lot of Moodle APIs, this might be easiest to just do in JAVA, where the structures to parse
+and traverse documents are already implemented
+	- I had thought it would need to be in php to make it easier for the teachers to do the automatic grading
+	- Moodle didn't seem to have a good place for me to store the answer key
+	- all of the automated grading stuff implemented today is based on their quiz structure
+		- it looks fairly powerful, but doesn't seem like the best fit, I don't want to force teachers to
+		  create problem sets in a Web UI
+		- they can just assign problems out of the book and this should still be useful
+		- I could even grade the student's work against each other, look for most common solutions
+			- I don't even have to know if they are right, I can just show them to the teacher, they
+			  can compare them to the answer key and assign a score for common answers
+			- these can be automatically applied to all students who had that answer
+			- with extra work done by the teacher to more thoroughly evaluate incorrect work for
+			  partial credit
+	- Moodle has a feature to download a zip file full of student submissions
+	- and submit back an edited version of the same files
+	- I can just modify the application to be a viewer of all of the files, I can dynamically
+	  show different subsets of the work
+		- just manually graded problems
+		- most troublesome problems
+		- show all work (even the correct work)
+	- will need to have a way for a teacher to associate an answer key with the files for grading
+		- open answer key
+		- add button "Grade Student Submissions"
+			- tooltip - Use current document as an answer key to grade a zip file full of student work
+	- after generating worksheet
+		- add a new feature to explode it into a "digital version"
+		- remove answers from doc
+		- split up to one problem per page so that we can clearly identify what student work belongs with
+		  a particular problem
+	- during uploaded of the new zip file with feedback
+		- make sure I have a way of representing scores, including partial credit in each doc
+		- open the zip, read the score for each student and store it in the gradebook while the existing
+		  code saves it back as the binary file the student can look at to see all of their feedback
+

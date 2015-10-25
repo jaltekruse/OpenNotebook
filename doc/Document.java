@@ -17,10 +17,7 @@
 
 package doc;
 
-import java.util.Collections;
-import java.util.Random;
-import java.util.UUID;
-import java.util.Vector;
+import java.util.*;
 
 import doc.attributes.AttributeException;
 import doc.attributes.Date;
@@ -94,7 +91,7 @@ public class Document {
 
 	// used for automatically laying out problems on a document and giving them
 	// extra space
-	private static final int minimumBufferSpace = 40;
+	private static final int minimumBufferSpace = 20;
 
 	// cloned versions of previous documents are used for the undo/redo stack
 	// to maintain what object had focus at each undo state, it is stored here
@@ -339,7 +336,7 @@ public class Document {
 		docPanel.repaint();
 	}
 	
-	public static void layoutProblems(Vector <? extends MathObject> objects, String directions, Document doc, boolean problemNumbers) {
+	public static void layoutProblems(List<? extends MathObject> objects, String directions, Document doc, boolean problemNumbers) {
 
 		int extraMarginForDirections = 5;
 		PointInDocument pt = doc.findFirstWhitespace();
@@ -380,6 +377,7 @@ public class Document {
 
 		int numColumns = (doc.getWidth() - 2 * doc.getxMargin() - 2 * extraMarginForDirections) 
 				/ (greatestWidth + minimumBufferSpace);
+		numColumns = Math.max(1, numColumns);
 		int totalExtraSpace = (doc.getWidth() - 2 * doc.getxMargin() - 2 * extraMarginForDirections)
 				% (greatestWidth + minimumBufferSpace);
 

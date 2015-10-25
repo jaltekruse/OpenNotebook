@@ -1,5 +1,6 @@
 package doc.attributes;
 
+import java.util.List;
 import java.util.Vector;
 
 import doc.mathobjects.MathObject;
@@ -163,7 +164,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		this.values = values;
 	}
 
-	public Vector<K> getValues() {
+	public List<K> getValues() {
 		return values;
 	}
 	

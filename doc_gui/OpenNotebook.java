@@ -62,13 +62,24 @@ import doc_gui.attribute_panels.ObjectPropertiesFrame;
 
 public class OpenNotebook extends JApplet {
 
+	public enum Mode {
+		STUDENT,
+		GRADING,
+		// was previously teacher mode, will now be used by students to
+		// complete their assignments, so that they can add new content like
+		// diagrams, graphs, etc. (TODO think about how to disable graphs when
+		// students are supposed to be graphing things themselves)
+
+		// teachers will use this mode to create worksheets as well
+		EDIT
+	}
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -5614406937717777249L;
 	private static OpenNotebook application;
 	private static JFrame frame;
-	private static boolean inStudentMode;
+	private static Mode mode;
 	private static JFileChooser fileChooser;
 	private static DocReader reader;
 	private static ProblemDatabase database;
@@ -143,21 +154,22 @@ public class OpenNotebook extends JApplet {
 				quit();
 				return;
 			} else if (n == 1) {
-				application.setInStudentMode(false);
+				application.setMode(Mode.EDIT);
 			} else {
-				application.setInStudentMode(true);
+				application.setMode(Mode.STUDENT);
 			}
 		}
 		else{
 			if (frame == null) {
 				addContents(this.getContentPane());
 			}
-			else{
-	            application.setInStudentMode(studentMode);
+			else {
+				Mode mode = studentMode ? Mode.STUDENT : Mode.EDIT;
+				application.setMode(mode);
 			}
 		}
 		if (openTutorial) {
-			if (application.inStudentMode()) {
+			if (application.isInStudentMode()) {
 				notebookPanel.openSample(SampleListPanel.STUDENT_MODE_TUTORIAL_FILE + ".mdoc");
 			} else {
 				notebookPanel.openSample(SampleListPanel.TEACHER_MODE_TUTORIAL_FILE + ".mdoc");
@@ -282,8 +294,8 @@ public class OpenNotebook extends JApplet {
 		frame.setVisible(true);
 	}
 
-	private static boolean inStudentMode() {
-		return inStudentMode;
+	public static boolean isInStudentMode() {
+		return mode == Mode.STUDENT;
 	}
 
 	private static WindowListener createWindowListener() {
@@ -511,8 +523,8 @@ public class OpenNotebook extends JApplet {
 		});
 	}
 
-	public void setInStudentMode(boolean b) {
-		inStudentMode = b;
+	public void setMode(Mode mode) {
+		this.mode = mode;
 		if ( notebookPanel != null && notebookPanel.sampleDialog != null &&
 				notebookPanel.problemDialog != null){
 			notebookPanel.sampleDialog.dispose();
@@ -525,10 +537,10 @@ public class OpenNotebook extends JApplet {
 			application.getContentPane().invalidate();
 			application.validate();
 		} else {
-			if (b)
+			if (isInStudentMode())
 				frame.setTitle("OpenNotebook - Student");
 			else
-				frame.setTitle("OpenNotebook - Teacher");
+				frame.setTitle("OpenNotebook - Edit");
 			this.getContentPane().removeAll();
 			this.addContents(frame.getContentPane());
 			frame.setJMenuBar(new NotebookMenuBar(this));
@@ -536,10 +548,6 @@ public class OpenNotebook extends JApplet {
 			frame.validate();
 		}
 		application.repaint();
-	}
-
-	public static boolean isInStudentMode() {
-		return inStudentMode;
 	}
 
 	public ProblemDatabase getDatabase() {

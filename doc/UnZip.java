@@ -1,0 +1,131 @@
+package doc;
+
+import doc.attributes.MathObjectAttribute;
+import doc.mathobjects.AnswerBoxObject;
+import doc.mathobjects.ExpressionObject;
+import doc.mathobjects.Grouping;
+import doc.mathobjects.MathObject;
+import doc_gui.NotebookPanel;
+
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import java.util.zip.ZipInputStream;
+
+// http://www.mkyong.com/java/how-to-decompress-files-from-a-zip-file/
+public class UnZip {
+
+	// http://stackoverflow.com/questions/617414/create-a-temporary-directory-in-java
+	public static File createTempDirectory()
+			throws IOException {
+		final File temp;
+
+		temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
+
+		if(!(temp.delete()))
+		{
+			throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
+		}
+
+		if(!(temp.mkdir()))
+		{
+			throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
+		}
+
+		return (temp);
+	}
+
+	/**
+	 * Unzip it
+	 * @param zipFileName input zip file
+	 */
+	public void unZipIt(String zipFileName, NotebookPanel notebookPanel, Document key) throws IOException {
+
+		ZipFile zipFile;
+		//get the zip file content
+		zipFile = new ZipFile(zipFileName);
+		//get the zipped file list entry
+		Enumeration<? extends ZipEntry> zes = zipFile.entries();
+		ZipEntry ze = null;
+
+		List<Document> docs = new ArrayList<Document>();
+		while(zes.hasMoreElements()){
+			ze = zes.nextElement();
+			String fileName = ze.getName();
+			// ignore failures to read individual files out of zip archive
+			// TODO - look back at this, seemed lik there were more
+			// ZipEntries than files
+			try{
+				InputStream inputStream = zipFile.getInputStream(ze);
+				if (inputStream.available() == 0) {
+					break;
+				}
+				docs.add(notebookPanel.openDoc(inputStream, fileName));
+			}catch(IOException ex){
+				ex.printStackTrace();
+			}
+		}
+		Document resultDoc = new Document("Student Summary");
+		resultDoc.addBlankPage();
+
+		List<List<MathObject>> incorrectWork = new ArrayList<List<MathObject>>();
+
+		for (int i = 0; i < docs.get(0).getPages().size(); i++) {
+			List<MathObject> allStudentWorkForOneProblem = new ArrayList<MathObject>();
+			for (Document doc : docs) {
+				if (doc == null) continue;
+				Page p = doc.getPage(i);
+				// combine together all of the content of one page into a group, it will
+				// all be shown to the teacher if the
+				Grouping group = new Grouping(p);
+				for (MathObject mObj : p.getObjects()) {
+					group.addObject(mObj);
+				}
+				group.adjustSizeToFitChildren();
+				allStudentWorkForOneProblem.add(group);
+			}
+			incorrectWork.add(allStudentWorkForOneProblem);
+		}
+		// TODO - let the teachers give us a list
+		// of problem numbers in the assignment
+		// the lists of objects will not be sparse
+		int[] problemNumbers = {5,7,9};
+		int problemNumber = 0;
+		for (List<MathObject> problems : incorrectWork) {
+			Document.layoutProblems(problems, "Problem" + problemNumber, resultDoc, false);
+		}
+		notebookPanel.addDoc(resultDoc);
+
+		zipFile.close();
+	}
+
+	private List<List<String>> getAnswers(Document doc) {
+		List<List<String>> answers = new ArrayList<List<String>>();
+		for (Page p : doc.getPages()) {
+			for (MathObject mObj : p.getObjects()) {
+				// TODO - options for, answer must be one of many, or some subset of a list of answers
+				if (mObj instanceof AnswerBoxObject) {
+					// TODO - shouldn't call this student answer if I'm going to reuse it
+					// here for the answer key written by the teacher, for now it will work okay
+					answers.add(convertToBareStringArray(mObj.getListWithName(AnswerBoxObject.CORRECT_ANSWERS).getValues()));
+				} else if (mObj instanceof ExpressionObject) {
+					answers.add(convertToBareStringArray(mObj.getListWithName(ExpressionObject.CORRECT_ANSWERS).getValues()));
+				}
+			}
+		}
+		return answers;
+	}
+
+	private List<String> convertToBareStringArray(List<? extends MathObjectAttribute> values) {
+		List<String> outVals = new ArrayList<String>();
+		for ( MathObjectAttribute mAtt : values) {
+			// TODO type safety
+			outVals.add((String)mAtt.getValue());
+		}
+		return outVals;
+	}
+}
+
