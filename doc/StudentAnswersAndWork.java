@@ -27,11 +27,7 @@ public class StudentAnswersAndWork extends Page{
         Rectangle printablePage = new Rectangle(0, 0, getWidth(),
                 getHeight());
 
-        //		Rectangle objRect = new Rectangle(mObj.getxPos(), mObj.getyPos(), mObj.getWidth(), mObj.getHeight());
-        //		if (printablePage.contains(objRect)){
-        //		objects.add(mObj);
-        //			return true;
-        //		}
+        
 
 
         if ( ! objects.contains(mObj)){
