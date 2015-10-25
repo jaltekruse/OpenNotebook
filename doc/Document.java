@@ -361,6 +361,7 @@ public class Document {
 
 		int greatestWidth = 0, greatestHeight = 0;
 		for (MathObject mObj : objects) {
+			if (mObj.isHidden()) continue;
 			if (mObj.getWidth() > greatestWidth) {
 				greatestWidth = mObj.getWidth();
 			}
@@ -405,6 +406,7 @@ public class Document {
 		int lastProblemNumber = doc.getLastProblemNumber();
 
 		for (MathObject mObj : objects) {
+			if (mObj.isHidden()) continue;
 			mObj.setxPos(currentPage.getxMargin() + minimumBufferSpace
 					+ currColumn * (greatestWidth + minimumBufferSpace + extraColumnSpace));
 			mObj.setyPos(curryPos);
