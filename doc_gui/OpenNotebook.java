@@ -108,17 +108,18 @@ public class OpenNotebook extends JApplet {
 		setFileReader(new DocReader());
 		application = this;
 		boolean openTutorial = false;
-		// For debugging, this statment will clear the
+		// For debugging, this statement will clear the
 		// preferences stored locally to bring it into
 		// the state experienced by new users of the
-		// applicationa
-		/*
-		try {
-			application.prefs.clear();
-		} catch (BackingStoreException e) {
-			e.printStackTrace();
+		// application
+		boolean DEBUG_FIRST_STARTUP = false;
+		if (DEBUG_FIRST_STARTUP) {
+			try {
+				application.prefs.clear();
+			} catch (BackingStoreException e) {
+				e.printStackTrace();
+			}
 		}
-		*/
 		if (preferencesDirectorySet()) {
 			readProblemDatabase();
 		} else {
