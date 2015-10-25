@@ -108,11 +108,17 @@ public class OpenNotebook extends JApplet {
 		setFileReader(new DocReader());
 		application = this;
 		boolean openTutorial = false;
-//		 try {
-//		 	application.prefs.clear();
-//		 } catch (BackingStoreException e) {
-//		 	e.printStackTrace();
-//		 }
+		// For debugging, this statment will clear the
+		// preferences stored locally to bring it into
+		// the state experienced by new users of the
+		// applicationa
+		/*
+		try {
+			application.prefs.clear();
+		} catch (BackingStoreException e) {
+			e.printStackTrace();
+		}
+		*/
 		if (preferencesDirectorySet()) {
 			readProblemDatabase();
 		} else {
@@ -129,7 +135,7 @@ public class OpenNotebook extends JApplet {
 			// the main interface is added in the setter
 			Object[] options = { "Student", "Teacher" };
 			int n = JOptionPane.showOptionDialog(null,
-					"Which mode would you like to run?", "Mode Seletion",
+					"Which mode would you like to run?", "Mode Selection",
 					JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE,
 					null, options, options[1]);
 			if (n == -1) {
@@ -151,9 +157,9 @@ public class OpenNotebook extends JApplet {
 		}
 		if (openTutorial) {
 			if (application.inStudentMode()) {
-				notebookPanel.open("Student Mode Tutorial.mdoc");
+				notebookPanel.openSample(SampleListPanel.STUDENT_MODE_TUTORIAL_FILE + ".mdoc");
 			} else {
-				notebookPanel.open("Teacher Mode Tutorial.mdoc");
+				notebookPanel.openSample(SampleListPanel.TEACHER_MODE_TUTORIAL_FILE + ".mdoc");
 			}
 		}
 	}

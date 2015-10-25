@@ -13,8 +13,11 @@ import javax.swing.ListSelectionModel;
 
 public class SampleListPanel extends JPanel{
 
-	private String[] documents = { "teacher_overview", "Teacher Mode Tutorial", "Problem Generation Tutorial",
-			"Student Mode Tutorial", "Factoring", "Parabola Graphs",
+	public static final String TEACHER_MODE_TUTORIAL_FILE = "Teacher Mode Tutorial";
+	public static final String STUDENT_MODE_TUTORIAL_FILE = "Student Mode Tutorial";
+
+	private String[] documents = { TEACHER_MODE_TUTORIAL_FILE, "Problem Generation Tutorial",
+			STUDENT_MODE_TUTORIAL_FILE, "Factoring", "Parabola Graphs",
 			"Sine Graphs", "Proportions", "Linear Graphs",
 			"Word Problems", "Random Quiz"};
 	private JList list;

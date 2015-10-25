@@ -26,7 +26,7 @@ import doc.mathobjects.*;
 
 public class Page extends MathObject implements MathObjectContainer{
 
-	private Vector<MathObject> objects;
+	protected Vector<MathObject> objects;
 
 	private Document parentDoc;
 
