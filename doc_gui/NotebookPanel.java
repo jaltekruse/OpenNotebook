@@ -75,7 +75,7 @@ public class NotebookPanel extends SubPanel {
 	private JTabbedPane docTabs;
 	private Vector<DocTabClosePanel> tabLabels;
 
-    private PageGUI pageGUI = new PageGUI();
+    private static PageGUI pageGUI = new PageGUI();
 
 	private MathObject objToPlace;
 
@@ -233,9 +233,7 @@ public class NotebookPanel extends SubPanel {
 			getCurrentDocViewer().repaint();
 		}
 	}
-
-	public void addToSystemClipboard(MathObject mObj){
-		// system clipboard
+	public static Image drawObjectToImage(MathObject mObj){
 		Image image = new BufferedImage(mObj.getWidth() + 20, mObj.getHeight() + 20, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g = (Graphics2D) image.getGraphics();
 		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -245,7 +243,13 @@ public class NotebookPanel extends SubPanel {
 				mObj.getParentPage(), new Point(-1 * mObj.getxPos() + 10, -1 * mObj.getyPos() + 10),
 				new Rectangle(),  1);
 		g.dispose();
-		ImageSelection imgSel = new ImageSelection(image);
+		return image;
+	}
+
+	public void addToSystemClipboard(MathObject mObj){
+		// system clipboard
+
+		ImageSelection imgSel = new ImageSelection(drawObjectToImage(mObj));
 		if (imgSel.isDataFlavorSupported(DataFlavor.imageFlavor)){
 			//System.out.println("data type correct");
 			try{
