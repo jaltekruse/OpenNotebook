@@ -1,5 +1,7 @@
 package doc;
 
+import doc.attributes.AttributeException;
+import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc.mathobjects.*;
 import doc_gui.NotebookPanel;
@@ -71,11 +73,19 @@ public class UnZip {
 
 		List<List<MathObject>> incorrectWork = new ArrayList<List<MathObject>>();
 
+		List<List<String>> answers = getAnswers(key);
 		for (int i = 0; i < docs.get(0).getPages().size(); i++) {
 			List<MathObject> allStudentWorkForOneProblem = new ArrayList<MathObject>();
 			for (Document doc : docs) {
 				if (doc == null) continue;
 				Page p = doc.getPage(i);
+				List<String> studentAnswers = getStudentAnswers(p);
+				boolean answerCorrect = false;
+				// answers were correct, hide from teacher view during grading
+				// if there are no answers the problem must be manually graded
+				if (answers.get(i).size() != 0 && studentAnswers.size() == answers.get(i).size() && studentAnswers.containsAll(answers.get(i))) {
+					answerCorrect = true;
+				}
 				// combine together all of the content of one page into a group, it will
 				// all be shown to the teacher if the
 				Grouping group = new Grouping(p);
@@ -89,6 +99,12 @@ public class UnZip {
 				TextObject score = new TextObject(p, (int)gp.getx(), (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "Score");
 				AnswerBoxObject scoreInput = new AnswerBoxObject(p, (int)gp.getx() + scoreLabelWidth, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight);
 				TextObject points = new TextObject(p, (int)gp.getx() + 2 * scoreLabelWidth + 10, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "of " + numPoints);
+				try {
+					scoreInput.setAttributeValue(AnswerBoxObject.STUDENT_ANSWER, numPoints);
+				} catch (AttributeException e) {
+					// should not happen
+					e.printStackTrace();
+				}
 				TextObject feedback = new TextObject(p, (int)gp.getx(), (int)gp.gety() + scoreLabelHeight + 5, scoreLabelWidth * 2, scoreLabelHeight, 12, "Feedback");
 				AnswerBoxObject feedbackInput = new AnswerBoxObject(p, (int)gp.getx(), (int)gp.gety() + 2 * (scoreLabelHeight + 5), scoreLabelWidth * 3, scoreLabelHeight * 3);
 
@@ -98,11 +114,11 @@ public class UnZip {
 				group.addObject(feedback);
 				group.addObject(feedbackInput);
 				group.adjustSizeToFitChildren();
+				group.setHidden(true);
 				allStudentWorkForOneProblem.add(group);
 			}
 			incorrectWork.add(allStudentWorkForOneProblem);
 		}
-		List<List<String>> answers = getAnswers(key);
 		StringBuffer allAnswers = new StringBuffer();
 		for (List<String> problemAnswers : answers) {
 			for (String answer : problemAnswers) {
@@ -144,6 +160,28 @@ public class UnZip {
 			}
 		}
 		return answers;
+	}
+
+	private List<String> getStudentAnswers(Page p) {
+		List<String> answers = new ArrayList<String>();
+		// pull answers out of expression based work, unless there is an answer box
+		List<String> expressionAnswers = new ArrayList<String>();
+		for (MathObject mObj : p.getObjects()) {
+			// TODO - options for, answer must be one of many, or some subset of a list of answers
+			if (mObj instanceof AnswerBoxObject) {
+				// TODO - shouldn't call this student answer if I'm going to reuse it
+				// here for the answer key written by the teacher, for now it will work okay
+				answers.add((String) mObj.getAttributeWithName(AnswerBoxObject.STUDENT_ANSWER).getValue());
+			} else if (mObj instanceof ExpressionObject) {
+				ListAttribute<?> steps = mObj.getListWithName(ExpressionObject.STEPS);
+				expressionAnswers.add((String) steps.getLastValue().getValue());
+			}
+		}
+		if (answers.size() == 0 ) {
+			return expressionAnswers;
+		} else {
+			return answers;
+		}
 	}
 
 	private List<String> convertToBareStringArray(List<? extends MathObjectAttribute> values) {

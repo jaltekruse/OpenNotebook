@@ -111,7 +111,7 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		Graphics2D g2d = (Graphics2D) g;
 
 		RootNodeGraphic rootGraphic;
-		if ( ! object.getExpression().equals("")){
+		if ( ! object.getExpression().equals("") && object.getCorrectAnswers().size() == 0){
 			// if any of the steps cannot be rendered, this information will allow
 			// space to be left for printing an error message in its place
 			g.setFont(g.getFont().deriveFont(sap.getFontSize()));
