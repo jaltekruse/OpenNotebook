@@ -1019,10 +1019,11 @@ public class NotebookPanel extends SubPanel {
     }
 
 	public void openStudentWorkDocs() {
-		int value = getFileChooser().showOpenDialog(this);
+		NotebookPanel newNotebookPanel = this.getOpenNotebook().setMode(OpenNotebook.Mode.STUDENT);
+		int value = getFileChooser().showOpenDialog(newNotebookPanel);
 		if (value == JFileChooser.APPROVE_OPTION) {
 			try {
-				new UnZip().unZipIt(getFileChooser().getSelectedFile().toString(), this, getCurrentDocViewer().getDoc());
+				new UnZip().unZipIt(getFileChooser().getSelectedFile().toString(), newNotebookPanel, getCurrentDocViewer().getDoc());
 			} catch (Exception e) {
 				e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				JOptionPane.showMessageDialog(null,

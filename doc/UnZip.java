@@ -1,10 +1,7 @@
 package doc;
 
 import doc.attributes.MathObjectAttribute;
-import doc.mathobjects.AnswerBoxObject;
-import doc.mathobjects.ExpressionObject;
-import doc.mathobjects.Grouping;
-import doc.mathobjects.MathObject;
+import doc.mathobjects.*;
 import doc_gui.NotebookPanel;
 
 import java.io.*;
@@ -84,6 +81,21 @@ public class UnZip {
 				for (MathObject mObj : p.getObjects()) {
 					group.addObject(mObj);
 				}
+				GridPoint gp = Document.getFirstWhiteSpaceOnPage(p);
+				int numPoints = 3;
+				int scoreLabelWidth = 40;
+				int scoreLabelHeight = 20;
+				TextObject score = new TextObject(p, (int)gp.getx(), (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "Score");
+				AnswerBoxObject scoreInput = new AnswerBoxObject(p, (int)gp.getx() + scoreLabelWidth, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight);
+				TextObject points = new TextObject(p, (int)gp.getx() + 2 * scoreLabelWidth + 10, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "of " + numPoints);
+				TextObject feedback = new TextObject(p, (int)gp.getx(), (int)gp.gety() + scoreLabelHeight + 5, scoreLabelWidth * 2, scoreLabelHeight, 12, "Feedback");
+				AnswerBoxObject feedbackInput = new AnswerBoxObject(p, (int)gp.getx(), (int)gp.gety() + 2 * (scoreLabelHeight + 5), scoreLabelWidth * 3, scoreLabelHeight * 3);
+
+				group.addObject(score);
+				group.addObject(scoreInput);
+				group.addObject(points);
+				group.addObject(feedback);
+				group.addObject(feedbackInput);
 				group.adjustSizeToFitChildren();
 				allStudentWorkForOneProblem.add(group);
 			}
@@ -95,7 +107,8 @@ public class UnZip {
 		int[] problemNumbers = {5,7,9};
 		int problemNumber = 0;
 		for (List<MathObject> problems : incorrectWork) {
-			Document.layoutProblems(problems, "Problem" + problemNumber, resultDoc, false);
+			Document.layoutProblems(problems, "Problem " + problemNumber, resultDoc, false);
+			problemNumber++;
 		}
 		notebookPanel.addDoc(resultDoc);
 
