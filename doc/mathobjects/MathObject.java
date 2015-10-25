@@ -34,6 +34,8 @@ import doc.attributes.UUIDAttribute;
 
 public abstract class MathObject implements Cloneable{
 
+	private boolean hidden = false;
+
 	protected MathObjectContainer parentContainer;
 
 	private Vector<MathObjectAttribute<?>> attributes;
@@ -163,6 +165,14 @@ public abstract class MathObject implements Cloneable{
 		addAttribute(new IntegerAttribute(HEIGHT, 1, 1, 790, false, false));
 		addAttribute(new UUIDAttribute(OBJECT_ID, UUID.randomUUID(), false,
 				false));
+	}
+
+	public void setHidden(boolean hidden) {
+		this.hidden = hidden;
+	}
+
+	public boolean isHidden() {
+		return hidden;
 	}
 
 	/**
@@ -506,6 +516,10 @@ public abstract class MathObject implements Cloneable{
 	}
 
 	public Rectangle getBounds() {
+		// avoid mouse collision if hidden
+		if (isHidden()) {
+			return new Rectangle(-1000, -1000, 0,0);
+		}
 		return new Rectangle(getxPos(), getyPos(), getWidth(), getHeight());
 	}
 

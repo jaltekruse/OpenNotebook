@@ -4,6 +4,7 @@ import doc.attributes.MathObjectAttribute;
 import doc.mathobjects.*;
 import doc_gui.NotebookPanel;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -101,6 +102,19 @@ public class UnZip {
 			}
 			incorrectWork.add(allStudentWorkForOneProblem);
 		}
+		List<List<String>> answers = getAnswers(key);
+		StringBuffer allAnswers = new StringBuffer();
+		for (List<String> problemAnswers : answers) {
+			for (String answer : problemAnswers) {
+				allAnswers.append(answer).append(",");
+			}
+			allAnswers.append("::");
+		}
+
+//		JOptionPane.showMessageDialog(null,
+//				allAnswers,
+//				"Error", JOptionPane.ERROR_MESSAGE);
+
 		// TODO - let the teachers give us a list
 		// of problem numbers in the assignment
 		// the lists of objects will not be sparse

@@ -217,6 +217,7 @@ public class PageGUI {
 
 	public void drawObject(MathObject mObj, Graphics g, Page p, Point pageOrigin, Rectangle visiblePageSection,
 			float zoomLevel){
+		if (mObj.isHidden()) return;
 		if (mObj instanceof TextObject){
 			textGUI.drawMathObject((TextObject)mObj, g,
 					new Point((int) pageOrigin.getX(), (int) pageOrigin.getY()), zoomLevel);
