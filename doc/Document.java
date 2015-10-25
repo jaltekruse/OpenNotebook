@@ -276,6 +276,23 @@ public class Document {
 		return ((StringAttribute) getAttributeWithName(AUTHOR)).getValue();
 	}
 
+	// get the first whitespace available, below any object that is the furthest
+	// to the left on the document
+	public static GridPoint getFirstWhiteSpaceOnPage(Page p) {
+		int lastObjectYPos = /*getyMargin() */ 36 + 10;
+		int firstObjectXPos = Integer.MAX_VALUE;
+		for (MathObject mObj : p.getObjects()) {
+			if (mObj.getxPos() < firstObjectXPos) {
+				firstObjectXPos = mObj.getxPos();
+			}
+			if (mObj.getyPos() + mObj.getHeight() > lastObjectYPos) {
+				lastObjectYPos = mObj.getyPos() + mObj.getHeight();
+			}
+		}
+		return new GridPoint(/*getxMargin()*/firstObjectXPos + 10,
+				lastObjectYPos + 10);
+	}
+
 	public PointInDocument findFirstWhitespace() {
 		Page lastPageWithStuff = getPage(0);
 		for (Page p : getPages()) {

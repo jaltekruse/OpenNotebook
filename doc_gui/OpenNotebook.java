@@ -232,7 +232,7 @@ public class OpenNotebook extends JApplet {
 		}
 		frame.getContentPane().add(application);
 
-		Dimension frameDim = new Dimension(1020, 720);
+		Dimension frameDim = new Dimension(1200, 720);
 		frame.setPreferredSize(frameDim);
 		frame.addComponentListener(new ComponentListener() {
 			@Override
@@ -523,7 +523,7 @@ public class OpenNotebook extends JApplet {
 		});
 	}
 
-	public void setMode(Mode mode) {
+	public NotebookPanel setMode(Mode mode) {
 		this.mode = mode;
 		if ( notebookPanel != null && notebookPanel.sampleDialog != null &&
 				notebookPanel.problemDialog != null){
@@ -548,6 +548,7 @@ public class OpenNotebook extends JApplet {
 			frame.validate();
 		}
 		application.repaint();
+		return notebookPanel;
 	}
 
 	public ProblemDatabase getDatabase() {
