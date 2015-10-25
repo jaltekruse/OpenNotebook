@@ -96,7 +96,7 @@ public class ExpressionObject extends MathObject {
 		addAttribute(new StringAttribute(EXPRESSION));
 		addList(new ListAttribute<StringAttribute>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
-		addList(new ListAttribute<StringAttribute>(STEPS, new StringAttribute("val"), true));
+		addList(new ListAttribute<StringAttribute>(STEPS, new StringAttribute("val"), false));
 		addAttribute(new IntegerAttribute(FONT_SIZE, 1, 50));
 		addAttribute(new ColorAttribute(FILL_COLOR));
 		addAttribute(new BooleanAttribute(ALWAYS_SHOW_STEPS, true, true, false));
