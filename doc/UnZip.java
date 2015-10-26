@@ -100,7 +100,9 @@ public class UnZip {
 				AnswerBoxObject scoreInput = new AnswerBoxObject(p, (int)gp.getx() + scoreLabelWidth, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight);
 				TextObject points = new TextObject(p, (int)gp.getx() + 2 * scoreLabelWidth + 10, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "of " + numPoints);
 				try {
-					scoreInput.setAttributeValue(AnswerBoxObject.STUDENT_ANSWER, numPoints);
+					if (answerCorrect) {
+						scoreInput.setAttributeValue(AnswerBoxObject.STUDENT_ANSWER, numPoints + "");
+					}
 				} catch (AttributeException e) {
 					// should not happen
 					e.printStackTrace();
@@ -114,7 +116,9 @@ public class UnZip {
 				group.addObject(feedback);
 				group.addObject(feedbackInput);
 				group.adjustSizeToFitChildren();
-				group.setHidden(true);
+				if (answerCorrect) {
+					group.setHidden(true);
+				}
 				allStudentWorkForOneProblem.add(group);
 			}
 			incorrectWork.add(allStudentWorkForOneProblem);
@@ -167,20 +171,31 @@ public class UnZip {
 		// pull answers out of expression based work, unless there is an answer box
 		List<String> expressionAnswers = new ArrayList<String>();
 		for (MathObject mObj : p.getObjects()) {
-			// TODO - options for, answer must be one of many, or some subset of a list of answers
-			if (mObj instanceof AnswerBoxObject) {
-				// TODO - shouldn't call this student answer if I'm going to reuse it
-				// here for the answer key written by the teacher, for now it will work okay
-				answers.add((String) mObj.getAttributeWithName(AnswerBoxObject.STUDENT_ANSWER).getValue());
-			} else if (mObj instanceof ExpressionObject) {
-				ListAttribute<?> steps = mObj.getListWithName(ExpressionObject.STEPS);
-				expressionAnswers.add((String) steps.getLastValue().getValue());
-			}
+			getStudentAnswers(mObj, expressionAnswers, answers);
 		}
 		if (answers.size() == 0 ) {
 			return expressionAnswers;
 		} else {
 			return answers;
+		}
+	}
+
+	private void getStudentAnswers(MathObject mObj, List<String> expressionAnswers, List<String> answers) {
+		if (mObj instanceof Grouping) {
+			for (MathObject innerObj : ((Grouping)mObj).getObjects()) {
+				getStudentAnswers(innerObj, expressionAnswers, answers);
+			}
+		}
+		// TODO - options for, answer must be one of many, or some subset of a list of answers
+		if (mObj instanceof AnswerBoxObject) {
+			// TODO - shouldn't call this student answer if I'm going to reuse it
+			// here for the answer key written by the teacher, for now it will work okay
+			answers.add((String) mObj.getAttributeWithName(AnswerBoxObject.STUDENT_ANSWER).getValue());
+		} else if (mObj instanceof ExpressionObject) {
+			ListAttribute<?> steps = mObj.getListWithName(ExpressionObject.STEPS);
+			if (steps.getLastValue() != null) {
+				expressionAnswers.add((String) steps.getLastValue().getValue());
+			}
 		}
 	}
 

@@ -13,7 +13,10 @@ import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
 import java.text.AttributedString;
+import java.util.List;
 
+import doc.attributes.ListAttribute;
+import doc.attributes.MathObjectAttribute;
 import doc.mathobjects.AnswerBoxObject;
 
 public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
@@ -28,12 +31,16 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
     // students may use it to format a multi-line answer
     // although useful whitespace will likely not coming at the very beginning or very end
     // of an answer
-		if ( ! object.getStudentAnswer().trim().equals("")){
+		List<? extends MathObjectAttribute> correctAnswers = object.getListWithName(AnswerBoxObject.CORRECT_ANSWERS).getValues();
+		if ( ! object.getStudentAnswer().trim().equals("") || correctAnswers.size() > 0){
 			Font f = g.getFont();
       g.setColor(new Color(150, 210, 255));
 			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 	
 		  String message = object.getStudentAnswer();
+			for (MathObjectAttribute mAtt : correctAnswers) {
+				message += mAtt.getValue().toString() + ";";
+			}
 			g.setFont(f.deriveFont(sap.getFontSize()));
 			
 			g.setColor(Color.BLACK);
