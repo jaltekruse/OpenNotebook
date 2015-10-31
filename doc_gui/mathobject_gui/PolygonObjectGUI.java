@@ -32,10 +32,9 @@ public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 	
 	private static final int dotRadius = 3;
 
-	public Polygon getCollisionAndSelectionPolygon(MathObject mObj, Point pageOrigin, float zoomLevel) {
-		PolygonObject pObject = (PolygonObject) mObj;
+	public Polygon getCollisionAndSelectionPolygon(PolygonObject pObject, Point pageOrigin, float zoomLevel) {
 
-		ScaledSizeAndPosition sap = getSizeAndPosition(mObj, pageOrigin,
+		ScaledSizeAndPosition sap = getSizeAndPosition(pObject, pageOrigin,
 				zoomLevel);
 		GridPoint[] pts = pObject.getAdjustedVertices();
 		int[] xVals = new int[pts.length];
@@ -78,6 +77,7 @@ public class PolygonObjectGUI extends MathObjectGUI<PolygonObject> {
 	}
 	
 	public void drawInteractiveComponents(PolygonObject object, Graphics g, Point pageOrigin, float zoomLevel){
+		drawMathObject(object, g, pageOrigin, zoomLevel);
 		// This is currently unused, this is an alternative to commenting out the code that makes sure it keeps compiling
 		if (false) {
 		ScaledSizeAndPosition sap = getSizeAndPosition(object, pageOrigin,

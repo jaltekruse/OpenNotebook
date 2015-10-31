@@ -17,6 +17,8 @@
 package doc_gui.mathobject_gui;
 
 import doc.mathobjects.Grouping;
+import doc.mathobjects.MathObject;
+import doc.mathobjects.PolygonObject;
 import doc_gui.PageGUI;
 
 import java.awt.*;
@@ -30,7 +32,20 @@ public class GroupingGUI extends MathObjectGUI<Grouping> {
   }
 
   @Override
-  public void drawMathObject(Grouping object, Graphics g, Point pageOrigin, float zoomLevel) {
+  public void drawMathObject(Grouping group, Graphics g, Point pageOrigin, float zoomLevel) {
+    for (MathObject mathObj : group.getObjects()){
+      pageGui.drawObject(mathObj, g, pageOrigin, zoomLevel);
+    }
+  }
 
+  public void drawInteractiveComponents(Grouping group, Graphics g, Point pageOrigin, float zoomLevel){
+    drawMathObject(group, g, pageOrigin, zoomLevel);
+    for (MathObject mathObj : group.getObjects()){
+      g.setColor(Color.BLUE);
+      ((Graphics2D)g).setStroke(new BasicStroke(2));
+      Graphics2D g2d = (Graphics2D)g;
+      g2d.drawPolygon(pageGui.getGUIForObj(mathObj).getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
+      ((Graphics2D)g).setStroke(new BasicStroke(1));
+    }
   }
 }

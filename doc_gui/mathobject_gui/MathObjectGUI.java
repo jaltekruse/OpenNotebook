@@ -45,7 +45,7 @@ public abstract class MathObjectGUI<K extends MathObject>{
 	 * @return - description of position and measurements of the object taking into account the
 	 *           the provided page origin and zoom level
 	 */
-	protected ScaledSizeAndPosition getSizeAndPosition(MathObject object, Point pageOrigin,
+	protected ScaledSizeAndPosition getSizeAndPosition(K object, Point pageOrigin,
 			float zoomLevel) {
 		return cachedScaleAndPositionObject.populateValues(object, pageOrigin, zoomLevel);
 	}
@@ -86,7 +86,7 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 	public abstract void drawMathObject(K object, Graphics g, Point pageOrigin, float zoomLevel);
 
-  public Polygon getCollisionAndSelectionPolygon(MathObject mObj, Point pageOrigin, float zoomLevel) {
+  public Polygon getCollisionAndSelectionPolygon(K mObj, Point pageOrigin, float zoomLevel) {
 		int width = (int) (mObj.getWidth() * zoomLevel);
 		int height = (int) (mObj.getHeight() * zoomLevel);
 		int xPos = (int) (pageOrigin.getX() + mObj.getxPos() * zoomLevel);
@@ -103,7 +103,9 @@ public abstract class MathObjectGUI<K extends MathObject>{
       return false;
   }
 
-	public void drawInteractiveComponents(K object, Graphics g, Point pageOrigin, float zoomLevel){}
+	public void drawInteractiveComponents(K object, Graphics g, Point pageOrigin, float zoomLevel) {
+		drawMathObject(object, g, pageOrigin, zoomLevel);
+	}
 
 	public static void drawResizingDots(MathObject object, Graphics g, Point pageOrigin, float zoomLevel){
 

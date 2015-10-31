@@ -237,8 +237,7 @@ public class NotebookPanel extends SubPanel {
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, image.getWidth(null), image.getHeight(null));
 		pageGUI.drawObject(mObj, g,
-				mObj.getParentPage(), new Point(-1 * mObj.getxPos() + 10, -1 * mObj.getyPos() + 10),
-				new Rectangle(),  1);
+				new Point(-1 * mObj.getxPos() + 10, -1 * mObj.getyPos() + 10), 1);
 		g.dispose();
 		return image;
 	}

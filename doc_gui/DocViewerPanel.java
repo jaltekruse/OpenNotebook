@@ -179,8 +179,7 @@ public class DocViewerPanel extends JDesktopPane{
 	public void drawObjectInBackground(MathObject o){
 		Graphics g = background.getGraphics();
 		pageGUI.drawObject(o, g,
-				o.getParentPage(), new Point(0,0),
-				new Rectangle(),  zoomLevel);
+				new Point(0,0), zoomLevel);
 		g.dispose();
 	}
 

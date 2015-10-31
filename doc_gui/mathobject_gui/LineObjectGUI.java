@@ -14,6 +14,21 @@ import doc.mathobjects.PolygonObject;
 
 public class LineObjectGUI extends MathObjectGUI<LineObject>{
 
+	public Polygon getCollisionAndSelectionPolygon(LineObject line, Point pageOrigin, float zoomLevel) {
+		ScaledSizeAndPosition sap = getSizeAndPosition(line, pageOrigin,
+				zoomLevel);
+		GridPoint[] pts = line.getAdjustedVertices();
+		int[] xVals = new int[pts.length];
+		int[] yVals = new int[pts.length];
+		int i = 0;
+		for (GridPoint pt : pts) {
+			xVals[i] = (int) (pt.getx() * sap.getWidth()) + sap.getxOrigin();
+			yVals[i] = (int) (pt.gety() * sap.getHeight()) + sap.getyOrigin();
+			i++;
+		}
+		return new Polygon(xVals, yVals, pts.length);
+	}
+
 	public void drawMathObject(LineObject object, Graphics g, Point pageOrigin, float zoomLevel){
 		ScaledSizeAndPosition sap = getSizeAndPositionWithLineThickness(object, pageOrigin,
 				zoomLevel, object.getThickness());
@@ -28,11 +43,11 @@ public class LineObjectGUI extends MathObjectGUI<LineObject>{
 			points[i] = new GridPoint((int) (points[i].getx() * sap.getWidth()) + sap.getxOrigin(),
 					(int) (points[i].gety() * sap.getHeight()) + sap.getyOrigin());
 		}
-		
+
+		// TODO - Implements snapping to vertical or horizontal, this should probably be in the back-end
 		if ( Math.abs(points[0].getx() - points[1].getx()) < 5){
 			points[0].setx(points[1].getx());
 		}
-		
 		else if ( Math.abs(points[0].gety() - points[1].gety()) < 5){
 			points[0].sety(points[1].gety());
 		}

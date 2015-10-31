@@ -44,6 +44,7 @@ import doc.mathobjects.PolygonObject;
 import doc.mathobjects.RectangleObject;
 import doc.mathobjects.RegularPolygonObject;
 import doc.mathobjects.TextObject;
+import doc.mathobjects.TrapezoidObject;
 import doc.mathobjects.TriangleObject;
 import doc_gui.mathobject_gui.AnswerBoxGUI;
 import doc_gui.mathobject_gui.ConeObjectGUI;
@@ -51,6 +52,7 @@ import doc_gui.mathobject_gui.CubeObjectGUI;
 import doc_gui.mathobject_gui.CylinderObjectGUI;
 import doc_gui.mathobject_gui.ExpressionObjectGUI;
 import doc_gui.mathobject_gui.GraphObjectGUI;
+import doc_gui.mathobject_gui.GroupingGUI;
 import doc_gui.mathobject_gui.LineObjectGUI;
 import doc_gui.mathobject_gui.MathObjectGUI;
 import doc_gui.mathobject_gui.NumberLineObjectGUI;
@@ -75,6 +77,7 @@ public class PageGUI {
 	public CylinderObjectGUI cylinderGUI;
 	public ConeObjectGUI coneGUI;
 	public LineObjectGUI lineGUI;
+	public GroupingGUI groupGUI;
 
 	// TODO - define an interface for handling mouse clicks
 	// that will replace the conditional blocks checking for
@@ -131,8 +134,10 @@ public class PageGUI {
 		cylinderGUI = new CylinderObjectGUI();
 		coneGUI = new ConeObjectGUI();
 		lineGUI = new LineObjectGUI();
+		groupGUI = new GroupingGUI(this);
 
 		mathObjectToGuiMap = new HashMap<>();
+		mathObjectToGuiMap.put(Grouping.class, groupGUI);
 		mathObjectToGuiMap.put(TextObject.class, textGUI);
 		mathObjectToGuiMap.put(OvalObject.class, ovalGUI);
 		mathObjectToGuiMap.put(GraphObject.class, graphGUI);
@@ -140,6 +145,7 @@ public class PageGUI {
 		mathObjectToGuiMap.put(PolygonObject.class, polygonGUI);
 		mathObjectToGuiMap.put(RegularPolygonObject.class, polygonGUI);
 		mathObjectToGuiMap.put(ParallelogramObject.class, polygonGUI);
+		mathObjectToGuiMap.put(TrapezoidObject.class, polygonGUI);
 		mathObjectToGuiMap.put(CubeObject.class, polygonGUI);
 		mathObjectToGuiMap.put(ArrowObject.class, polygonGUI);
 		mathObjectToGuiMap.put(RectangleObject.class, polygonGUI);
@@ -162,7 +168,7 @@ public class PageGUI {
 	public void handleMouseAction(MathObject mObj, int x, int y, int mouseActionCode){
 		if (mathObjectToGuiMap.containsKey(mObj.getClass())) {
 			mathObjectToGuiMap.get(mObj.getClass())
-					.mouseClicked((GraphObject)mObj, x, y, docPanel.getZoomLevel());
+					.mouseClicked(mObj, x, y, docPanel.getZoomLevel());
 		} else{
 			// TODO - logging
 //			System.out.println("unreconginzed object (PageGUI.handleMouseAction)");
@@ -177,18 +183,13 @@ public class PageGUI {
 
 	public void drawPage(Graphics g, Page p, Point pageOrigin, Rectangle visiblePageSection,
 			float zoomLevel){
-
-
-
 		//draw MathObjects, only if they intersect with the available viewport
 
 		//translate viewport into an available subsection of printable document
 		//used to detect collisions with the rectangles that contain mathObjects
-
 		for (MathObject mObj : p.getObjects()){
 			drawObject(mObj, g, pageOrigin, zoomLevel);
 		}
-
 	}
 
     public MathObjectGUI getGUIForObj(MathObject mObj){
@@ -200,13 +201,12 @@ public class PageGUI {
     }
 
 	public void drawObject(MathObject mObj, Graphics g, Point pageOrigin, float zoomLevel){
-		if (mObj instanceof Grouping){
-			Grouping group = ((Grouping)mObj);
-			for (MathObject mathObj : group.getObjects()){
-				drawObject(mathObj, g, pageOrigin, zoomLevel);
+		if (mathObjectToGuiMap.containsKey(mObj.getClass())) {
+			if (docPanel.getFocusedObject() != null && docPanel.getFocusedObject() == mObj) {
+				mathObjectToGuiMap.get(mObj.getClass()).drawInteractiveComponents(mObj, g, pageOrigin, zoomLevel);
+			} else {
+				mathObjectToGuiMap.get(mObj.getClass()).drawMathObject(mObj, g, pageOrigin, zoomLevel);
 			}
-		} else if (mathObjectToGuiMap.containsKey(mObj.getClass())) {
-			mathObjectToGuiMap.get(mObj.getClass()).drawMathObject(mObj, g, pageOrigin, zoomLevel);
 		}
 		else{
 			// TODO - logging
@@ -260,29 +260,7 @@ public class PageGUI {
 				//the temporary rectangle used for selecting a group of objects is
 				//created using a RectangleObject, but it is not added to its parent page
 				//in that case the dots are not drawn
-				if( focusedObj instanceof ExpressionObject){
-					expressionGUI.drawInteractiveComponents((ExpressionObject)focusedObj, g,
-							new Point((int) pageOrigin.getX(), (int) pageOrigin.getY()), zoomLevel);
-				}
-				else if (focusedObj instanceof Grouping){
-					Grouping group = ((Grouping)focusedObj);
-					if (docPanel != null && group == docPanel.getFocusedObject()){
-						for (MathObject mathObj : group.getObjects()){
-							g.setColor(Color.BLUE);
-							((Graphics2D)g).setStroke(new BasicStroke(2));
-							// TODO - fix this hack, need to make a better mapping between MathObject classes and their corresponding
-							// GUI classes, this method to get the polygon should be called in the specific object
-							// this refactoring will simplify this whole class
-							Graphics2D g2d = (Graphics2D)g;
-							if (mathObj instanceof PolygonObject) {
-								g2d.drawPolygon(polygonGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
-							} else {
-								g2d.drawPolygon(expressionGUI.getCollisionAndSelectionPolygon(mathObj, pageOrigin, zoomLevel));
-							}
-							((Graphics2D)g).setStroke(new BasicStroke(1));
-						}
-					}
-				}
+				getGUIForObj(focusedObj).drawInteractiveComponents(focusedObj, g, pageOrigin, zoomLevel);
 				if ( (! focusedObj.isHorizontallyResizable() && ! focusedObj.isVerticallyResizable())
 						|| docPanel.isInStudentMode())
 				{// if the object cannot be resized, or if in student mode (where users cannot resize objects)
