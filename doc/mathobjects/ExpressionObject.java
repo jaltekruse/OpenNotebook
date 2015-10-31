@@ -167,22 +167,24 @@ public class ExpressionObject extends MathObject {
 			try {
 				getListWithName(STEPS).addValueWithString(Expression.parseNode(
 						getLastStep()).smartNumericSimplify().toStringRepresentation());
+				return;
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
 						"Error with expression simplification", "Error",
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
-        if (s.equals(COMBINE_LIKE_TERMS)){
-            try {
-                getListWithName(STEPS).addValueWithString(Expression.parseNode(
-                        getLastStep()).collectLikeTerms().simplify().toStringRepresentation());
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null,
-                        "Error with combining like terms", "Error",
-                        JOptionPane.WARNING_MESSAGE);
-            }
+    if (s.equals(COMBINE_LIKE_TERMS)){
+        try {
+          getListWithName(STEPS).addValueWithString(Expression.parseNode(
+							getLastStep()).collectLikeTerms().simplify().toStringRepresentation());
+          return;
+        } catch (Exception e) {
+          JOptionPane.showMessageDialog(null,
+							"Error with combining like terms", "Error",
+							JOptionPane.WARNING_MESSAGE);
         }
+    }
 		if (s.equals(MAKE_INTO_PROBLEM)){
 			VariableValueInsertionProblem newProblem = new VariableValueInsertionProblem(getParentContainer(), getxPos(),
 					getyPos(), getWidth(), getHeight() );
@@ -220,13 +222,12 @@ public class ExpressionObject extends MathObject {
 				if ( variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0))){
 					JOptionPane.showMessageDialog(null, "Need to enter a single letter.",
 							"Warning", JOptionPane.WARNING_MESSAGE);
-
 				}
-                foundVar = Node.parseNode(getLastStep()).containsIdentifier(variableStr);
-                if ( ! foundVar) {
-                    JOptionPane.showMessageDialog(null, "Variable not found in expression.",
-                            "Warning", JOptionPane.WARNING_MESSAGE);
-                }
+        foundVar = Node.parseNode(getLastStep()).containsIdentifier(variableStr);
+        if ( ! foundVar) {
+          JOptionPane.showMessageDialog(null, "Variable not found in expression.",
+							"Warning", JOptionPane.WARNING_MESSAGE);
+        }
 			} while(variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0)) && ! foundVar);
 
 			substitute = this.getParentPage().getParentDoc().getDocViewerPanel()
