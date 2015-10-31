@@ -29,6 +29,7 @@ import java.awt.event.ComponentListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -67,7 +68,11 @@ public class DocViewerPanel extends JDesktopPane{
 	private Page selectedPage;
 	private BufferedImage background;
 	private Rectangle frameBounds = new Rectangle(5, 5, 250, 300);
-	
+	public boolean gradePage = false;
+	// will be set if gradePage is set
+	public List<String> studentFeedbackDocNames;
+	public List<List<MathObject>> allStudentWork;
+
 	private static Date time;
 
 	/**

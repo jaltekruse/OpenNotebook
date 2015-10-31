@@ -34,7 +34,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import java.awt.datatransfer.DataFlavor;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -46,12 +45,10 @@ import org.xml.sax.SAXException;
 
 import doc.attributes.AttributeException;
 import doc.attributes.Date;
-import doc.mathobjects.GeneratedProblem;
 import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
 import doc.mathobjects.ProblemGenerator;
 import doc.mathobjects.TextObject;
-import doc_gui.attribute_panels.ObjectPropertiesFrame;
 import expression.Node;
 import expression.NodeException;
 
@@ -829,6 +826,15 @@ public class NotebookPanel extends SubPanel {
 	public void save() {
 		BufferedWriter f = null;
 		try {
+			if (getCurrentDocViewer().gradePage) {
+				java.util.List<Document> gradedDocs = UnZip.generateStudentFeedbackDocs(
+						getCurrentDocViewer().studentFeedbackDocNames,
+						getCurrentDocViewer().allStudentWork);
+				for (Document doc : gradedDocs	) {
+					addDoc(doc);
+				}
+				return;
+			}
 			getFileChooser().setSelectedFile(
 					new File(getCurrentDocViewer().getDoc().getName()));
 			int value = getFileChooser().showSaveDialog(this);

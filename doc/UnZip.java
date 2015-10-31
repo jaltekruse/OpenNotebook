@@ -50,6 +50,7 @@ public class UnZip {
 		//get the zipped file list entry
 		Enumeration<? extends ZipEntry> zes = zipFile.entries();
 		ZipEntry ze = null;
+		List<String> studentDocNames = new ArrayList<String>();
 
 		List<Document> docs = new ArrayList<Document>();
 		while(zes.hasMoreElements()){
@@ -63,6 +64,7 @@ public class UnZip {
 				if (inputStream.available() == 0) {
 					break;
 				}
+				studentDocNames.add(fileName);
 				docs.add(notebookPanel.openDoc(inputStream, fileName));
 			}catch(IOException ex){
 				ex.printStackTrace();
@@ -72,10 +74,12 @@ public class UnZip {
 		resultDoc.addBlankPage();
 
 		List<List<MathObject>> incorrectWork = new ArrayList<List<MathObject>>();
+		List<List<MathObject>> allStudentWork = new ArrayList<List<MathObject>>();
 
 		List<List<String>> answers = getAnswers(key);
 		for (int i = 0; i < docs.get(0).getPages().size(); i++) {
 			List<MathObject> allStudentWorkForOneProblem = new ArrayList<MathObject>();
+			List<MathObject> allIncorrectStudentWorkForOneProblem = new ArrayList<MathObject>();
 			for (Document doc : docs) {
 				if (doc == null) continue;
 				Page p = doc.getPage(i);
@@ -98,7 +102,10 @@ public class UnZip {
 				int scoreLabelHeight = 20;
 				TextObject score = new TextObject(p, (int)gp.getx(), (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "Score");
 				AnswerBoxObject scoreInput = new AnswerBoxObject(p, (int)gp.getx() + scoreLabelWidth, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight);
-				TextObject points = new TextObject(p, (int)gp.getx() + 2 * scoreLabelWidth + 10, (int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12, "of " + numPoints);
+				TextObject points = new TextObject(p,
+						(int)gp.getx() + 2 * scoreLabelWidth + 10,
+						(int)gp.gety(), scoreLabelWidth, scoreLabelHeight, 12,
+						"of " + numPoints);
 				try {
 					if (answerCorrect) {
 						scoreInput.setAttributeValue(AnswerBoxObject.STUDENT_ANSWER, numPoints + "");
@@ -107,8 +114,12 @@ public class UnZip {
 					// should not happen
 					e.printStackTrace();
 				}
-				TextObject feedback = new TextObject(p, (int)gp.getx(), (int)gp.gety() + scoreLabelHeight + 5, scoreLabelWidth * 2, scoreLabelHeight, 12, "Feedback");
-				AnswerBoxObject feedbackInput = new AnswerBoxObject(p, (int)gp.getx(), (int)gp.gety() + 2 * (scoreLabelHeight + 5), scoreLabelWidth * 3, scoreLabelHeight * 3);
+				TextObject feedback = new TextObject(p, (int)gp.getx(),
+						(int)gp.gety() + scoreLabelHeight + 5,
+						scoreLabelWidth * 2, scoreLabelHeight, 12, "Feedback");
+				AnswerBoxObject feedbackInput = new AnswerBoxObject(p, (int)gp.getx(),
+						(int)gp.gety() + 2 * (scoreLabelHeight + 5),
+						scoreLabelWidth * 3, scoreLabelHeight * 3);
 
 				group.addObject(score);
 				group.addObject(scoreInput);
@@ -116,12 +127,14 @@ public class UnZip {
 				group.addObject(feedback);
 				group.addObject(feedbackInput);
 				group.adjustSizeToFitChildren();
-				if (answerCorrect) {
-					group.setHidden(true);
+				if (! answerCorrect) {
+//					group.setHidden(true);
+					allIncorrectStudentWorkForOneProblem.add(group);
 				}
 				allStudentWorkForOneProblem.add(group);
 			}
-			incorrectWork.add(allStudentWorkForOneProblem);
+			incorrectWork.add(allIncorrectStudentWorkForOneProblem);
+			allStudentWork.add(allStudentWorkForOneProblem);
 		}
 		StringBuffer allAnswers = new StringBuffer();
 		for (List<String> problemAnswers : answers) {
@@ -145,8 +158,38 @@ public class UnZip {
 			problemNumber++;
 		}
 		notebookPanel.addDoc(resultDoc);
-
+		notebookPanel.getCurrentDocViewer().gradePage = true;
+		notebookPanel.getCurrentDocViewer().studentFeedbackDocNames = studentDocNames;
+		notebookPanel.getCurrentDocViewer().allStudentWork = allStudentWork;
 		zipFile.close();
+	}
+
+	/**
+	 * Generates a list of documents to give back to individual students based on
+	 * a composite grading summary document.
+	 *
+	 * @param
+	 * @return
+	 */
+	public static List<Document> generateStudentFeedbackDocs(List<String> studentFeedbackDocNames,
+																													 List<List<MathObject>> allStudentWorkAndFeedback) {
+		int studentIndex;
+		List<Document> studentDocs = new ArrayList<Document>();
+		for (String s : studentFeedbackDocNames) {
+			studentDocs.add(new Document(s));
+		}
+		for (List<MathObject> allWorkOnOneProblem : allStudentWorkAndFeedback) {
+			studentIndex = 0;
+			for (MathObject mObj : allWorkOnOneProblem) {
+				// to skip the problem numbers
+				if (!(mObj instanceof Grouping)) continue;
+				studentDocs.get(studentIndex).addBlankPage();
+				// this should be a group that contains that feedback elements
+				studentDocs.get(studentIndex).getLastPage().addObject(mObj);
+				studentIndex++;
+			}
+		}
+		return studentDocs;
 	}
 
 	private List<List<String>> getAnswers(Document doc) {

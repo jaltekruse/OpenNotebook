@@ -41,6 +41,11 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 			for (MathObjectAttribute mAtt : correctAnswers) {
 				message += mAtt.getValue().toString() + ";";
 			}
+			message = message.substring(0, message.length() - 1);
+			if (message.length() == 0) {
+				// cannot have an empty string in AttributedString
+				message = " ";
+			}
 			g.setFont(f.deriveFont(sap.getFontSize()));
 			
 			g.setColor(Color.BLACK);
