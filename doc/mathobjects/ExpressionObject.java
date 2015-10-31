@@ -443,6 +443,15 @@ public class ExpressionObject extends MathObject {
 		return (Vector<StringAttribute>) getListWithName(ExpressionObject.CORRECT_ANSWERS).getValues();
 	}
 
+	public boolean allAnswersBlank() {
+		for (StringAttribute sAtt : getCorrectAnswers()) {
+			if (!sAtt.getValue().trim().isEmpty()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	public void addCorrectAnswer(String s) throws AttributeException{
 		if ( ! getListWithName(CORRECT_ANSWERS).isEmpty()){
 			StringAttribute lastVal = (StringAttribute) getListWithName(CORRECT_ANSWERS).getLastValue();

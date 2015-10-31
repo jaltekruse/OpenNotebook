@@ -188,6 +188,10 @@ public class ListAttribute <K extends MathObjectAttribute> {
 		return maxSize;
 	}
 
+	public int size() {
+		return values.size();
+	}
+
 	public void setMaxSize(int maxSize) {
 		this.maxSize = maxSize;
 	}
