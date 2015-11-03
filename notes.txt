@@ -25,14 +25,23 @@ Useful commands for setting up server apache server:
 Tasks:
     - implement simple text file based "student overview" page
         - students upload text docs with single answer in it
+            - skipped this, instead implemented grading with student work for a single
+              problem on a single OpenNotebook page
         - figure out how to kick off something at the time when submission is over to
           aggregate the answers that were incorrect
+            - going to have teachers just pull down all student work, all grading,
+              automatic an manual will happen on their machine in the java app
+            - no need to duplicate parsing or doc in-memory structure in PHP, or
+              require admins to install Java on the server
     - xml parsing in php, look for elements with an "answer" field
         - allow for teachers to get up the list of expected answers somehow
         - compare answers against each solution in each student doc, aggregate incorrect work
         - write incorrect work to a file, with link to student ID and problem number, anything
           needed to talk to moodle to push partial credit back to the site
+        - decided against this, see above
     - enhance OpenNotebook to layout the "Overview page" on launch
+        - does not open on launch, but there is a new button now which allows loading a zip file
+          full of docs and correctly generates the teacher overview page
 
 After looking at a lot of Moodle APIs, this might be easiest to just do in JAVA, where the structures to parse
 and traverse documents are already implemented
