@@ -35,7 +35,6 @@ public class IdentifierGraphic extends NodeGraphic {
 		setMostInnerEast(this);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

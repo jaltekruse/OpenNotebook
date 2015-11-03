@@ -34,7 +34,6 @@ public class NegationGraphic extends UnaryExpressionGraphic {
 		super(v, compExGraphic);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

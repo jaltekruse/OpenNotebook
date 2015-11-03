@@ -39,7 +39,6 @@ public class PointInDocument implements Comparable<PointInDocument>{
 	}
 
 	public PointInDocument() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public void setPage(int page) {

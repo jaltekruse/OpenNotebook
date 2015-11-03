@@ -32,7 +32,6 @@ public class NothingGraphic extends NodeGraphic<EmptyValue> {
 		setMostInnerEast(this);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

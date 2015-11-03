@@ -39,7 +39,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 	public ExponentGraphic(Expression b, RootNodeGraphic gr) {
 		super(b, gr);
 		style = Style.SUPERSCRIPT;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

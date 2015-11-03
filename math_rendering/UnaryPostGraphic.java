@@ -33,7 +33,6 @@ private int space;
 		super(v, compExGraphic);
 		setMostInnerNorth(this);
 		setMostInnerSouth(this);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -50,7 +50,6 @@ public class SelectionGraphic extends GraphComponent {
 		selection = new Selection();
 		selection.setStart(a);
 		selection.setEnd(a);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

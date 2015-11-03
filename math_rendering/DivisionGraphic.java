@@ -42,7 +42,6 @@ public class DivisionGraphic extends BinExpressionGraphic {
 	public DivisionGraphic(Expression b, RootNodeGraphic gr) {
 		super(b, gr);
 		style = Style.HORIZONTAL;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

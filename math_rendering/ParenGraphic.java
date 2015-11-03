@@ -34,7 +34,6 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	
 	public ParenGraphic(Node e, RootNodeGraphic compExGraphic) {
 		super(e, compExGraphic);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -30,7 +30,6 @@ public class DragDisk extends GraphComponent {
 	public DragDisk(Graph g, Color c) {
 		super(g);
 		color = c;
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

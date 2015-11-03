@@ -52,7 +52,6 @@ public class GraphedPolarExpression extends GraphWithExpression {
 	}
 	
 	public GraphedPolarExpression( Graph graph, Color color) {
-		// TODO Auto-generated constructor stub
 		super(graph, color);
 	}
 

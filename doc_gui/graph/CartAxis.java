@@ -26,7 +26,6 @@ public class CartAxis extends GraphComponent{
 
 	public CartAxis(Graph g) {
 		super(g);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

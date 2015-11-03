@@ -70,7 +70,6 @@ public class NumberLine {
 
 		public NumberLineComponent(Graph g) {
 			super(g);
-			// TODO Auto-generated constructor stub
 		}
 
 		@Override

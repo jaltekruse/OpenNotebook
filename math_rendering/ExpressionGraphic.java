@@ -28,7 +28,6 @@ public abstract class ExpressionGraphic extends NodeGraphic<Expression> {
 	
 	public ExpressionGraphic(Expression e, RootNodeGraphic compExGraphic) {
 		super(e, compExGraphic);
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
