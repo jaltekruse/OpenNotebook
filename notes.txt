@@ -78,3 +78,47 @@ and traverse documents are already implemented
 		- open the zip, read the score for each student and store it in the gradebook while the existing
 		  code saves it back as the binary file the student can look at to see all of their feedback
 
+TODOs:
+    - set up maven build
+        - anticipating adding new depedencies soon, will want to make these easy to manage
+    - unit tests for existing features
+        - look at the list of test stubs that were checked in recently
+    - refactor existing code to make use of the new visitors
+        - will allow for re-evaluation of various places where during iteration of a doc
+          we want to recurse down into sub-objects in groupings or not and consolidate
+          some code in these areas
+        - can simplify some code where it should be clear if a traversal is going to
+          modify the incoming document or just look for something or calculate some aggregate
+          information across all of the pages and objects
+    - move mouse handling code to a better abstraction to make it more reasonable to understand
+      what code blocks consume the event and how the event handling for various cases is ordered
+        - the blocks for each type of event, mouse-click, mouse-up, etc. should only be a few lines
+          to define the ordering of the various handlers that may end up consuming the event
+    - refactor attributes to be kept in Maps rather than vectors, if possible remove knowledge
+      of a given attributes name from the attribute itself and only have a name be managed by
+      whatever is holding onto it
+        - do a similiar refactoring with NamedObjectList
+    - generate output zip full of student docs
+    - generate CSV with final grades (the sum of automatically graded and manually given scores)
+    - write plugin for Moodle to allow parsing the grade CSV file and update gradebook appropriately
+    - write tests for moodle plugin to ensure students get their feedback docs and gradebook is updated
+    - grading UI improvements
+        - apply grade given manually to other similar answers
+            - with a popup? maybe a setting that can be turned on by default
+        - group objects by similar answers or work
+        - provide a side panel to see all of the answers for the problem currently being graded
+    - student UI improvements
+        - allow students to specify problem numbers
+            - Use scott's code to parse an assignent description and fill in problem numbers automatically
+        - allow pages to have different sizes, students can expand to make workspace for a problem larger
+    - implement grading without an answer key
+    - implement better interface for creating and editing answer keys
+        - at the very least make the ordering based on how they are visually given, rather than
+          the meaningless order they appear in the data structure
+        - making the data-structure order could possibly allow for auto-tabbing to the next available
+          object that can be filled in, based on how things are layed out visually
+            - not sure how to handle rows vs. columns, how can I know how things are arranged?
+            - this was something that came up in interface testing with users, so it would be
+              good to think about
+            - once student was able to understand how to solve problems through the UI, they wanted
+              to just use their keyboard to move through the assignment
