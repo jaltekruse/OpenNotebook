@@ -38,7 +38,6 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		if (isSelected()){
 //			drawSelection();
 		}
@@ -232,13 +231,11 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		// TODO Auto-generated method stub
 		return new Vector<NodeGraphic>();
 	}
 }

@@ -27,7 +27,6 @@ public class SelectionAttribute extends MathObjectAttribute<Selection> {
 
 	@Override
 	public Selection readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
 		try{
 			if ( s.equals("null") ){
 				return null;
@@ -44,13 +43,11 @@ public class SelectionAttribute extends MathObjectAttribute<Selection> {
 
 	@Override
 	public void resetValue() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return SELECTION;
 	}
 	

@@ -47,13 +47,11 @@ public class TrapezoidObject extends PolygonObject {
 	
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return TRAPEZOID_OBJ;
 	}
 
 	@Override
 	public GridPoint[] getVertices() {
-		// TODO Auto-generated method stub
 		return vertices;
 	}
 

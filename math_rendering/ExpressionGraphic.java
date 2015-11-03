@@ -33,7 +33,6 @@ public abstract class ExpressionGraphic extends NodeGraphic<Expression> {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 
 	}
 	
@@ -43,14 +42,12 @@ public abstract class ExpressionGraphic extends NodeGraphic<Expression> {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1)
 			throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

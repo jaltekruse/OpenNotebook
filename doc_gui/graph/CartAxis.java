@@ -31,7 +31,6 @@ public class CartAxis extends GraphComponent{
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 
 		Font oldFont = g.getFont();
 

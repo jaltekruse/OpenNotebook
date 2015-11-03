@@ -94,7 +94,6 @@ public class NotebookMenuBar extends JMenuBar {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				if (cbMenuItem.isSelected()){
 					OpenNotebook.setMinimalGraphicsMode(true);
 				}

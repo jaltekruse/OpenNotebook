@@ -55,7 +55,6 @@ public class SelectionGraphic extends GraphComponent {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		Graphics2D g2d = (Graphics2D)g;
 		g2d.setColor(new Color(color.getRed(), color.getGreen(), color.getBlue(), 100));
 		if (selection.getStart() != Selection.EMPTY){

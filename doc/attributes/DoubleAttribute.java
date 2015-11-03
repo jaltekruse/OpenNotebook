@@ -107,13 +107,11 @@ public class DoubleAttribute extends MathObjectAttribute<Double> {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return DOUBLE_ATTRIBUTE;
 	}
 
 	@Override
 	public Double readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
 		try{
 			double val = Double.parseDouble(s);
 			if ( (val >= minimum || minimum == LIMIT_NOT_SET ) &&

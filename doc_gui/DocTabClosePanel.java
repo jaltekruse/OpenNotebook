@@ -60,7 +60,6 @@ public class DocTabClosePanel extends JPanel{
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				notebookPanel.closeDocViewer(viewerPanel);
 			}
 			

@@ -126,7 +126,6 @@ public class IntegerAttribute extends MathObjectAttribute<Integer> {
 
 	@Override
 	public Integer readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
 		try{
 			int val = Integer.parseInt(s);
 			if ( (val >= minimum && val <= maximum ) ||

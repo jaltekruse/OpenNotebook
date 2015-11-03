@@ -436,7 +436,6 @@ public class GraphObject extends MathObject {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return GRAPH_OBJ;
 	}
 

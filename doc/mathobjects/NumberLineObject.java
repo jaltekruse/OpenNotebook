@@ -43,7 +43,6 @@ public class NumberLineObject extends MathObject {
 
 	@Override
 	public void addDefaultAttributes() {
-		// TODO Auto-generated method stub
 		addAttribute(new DoubleAttribute(MIN, -10000, 10000));
 		addAttribute(new DoubleAttribute(MAX, -10000, 10000));
 		addAttribute(new DoubleAttribute(STEP, 0, 5000));
@@ -56,7 +55,6 @@ public class NumberLineObject extends MathObject {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return NUMBER_LINE;
 	}
 

@@ -130,7 +130,6 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 		keyboard.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				notebookPanel.getCurrentDocViewer().setOnScreenKeyBoardVisible(true);
 			}
 		});
@@ -148,7 +147,6 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
 				applyPanelValueToObject();
 			}
 		});
@@ -168,7 +166,6 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 
 			@Override
 			public void mouseWheelMoved(MouseWheelEvent e) {
-				// TODO Auto-generated method stub
 				Point componentPoint = SwingUtilities.convertPoint(
 						scrollPane,
 						e.getPoint(),

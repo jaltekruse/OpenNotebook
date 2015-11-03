@@ -52,7 +52,6 @@ public class ColorAttribute extends MathObjectAttribute<Color> {
 
 	@Override
 	public Color readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
 		try{
 			if ( s.equals("null") ){
 				return null;
@@ -70,7 +69,6 @@ public class ColorAttribute extends MathObjectAttribute<Color> {
 
 	@Override
 	public void resetValue() {
-		// TODO Auto-generated method stub
 		setValue(null);
 	}
 }

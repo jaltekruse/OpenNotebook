@@ -83,13 +83,11 @@ public class TriangleObject extends PolygonObject {
 	
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return TRIANGLE_OBJ;
 	}
 
 	@Override
 	public GridPoint[] getVertices() {
-		// TODO Auto-generated method stub
 		if ( getAttributeWithName(TRIANGLE_TYPE).getValue().equals(ISOSCELES)){
 			return isosocelesVertices;
 		}

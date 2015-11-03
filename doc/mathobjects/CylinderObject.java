@@ -32,7 +32,6 @@ public class CylinderObject extends MathObject {
 	
 	@Override
 	public void addDefaultAttributes() {
-		// TODO Auto-generated method stub
 		addAttribute(new IntegerAttribute(LINE_THICKNESS, 1, 1, 20));
 		addAttribute(new ColorAttribute(FILL_COLOR, null));
 		BooleanAttribute flipped = new BooleanAttribute(VERTICALLY_FLIPPED, false);
@@ -42,7 +41,6 @@ public class CylinderObject extends MathObject {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return CYLINDER_OBJ;
 	}
 	

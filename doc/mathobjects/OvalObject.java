@@ -57,7 +57,6 @@ public class OvalObject extends MathObject {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return OVAL_OBJ;
 	}
 

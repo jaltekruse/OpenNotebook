@@ -84,7 +84,6 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 
 			@Override
 			public void focusGained(FocusEvent arg0) {
-				// TODO Auto-generated method stub
 
 			}
 
@@ -162,7 +161,6 @@ public class GenericAdjustmentPanel extends AdjustmentPanel{
 
 	@Override
 	public void focusAttributField() {
-		// TODO Auto-generated method stub
 		field.requestFocus();
 	}
 }

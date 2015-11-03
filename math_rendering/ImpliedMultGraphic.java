@@ -147,8 +147,7 @@ private int space;
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {
-		// TODO Auto-generated method stub
-		
+
 		g.setFont(f);
 		setFont(f);
 		

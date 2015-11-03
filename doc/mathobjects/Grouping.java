@@ -502,13 +502,11 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 	@Override
 	public boolean isResizable() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean removeAllObjects() {
-		// TODO Auto-generated method stub
 		getObjects().removeAllElements();
 		objectBounds = new Vector<DecimalRectangle>();
 		return true;

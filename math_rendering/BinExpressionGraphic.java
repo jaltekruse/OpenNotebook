@@ -248,8 +248,7 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {
-		// TODO Auto-generated method stub
-		
+
 		g.setFont(f);
 		setFont(f);
 		
@@ -353,7 +352,6 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		// TODO Auto-generated method stub
 		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
 		children.add(leftChild);
 		children.add(rightChild);

@@ -39,7 +39,6 @@ public class ParenGraphic extends NodeGraphic<Node> {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		if (isSelected()){
 			super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
 			super.getRootNodeGraphic().getGraphics().fillRect(getX1(), getX2(), getWidth(), getHeight());
@@ -275,7 +274,6 @@ public class ParenGraphic extends NodeGraphic<Node> {
 	
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -345,7 +343,6 @@ public class ParenGraphic extends NodeGraphic<Node> {
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		// TODO Auto-generated method stub
 		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
 		children.add(child);
 		return children;

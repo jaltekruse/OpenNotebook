@@ -133,19 +133,16 @@ public class EnumeratedAdjuster extends AdjustmentPanel<EnumeratedAttribute>{
 
 	@Override
 	public void focusAttributField() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void updateData() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void applyPanelValueToObject() {
-		// TODO Auto-generated method stub
 
 	}
 

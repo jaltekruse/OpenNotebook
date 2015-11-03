@@ -240,7 +240,6 @@ public class RadicalGraphic extends UnaryExpressionGraphic {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

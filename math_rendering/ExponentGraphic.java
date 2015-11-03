@@ -109,8 +109,7 @@ public class ExponentGraphic extends BinExpressionGraphic {
     }
 
 	protected int findCursorXPos() {
-		// TODO Auto-generated method stub
-		return getX1() + super.getRootNodeGraphic().getCursor().getPos() * (getX2() - getX1()); 
+		return getX1() + super.getRootNodeGraphic().getCursor().getPos() * (getX2() - getX1());
 	}
 
 	@Override
@@ -254,7 +253,6 @@ public class ExponentGraphic extends BinExpressionGraphic {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1) throws Exception {
-		// TODO Auto-generated method stub
 
 		g.setFont(f);
 		

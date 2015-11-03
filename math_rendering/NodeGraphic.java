@@ -305,7 +305,6 @@ public abstract class NodeGraphic<E extends Node> {
 	public abstract void draw() throws NodeException;
 
 	public int[] requestSize(Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

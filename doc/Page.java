@@ -233,26 +233,22 @@ public class Page extends MathObject implements MathObjectContainer{
 
 	@Override
 	public boolean childObjectsFocusable() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	public boolean isResizable() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean removeAllObjects() {
-		// TODO Auto-generated method stub
 		objects = new Vector<MathObject>();
 		return true;
 	}
 
 	@Override
 	public Page getParentPage() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

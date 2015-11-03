@@ -161,7 +161,6 @@ public class NegationGraphic extends UnaryExpressionGraphic {
 	
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -209,7 +208,6 @@ public class NegationGraphic extends UnaryExpressionGraphic {
 		super.setY1(y1);
 		super.setX2(x1 + totalSize[0]);
 		super.setY2(y1 + totalSize[1]);
-		// TODO Auto-generated method stub
 		return totalSize;
 	}
 

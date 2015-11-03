@@ -238,7 +238,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -284,7 +283,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 		super.setY1(y1);
 		super.setX2(x1 + totalSize[0]);
 		super.setY2(y1 + totalSize[1]);
-		// TODO Auto-generated method stub
 		return totalSize;
 	}
 	
@@ -298,7 +296,6 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		// TODO Auto-generated method stub
 		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
 		children.add(childGraphic);
 		return children;

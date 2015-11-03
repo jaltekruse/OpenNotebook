@@ -35,7 +35,6 @@ public class BooleanAdjustmentPanel extends AdjustmentPanel<BooleanAttribute>{
 
 			@Override
 			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
 				if (e.getStateChange() == ItemEvent.SELECTED){
 					mAtt.setValue(true);
 					if ( notebookPanel != null){
@@ -61,14 +60,12 @@ public class BooleanAdjustmentPanel extends AdjustmentPanel<BooleanAttribute>{
 
 	@Override
 	public void applyPanelValueToObject() {
-		// TODO Auto-generated method stub
 		mAtt.setValue(true);
 		notebookPanel.getCurrentDocViewer().repaintDoc();
 	}
 
 	@Override
 	public void focusAttributField() {
-		// TODO Auto-generated method stub
 		checkbox.requestFocus();
 	}
 

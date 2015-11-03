@@ -44,13 +44,11 @@ public class RegularPolygonObject extends PolygonObject {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return REGULAR_POLYGON_OBJECT;
 	}
 
 	@Override
 	public GridPoint[] getVertices() {
-		// TODO Auto-generated method stub
 		return generateVertices();
 	}
 

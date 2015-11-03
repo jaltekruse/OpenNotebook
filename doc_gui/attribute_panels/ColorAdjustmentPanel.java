@@ -152,7 +152,6 @@ public class ColorAdjustmentPanel extends AdjustmentPanel<ColorAttribute>{
 
 	@Override
 	public void focusAttributField() {
-		// TODO Auto-generated method stub
 		setColor.requestFocus();
 	}
 

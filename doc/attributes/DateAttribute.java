@@ -27,7 +27,6 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 
 	@Override
 	public Date readValueFromString(String s) throws AttributeException {
-		// TODO Auto-generated method stub
 		if ( s == null || s.equals("null")){
 			return new Date();
 		}
@@ -56,13 +55,11 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
 		return DATE;
 	}
 
 	@Override
 	public void resetValue() {
-		// TODO Auto-generated method stub
 		setValue(new Date());
 	}
 }

@@ -35,7 +35,6 @@ public class DragDisk extends GraphComponent {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
 		if (showingDisk){
 			pixelRadius = (int) (.01 * getGraph().X_SIZE);
 			Graphics2D g2d = (Graphics2D)g;

@@ -38,7 +38,6 @@ private int space;
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		if (isSelected()){
 			getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
 			getRootNodeGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
@@ -56,7 +55,6 @@ private int space;
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -104,7 +102,6 @@ private int space;
 		super.setY1(y1);
 		super.setX2(x1 + totalSize[0]);
 		super.setY2(y1 + totalSize[1]);
-		// TODO Auto-generated method stub
 		return totalSize;
 	}
 

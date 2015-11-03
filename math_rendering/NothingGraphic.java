@@ -37,7 +37,6 @@ public class NothingGraphic extends NodeGraphic<EmptyValue> {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		getRootNodeGraphic().getGraphics().setFont(getFont());
 		super.getRootNodeGraphic().getGraphics().setStroke(new BasicStroke(
 				(int) (1 * super.getRootNodeGraphic().DOC_ZOOM_LEVEL)));
@@ -51,14 +50,12 @@ public class NothingGraphic extends NodeGraphic<EmptyValue> {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int[] requestSize(Graphics g, Font f, int x1, int y1)
 			throws Exception {
-		// TODO Auto-generated method stub
 		g.setFont(f);
 		setFont(f);
 		
@@ -80,7 +77,6 @@ public class NothingGraphic extends NodeGraphic<EmptyValue> {
 
 	@Override
 	public Vector getComponents() {
-		// TODO Auto-generated method stub
 		return new Vector<NodeGraphic>();
 	}
 

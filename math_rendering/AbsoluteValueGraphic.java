@@ -43,7 +43,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		if (isSelected()){
 			super.getRootNodeGraphic().getGraphics().setColor(getSelectedColor());
 			super.getRootNodeGraphic().getGraphics().fillRect(symbolX1, symbolY1, symbolX2 - symbolX1, symbolY2 - symbolY1);
@@ -248,7 +247,6 @@ public class AbsoluteValueGraphic extends UnaryExpressionGraphic {
 
 	@Override
 	public int[] requestSize(Graphics g, Font f) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
