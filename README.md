@@ -25,6 +25,8 @@ and provide all of the benefits of digital mathematics to every classroom, absol
 Your future of a more productive school day, and more time to spend helping your students 
 awaits. Try Open Notebook now! 
 
+Copyright 2015 Jason Altekruse
+
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -36,4 +38,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.i
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
