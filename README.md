@@ -13,6 +13,9 @@ functionality to edit equations. Unfortunately nothing has available to allow fo
 creation of complete professional mathematical materials without a steep learning 
 curve, until now.
 
+
+![alt tag](http://jaltekruse.github.io/OpenNotebook/images/problemSolving.gif)
+
 In addition to making documents for print, Open Notebook provides tools to make your worksheets
 interactive. The student mode of Open Notebook allows for the assignments to be completed 
 digitally including showing their step-by-step algebra work. We will be working to integrate
