@@ -14,7 +14,7 @@ creation of complete professional mathematical materials without a steep learnin
 curve, until now.
 
 
-![alt tag](http://jaltekruse.github.io/OpenNotebook/images/problemSolving.gif)
+![alt tag](http://jaltekruse.github.io/OpenNotebook/images/problemSolving.png)
 
 In addition to making documents for print, Open Notebook provides tools to make your worksheets
 interactive. The student mode of Open Notebook allows for the assignments to be completed 
