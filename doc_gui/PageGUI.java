@@ -202,7 +202,9 @@ public class PageGUI {
 
 	public void drawObject(MathObject mObj, Graphics g, Point pageOrigin, float zoomLevel){
 		if (mathObjectToGuiMap.containsKey(mObj.getClass())) {
-			if (docPanel.getFocusedObject() != null && docPanel.getFocusedObject() == mObj) {
+			// null check for docPanel because this method is also used to draw object in the background to
+			// find out their new size after a property adjustment, such as changing text or an expression
+			if (docPanel != null && docPanel.getFocusedObject() != null && docPanel.getFocusedObject() == mObj) {
 				mathObjectToGuiMap.get(mObj.getClass()).drawInteractiveComponents(mObj, g, pageOrigin, zoomLevel);
 			} else {
 				mathObjectToGuiMap.get(mObj.getClass()).drawMathObject(mObj, g, pageOrigin, zoomLevel);
