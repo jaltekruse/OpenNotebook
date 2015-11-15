@@ -3,6 +3,14 @@ An application for creating digital math worksheets that can be completed by stu
 
 [Download Now!](http://jaltekruse.github.io/OpenNotebook/OpenNotebook_0.1.jar) (Requires up to date version of Java)
 
+This software is still under heavy development. We will try to fix bugs reported promptly
+and maintain backwards compatibility as we improve the software with new features, but the software
+comes with no guarantees. If you experience problems, or have feature requests, please report them on Github
+[here](https://github.com/jaltekruse/OpenNotebook/issues). To save us a little time
+sorting through reported issues, we would appreciate an effort to look in the issues that have
+already been created and adding any new information to an existing report if one exists.
+If you do find a bug or want to request a feature that has not been reported, please do not hesitate to file a new issue.
+
 ![alt tag](http://jaltekruse.github.io/OpenNotebook/images/Screenshot.png)
 
 Open Notebook enables math teachers to create documents like worksheets, tests and quizzes easily. 
