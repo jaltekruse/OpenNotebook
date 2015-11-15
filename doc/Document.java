@@ -315,7 +315,7 @@ public class Document {
 		generators.add(generator);
 		Vector<Integer> frequencies = new Vector<Integer>();
 		frequencies.add(100);
-		generateProblems(generators, frequencies, 1, null, false);
+		generateProblems(generators, frequencies, 1, null, true);
 	}
 	
 	public void generateProblems(Vector<ProblemGenerator> generators,

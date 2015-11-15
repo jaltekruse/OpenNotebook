@@ -43,6 +43,7 @@ import doc.mathobjects.OvalObject;
 import doc.mathobjects.ParallelogramObject;
 import doc.mathobjects.PolygonObject;
 import doc.mathobjects.ProblemGenerator;
+import doc.mathobjects.ProblemNumberObject;
 import doc.mathobjects.RectangleObject;
 import doc.mathobjects.RegularPolygonObject;
 import doc.mathobjects.TextObject;
@@ -144,6 +145,7 @@ public class PageGUI {
 		mathObjectToGuiMap.put(VariableValueInsertionProblem.class, groupGUI);
 		mathObjectToGuiMap.put(GeneratedProblem.class, groupGUI);
 		mathObjectToGuiMap.put(TextObject.class, textGUI);
+		mathObjectToGuiMap.put(ProblemNumberObject.class, textGUI);
 		mathObjectToGuiMap.put(OvalObject.class, ovalGUI);
 		mathObjectToGuiMap.put(GraphObject.class, graphGUI);
 		mathObjectToGuiMap.put(LineObject.class, lineGUI);
