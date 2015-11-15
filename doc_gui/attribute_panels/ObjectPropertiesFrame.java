@@ -26,6 +26,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Vector;
 
@@ -40,6 +42,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.ScrollPaneConstants;
 
+import cz.natur.cuni.mirai.math.editor.JMathField;
+import cz.natur.cuni.mirai.math.meta.MetaModel;
+import cz.natur.cuni.mirai.math.model.MathFormula;
+import cz.natur.cuni.mirai.math.model.MathSequence;
 import doc.Document;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.ColorAttribute;
@@ -305,6 +311,20 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			panel.add(createGraphNavigator(), con);
 			con.gridy++;
 		}
+		JMathField math = new JMathField();
+		InputStream stream = MetaModel.class.getResourceAsStream("Octave.xml");
+		try {
+			byte[] fileData = new byte[stream.available()];
+			stream.read(fileData);
+			System.out.print(new String(fileData, Charset.defaultCharset()));
+		} catch (IOException e) {
+			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+		}
+		panel.add(math, con);
+		MathFormula formula = new MathFormula(new MetaModel("Octave.xml"));
+		formula.setRootComponent(new MathSequence(formula, "3"));
+		math.setFormula(formula);
+		con.gridy++;
 		if (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode())
 		{// there are too many attributes and actions for the expression to put them all in one panel
 			// added a tabbed pane to make it more reasonable and avoid scrolling
