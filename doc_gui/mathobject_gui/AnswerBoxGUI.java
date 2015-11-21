@@ -27,17 +27,17 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 		ScaledSizeAndPosition sap = getSizeAndPositionWithFontSize(object, pageOrigin,
 				zoomLevel, object.getFontSize());
 
-    // TODO - decide how extra whitespace should be handled, should it always be stored?
-    // students may use it to format a multi-line answer
-    // although useful whitespace will likely not coming at the very beginning or very end
-    // of an answer
+		// TODO - decide how extra whitespace should be handled, should it always be stored?
+		// students may use it to format a multi-line answer
+		// although useful whitespace will likely not coming at the very beginning or very end
+		// of an answer
 		List<? extends MathObjectAttribute> correctAnswers = object.getListWithName(AnswerBoxObject.CORRECT_ANSWERS).getValues();
 		if ( ! object.getStudentAnswer().trim().equals("") || correctAnswers.size() > 0){
 			Font f = g.getFont();
-      g.setColor(new Color(150, 210, 255));
+			g.setColor(new Color(150, 210, 255));
 			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
-	
-		  String message = object.getStudentAnswer();
+
+			String message = object.getStudentAnswer();
 			for (MathObjectAttribute mAtt : correctAnswers) {
 				message += mAtt.getValue().toString() + ";";
 			}
@@ -74,7 +74,7 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 			g.setFont(f);
 		}
 		else{
-      g.setColor(new Color(230, 230, 230));
+			g.setColor(new Color(230, 230, 230));
 			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
 		}
 		g.setColor(Color.BLACK);
