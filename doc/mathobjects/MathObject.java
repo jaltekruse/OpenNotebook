@@ -315,6 +315,36 @@ public abstract class MathObject implements Cloneable{
 	}
 
 	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (!(other instanceof MathObject)) {
+			return false;
+		}
+		MathObject otherMObj = (MathObject) other;
+		if (!getType().equals(otherMObj.getType())) {
+			return false;
+		}
+		// TODO - are all MathObjects guaranteed to have a constant set of
+		// attributes? If not there should be a short circuit here to check
+		// the number of attributes of both objects. For now I think it is
+		// safe to assume that attributes will not be added or removed in
+		// execution code.
+		for (MathObjectAttribute mAtt : getAttributes()) {
+			if (!otherMObj.getAttributeWithName(mAtt.getName()).equals(mAtt)) {
+				return false;
+			}
+		}
+		for (ListAttribute list : getLists()) {
+			if (!otherMObj.getListWithName(list.getName()).equals(list)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
 	public MathObject clone() {
 		MathObject o = newInstanceWithType(getType());
 		o.setParentContainer(getParentContainer());

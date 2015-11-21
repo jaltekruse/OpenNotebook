@@ -62,4 +62,20 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 	public void resetValue() {
 		setValue(new Date());
 	}
+
+	@Override
+	public DateAttribute clone(){
+		try {
+			DateAttribute newDate = new DateAttribute(getName());
+			if ( this.getValue() != null) {
+				newDate.setValue(new Date(getValue().getMonth(), getValue().getDay(), getValue().getYear()));
+			}
+			copyRootManagedFields(newDate);
+			return newDate;
+		} catch (Exception ex){
+			// impossible error, values are taken out of a date, so they will
+			// be valid
+			throw new RuntimeException(ex);
+		}
+	}
 }

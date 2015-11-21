@@ -16,5 +16,34 @@
  */
 package doc.test;
 
+import doc.Document;
+import doc.mathobjects.MathObject;
+
+import static doc.test.TestUtils.assertEquals;
+
 public class TestDocumentManipulation {
+
+	public void testDocCreation() {
+		Document doc = new Document("doc");
+		doc.addBlankPage();
+		assertEquals(doc.getPages().size(), 1);
+	}
+
+	public void testObjectClone() {
+		for (MathObject mObj : MathObject.objects) {
+			// TODO - remove this once the list of objects no longer contains nulls
+			if (mObj == null) {
+				continue;
+			}
+			assertEquals(mObj, mObj.clone());
+		}
+	}
+
+	// TODO - remove this and replace with JUnit when dependencies are
+	// managed by Maven
+	public static void main(String[] args) {
+		TestDocumentManipulation tests = new TestDocumentManipulation();
+		tests.testDocCreation();
+		tests.testObjectClone();
+	}
 }

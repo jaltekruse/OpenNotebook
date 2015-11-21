@@ -132,4 +132,12 @@ public class DoubleAttribute extends MathObjectAttribute<Double> {
 	public void resetValue() {
 		setValue(0.0);
 	}
+
+	@Override
+	public MathObjectAttribute clone() {
+		DoubleAttribute newDouble = new DoubleAttribute(
+				getName(), getValue(), getMinimum(), getMaximum());
+		copyRootManagedFields(newDouble);
+		return newDouble;
+	}
 }

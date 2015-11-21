@@ -6,7 +6,11 @@ import java.util.StringTokenizer;
 import doc_gui.graph.Selection;
 
 public class SelectionAttribute extends MathObjectAttribute<Selection> {
-	
+
+	public SelectionAttribute(String n, Selection val) {
+		super(n, val);
+	}
+
 	public SelectionAttribute(String n, Selection val, boolean userEditable) {
 		super(n, val, userEditable);
 	}
@@ -56,4 +60,11 @@ public class SelectionAttribute extends MathObjectAttribute<Selection> {
 		return getValue().getStart() + "," + getValue().getEnd();
 	}
 
+	@Override
+	public SelectionAttribute clone(){
+		SelectionAttribute newSelection = new SelectionAttribute(getName(),
+					new Selection(getValue().getStart(), getValue().getEnd()));
+		copyRootManagedFields(newSelection);
+		return newSelection;
+	}
 }

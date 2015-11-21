@@ -86,4 +86,11 @@ public class EnumeratedAttribute extends MathObjectAttribute<String>{
 		this.possibleValues = possibleValues;
 	}
 
+	@Override
+	public MathObjectAttribute clone() {
+		EnumeratedAttribute newEnum = new EnumeratedAttribute(getName(), getValue(),
+					getPossibleValues().clone());
+		copyRootManagedFields(newEnum);
+		return newEnum;
+	}
 }

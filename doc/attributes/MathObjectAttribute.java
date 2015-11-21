@@ -172,94 +172,40 @@ public abstract class MathObjectAttribute<K> implements Cloneable{
 	}
 
 	@Override
-	public MathObjectAttribute clone(){
-		MathObjectAttribute a = null;
-		if (this instanceof BooleanAttribute){
-			a = new BooleanAttribute( new String (this.getName() ), 
-					new Boolean( ((BooleanAttribute) this).getValue() ));
-		}
-		else if( this instanceof IntegerAttribute){
-			a = new IntegerAttribute( new String (this.getName() ), 
-					new Integer( ((IntegerAttribute) this).getValue()) ,
-					new Integer( ((IntegerAttribute) this).getMinimum()) ,
-					new Integer( ((IntegerAttribute) this).getMaximum()) );
-		}
-		else if (this instanceof StringAttribute){
-			a = new StringAttribute( new String (this.getName() ),
-					((StringAttribute) this).getValue());
-		}
-		else if (this instanceof VariableNameAttribute){
-			a = new VariableNameAttribute( new String (this.getName() ),
-					((VariableNameAttribute) this).getValue());
-		}
-		else if (this instanceof EnumeratedAttribute){
-			a = new EnumeratedAttribute( new String (this.getName() ),
-					new String(((EnumeratedAttribute) this).getValue()),
-					((EnumeratedAttribute)this).getPossibleValues().clone());
-		}
-		else if (this instanceof DoubleAttribute){
-			a = new DoubleAttribute( new String (this.getName() ), 
-					new Double( ((DoubleAttribute) this).getValue()) ,
-					new Double( ((DoubleAttribute) this).getMinimum()) ,
-					new Double( ((DoubleAttribute) this).getMaximum()) );
-		}
-		else if (this instanceof GridPointAttribute){
-			a = new GridPointAttribute( new String (this.getName() ), 
-					new GridPoint( ((GridPointAttribute)this).getValue().getx(), 
-							((GridPointAttribute)this).getValue().gety()),
-							((GridPointAttribute)this).xMin,
-							((GridPointAttribute)this).xMax,
-							((GridPointAttribute)this).yMin,
-							((GridPointAttribute)this).yMax);
-		}
-		else if( this instanceof ColorAttribute){
-			if (this.getValue() == null){
-				a = new ColorAttribute( new String (this.getName() ) );
-			}
-			else{
-				a = new ColorAttribute( this.getName(), new Color( 
-						((ColorAttribute) this).getValue().getRed() ,
-						((ColorAttribute) this).getValue().getGreen() ,
-						((ColorAttribute) this).getValue().getBlue() ) );
-			}
-		}
-		else if ( this instanceof DateAttribute){
-			a = new DateAttribute(this.getName());
-			if ( this.getValue() != null){
-				Date date = new Date();
-				try{
-					date.setMonth( ( (DateAttribute)this).getValue().getMonth());
-					date.setDay( ( (DateAttribute)this).getValue().getDay());
-					date.setYear( ( (DateAttribute)this).getValue().getYear());
-				} catch (Exception ex){
-					// impossible error, values are taken out of a date, so they will
-					// be valid
+	public abstract MathObjectAttribute clone();
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		} else if (!(other instanceof MathObjectAttribute)) {
+			return false;
+		} else {
+			MathObjectAttribute mAtt = (MathObjectAttribute) other;
+			if (getValue() == null) {
+				if (mAtt.getValue() == null) {
+					return true;
+				} else {
+					return false;
 				}
-				a.setValue(date);
+			} else {
+				return getValue().equals(((MathObjectAttribute)other).getValue());
 			}
 		}
-		else if ( this instanceof EmailAttribute){
-			a = new EmailAttribute( new String(this.getName()));
-			a.setValue(new String( ( (String)this.getValue()) ) );
-		}
-		else if ( this instanceof SelectionAttribute){
-			a = new SelectionAttribute( this.getName(), 
-					new Selection( ((Selection) this.getValue()).getStart()),
-					this.isUserEditable());
-		}
-		else if (this instanceof UUIDAttribute){
-			a = new UUIDAttribute(new String(this.getName()));
-			if (getValue() != null){
-				a.setValue(new UUID( ((UUID)getValue()).getMostSignificantBits(),
-						((UUID)getValue()).getLeastSignificantBits()));
-			}
-		}
-		if (a != null){
-			a.setStudentEditable(isStudentEditable());
-			a.setUserEditable(isUserEditable());
-			return a;
-		}
-		return null;
+	}
+
+	/**
+	 * Sets all fields managed by this abstract class in the destination object.
+	 *
+	 * Removes the need to update the subclasses clone() methods if more data is stored
+	 * at this level later. A more traditional approach would just modify all of the
+	 * calls to constructors throughout all of the subclasses clone() methods.
+	 *
+	 * @param dest
+	 */
+	public void copyRootManagedFields(MathObjectAttribute dest) {
+		dest.setStudentEditable(isStudentEditable());
+		dest.setUserEditable(isUserEditable());
 	}
 
 	public void setValueWithString(String s) throws AttributeException{

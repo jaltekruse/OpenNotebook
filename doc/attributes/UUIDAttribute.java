@@ -48,4 +48,16 @@ public class UUIDAttribute extends MathObjectAttribute<UUID> {
 	public void resetValue() {
 		return;
 	}
+
+	@Override
+	public UUIDAttribute clone() {
+		UUIDAttribute newUUID = new UUIDAttribute(getName());
+		if (getValue() != null) {
+			newUUID.setValue(new UUID(
+					getValue().getMostSignificantBits(),
+					getValue().getLeastSignificantBits()));
+		}
+		copyRootManagedFields(newUUID);
+		return newUUID;
+	}
 }

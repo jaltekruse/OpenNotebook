@@ -71,4 +71,16 @@ public class ColorAttribute extends MathObjectAttribute<Color> {
 	public void resetValue() {
 		setValue(null);
 	}
+
+	@Override
+	public MathObjectAttribute clone() {
+		ColorAttribute newColor;
+		newColor = new ColorAttribute(getName());
+		if (getValue() != null) {
+			newColor.setValue(
+					new Color( getValue().getRed(), getValue().getGreen(), getValue().getBlue()));
+		}
+		copyRootManagedFields(newColor);
+		return newColor;
+	}
 }

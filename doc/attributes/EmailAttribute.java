@@ -59,4 +59,17 @@ public class EmailAttribute extends MathObjectAttribute<String>{
 	public void resetValue() {
 		setValue("");
 	}
+
+	@Override
+	public MathObjectAttribute clone(){
+		try {
+			MathObjectAttribute newEmail = new EmailAttribute(getName(), getValue());
+			copyRootManagedFields(newEmail);
+			return newEmail;
+		} catch (AttributeException e) {
+			// impossible error, values are taken out of an e-mail, so they will
+			// be valid
+			throw new RuntimeException(e);
+		}
+	}
 }

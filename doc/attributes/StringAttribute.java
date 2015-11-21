@@ -65,4 +65,10 @@ public class StringAttribute extends MathObjectAttribute<String>{
 		setValue("");
 	}
 
+	@Override
+	public MathObjectAttribute clone() {
+		MathObjectAttribute newString = new StringAttribute(getName(), this.getValue());
+		copyRootManagedFields(newString);
+		return newString;
+	}
 }

@@ -17,7 +17,6 @@
 
 package doc.attributes;
 
-
 public class IntegerAttribute extends MathObjectAttribute<Integer> {
 	
 	private int minimum, maximum;
@@ -157,4 +156,13 @@ public class IntegerAttribute extends MathObjectAttribute<Integer> {
 	public void resetValue() {
 		setValue(0);		
 	}
+
+	@Override
+	public IntegerAttribute clone() {
+		IntegerAttribute newInt = new IntegerAttribute(
+				getName(), getValue(), getMinimum(), getMaximum());
+		copyRootManagedFields(newInt);
+		return newInt;
+	}
+
 }

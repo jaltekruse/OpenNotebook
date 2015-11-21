@@ -62,6 +62,18 @@ public class Date implements Comparable<Date>{
 		}
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (! (other instanceof Date)) {
+			return false;
+		} else {
+			return compareTo((Date)other) == 0;
+		}
+	}
+
 	public int getMonth() {
 		return month;
 	}

@@ -74,4 +74,10 @@ public class VariableNameAttribute extends MathObjectAttribute<String>{
 		setValue("");
 	}
 
+	@Override
+	public MathObjectAttribute clone() {
+		MathObjectAttribute newVarName = new VariableNameAttribute(getName(), getValue());
+		copyRootManagedFields(newVarName);
+		return newVarName;
+	}
 }

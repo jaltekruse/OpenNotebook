@@ -203,4 +203,21 @@ public class ListAttribute <K extends MathObjectAttribute> {
 	public void setParentObject(MathObject parentObject) {
 		this.parentObject = parentObject;
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (! (other instanceof ListAttribute)) {
+			return false;
+		} else {
+			ListAttribute otherList = (ListAttribute) other;
+			if (getValues().size() != otherList.getValues().size()) {
+				return false;
+			} else {
+				return getValues().containsAll(otherList.getValues());
+			}
+		}
+	}
 }

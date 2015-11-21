@@ -150,4 +150,12 @@ public class GridPointAttribute extends MathObjectAttribute<GridPoint> {
 		setValue(new GridPoint());
 	}
 
+	@Override
+	public GridPointAttribute clone(){
+		GridPointAttribute newGridPoint = new GridPointAttribute(
+				getName(), new GridPoint(getValue().getx(), getValue().gety()),
+					xMin, xMax, yMin, yMax);
+		copyRootManagedFields(newGridPoint);
+		return newGridPoint;
+	}
 }

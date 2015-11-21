@@ -62,4 +62,12 @@ public class BooleanAttribute extends MathObjectAttribute<Boolean> {
 	public void resetValue() {
 		setValue(false);
 	}
+
+	@Override
+	public BooleanAttribute clone() {
+		BooleanAttribute newBool = new BooleanAttribute(new String(getName()),
+				new Boolean(getValue()));
+		copyRootManagedFields(newBool);
+		return newBool;
+	}
 }

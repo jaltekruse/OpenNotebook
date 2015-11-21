@@ -55,4 +55,21 @@ public class Selection {
 	public String toString(){
 		return start + "," + end;
 	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other == null) {
+			return false;
+		}
+		if (! (other instanceof Selection)) {
+			return false;
+		} else {
+			Selection otherSelection = (Selection) other;
+			if (otherSelection.getStart() == getStart() && otherSelection.getEnd() == getEnd()) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+	}
 }
