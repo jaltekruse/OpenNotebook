@@ -91,6 +91,14 @@ public class Page extends MathObject implements MathObjectContainer{
 		// avoid adding an object if the page already contains it, this shouldn't be necessary and
 		// looks like it might be defensive code for bugs elsewhere, I think this should be possibly
 		// be replaced with an assert during development
+		//
+		// Noticed that this code actually causes a bug in conjunction with the recently added
+		// implementations of equals() on the math objects. If an object is copied, and then pasted
+		// back onto the same page it will actually not add a new copy of the object.
+		// This can currently done by selecting the page, if you leave the object that
+		// was copied selected it actually pastes the new one a little bit down the page to avoid
+		// the confusion of stacking objects right on top of each other when pasting. Fixing the bug
+		// by removing this check broke creating a group by clicking and dragging.
 		if ( getObjects().contains(mObj)){
 			return true;
 		}
