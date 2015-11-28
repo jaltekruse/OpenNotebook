@@ -78,6 +78,19 @@ public class Page extends MathObject implements MathObjectContainer{
 	public boolean addObject(MathObject mObj){
 
 		//check to make sure the object will fit on the page, inside of the margins
+		//
+		// this check was removed - might want to consider if it needs to be added back
+		// objects can be dragged outside of the boundaries, this check may have broken
+		// group creation, pasting and any other actions that add objects to a page that
+		// may violate this check
+		//
+		// I recently experienced something being cut off by
+		// printing because it was outside of the margins, it might be worth preventing users
+		// from dragging objects outside of the margins
+
+		// avoid adding an object if the page already contains it, this shouldn't be necessary and
+		// looks like it might be defensive code for bugs elsewhere, I think this should be possibly
+		// be replaced with an assert during development
 		if ( getObjects().contains(mObj)){
 			return true;
 		}
