@@ -305,6 +305,19 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		return o;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		super.equals(other);
+		if (!(other instanceof Grouping)) {
+			return false;
+		}
+		Grouping otherGroup = (Grouping) other;
+		if (otherGroup.getObjects().size() != getObjects().size()) {
+			return false;
+		}
+		return otherGroup.getObjects().containsAll(getObjects());
+	}
+
 	public MathObject getObjectWithAnswer(){
 		// this creation method allows for subclasses of grouping to use this clone method
 		Grouping o = (Grouping) newInstanceWithType(getType());
