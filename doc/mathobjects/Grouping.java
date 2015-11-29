@@ -311,6 +311,10 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			return false;
 		}
 		Grouping otherGroup = (Grouping) other;
+		// to handle subclasses of Grouping, check the type string as well
+		if (!getType().equals(otherGroup.getType())) {
+			return false;
+		}
 		if (otherGroup.getObjects().size() != getObjects().size()) {
 			return false;
 		}
