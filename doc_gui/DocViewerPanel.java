@@ -531,7 +531,7 @@ public class DocViewerPanel extends JDesktopPane{
 			return;
 		}
 		if ( ! (focusedObj instanceof Grouping) ){
-			resetTempGroup();
+			resetAndRemoveTempGroup();
 			focusedObj.getParentContainer().addObject(tempGroup);
 			tempGroup.addObjectFromPage(focusedObj);
 			tempGroup.addObjectFromPage(newObj);
@@ -552,6 +552,10 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	public void resetTempGroup(){
+		tempGroup = new Grouping();
+	}
+
+	public void resetAndRemoveTempGroup(){
 		if ( tempGroup.getParentContainer() != null)
 			tempGroup.getParentContainer().removeObject(tempGroup);
 		tempGroup = new Grouping();

@@ -1,7 +1,6 @@
 package doc.mathobjects;
 
 import java.awt.Rectangle;
-import java.util.Collection;
 import java.util.UUID;
 import java.util.Vector;
 
@@ -152,7 +151,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			newProblem.setObjectBounds(getObjectBounds());
 
 			//this group might be the temporary one in the docViewerPanel, so just reset it
-			this.getParentContainer().getParentDoc().getDocViewerPanel().resetTempGroup();
+			this.getParentContainer().getParentDoc().getDocViewerPanel().resetAndRemoveTempGroup();
 			this.getParentContainer().getParentDoc().getDocViewerPanel().setFocusedObject(newProblem);
 
 		}

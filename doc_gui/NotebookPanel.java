@@ -468,7 +468,7 @@ public class NotebookPanel extends SubPanel {
 			MathObject mObj = getCurrentDocViewer().getFocusedObject();
 			mObj.getParentContainer().removeObject(mObj);
 			if (mObj == getCurrentDocViewer().getTempGroup()) {
-				getCurrentDocViewer().resetTempGroup();
+				getCurrentDocViewer().resetAndRemoveTempGroup();
 			}
 			mObj.setParentContainer(null);
 			mObj.setJustDeleted(true);
@@ -578,7 +578,7 @@ public class NotebookPanel extends SubPanel {
 			MathObject newGroup = getCurrentDocViewer().getTempGroup().clone();
 			focusedObj.getParentContainer().addObject(newGroup);
 			getCurrentDocViewer().resetTempGroup();
-			// make sure this comes after the call to resetTempGroup, when a
+			// make sure this comes after the call to resetAndRemoveTempGroup, when a
 			// new focused object is set it places the objects in the temp group
 			// back on the page, which is not what is needed here
 			getCurrentDocViewer().setFocusedObject(newGroup);
