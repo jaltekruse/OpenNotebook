@@ -20,6 +20,7 @@ package doc.xml;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.nio.ByteBuffer;
 import java.util.Vector;
 
@@ -116,12 +117,12 @@ public class DocReader extends DefaultHandler {
 		return "sdfsdfewbtyasdfasdf";
 	}
 
-	public Document readDoc (InputStreamReader file, String docName) throws SAXException, IOException{
+	public Document readDoc (Reader file, String docName) throws SAXException, IOException{
 		readFile(file, docName);
 		return doc;
 	}
 
-	public void readFile (InputStreamReader file, String docName) throws SAXException, IOException{
+	public void readFile (Reader file, String docName) throws SAXException, IOException{
 		doc = null;
 		readingProblemDatabase = false;
 		page = null;

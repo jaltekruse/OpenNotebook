@@ -31,4 +31,10 @@ public class TestUtils {
 		}
 	}
 
+	public static void assertTrue(boolean isTrue, String message) {
+		if (! isTrue) {
+			throw new RuntimeException("Assert failed: " + message);
+		}
+	}
+
 }

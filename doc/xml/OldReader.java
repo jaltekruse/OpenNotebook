@@ -2,6 +2,7 @@ package doc.xml;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Vector;
 
 import org.xml.sax.Attributes;
@@ -68,7 +69,7 @@ public class OldReader extends DefaultHandler {
 		objectWithError = null;
 	}
 
-	public Document readFile (InputStreamReader file) throws SAXException, IOException{
+	public Document readFile(Reader file) throws SAXException, IOException{
 
 		attributeNameInError = null;
 		attributeValueInError = null;

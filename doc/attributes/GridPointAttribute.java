@@ -112,8 +112,6 @@ public class GridPointAttribute extends MathObjectAttribute<GridPoint> {
 		this.yMax = yMax;
 	}
 
-
-
 	@Override
 	public String getType() {
 		return GRID_POINT_ATTRIBUTE;

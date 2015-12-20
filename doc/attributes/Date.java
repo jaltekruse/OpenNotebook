@@ -14,16 +14,9 @@ public class Date implements Comparable<Date>{
 	private int year;
 	
 	public Date(){
-		try{
-			year = Calendar.getInstance().get(Calendar.YEAR);
-			month =  Calendar.getInstance().get(Calendar.MONTH) + 1;
-			day =  Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
-		}
-		catch(Exception ex){
-			month = 1;
-			day = 5;
-			year = 2011;
-		}
+    year = Calendar.getInstance().get(Calendar.YEAR);
+    month =  Calendar.getInstance().get(Calendar.MONTH) + 1;
+    day =  Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 	}
 	
 	public Date( int month, int day, int year){
