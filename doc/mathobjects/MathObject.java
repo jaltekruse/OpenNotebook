@@ -159,8 +159,8 @@ public abstract class MathObject implements Cloneable{
 	}
 
 	public void addGenericDefaultAttributes() {
-		addAttribute(new IntegerAttribute(X_POS, 1, 1, 610, false, false));
-		addAttribute(new IntegerAttribute(Y_POS, 1, 1, 790, false, false));
+		addAttribute(new IntegerAttribute(X_POS, 0, 0, 610, false, false));
+		addAttribute(new IntegerAttribute(Y_POS, 0, 0, 790, false, false));
 		addAttribute(new IntegerAttribute(WIDTH, 1, 1, 610, false, false));
 		addAttribute(new IntegerAttribute(HEIGHT, 1, 1, 790, false, false));
 		addAttribute(new UUIDAttribute(OBJECT_ID, UUID.randomUUID(), false,
