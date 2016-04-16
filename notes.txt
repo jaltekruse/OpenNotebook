@@ -79,6 +79,7 @@ and traverse documents are already implemented
 		  code saves it back as the binary file the student can look at to see all of their feedback
 
 TODOs:
+    - fix package names, currently in root namespace
     - set up maven build
         - anticipating adding new depedencies soon, will want to make these easy to manage
     - unit tests for existing features

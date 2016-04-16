@@ -81,7 +81,7 @@ public class Expression extends Node {
 			return false;
 		Expression e = (Expression) other;
 		return (o.equals(e.getOperator()))
-				&& (children.equals(e.getChildren()));
+				&& (getChildren().equals(e.getChildren()));
 	}
 
 	@Override

@@ -1,5 +1,16 @@
 package expression;
 
+/**
+ * TODO - consider removing this and applying meaning to identifiers at
+ * a higher level, using visitors or knowledge stored at the root of the
+ * expression/equation. Don't want to risk inconsistent types for a particular
+ * identifier inside of a given expression tree. For example, 'i' is used as both
+ * a constant and a variable in different contexts, utility methods dealing with
+ * imaginary numbers would likely just insert a named constant 'i', while other
+ * operations might insert a variable for any single character identifier provided
+ * by a user. While users must not write confusing expressions, it would be best
+ * to make the data structure as robust as possible.
+ */
 public class Variable extends Identifier {
 
 	private static int indexCount = 0;
