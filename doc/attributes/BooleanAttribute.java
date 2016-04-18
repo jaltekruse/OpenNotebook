@@ -59,6 +59,14 @@ public class BooleanAttribute extends MathObjectAttribute<Boolean> {
 	}
 
 	@Override
+	public void validate(Boolean newValue) throws AttributeException {
+		// TODO - is this the right validation here, should null be allowed?
+		if (newValue == null) {
+			throw new AttributeException("Boolean values cannot be assigned null");
+		}
+	}
+
+	@Override
 	public void resetValue() {
 		setValue(false);
 	}

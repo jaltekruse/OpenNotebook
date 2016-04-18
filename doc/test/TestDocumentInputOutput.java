@@ -57,9 +57,4 @@ public class TestDocumentInputOutput {
 		doc.addBlankPage();
 //		doc.generateProblem();
 	}
-
-	public static void main(String[] args) throws IOException, SAXException {
-		TestDocumentInputOutput tests = new TestDocumentInputOutput();
-		tests.testAllObjectsBasicExport();
-	}
 }

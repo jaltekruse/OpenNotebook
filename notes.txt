@@ -123,3 +123,30 @@ TODOs:
               good to think about
             - once student was able to understand how to solve problems through the UI, they wanted
               to just use their keyboard to move through the assignment
+
+-----------------
+4/16/2016
+-----------------
+- Work starting at 8:15
+- develop test plan
+- Areas to test
+    - All objects
+        - serDe
+        - setting properties and constraints
+        - manipulation actions (caused by buttons, should be pretty well separated from front-end)
+    - Document manipulation
+        - add/remove pages
+        - cut/copy/paste
+        - layer management
+        - add/delete objects
+        - Mouse actions
+            - separate math and doc manipulation from mouse handler
+        - undo/redo
+            - separate this state from front-end
+    - Problem generation
+    - Grading
+    - Printing
+- First things to test
+    - Already wrote tests for basic doc and object serialization/deserialization
+    - probably makes sense to start testing the smallest units possible
+        - attribute classes and their constraints

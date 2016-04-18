@@ -18,6 +18,7 @@ package doc.test;
 
 import doc.Document;
 import doc.mathobjects.MathObject;
+import doc_gui.OpenNotebook;
 
 import static doc.test.TestUtils.assertEquals;
 
@@ -37,13 +38,5 @@ public class TestDocumentManipulation {
 			}
 			assertEquals(mObj, mObj.clone());
 		}
-	}
-
-	// TODO - remove this and replace with JUnit when dependencies are
-	// managed by Maven
-	public static void main(String[] args) {
-		TestDocumentManipulation tests = new TestDocumentManipulation();
-		tests.testDocCreation();
-		tests.testObjectClone();
 	}
 }

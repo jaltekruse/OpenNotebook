@@ -16,5 +16,21 @@
  */
 package doc.test;
 
+import doc.attributes.IntegerAttribute;
+
 public class TestAttributeValidation {
+
+	public void testIntAttribute() {
+		IntegerAttribute intAtt = new IntegerAttribute("name", 0, 10);
+		intAtt.setValue(0);
+		intAtt.setValue(5);
+		intAtt.setValue(10);
+		try {
+			intAtt.setValue(11);
+
+		} catch (Exception ex) {
+			// test success
+			ex.printStackTrace();
+		}
+	}
 }

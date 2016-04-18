@@ -125,7 +125,17 @@ public abstract class MathObjectAttribute<K> implements Cloneable{
 
 	public abstract K readValueFromString(String s) throws AttributeException;
 
+	public void validate(K newValue) throws AttributeException {
+		// TODO - make this abstract to force subclasses to implement it
+	}
+
 	public void setValue(K value){
+		// TODO - decide if this should throw a checked exception
+		try {
+			validate(value);
+		} catch (AttributeException ex) {
+			throw new RuntimeException(ex);
+		}
 		this.value = value;
 	}
 
