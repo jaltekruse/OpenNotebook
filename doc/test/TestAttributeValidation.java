@@ -16,7 +16,14 @@
  */
 package doc.test;
 
+import doc.attributes.AttributeException;
+import doc.attributes.BooleanAttribute;
+import doc.attributes.ColorAttribute;
 import doc.attributes.IntegerAttribute;
+
+import java.awt.*;
+
+import static doc.test.TestUtils.assertEquals;
 
 public class TestAttributeValidation {
 
@@ -25,12 +32,67 @@ public class TestAttributeValidation {
 		intAtt.setValue(0);
 		intAtt.setValue(5);
 		intAtt.setValue(10);
+		boolean validationCheckFailed = false;
 		try {
 			intAtt.setValue(11);
-
+			validationCheckFailed = true;
 		} catch (Exception ex) {
 			// test success
-			ex.printStackTrace();
 		}
+		if (validationCheckFailed) {
+			throw new RuntimeException("Integer attribute validation failed");
+		}
+	}
+
+	public void testBooleanAttribute() throws AttributeException {
+		BooleanAttribute boolAtt = new BooleanAttribute("name", true);
+		assertEquals(boolAtt.getValue(), true);
+		boolAtt.setValue(false);
+		assertEquals(boolAtt.getValue(), false);
+		assertEquals(boolAtt.readValueFromString("true"), true);
+		assertEquals(boolAtt.readValueFromString("false"), false);
+	}
+
+	public void testColorAttribute() throws AttributeException {
+		ColorAttribute colorAtt = new ColorAttribute("name", new Color(1,1,1));
+		assertEquals(colorAtt.readValueFromString("10,10,10"), new Color(10,10,10));
+		boolean validationCheckFailed = false;
+		try {
+			colorAtt.readValueFromString("10,10,-10");
+			validationCheckFailed = true;
+		} catch (AttributeException ex) {
+			// test success
+		}
+		if (validationCheckFailed) {
+			throw new RuntimeException("Color attribute validation failed");
+		}
+	}
+
+	public void testDateAttribute() {
+
+	}
+
+	public void testDoubleAttribute() {
+
+	}
+
+	public void testEmailAttribute() {
+
+	}
+
+	public void testEnumeratedAttribute() {
+
+	}
+
+	public void testGridPointAttribute() {
+
+	}
+
+	public void testListAttribute() {
+
+	}
+
+	public void testSelectionAttribute() {
+
 	}
 }

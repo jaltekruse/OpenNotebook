@@ -17,6 +17,7 @@
  */
 package doc.test;
 
+import doc.attributes.AttributeException;
 import org.xml.sax.SAXException;
 
 import java.io.IOException;
@@ -25,13 +26,15 @@ public class TestRunner {
 
 	// TODO - remove this and replace with JUnit when dependencies are
 	// managed by Maven
-	public static void main(String[] args) throws IOException, SAXException {
+	public static void main(String[] args) throws IOException, SAXException, AttributeException {
 		TestDocumentManipulation tests = new TestDocumentManipulation();
 		tests.testDocCreation();
 		tests.testObjectClone();
 
 		TestAttributeValidation attrTests = new TestAttributeValidation();
 		attrTests.testIntAttribute();
+		attrTests.testBooleanAttribute();
+		attrTests.testColorAttribute();
 
 		TestDocumentInputOutput docIOtests = new TestDocumentInputOutput();
 		docIOtests.testAllObjectsBasicExport();

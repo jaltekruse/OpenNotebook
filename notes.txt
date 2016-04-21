@@ -150,3 +150,22 @@ TODOs:
     - Already wrote tests for basic doc and object serialization/deserialization
     - probably makes sense to start testing the smallest units possible
         - attribute classes and their constraints
+            - trying to test constraints for setters
+            - constraints are not actually being enforced for the value settting methods
+              just the ones that parse the values from a string
+                - should refactor to change this, see if the app still functions okay
+                - would be nice to encapsulate behavior when code not in a path that can prompt
+                  a user for a different value
+                    - examples, auto-correct corrupt files
+                    - snapping to an edge when dragging an something around and the mouse 
+                      goes out of the allowed area
+                    - are there cases where the correction/snapping needs to happen at a level
+                      higher than management of a single property and constraints, does
+                      the object that contains the attribute need to manage this?
+
+-----------------
+4/20/2016
+-----------------
+- modify attribute classes to enforce constraints in their setter methods
+  instead of just when read from strings
+    - time estimate 20 mins, finish 9:40

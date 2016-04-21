@@ -17,6 +17,8 @@
 
 package doc.attributes;
 
+import javax.xml.bind.ValidationException;
+
 public class IntegerAttribute extends MathObjectAttribute<Integer> {
 	
 	private int minimum, maximum;
@@ -123,32 +125,39 @@ public class IntegerAttribute extends MathObjectAttribute<Integer> {
 		return INTEGER_ATTRIBUTE;
 	}
 
+	public void validate(Integer val) throws AttributeException {
+		if ( (val >= minimum && val <= maximum ) ||
+				(minimum == LIMIT_NOT_SET && maximum == LIMIT_NOT_SET)){
+			this.value = val;
+		}
+		else {
+			throw invalidValueError();
+		}
+	}
+
+	private AttributeException invalidValueError() {
+		if ( minimum == LIMIT_NOT_SET ){
+			if (maximum == LIMIT_NOT_SET){
+				return new AttributeException(getName() + " must be an integer.");
+			}
+			else{
+				return new AttributeException(getName() + " must be an integer less than " + maximum + ".");
+			}
+		}
+		else if (maximum == LIMIT_NOT_SET){
+			return new AttributeException(getName() + " must be an integer grater than " + minimum + ".");
+		}
+		return new AttributeException(getName() + " must be an integer in the range (" +
+				minimum + " - " + maximum + ")");
+	}
+
 	@Override
 	public Integer readValueFromString(String s) throws AttributeException {
 		try{
-			int val = Integer.parseInt(s);
-			if ( (val >= minimum && val <= maximum ) ||
-					(minimum == LIMIT_NOT_SET && maximum == LIMIT_NOT_SET)){
-				return val;
-			}
-			else{
-				throw new AttributeException(getName() + " must be an integer in the range (" + 
-					minimum + " - " + maximum + ")");
-			}
-		}catch(Exception e){
-			if ( minimum == LIMIT_NOT_SET ){
-				if (maximum == LIMIT_NOT_SET){
-					throw new AttributeException(getName() + " must be an integer.");
-				}
-				else{
-					throw new AttributeException(getName() + " must be an integer less than " + maximum + ".");
-				}
-			}
-			else if (maximum == LIMIT_NOT_SET){
-				throw new AttributeException(getName() + " must be an integer grater than " + minimum + ".");
-			}
-			throw new AttributeException(getName() + " must be an integer in the range (" + 
-					minimum + " - " + maximum + ")");
+			setValue(Integer.parseInt(s));
+			return value;
+		} catch(Exception e) {
+			throw invalidValueError();
 		}
 	}
 

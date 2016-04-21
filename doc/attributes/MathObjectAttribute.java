@@ -123,6 +123,7 @@ public abstract class MathObjectAttribute<K> implements Cloneable{
 		return name;
 	}
 
+	// TODO - review why this method returns the value
 	public abstract K readValueFromString(String s) throws AttributeException;
 
 	public void validate(K newValue) throws AttributeException {
