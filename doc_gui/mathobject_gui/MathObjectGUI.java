@@ -358,54 +358,44 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		// the problem later
 		int prevX = object.getxPos(), prevY = object.getyPos(),
 				prevWidth = object.getWidth(), prevHeight = object.getHeight();
-		int newHeight = object.getHeight();
-		int newWidth = object.getWidth();
-		int newxPos = object.getxPos();
-		int newyPos = object.getyPos();
+
 		if (isSouthDot(dotVal)){
 			verticalMovement = ( dragPos.getyPos() - object.getyPos() - object.getHeight());
-			newHeight = object.getHeight() + verticalMovement;
+			object.setHeight(object.getHeight() + verticalMovement);
 		}
 		else if (isNorthDot(dotVal)){
 			verticalMovement = ( dragPos.getyPos() - object.getyPos());
-			newHeight = object.getHeight() - verticalMovement;
-			newyPos = object.getyPos() + verticalMovement;
+			object.setHeight(object.getHeight() - verticalMovement);
+			object.setyPos(object.getyPos() + verticalMovement);
 		}
 		if (isWestDot(dotVal)){
 			horizontalMovement = ( dragPos.getxPos() - object.getxPos());
-			newWidth = object.getWidth() - horizontalMovement;
-			newxPos = object.getxPos() + horizontalMovement;
+			object.setWidth(object.getWidth() - horizontalMovement);
+			object.setxPos(object.getxPos() + horizontalMovement);
 		}
 		else if (isEastDot(dotVal)){
 			horizontalMovement = ( dragPos.getxPos() - (object.getxPos() + object.getWidth()));
-			newWidth = object.getWidth() + horizontalMovement;
+			object.setWidth(object.getWidth() + horizontalMovement);
 		}
-
-		if (newHeight == 0){
-			newHeight = 1;
-		}
-		if (newWidth == 0){
-			newWidth = 1;
-		}
-
-		if (newHeight <= 0){
+		
+		if (object.getHeight() <= 0){
 			object.flipVertically();
-			object.setHeight(Math.abs(newHeight));
-			object.setyPos(newyPos - newHeight);
+			object.setHeight(Math.abs(object.getHeight()));
+			object.setyPos(object.getyPos() - object.getHeight());
 			docMouseListener.setCurrentDragDot(getVerticallyOppositeDot(docMouseListener.getCurrentDragDot()));
-		} else {
-			object.setHeight(newHeight);
-			object.setyPos(newyPos);
 		}
 
-		if (newWidth <= 0){
+		if (object.getWidth() <= 0){
 			object.flipHorizontally();
-			object.setWidth(Math.abs(newWidth));
-			object.setxPos(newxPos - newWidth);
+			object.setWidth(Math.abs(object.getWidth()));
+			object.setxPos(object.getxPos() - object.getWidth());
 			docMouseListener.setCurrentDragDot(getHorizontallyOppositeDot(docMouseListener.getCurrentDragDot()));
-		} else {
-			object.setxPos(newxPos);
-			object.setWidth(newWidth);
+		}
+		if (object.getHeight() == 0){
+			object.setHeight(1);
+		}
+		if (object.getWidth() == 0){
+			object.setWidth(1);
 		}
 	}
 
