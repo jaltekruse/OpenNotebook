@@ -359,44 +359,53 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		int prevX = object.getxPos(), prevY = object.getyPos(),
 				prevWidth = object.getWidth(), prevHeight = object.getHeight();
 
+		int newxPos = prevX;
+		int newyPos = prevY;
+		int newWidth = prevWidth;
+		int newHeight = prevHeight;
+
 		if (isSouthDot(dotVal)){
-			verticalMovement = ( dragPos.getyPos() - object.getyPos() - object.getHeight());
-			object.setHeight(object.getHeight() + verticalMovement);
+			verticalMovement = ( dragPos.getyPos() - newyPos - newHeight);
+			newHeight = newHeight + verticalMovement;
 		}
 		else if (isNorthDot(dotVal)){
-			verticalMovement = ( dragPos.getyPos() - object.getyPos());
-			object.setHeight(object.getHeight() - verticalMovement);
-			object.setyPos(object.getyPos() + verticalMovement);
+			verticalMovement = ( dragPos.getyPos() - newyPos);
+			newHeight = newHeight - verticalMovement;
+			newyPos = newyPos + verticalMovement;
 		}
 		if (isWestDot(dotVal)){
-			horizontalMovement = ( dragPos.getxPos() - object.getxPos());
-			object.setWidth(object.getWidth() - horizontalMovement);
-			object.setxPos(object.getxPos() + horizontalMovement);
+			horizontalMovement = ( dragPos.getxPos() - newxPos);
+			newWidth = newWidth - horizontalMovement;
+			newxPos = newxPos + horizontalMovement;
 		}
 		else if (isEastDot(dotVal)){
-			horizontalMovement = ( dragPos.getxPos() - (object.getxPos() + object.getWidth()));
-			object.setWidth(object.getWidth() + horizontalMovement);
+			horizontalMovement = ( dragPos.getxPos() - (newxPos + newWidth));
+			newWidth = newWidth + horizontalMovement;
 		}
 		
-		if (object.getHeight() <= 0){
+		if (newHeight <= 0){
 			object.flipVertically();
-			object.setHeight(Math.abs(object.getHeight()));
-			object.setyPos(object.getyPos() - object.getHeight());
+			newHeight = Math.abs(newHeight);
+			newyPos = newyPos - newHeight;
 			docMouseListener.setCurrentDragDot(getVerticallyOppositeDot(docMouseListener.getCurrentDragDot()));
 		}
 
-		if (object.getWidth() <= 0){
+		if (newWidth <= 0){
 			object.flipHorizontally();
-			object.setWidth(Math.abs(object.getWidth()));
-			object.setxPos(object.getxPos() - object.getWidth());
+			newWidth = Math.abs(newWidth);
+			newxPos = newxPos - newWidth;
 			docMouseListener.setCurrentDragDot(getHorizontallyOppositeDot(docMouseListener.getCurrentDragDot()));
 		}
-		if (object.getHeight() == 0){
-			object.setHeight(1);
+		if (newHeight == 0){
+			newHeight = 1;
 		}
-		if (object.getWidth() == 0){
-			object.setWidth(1);
+		if (newWidth == 0){
+			newWidth = 1;
 		}
+		object.setWidth(newWidth);
+		object.setHeight(newHeight);
+		object.setxPos(newxPos);
+		object.setyPos(newyPos);
 	}
 
 	public static boolean isNorthDot(int dotVal){
