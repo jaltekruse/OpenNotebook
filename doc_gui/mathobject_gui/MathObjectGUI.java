@@ -328,20 +328,20 @@ public abstract class MathObjectGUI<K extends MathObject>{
 
 	public static void moveBoxToPoint(Point clickPos, MathObject object,
 			Point pageOrigin, float zoomLevel, int xBoxOffset, int yBoxOffset){
-		object.setxPos((int) ( (clickPos.getX() - pageOrigin.getX() - xBoxOffset * zoomLevel) / zoomLevel ));
-		object.setyPos((int) ( (clickPos.getY() - pageOrigin.getY() - yBoxOffset * zoomLevel) / zoomLevel ));
-		if (object.getxPos() + object.getWidth() > object.getParentPage().getWidth()){
-			object.setxPos(object.getParentPage().getWidth() - object.getWidth());
+		int newxPos = (int) ( (clickPos.getX() - pageOrigin.getX() - xBoxOffset * zoomLevel) / zoomLevel );
+		int newyPos = (int) ( (clickPos.getY() - pageOrigin.getY() - yBoxOffset * zoomLevel) / zoomLevel );
+		if (newxPos + object.getWidth() > object.getParentPage().getWidth()){
+			newxPos = object.getParentPage().getWidth() - object.getWidth();
+		} else if (newxPos < 1){
+			newxPos = 1;
 		}
-		else if (object.getxPos() < 0){
-			object.setxPos( 0 );
+		if (newyPos + object.getHeight() > object.getParentPage().getHeight()){
+			newyPos = object.getParentPage().getHeight() - object.getHeight();
+		} else if (newyPos < 1){
+			newyPos = 1;
 		}
-		if (object.getyPos() < 0){
-			object.setyPos( 0 );
-		}
-		else if (object.getyPos() + object.getHeight() > object.getParentPage().getHeight()){
-			object.setyPos(object.getParentPage().getHeight() - object.getHeight());
-		}
+		object.setxPos(newxPos);
+		object.setyPos(newyPos);
 	}
 
 	/**
@@ -369,12 +369,12 @@ public abstract class MathObjectGUI<K extends MathObject>{
 			newHeight = newHeight + verticalMovement;
 		}
 		else if (isNorthDot(dotVal)){
-			verticalMovement = ( dragPos.getyPos() - newyPos);
+			verticalMovement = ( Math.max(dragPos.getyPos(), 1) - newyPos);
 			newHeight = newHeight - verticalMovement;
 			newyPos = newyPos + verticalMovement;
 		}
 		if (isWestDot(dotVal)){
-			horizontalMovement = ( dragPos.getxPos() - newxPos);
+			horizontalMovement = ( Math.max(dragPos.getxPos(), 1) - newxPos);
 			newWidth = newWidth - horizontalMovement;
 			newxPos = newxPos + horizontalMovement;
 		}
@@ -401,6 +401,12 @@ public abstract class MathObjectGUI<K extends MathObject>{
 		}
 		if (newWidth == 0){
 			newWidth = 1;
+		}
+		if (newxPos == 0){
+			newxPos = 1;
+		}
+		if (newyPos == 0){
+			newyPos = 1;
 		}
 		object.setWidth(newWidth);
 		object.setHeight(newHeight);
