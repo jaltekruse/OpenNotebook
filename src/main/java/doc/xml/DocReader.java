@@ -17,10 +17,9 @@
 
 package doc.xml;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Base64;
 import java.util.Vector;
 
 import org.xml.sax.Attributes;
@@ -30,9 +29,6 @@ import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 import org.xml.sax.helpers.XMLReaderFactory;
 
-import sun.misc.BASE64Decoder;
-
-import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import doc.Document;
 import doc.Page;
@@ -105,11 +101,8 @@ public class DocReader extends DefaultHandler {
 	}
 	
 	public Document readServerDoc(String doc, String docName) throws SAXException, IOException{
-		BASE64Decoder decoder = new BASE64Decoder();
-		ByteBuffer data = decoder.decodeBufferToByteBuffer(doc);
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(data.array());
-		InputStreamReader reader = new InputStreamReader(inputStream);
-		return readDoc(reader, docName);		
+		ByteArrayInputStream docStream = new ByteArrayInputStream(Base64.getDecoder().decode(doc));
+		return readDoc(new InputStreamReader(docStream), docName);
 	}
 	
 	public static String getRandomMessage(){
