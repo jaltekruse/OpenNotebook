@@ -195,3 +195,47 @@ TODOs:
     - actually go through to at least remove UI for features that I cannot support right away
         - and remove them from the docs
             - user tutorial and readme/homepage
+
+-----------------
+5/7/2016
+-----------------
+- Work starting at 10pm
+	- Need some direction for the project
+	- still not sure if it makes sense to pursue Java version or
+	  new javascript based application
+		- For now I'll split my efforts and see which one gets
+		  me to a good outcome first
+		- I'm still more productive in Java, but I'd like to work
+		  on getting to know the javascript tool set
+- Doing some product design
+	- As I said above, I need to remove features from the Java version
+	  and make sure that the core experience is really good
+	- Review core teacher and student experiences
+- Teacher experience
+	- assigning homework
+		- teachers can use Open Notebook to design static documents
+		  with problems, quizzes, activities, etc.
+		- problem generation will be removed for the first version
+		- teachers can also just provide their students with an
+		  assignment out of a book or website, to be completed in
+		  their digital notebook
+	- grading work
+		- teachers will use their own service/infrastructure to collect
+		  assignments
+			- I will assume they can get the assignments together in a
+			  folder or zip file themselves
+			  	- I know moodle uses zip files to manage multiple documents
+			  	- I assume blackboard, d2l and similar services also use
+			  	  zip files to download a bunch of studet assignments, might
+			  	  want to confirm but they must have some manner of handling
+			  	  docs in bulk
+		- teachers can obviously just open the student documents to view them
+		  individually
+		  	- they will see the same interface as a student opening the doc
+		  	  to continue their work
+		  	- no interface will be provided to grade an individual doc
+		  		- except putting a single doc into the grading feature
+		- on the application, teachers can also choose to open a list of student
+		  docs to grade them together
+		  	- for now, assume they will not have an answer key
+		  	-
