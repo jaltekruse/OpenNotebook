@@ -19,7 +19,6 @@ package doc.xml;
 
 import java.io.*;
 import java.nio.ByteBuffer;
-import java.util.Base64;
 import java.util.Vector;
 
 import org.xml.sax.Attributes;
@@ -36,22 +35,18 @@ import doc.ProblemDatabase;
 import doc.attributes.AttributeException;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
-import doc.mathobjects.AnswerBoxObject;
-import doc.mathobjects.CubeObject;
 import doc.mathobjects.ExpressionObject;
 import doc.mathobjects.GeneratedProblem;
 import doc.mathobjects.GraphObject;
 import doc.mathobjects.Grouping;
 import doc.mathobjects.MathObject;
-import doc.mathobjects.NumberLineObject;
-import doc.mathobjects.OvalObject;
-import doc.mathobjects.ParallelogramObject;
 import doc.mathobjects.PolygonObject;
 import doc.mathobjects.ProblemGenerator;
-import doc.mathobjects.RectangleObject;
 import doc.mathobjects.RegularPolygonObject;
 import doc.mathobjects.TextObject;
 import doc.mathobjects.VariableValueInsertionProblem;
+
+import sun.misc.BASE64Decoder;
 
 public class DocReader extends DefaultHandler {
 
@@ -101,8 +96,11 @@ public class DocReader extends DefaultHandler {
 	}
 	
 	public Document readServerDoc(String doc, String docName) throws SAXException, IOException{
-		ByteArrayInputStream docStream = new ByteArrayInputStream(Base64.getDecoder().decode(doc));
-		return readDoc(new InputStreamReader(docStream), docName);
+		BASE64Decoder decoder = new BASE64Decoder();
+		ByteBuffer data = decoder.decodeBufferToByteBuffer(doc);
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(data.array());
+		InputStreamReader reader = new InputStreamReader(inputStream);
+		return readDoc(reader, docName);
 	}
 	
 	public static String getRandomMessage(){
