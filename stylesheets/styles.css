@@ -1,4 +1,4 @@
-/*
+p/*
 Leap Day for GitHub Pages
 by Matt Graham
 */
@@ -503,7 +503,7 @@ table {
 }
 
 body {
-  font: 14px/22px "Quattrocento Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 18px/22px "Quattrocento Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   color: #666;
   font-weight: 300;
   margin: 0px;
@@ -731,7 +731,7 @@ header p {
   padding: 10px 12px;
   margin-top: 6px;
   line-height: 14px;
-  font-size: 14px;
+  font-size: 18px;
   color: #333;
   font-weight: bold;
   display: inline-block;
@@ -812,7 +812,7 @@ section {
 }
 
 small {
-  font-size: 12px;
+  font-size: 18px;
 }
 
 nav {
