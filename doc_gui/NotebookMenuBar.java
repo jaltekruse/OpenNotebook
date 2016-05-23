@@ -271,7 +271,8 @@ public class NotebookMenuBar extends JMenuBar {
 				openBook.getNotebookPanel().setDocAlignment(OpenNotebook.ALIGN_DOCS_CENTER);
 			}
 		});
-	
+
+		/*
 		mode = new JMenu("Mode");
 		this.add(mode);
 
@@ -323,5 +324,6 @@ public class NotebookMenuBar extends JMenuBar {
 				}
 			});
 		}
+		*/
 	}
 }

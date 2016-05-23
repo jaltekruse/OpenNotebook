@@ -56,7 +56,6 @@ public class ObjectToolBar extends JToolBar {
 //				System.out.println(notebookPanel.getCurrentDocViewer().getDoc().exportToXML());
 //			}
 //		};
-
 		new OCButton("Generate Problems", "Generate Problems",
 				1, 1, 3, 0, this){
 
@@ -67,12 +66,14 @@ public class ObjectToolBar extends JToolBar {
 			}
 		};
 
+/*
 		new OCButton("Login", "Login", 1, 1, 3, 0, this){
 
 			public void associatedAction(){ notebookPanel.login(); }
 		};
+	*/
 	}
-	
+
 	public void finalize(){
 		
 	}

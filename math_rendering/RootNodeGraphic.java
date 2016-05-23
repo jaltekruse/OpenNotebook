@@ -70,7 +70,7 @@ public class RootNodeGraphic{
 //		}
 //		System.out.println("CEG drawCursor?");
 		if (cursor.getValueGraphic() != null){
-			cursor.getValueGraphic().drawCursor();
+			//cursor.getValueGraphic().drawCursor();
 //			System.out.println("CEG drawCursor");
 		}
 	}

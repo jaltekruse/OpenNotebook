@@ -284,6 +284,7 @@ public class FileActionsToolBar extends JToolBar {
 			}
 		};
 
+		/*
 		new OCButton("Grade Student Work", "Grade student work from a zip file",
 				1, 1, 3, 0, this){
 
@@ -292,6 +293,7 @@ public class FileActionsToolBar extends JToolBar {
 				notebookPanel.openStudentWorkDocs();
 			}
 		};
+		*/
 /*
     new OCButton("Grade", "Grade",
       1, 1, 3, 0, this){
