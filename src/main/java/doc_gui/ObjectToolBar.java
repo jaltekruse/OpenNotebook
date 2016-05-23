@@ -27,8 +27,6 @@ import javax.swing.JToolBar;
 
 import org.xml.sax.SAXException;
 
-import com.sun.org.apache.bcel.internal.generic.NEW;
-
 import doc.mathobjects.MathObject;
 
 public class ObjectToolBar extends JToolBar {
