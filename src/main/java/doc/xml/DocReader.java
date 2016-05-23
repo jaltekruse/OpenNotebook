@@ -46,7 +46,7 @@ import doc.mathobjects.RegularPolygonObject;
 import doc.mathobjects.TextObject;
 import doc.mathobjects.VariableValueInsertionProblem;
 
-import sun.misc.BASE64Decoder;
+import javax.xml.bind.DatatypeConverter;
 
 public class DocReader extends DefaultHandler {
 
@@ -96,9 +96,8 @@ public class DocReader extends DefaultHandler {
 	}
 	
 	public Document readServerDoc(String doc, String docName) throws SAXException, IOException{
-		BASE64Decoder decoder = new BASE64Decoder();
-		ByteBuffer data = decoder.decodeBufferToByteBuffer(doc);
-		ByteArrayInputStream inputStream = new ByteArrayInputStream(data.array());
+		byte[] docBytes = DatatypeConverter.parseBase64Binary(doc);
+		ByteArrayInputStream inputStream = new ByteArrayInputStream(docBytes);
 		InputStreamReader reader = new InputStreamReader(inputStream);
 		return readDoc(reader, docName);
 	}
