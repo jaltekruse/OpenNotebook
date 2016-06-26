@@ -708,7 +708,7 @@ header p {
   border-radius: 0px 2px 2px 0px;
   padding-right: 10px;
 }
-#banner .button {
+.button {
   border: 1px solid #dba500;
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffe788), color-stop(100%, #ffce38));
   background: -webkit-linear-gradient(#ffe788, #ffce38);
@@ -737,7 +737,7 @@ header p {
   display: inline-block;
   text-align: center;
 }
-#banner .button:hover {
+.button:hover {
   background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #ffe788), color-stop(100%, #ffe788));
   background: -webkit-linear-gradient(#ffe788, #ffe788);
   background: -moz-linear-gradient(#ffe788, #ffe788);
