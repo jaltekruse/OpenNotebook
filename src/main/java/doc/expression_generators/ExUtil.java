@@ -110,7 +110,7 @@ public class ExUtil {
 	}
 
 	public static Vector<String> randomUniqueVarNames(int num){
-		Vector<String> varNames = new Vector<String>();
+		Vector<String> varNames = new Vector<>();
 		String varName;
 		while ( varNames.size() < num){
 			varName = randomVarName();
@@ -183,7 +183,7 @@ public class ExUtil {
 	 * @return - the modified expression
 	 */
 	public static Node randomlyAddParenthesis(Expression ex, int minNumParens,  int maxNumParens){
-		Vector<Node> terms = new Vector<Node>();
+		Vector<Node> terms = new Vector<>();
 		if ( ex.getOperator() instanceof Operator.Addition){
 			terms = ex.splitOnAddition();
 			int numParensToAdd = (int) randomInt(minNumParens, maxNumParens, true);
@@ -267,11 +267,11 @@ public class ExUtil {
 	}
 
 	public static Node randomTerm(int maxDegree, int minCoefficient, int maxCoefficient, VarList variables){
-		Vector<Node> parts = new Vector<Node>();
+		Vector<Node> parts = new Vector<>();
 		// add the coefficient
 		parts.add(new Number(randomInt(minCoefficient, maxCoefficient, true)));
 		// keep a list of the variables that have already been used
-		Vector<String> usedVars = new Vector<String>();
+		Vector<String> usedVars = new Vector<>();
 		int degree = 0;
 		while( degree < maxDegree && variables.size() > usedVars.size()){
 			

@@ -121,10 +121,10 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 			Node n = null;
 			int totalHeight = 0;
 			int greatestWidth = 0;
-			Vector<Integer> indeciesInError = new Vector<Integer>();
-			Vector<Integer> yPosOfSteps = new Vector<Integer>();
+			Vector<Integer> indeciesInError = new Vector<>();
+			Vector<Integer> yPosOfSteps = new Vector<>();
 			int currentIndex = 0;
-			Vector<RootNodeGraphic> expressions = new Vector<RootNodeGraphic>();
+			Vector<RootNodeGraphic> expressions = new Vector<>();
 
 			// add the expression
 			try {

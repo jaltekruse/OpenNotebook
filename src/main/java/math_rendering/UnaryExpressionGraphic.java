@@ -296,7 +296,7 @@ public class UnaryExpressionGraphic extends ExpressionGraphic {
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
+		Vector<NodeGraphic> children = new Vector<>();
 		children.add(childGraphic);
 		return children;
 	}

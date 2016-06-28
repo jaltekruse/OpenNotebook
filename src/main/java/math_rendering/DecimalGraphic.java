@@ -236,6 +236,6 @@ public class DecimalGraphic extends NodeGraphic<Number> {
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		return new Vector<NodeGraphic>();
+		return new Vector<>();
 	}
 }

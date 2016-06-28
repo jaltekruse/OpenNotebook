@@ -46,9 +46,9 @@ public abstract class ProblemGenerator extends Grouping implements Cloneable{
 		addAttribute(new StringAttribute(AUTHOR, false));
 		addAttribute(new DateAttribute(DATE, false));
 		addAttribute(new UUIDAttribute(UUID_STR, UUID.randomUUID(), false));
-		addList(new ListAttribute<StringAttribute>(TAGS,
+		addList(new ListAttribute<>(TAGS,
 				new StringAttribute(""), false));
-		addList(new ListAttribute<StringAttribute>(SCRIPTS,
+		addList(new ListAttribute<>(SCRIPTS,
 				new StringAttribute("")));
 	}
 

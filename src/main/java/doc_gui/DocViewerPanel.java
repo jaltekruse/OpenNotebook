@@ -106,8 +106,8 @@ public class DocViewerPanel extends JDesktopPane{
 		background = new BufferedImage(10,10, 10);
 
 		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
-		actions = new Vector<Document>();
-		undoneActions = new Vector<Document>();
+		actions = new Vector<>();
+		undoneActions = new Vector<>();
 		// add the first undo state, the blank document
 		lastAction = doc.clone();
 		//		addUndoState();
@@ -200,8 +200,8 @@ public class DocViewerPanel extends JDesktopPane{
 			notebook.getNotebookPanel().destroyDoc(doc);
 		}
 		notebook.getNotebookPanel().destroyDoc(lastAction);
-		undoneActions = new Stack<Document>();
-		actions = new Stack<Document>();
+		undoneActions = new Stack<>();
+		actions = new Stack<>();
 	}
 
 	public void addUndoState(){
@@ -211,7 +211,7 @@ public class DocViewerPanel extends JDesktopPane{
 		}
 		doc.setLastFocused(getFocusedObject());
 		lastAction = doc.clone();
-		undoneActions = new Stack<Document>();
+		undoneActions = new Stack<>();
 	}
 
 	public void undo(){

@@ -43,7 +43,7 @@ public class CartAxis extends GraphComponent{
 		int height = (int) ( g.getFontMetrics().getHeight() * (.6));
 		int numberAndAxisSpace = (int) ( 5 * graph.DOC_ZOOM_LEVEL );
 		int numberInset = (int) (1 * graph.DOC_ZOOM_LEVEL );
-		Vector<Double> yNumbers = new Vector<Double>();
+		Vector<Double> yNumbers = new Vector<>();
 
 		while (tempY <= graph.Y_MAX) 
 		{//there are still more dashes to draw
@@ -76,7 +76,7 @@ public class CartAxis extends GraphComponent{
 		// used to draw the first dash mark on the x-axis
 		double tempX = (int) (graph.X_MIN / graph.X_STEP);
 		tempX *= graph.X_STEP;
-		Vector<Double> xNumbers = new Vector<Double>();
+		Vector<Double> xNumbers = new Vector<>();
 
 		int tempWidth;
 

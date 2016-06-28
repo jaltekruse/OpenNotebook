@@ -15,7 +15,7 @@ public class VariableGenProperties {
 	
 	
 	public VariableGenProperties(){
-		attributes = new Vector<MathObjectAttribute>();
+		attributes = new Vector<>();
 	}
 	
 	private void addAttributes(){
@@ -62,7 +62,7 @@ public class VariableGenProperties {
 	}
 	
 	public void removeAllAttributes(){
-		attributes = new Vector<MathObjectAttribute>();
+		attributes = new Vector<>();
 	}
 
 }

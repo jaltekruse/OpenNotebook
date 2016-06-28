@@ -93,7 +93,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			} while ( number < 1 || number > 50);
 
 			int greatestWidth = 0, greatestHeight = 0;
-			Vector<GeneratedProblem> newProblems = new Vector<GeneratedProblem>();
+			Vector<GeneratedProblem> newProblems = new Vector<>();
 			int difficulty;
 			for (int i = 0; i < number; i++){
 				if ( i < number / 3){
@@ -286,8 +286,8 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 				getyPos() + getHeight() + bufferSpace, getWidth(), getHeight());
 		String s;
 		Node n =  null;
-		Vector<String> varNames = new Vector<String>();
-		Vector<Number> varVals = new Vector<Number>();
+		Vector<String> varNames = new Vector<>();
+		Vector<Number> varVals = new Vector<>();
 		for (StringAttribute strAtt : (Vector<StringAttribute>) getScripts().getValues()){
 			s = strAtt.getValue();
 			if (s == null || s.equals("")){

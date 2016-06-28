@@ -26,7 +26,7 @@ public class ExpressionModification {
 	Vector<NodeGraphic> expressions;
 	
 	public ExpressionModification(){
-		expressions = new Vector<NodeGraphic>();
+		expressions = new Vector<>();
 	}
 	
 	public void draw() throws NodeException{

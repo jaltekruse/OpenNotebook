@@ -55,7 +55,7 @@ public class GeneratedProblem extends Grouping {
 	}
 	
 	private void addGeneratedProblemAttibutes(){
-		addList(new ListAttribute<UUIDAttribute>(GEN_LIST,
+		addList(new ListAttribute<>(GEN_LIST,
 				new UUIDAttribute(""), 20, false, false));
 		// the next line for adding UUID_STR as an attribute was commented out
 		// it broke the JAVA based expression problem generators

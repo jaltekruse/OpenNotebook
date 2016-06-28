@@ -76,7 +76,7 @@ public class NothingGraphic extends NodeGraphic<EmptyValue> {
 
 	@Override
 	public Vector getComponents() {
-		return new Vector<NodeGraphic>();
+		return new Vector<>();
 	}
 
 }

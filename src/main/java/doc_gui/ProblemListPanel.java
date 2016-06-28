@@ -56,8 +56,8 @@ public class ProblemListPanel extends JPanel {
 
 	public ProblemListPanel(NotebookPanel notebook) {
 		notebookPanel = notebook;
-		selectedProblems = new Vector<ProblemGenerator>();
-		selectedFrequencies = new Vector<Integer>();
+		selectedProblems = new Vector<>();
+		selectedFrequencies = new Vector<>();
 		addComponentListener(new ComponentListener(){
 			@Override
 			public void componentHidden(ComponentEvent arg0) {}

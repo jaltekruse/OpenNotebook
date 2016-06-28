@@ -231,7 +231,7 @@ public void drawCursor() throws NodeException {
 
 	@Override
 	public Vector getComponents() {
-		return new Vector<NodeGraphic>();
+		return new Vector<>();
 	}
 
 }

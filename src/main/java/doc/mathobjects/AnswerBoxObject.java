@@ -36,7 +36,7 @@ public class AnswerBoxObject extends MathObject implements Gradeable<AnswerBoxOb
 	public void addDefaultAttributes() {
 		//this.addAction(GRADE);
 		addAttribute(new StringAttribute(STUDENT_ANSWER, "", true, true));
-		addList(new ListAttribute<StringAttribute>(CORRECT_ANSWERS,
+		addList(new ListAttribute<>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
 		addAttribute(new IntegerAttribute(FONT_SIZE, 12, 1, 50, true, false));
 		addAttribute(new IntegerAttribute(TOTAL_POINTS, 5, 1, 100, true, false));

@@ -342,7 +342,7 @@ public class ParenGraphic extends NodeGraphic<Node> {
 
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
+		Vector<NodeGraphic> children = new Vector<>();
 		children.add(child);
 		return children;
 	}

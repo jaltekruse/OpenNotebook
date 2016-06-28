@@ -110,8 +110,8 @@ public class RootNodeGraphic{
 		DOC_ZOOM_LEVEL = zoomLevel;
 //		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		int[] tempSize = {0, 0};
-		components = new Vector<NodeGraphic>();
-		selectedVals = new Vector<NodeGraphic>();
+		components = new Vector<>();
+		selectedVals = new Vector<>();
 		NodeGraphic temp = new DecimalGraphic(new Number(3), this);
 		temp = temp.makeNodeGraphic(n);
 		

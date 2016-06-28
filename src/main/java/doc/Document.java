@@ -103,11 +103,11 @@ public class Document {
 	private static final Random random = new Random();
 
 	public Document(String name) {
-		attributes = new Vector<MathObjectAttribute>();
-		generators = new Vector<ProblemGenerator>();
+		attributes = new Vector<>();
+		generators = new Vector<>();
 		addAttributes();
-		pages = new Vector<Page>();
-		subjectsCovered = new Vector<String>();
+		pages = new Vector<>();
+		subjectsCovered = new Vector<>();
 		getAttributeWithName(FILENAME).setValue(name);
 		pageWidth = DEFAULT_PAGE_WIDTH;
 		pageHeight = DEFAULT_PAGE_HEIGHT;
@@ -173,7 +173,7 @@ public class Document {
 
 	public Document clone() {
 		Document newDoc = new Document(new String(getName()));
-		newDoc.attributes = new Vector<MathObjectAttribute>();
+		newDoc.attributes = new Vector<>();
 		MathObject lastWithFocus = this.getLastFocused();
 		for (MathObjectAttribute mAtt : getAttributes()) {
 			newDoc.addAttribute(mAtt.clone());
@@ -311,9 +311,9 @@ public class Document {
 	}
 	
 	public void generateProblem(ProblemGenerator generator){
-		Vector<ProblemGenerator> generators = new Vector<ProblemGenerator>();
+		Vector<ProblemGenerator> generators = new Vector<>();
 		generators.add(generator);
-		Vector<Integer> frequencies = new Vector<Integer>();
+		Vector<Integer> frequencies = new Vector<>();
 		frequencies.add(100);
 		generateProblems(generators, frequencies, 1, null, false);
 	}
@@ -334,7 +334,7 @@ public class Document {
 			}
 		}
 		int j = 0;
-		Vector <GeneratedProblem> newProblems = new Vector <GeneratedProblem>(numberOfProblems);
+		Vector <GeneratedProblem> newProblems = new Vector<>(numberOfProblems);
 		for (int i = 0; j < numberOfProblems; j++, i++) {
 			if ( i < numberOfProblems / 3){
 				newProblems.add(generators.get(pickRandomIndex(frequencies))
@@ -480,7 +480,7 @@ public class Document {
 	}
 
 	private Vector<ObjectAndPosition> getProblemNumbersInOrder(){
-		Vector<ObjectAndPosition> allNumbers = new Vector<ObjectAndPosition>();
+		Vector<ObjectAndPosition> allNumbers = new Vector<>();
 		for ( Page p : getPages()){
 			for (MathObject mObj : p.getObjects()){
 				if ( mObj instanceof ProblemNumberObject){
@@ -518,7 +518,7 @@ public class Document {
 	}
 
 	private Vector<ObjectAndPosition> findAllProblemNumbersInGroup(Grouping g){
-		Vector<ObjectAndPosition> allNumbers = new Vector<ObjectAndPosition>();
+		Vector<ObjectAndPosition> allNumbers = new Vector<>();
 		for (MathObject mObj : g.getObjects()){
 			if ( mObj instanceof ProblemNumberObject){
 				allNumbers.add(new ObjectAndPosition(mObj.getPositionInDoc(), mObj));
@@ -745,7 +745,7 @@ public class Document {
 	}
 
 	public void removeAllPages() {
-		pages = new Vector<Page>();
+		pages = new Vector<>();
 	}
 
 }

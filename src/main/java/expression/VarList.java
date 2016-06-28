@@ -15,8 +15,8 @@ public class VarList {
 	private Vector<Number> identifierValues;
 
 	public VarList(){
-		identifiersWithValues = new Vector<String>();
-		identifierValues = new Vector<Number>();
+		identifiersWithValues = new Vector<>();
+		identifierValues = new Vector<>();
 	}
 	
 	public void setIdentifierValue(String s, Number n){

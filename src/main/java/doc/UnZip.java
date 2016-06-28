@@ -50,9 +50,9 @@ public class UnZip {
 		//get the zipped file list entry
 		Enumeration<? extends ZipEntry> zes = zipFile.entries();
 		ZipEntry ze = null;
-		List<String> studentDocNames = new ArrayList<String>();
+		List<String> studentDocNames = new ArrayList<>();
 
-		List<Document> docs = new ArrayList<Document>();
+		List<Document> docs = new ArrayList<>();
 		while(zes.hasMoreElements()){
 			ze = zes.nextElement();
 			String fileName = ze.getName();
@@ -73,13 +73,13 @@ public class UnZip {
 		Document resultDoc = new Document("Student Summary");
 		resultDoc.addBlankPage();
 
-		List<List<MathObject>> incorrectWork = new ArrayList<List<MathObject>>();
-		List<List<MathObject>> allStudentWork = new ArrayList<List<MathObject>>();
+		List<List<MathObject>> incorrectWork = new ArrayList<>();
+		List<List<MathObject>> allStudentWork = new ArrayList<>();
 
 		List<List<String>> answers = getAnswers(key);
 		for (int i = 0; i < docs.get(0).getPages().size(); i++) {
-			List<MathObject> allStudentWorkForOneProblem = new ArrayList<MathObject>();
-			List<MathObject> allIncorrectStudentWorkForOneProblem = new ArrayList<MathObject>();
+			List<MathObject> allStudentWorkForOneProblem = new ArrayList<>();
+			List<MathObject> allIncorrectStudentWorkForOneProblem = new ArrayList<>();
 			for (Document doc : docs) {
 				if (doc == null) continue;
 				Page p = doc.getPage(i);
@@ -174,7 +174,7 @@ public class UnZip {
 	public static List<Document> generateStudentFeedbackDocs(List<String> studentFeedbackDocNames,
 																													 List<List<MathObject>> allStudentWorkAndFeedback) {
 		int studentIndex;
-		List<Document> studentDocs = new ArrayList<Document>();
+		List<Document> studentDocs = new ArrayList<>();
 		for (String s : studentFeedbackDocNames) {
 			studentDocs.add(new Document(s));
 		}
@@ -193,7 +193,7 @@ public class UnZip {
 	}
 
 	private List<List<String>> getAnswers(Document doc) {
-		List<List<String>> answers = new ArrayList<List<String>>();
+		List<List<String>> answers = new ArrayList<>();
 		for (Page p : doc.getPages()) {
 			for (MathObject mObj : p.getObjects()) {
 				// TODO - options for, answer must be one of many, or some subset of a list of answers
@@ -210,9 +210,9 @@ public class UnZip {
 	}
 
 	private List<String> getStudentAnswers(Page p) {
-		List<String> answers = new ArrayList<String>();
+		List<String> answers = new ArrayList<>();
 		// pull answers out of expression based work, unless there is an answer box
-		List<String> expressionAnswers = new ArrayList<String>();
+		List<String> expressionAnswers = new ArrayList<>();
 		for (MathObject mObj : p.getObjects()) {
 			getStudentAnswers(mObj, expressionAnswers, answers);
 		}
@@ -243,7 +243,7 @@ public class UnZip {
 	}
 
 	private List<String> convertToBareStringArray(List<? extends MathObjectAttribute> values) {
-		List<String> outVals = new ArrayList<String>();
+		List<String> outVals = new ArrayList<>();
 		for ( MathObjectAttribute mAtt : values) {
 			// TODO type safety
 			outVals.add((String)mAtt.getValue());

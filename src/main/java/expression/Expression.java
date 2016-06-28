@@ -32,7 +32,7 @@ public class Expression extends Node {
     }
 
 	public Expression(Operator o, Node... children) {
-		Vector<Node> v = new Vector<Node>();
+		Vector<Node> v = new Vector<>();
 		for (Node c : children) {
 			v.add(c);
 		}
@@ -41,7 +41,7 @@ public class Expression extends Node {
 	}
 	
 	public Expression(Operator o, Double... children){
-		Vector<Node> v = new Vector<Node>();
+		Vector<Node> v = new Vector<>();
 		for (Double c : children) {
 			v.add(new Number(c));
 		}
@@ -56,7 +56,7 @@ public class Expression extends Node {
 	
 	public Expression(Operator o){
 		setOperator(o);
-		Vector<Node> v = new Vector<Node>();
+		Vector<Node> v = new Vector<>();
 		setChildren(v);
 	}
 
@@ -99,7 +99,7 @@ public class Expression extends Node {
 
 	@Override
 	public Expression cloneNode() throws NodeException {
-		Vector<Node> clone = new Vector<Node>();
+		Vector<Node> clone = new Vector<>();
 		for (Node child : children)
 			clone.add(child.cloneNode());
 		Expression e = new Expression(o.clone(), clone);
@@ -121,7 +121,7 @@ public class Expression extends Node {
 
 	@Override
 	public Node replace(Identifier identifier, Node node) {
-		Vector<Node> newChildren = new Vector<Node>();
+		Vector<Node> newChildren = new Vector<>();
 		for (Node c : children) {
 			newChildren.add(c.replace(identifier, node));
 		}
@@ -134,8 +134,8 @@ public class Expression extends Node {
 
 	@Override
 	public Node numericSimplify() throws NodeException {
-		Vector<Node> simplifiedChildren = new Vector<Node>();
-		Vector<Number> numbers = new Vector<Number>();
+		Vector<Node> simplifiedChildren = new Vector<>();
+		Vector<Number> numbers = new Vector<>();
 		Node simplified;
 		boolean totallyNumeric = true;
 		for (Node c : children) {
@@ -183,7 +183,7 @@ public class Expression extends Node {
 				|| getOperator() instanceof Operator.Subtraction
 				|| (n instanceof Expression && (((Expression) n).getOperator() instanceof Operator.Addition || ((Expression) n)
 						.getOperator() instanceof Operator.Subtraction))) {
-			Vector<Node> terms = new Vector<Node>();
+			Vector<Node> terms = new Vector<>();
 			for (Node node : splitOnAddition()) {
 				for (Node n2 : n.splitOnAddition()) {
 					terms.add(node.multiplyByNode(n2));
@@ -191,7 +191,7 @@ public class Expression extends Node {
 			}
 			return staggerAddition(terms);
 		} else {
-			Vector<Node> newChildren = new Vector<Node>();
+			Vector<Node> newChildren = new Vector<>();
 			if (n instanceof Expression
 					&& !(((Expression) n).getOperator() instanceof Operator.Multiplication)) {
 				n.setDisplayParentheses(true);
@@ -219,11 +219,11 @@ public class Expression extends Node {
 		Node simplifiedNode = numericSimplify();
 		Vector<Node> addends = simplifiedNode.splitOnAddition();
 		if (addends.size() > 1) {
-			Vector<Node> simplified = new Vector<Node>();
+			Vector<Node> simplified = new Vector<>();
 			for (Node addend : addends) {
 				simplified.add(addend.smartNumericSimplify());
 			}
-			Vector<Node> numbers = new Vector<Node>();
+			Vector<Node> numbers = new Vector<>();
 			Node addend;
 			for (int i = simplified.size() - 1; i >= 0; i--) {
 				addend = simplified.get(i);
@@ -294,11 +294,11 @@ public class Expression extends Node {
 				}
 				factors = newNode.splitOnMultiplication();
 			}
-			Vector<Node> simplified = new Vector<Node>();
+			Vector<Node> simplified = new Vector<>();
 			for (Node factor : factors) {
 				simplified.add(factor.smartNumericSimplify());
 			}
-			Vector<Node> numbers = new Vector<Node>();
+			Vector<Node> numbers = new Vector<>();
 			Node addend;
 			for (int i = simplified.size() - 1; i >= 0; i--) {
 				addend = simplified.get(i);
@@ -337,7 +337,7 @@ public class Expression extends Node {
 			return new Expression(new Operator.Exponent(), base, exponent);
 		}
 
-		Vector<Node> simplifiedChildren = new Vector<Node>();
+		Vector<Node> simplifiedChildren = new Vector<>();
 		for (Node child : children)
 			simplifiedChildren.add(child.smartNumericSimplify());
 		return (new Expression(o.clone(), simplifiedChildren))
@@ -347,9 +347,9 @@ public class Expression extends Node {
 	@Override
 	public Node collectLikeTerms() throws NodeException {
 		Vector<Node> split = splitOnAddition();
-		Vector<Node> terms = new Vector<Node>();
+		Vector<Node> terms = new Vector<>();
 		if (split.size() == 1) {
-			Vector<Node> args = new Vector<Node>();
+			Vector<Node> args = new Vector<>();
 			for (Node c : children)
 				args.add(c.collectLikeTerms());
 			return new Expression(o.clone(), true, args);
@@ -358,25 +358,25 @@ public class Expression extends Node {
 		for (Node n : split)
 			terms.add(n.collectLikeTerms()); // THIS is the recursion part
 
-		Vector<Vector<Node>> expandedTerms = new Vector<Vector<Node>>();
+		Vector<Vector<Node>> expandedTerms = new Vector<>();
 		Vector<Node> factors;
 		Vector<Node> collectedFactors;
 		for (Node term : terms) {
 			factors = term.splitOnMultiplication();
-			collectedFactors = new Vector<Node>();
+			collectedFactors = new Vector<>();
 			for (Node f : factors) {
 				collectedFactors.add(f.cloneNode());
 			}
 			expandedTerms.add(collectedFactors);
 		}
 
-		Vector<Node> additionChildren = new Vector<Node>();
+		Vector<Node> additionChildren = new Vector<>();
 
 		Node likeTerm = findDuplicate(expandedTerms);
 		while (likeTerm != null) {
-			Vector<Vector<Node>> commonTerms = new Vector<Vector<Node>>();
+			Vector<Vector<Node>> commonTerms = new Vector<>();
 			Vector<Node> expandedTerm;
-			Vector<Integer> termsToRemove = new Vector<Integer>();
+			Vector<Integer> termsToRemove = new Vector<>();
 			for (int i = 0; i < terms.size(); i++) {
 				expandedTerm = expandedTerms.get(i);
 				boolean addedThisTerm = false;
@@ -398,7 +398,7 @@ public class Expression extends Node {
 			}
 
 			// now commonTerms contains all nodes with a factor of likeTerm
-			Vector<Node> combinedTerms = new Vector<Node>();
+			Vector<Node> combinedTerms = new Vector<>();
 			for (Vector<Node> commonTerm : commonTerms) {
 				commonTerm.remove(likeTerm);
 				combinedTerms.add(staggerMultiplication(commonTerm));
@@ -454,11 +454,11 @@ public class Expression extends Node {
 		Vector<Node> terms = splitOnAddition();
 
 		if (terms.size() > 1) {
-			Vector<Node> formattedTerms = new Vector<Node>();
+			Vector<Node> formattedTerms = new Vector<>();
 			for (Node term : terms) {
 				formattedTerms.add(term.standardFormat());
 			}
-			Vector<Vector<Node>> expandedTerms = new Vector<Vector<Node>>();
+			Vector<Vector<Node>> expandedTerms = new Vector<>();
 			for (Node term : formattedTerms) {
 				expandedTerms.add(term.splitOnMultiplication());
 			}
@@ -491,7 +491,7 @@ public class Expression extends Node {
 			Vector<Integer> indices = sortIntegersAs(formattedTerms,
 					Node.getStandardComparator());
 
-			Vector<Node> sortedTerms = new Vector<Node>();
+			Vector<Node> sortedTerms = new Vector<>();
 			boolean[] sortedSubtraction = new boolean[subtraction.length];
 
 			for (int i = 0; i < indices.size(); i++) {
@@ -564,7 +564,7 @@ public class Expression extends Node {
 			return product;
 		}
 
-		Vector<Node> formattedChildren = new Vector<Node>();
+		Vector<Node> formattedChildren = new Vector<>();
 		for (Node child : children) {
 			formattedChildren.add(child.standardFormat());
 		}
@@ -606,7 +606,7 @@ public class Expression extends Node {
 
 	private static <E> Vector<Integer> sortIntegersAs(List<E> list,
 			Comparator<E> comparator) {
-		Vector<Integer> indices = new Vector<Integer>();
+		Vector<Integer> indices = new Vector<>();
 		for (int i = 0; i < list.size(); i++) {
 			indices.add(i);
 		}
@@ -670,7 +670,7 @@ public class Expression extends Node {
 	}
 
 	public Node divideByNode(Node n) {
-		Vector<Node> newChildren = new Vector<Node>();
+		Vector<Node> newChildren = new Vector<>();
 		if (n instanceof Expression) {
 			n.setDisplayParentheses(true);
 		}
@@ -688,14 +688,14 @@ public class Expression extends Node {
 
 	@Override
 	public Vector<Node> splitOnAddition() {
-		Vector<Node> terms = new Vector<Node>();
+		Vector<Node> terms = new Vector<>();
 		if (o instanceof Operator.Addition) {
 			terms.addAll(children.get(0).splitOnAddition());
 			terms.addAll(children.get(1).splitOnAddition());
 		} else if (o instanceof Operator.Subtraction) {
 			terms.addAll(children.get(0).splitOnAddition());
 			Vector<Node> subtracted = children.get(1).splitOnAddition();
-			Vector<Node> negativeTerms = new Vector<Node>();
+			Vector<Node> negativeTerms = new Vector<>();
 			for (Node s : subtracted) {
 				negativeTerms.add(new Expression(new Operator.Negation(), s));
 			}
@@ -737,7 +737,7 @@ public class Expression extends Node {
 					"Operation must be addition, subtraction, division or multiplication.");
 		}
 
-		Vector<Node> exChildren = new Vector<Node>();
+		Vector<Node> exChildren = new Vector<>();
 		exChildren.add(newLeft);
 		exChildren.add(newRight);
 		ex.setChildren(exChildren);
@@ -746,14 +746,14 @@ public class Expression extends Node {
 
 	@Override
 	public Vector<Node> splitOnMultiplication() {
-		Vector<Node> factors = new Vector<Node>();
+		Vector<Node> factors = new Vector<>();
 		if (o instanceof Operator.Multiplication) {
 			factors.addAll(children.get(0).splitOnMultiplication());
 			factors.addAll(children.get(1).splitOnMultiplication());
 		} else if (o instanceof Operator.Division) {
 			factors.addAll(children.get(0).splitOnMultiplication());
 			Vector<Node> divided = children.get(1).splitOnMultiplication();
-			Vector<Node> reciprocalFactors = new Vector<Node>();
+			Vector<Node> reciprocalFactors = new Vector<>();
 			for (Node d : divided) {
 				reciprocalFactors.add(new Expression(new Operator.Division(),
 						Number.get(1), d));

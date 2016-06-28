@@ -36,14 +36,14 @@ public abstract class Value extends Node {
 	
 	@Override
 	public Vector<Node> splitOnAddition() {
-		Vector<Node> v = new Vector<Node>();
+		Vector<Node> v = new Vector<>();
 		v.add(this);
 		return v;
 	}
 	
 	@Override
 	public Vector<Node> splitOnMultiplication() {
-		Vector<Node> v = new Vector<Node>();
+		Vector<Node> v = new Vector<>();
 		v.add(this);
 		return v;
 	}

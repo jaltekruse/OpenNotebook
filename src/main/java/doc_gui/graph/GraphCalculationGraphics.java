@@ -35,10 +35,10 @@ public class GraphCalculationGraphics extends GraphComponent {
 	public GraphCalculationGraphics(Graph g) {
 		super(g);
 //		copyIcon = graph.getMainApplet().getImage("smallCopy.png");
-		derivatives = new Vector<Derivative>();
-		tracers = new Vector<Tracer>();
-		integrals = new Vector<Integral>();
-		calcInfoBoxes = new Vector<CalcInfoBox>();
+		derivatives = new Vector<>();
+		tracers = new Vector<>();
+		integrals = new Vector<>();
+		calcInfoBoxes = new Vector<>();
 	}
 	
 	public void addDerivative(Derivative d){

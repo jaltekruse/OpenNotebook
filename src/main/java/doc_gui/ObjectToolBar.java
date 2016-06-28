@@ -36,7 +36,7 @@ public class ObjectToolBar extends JToolBar {
 	// parallel array with the referenced list of objects in MathObject
 	private ImageSwitcherButton[] objectButtons = new ImageSwitcherButton[MathObject.objects.length];
 	private static ImageSwitcherButton lastHit;
-	private static Vector<ObjectToolBar> allToolBars = new Vector<ObjectToolBar>();
+	private static Vector<ObjectToolBar> allToolBars = new Vector<>();
 
 	public ObjectToolBar(NotebookPanel p) {
 		notebookPanel = p;

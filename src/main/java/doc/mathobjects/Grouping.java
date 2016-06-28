@@ -25,21 +25,21 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			OBJECTS = "objects";
 
 	public Grouping(){
-		objectBounds = new Vector<DecimalRectangle>();
+		objectBounds = new Vector<>();
 		addGroupAttributes();
 		addGroupActions();
 	}
 
 	public Grouping(MathObjectContainer p, int x, int y, int w, int h) {
 		super(p, x, y, w, h);
-		objectBounds = new Vector<DecimalRectangle>();
+		objectBounds = new Vector<>();
 		addGroupAttributes();
 		addGroupActions();
 	}
 
 	public Grouping(MathObjectContainer p){
 		super(p);
-		objectBounds = new Vector<DecimalRectangle>();
+		objectBounds = new Vector<>();
 		addGroupAttributes();
 		addGroupActions();
 	}
@@ -156,7 +156,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 
 		}
 		else if (s.equals(DISTRIBUTE_VERTICALLY)){
-			Vector<MathObject> orderedObjects = new Vector<MathObject>();
+			Vector<MathObject> orderedObjects = new Vector<>();
 			int i;
 			int totalHeight = 0;
 			for ( MathObject mObj : getObjects()){
@@ -180,7 +180,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			adjustSizeToFitChildren();
 		}
 		else if (s.equals(DISTRIBUTE_HORIZONTALLY)){
-			Vector<MathObject> orderedObjects = new Vector<MathObject>();
+			Vector<MathObject> orderedObjects = new Vector<>();
 			int i;
 			int totalWidth = 0;
 			for ( MathObject mObj : getObjects()){
@@ -363,7 +363,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	public void adjustSizeToFitChildren(){
 		Vector<MathObject> temp = getObjects();
 		setObjects(new Vector<MathObject>());
-		objectBounds = new Vector<DecimalRectangle>();
+		objectBounds = new Vector<>();
 		for (MathObject mObj : temp){
 			mObj.setParentContainer(null);
 			addObjectFromPage(mObj);
@@ -416,7 +416,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 			//the new object that was outside of the groups bounds
 			Vector<MathObject> oldObjects = getObjects();
 			setObjects(new Vector<MathObject>());
-			objectBounds = new Vector<DecimalRectangle>();
+			objectBounds = new Vector<>();
 
 			//add additional height or width to the group if the object is outside
 
@@ -524,7 +524,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 	@Override
 	public boolean removeAllObjects() {
 		getObjects().removeAllElements();
-		objectBounds = new Vector<DecimalRectangle>();
+		objectBounds = new Vector<>();
 		return true;
 	}
 
