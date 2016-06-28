@@ -37,6 +37,8 @@ import doc.mathobjects.TriangleObject;
 
 public class OldReader extends DefaultHandler {
 
+	public static final String VALUE = "value";
+	public static final String NAME = "name";
 	private Document doc;
 	private Page page;
 	private Grouping group;
@@ -187,24 +189,24 @@ public class OldReader extends DefaultHandler {
 		boolean justAddedAttribute = false;
 
 		if (qName.equals("BooleanAttribute")){
-			mAtt = new BooleanAttribute(atts.getValue("name"));
+			mAtt = new BooleanAttribute(atts.getValue(NAME));
 			justAddedAttribute = true;
 		}
 		else if (qName.equals("DoubleAttribute")){
-			mAtt = new DoubleAttribute(atts.getValue("name"));
+			mAtt = new DoubleAttribute(atts.getValue(NAME));
 			justAddedAttribute = true;
 		}
 		else if (qName.equals("GridPointAttribute")){
-			mAtt = new GridPointAttribute(atts.getValue("name"));
+			mAtt = new GridPointAttribute(atts.getValue(NAME));
 			justAddedAttribute = true;
 		}
 		else if (qName.equals("IntegerAttribute")){
-			mAtt = new IntegerAttribute(atts.getValue("name"));
+			mAtt = new IntegerAttribute(atts.getValue(NAME));
 			justAddedAttribute = true;
 
 		}
 		else if (qName.equals("StringAttribute")){
-			mAtt = new StringAttribute(atts.getValue("name"));
+			mAtt = new StringAttribute(atts.getValue(NAME));
 			justAddedAttribute = true;
 
 		}
@@ -218,7 +220,7 @@ public class OldReader extends DefaultHandler {
 		}
 		if (justAddedAttribute){
 			try {
-				mAtt.setValueWithString(atts.getValue("value"));
+				mAtt.setValueWithString(atts.getValue(VALUE));
 				mObj.addAttribute(mAtt);
 				mObj.setAttributeValue(mAtt.getName(), mAtt.getValue());
 			} catch (AttributeException e) {
@@ -226,8 +228,8 @@ public class OldReader extends DefaultHandler {
 					System.out.println(e.getMessage());
 				}
 				hadAttributeError = true;
-				attributeNameInError = atts.getValue("name");
-				attributeValueInError = atts.getValue("value");
+				attributeNameInError = atts.getValue(NAME);
+				attributeValueInError = atts.getValue(VALUE);
 				objectWithError = mObj.getClass().getSimpleName();
 				justAddedAttribute = false;
 				return;
@@ -240,8 +242,8 @@ public class OldReader extends DefaultHandler {
 				}
 			}
 			hadAttributeError = true;
-			attributeNameInError = atts.getValue("name");
-			attributeValueInError = atts.getValue("value");
+			attributeNameInError = atts.getValue(NAME);
+			attributeValueInError = atts.getValue(VALUE);
 			objectWithError = mObj.getClass().getSimpleName();
 			justAddedAttribute = false;
 			return;

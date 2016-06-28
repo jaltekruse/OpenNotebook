@@ -20,6 +20,7 @@ import expression.Operator;
 public class VariableValueInsertionProblem extends ProblemGenerator {
 
 	private static final int bufferSpace = 20;
+	public static final String ERROR = "Error";
 	// store the parent document, allows access to document attributes from problems that
 	// are in the list of generators but not on the page
 
@@ -81,13 +82,13 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 					if (number < 1 || number > 50){
 						JOptionPane.showMessageDialog(null,
 								"Input must be an integer between 1 and 50",
-								"Error",
+								ERROR,
 								JOptionPane.ERROR_MESSAGE);
 					}
 				} catch ( Exception e){
 					JOptionPane.showMessageDialog(null,
 							"Input must be an integer between 1 and 50",
-							"Error",
+							ERROR,
 							JOptionPane.ERROR_MESSAGE);
 				}
 			} while ( number < 1 || number > 50);
@@ -322,7 +323,7 @@ public class VariableValueInsertionProblem extends ProblemGenerator {
 			} catch (NodeException e) {
 				JOptionPane.showMessageDialog(null,
 						"Error generating a problem, check scripts.",
-						"Error",
+						ERROR,
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}

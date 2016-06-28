@@ -62,6 +62,8 @@ import doc_gui.attribute_panels.ObjectPropertiesFrame;
 
 public class OpenNotebook extends JApplet {
 
+	public static final String ERROR = "Error";
+
 	public enum Mode {
 		STUDENT,
 		GRADING,
@@ -178,7 +180,7 @@ public class OpenNotebook extends JApplet {
 	}
 
 	public static void makeErrorDialog(String s) {
-		JOptionPane.showMessageDialog(null, s, "Error",
+		JOptionPane.showMessageDialog(null, s, ERROR,
 				JOptionPane.ERROR_MESSAGE);
 	}
 
@@ -361,7 +363,7 @@ public class OpenNotebook extends JApplet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,
-					"Error opening problem databse.", "Error",
+					"Error opening problem databse.", ERROR,
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -388,7 +390,7 @@ public class OpenNotebook extends JApplet {
 			}
 
 			JOptionPane.showMessageDialog(null,
-					"Error saving problem database.", "Error",
+					"Error saving problem database.", ERROR,
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}

@@ -30,6 +30,7 @@ import expression.Number;
 
 public class RootNodeGraphic{
 
+	public static final String SANS_SERIF = "SansSerif";
 	NodeGraphic root;
 	
 	int xSize, ySize;
@@ -53,8 +54,8 @@ public class RootNodeGraphic{
 	public RootNodeGraphic(Node n){
 		this.n = n;
 		cursor = new Cursor();
-		bigFont =  new Font("SansSerif", 0, defaultBigFontSize);
-		smallFont = new Font("SansSerif", 0, (int) (defaultBigFontSize * (4.0/5)) );
+		bigFont =  new Font(SANS_SERIF, 0, defaultBigFontSize);
+		smallFont = new Font(SANS_SERIF, 0, (int) (defaultBigFontSize * (4.0/5)) );
 	}
 	
 	public float getFontSizeAdjustment(){
@@ -105,8 +106,8 @@ public class RootNodeGraphic{
 		yPos = y1;
 		graphics = (Graphics2D)g;
 		bigFontSize = fontSize;
-		bigFont =  new Font("SansSerif", 0, bigFontSize);
-		smallFont = new Font("SansSerif", 0, (int) (bigFontSize * (3.0/4)));
+		bigFont =  new Font(SANS_SERIF, 0, bigFontSize);
+		smallFont = new Font(SANS_SERIF, 0, (int) (bigFontSize * (3.0/4)));
 		DOC_ZOOM_LEVEL = zoomLevel;
 //		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		int[] tempSize = {0, 0};
@@ -129,8 +130,8 @@ public class RootNodeGraphic{
         yPos = y1;
         graphics = (Graphics2D)g;
         bigFontSize = fontSize;
-        bigFont =  new Font("SansSerif", 0, bigFontSize);
-        smallFont = new Font("SansSerif", 0, (int) (bigFontSize * (3.0/4)));
+        bigFont =  new Font(SANS_SERIF, 0, bigFontSize);
+        smallFont = new Font(SANS_SERIF, 0, (int) (bigFontSize * (3.0/4)));
         DOC_ZOOM_LEVEL = zoomLevel;
         int[] ret = root.requestSize(g, bigFont, x1, y1);
         return ret;
