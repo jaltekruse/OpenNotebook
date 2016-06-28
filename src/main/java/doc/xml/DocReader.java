@@ -277,7 +277,7 @@ public class DocReader extends DefaultHandler {
 					return;
 				}
 
-				if ( containerStack.size() > 0)
+				if (!containerStack.isEmpty())
 				{// if an object tag was found in a group, there is an object in a group
 					if (mObj != null){
 						objectsInGroup.get(objectsInGroup.size() - 1 ).add(mObj);
@@ -329,7 +329,7 @@ public class DocReader extends DefaultHandler {
 		}
 		else{
 			justAddedAttribute = false;
-			if (containerStack.size() > 0 && mObj == containerStack.get(containerStack.size() - 1)){
+			if (!containerStack.isEmpty() && mObj == containerStack.get(containerStack.size() - 1)){
 				return false;
 			}
 			if (DEBUG){

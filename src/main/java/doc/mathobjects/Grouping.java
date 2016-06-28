@@ -379,7 +379,7 @@ public class Grouping extends MathObject implements MathObjectContainer{
 		{// cannot add object from another page
 			return false;
 		}
-		if (getObjects().size() == 0){
+		if (getObjects().isEmpty()){
 			setWidth(mObj.getWidth());
 			setHeight(mObj.getHeight());
 			setxPos(mObj.getxPos());

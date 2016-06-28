@@ -296,7 +296,7 @@ public class Document {
 	public PointInDocument findFirstWhitespace() {
 		Page lastPageWithStuff = getPage(0);
 		for (Page p : getPages()) {
-			if (p.getObjects().size() > 0) {
+			if (!p.getObjects().isEmpty()) {
 				lastPageWithStuff = p;
 			}
 		}

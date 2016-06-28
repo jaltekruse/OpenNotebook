@@ -289,7 +289,7 @@ public class ExpressionObject extends MathObject {
 		try{
 			String expression = ((StringAttribute)getAttributeWithName(EXPRESSION)).getValue();
 			if ( ! expression.equals("")){
-				if ( getListWithName(STEPS).getValues().size() == 0){
+				if (getListWithName(STEPS).getValues().isEmpty()){
 					n = Node.parseNode( ((StringAttribute)getAttributeWithName(EXPRESSION)).getValue());
 				}
 				else{
@@ -414,7 +414,7 @@ public class ExpressionObject extends MathObject {
 	}
 
 	public String getLastStep(){
-		if ( getListWithName(STEPS).getValues().size() == 0){
+		if (getListWithName(STEPS).getValues().isEmpty()){
 			return ((StringAttribute)getAttributeWithName(EXPRESSION)).getValue();
 		}
 		else{

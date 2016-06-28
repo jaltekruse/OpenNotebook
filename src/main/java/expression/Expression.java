@@ -232,7 +232,7 @@ public class Expression extends Node {
 					simplified.remove(i);
 				}
 			}
-			if (numbers.size() > 0)
+			if (!numbers.isEmpty())
 				simplified.add(staggerAddition(numbers).numericSimplify());
 			if (simplified.contains(Number.get(0))) {
 				simplified.remove(Number.get(0));

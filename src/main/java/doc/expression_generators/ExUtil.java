@@ -340,7 +340,7 @@ public class ExUtil {
 		}
 
 		if ( ex.getOperator() instanceof Operator.BinaryOperator){
-			if ( ex.getChildren().size() == 0 || ex.getChild(0) == null)
+			if (ex.getChildren().isEmpty() || ex.getChild(0) == null)
 			{ // there are no children added yet (this is the first operand of a binary operator) 
 
 				if ( n instanceof Expression ){

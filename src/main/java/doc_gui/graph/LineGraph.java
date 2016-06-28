@@ -71,7 +71,7 @@ public class LineGraph extends SingleGraph {
 		}
 
 		double lastX = 0, lastY = 0, currX = 0, currY = 0;
-		if ( linePoints.size() > 0){
+		if (!linePoints.isEmpty()){
 			lastX = linePoints.get(0).getx();
 			lastY = linePoints.get(0).gety();
 		}

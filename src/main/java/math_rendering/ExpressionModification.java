@@ -40,7 +40,7 @@ public class ExpressionModification {
 	}
 	
 	public int getHeight(){
-		if (expressions.size() > 0){
+		if (!expressions.isEmpty()){
 			return expressions.get(0).getHeight();
 		}
 		return 0;

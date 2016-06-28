@@ -170,7 +170,7 @@ public class ProblemListPanel extends JPanel {
 	}
 	
 	public void generateProblems(){
-		if ( selectedProblems.size() == 0){
+		if (selectedProblems.isEmpty()){
 			JOptionPane.showMessageDialog(null,
 					"No problems are selected.",
 					"Error",
@@ -442,7 +442,7 @@ public class ProblemListPanel extends JPanel {
 			for (   ; i < problem.getTags().getValues().size() - 1; i++){
 				tags += problem.getTags().getValue(i).getValue() + ", ";
 			}
-			if ( problem.getTags().getValues().size() > 0){
+			if (!problem.getTags().getValues().isEmpty()){
 				tags += problem.getTags().getValue(i).getValue();
 			}
 			label = new JLabel(tags);

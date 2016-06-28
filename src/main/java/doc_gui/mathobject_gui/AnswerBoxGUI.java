@@ -32,7 +32,7 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 		// although useful whitespace will likely not coming at the very beginning or very end
 		// of an answer
 		List<? extends MathObjectAttribute> correctAnswers = object.getListWithName(AnswerBoxObject.CORRECT_ANSWERS).getValues();
-		if ( ! object.getStudentAnswer().trim().equals("") || correctAnswers.size() > 0){
+		if ( ! object.getStudentAnswer().trim().equals("") || !correctAnswers.isEmpty()){
 			Font f = g.getFont();
 			g.setColor(new Color(150, 210, 255));
 			g.fillRect(sap.getxOrigin(), sap.getyOrigin(), sap.getWidth(), sap.getHeight());
@@ -42,7 +42,7 @@ public class AnswerBoxGUI extends MathObjectGUI<AnswerBoxObject> {
 				message += mAtt.getValue().toString() + ";";
 			}
 			message = message.substring(0, message.length() - 1);
-			if (message.length() == 0) {
+			if (message.isEmpty()) {
 				// cannot have an empty string in AttributedString
 				message = " ";
 			}
