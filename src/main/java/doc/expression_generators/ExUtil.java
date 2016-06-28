@@ -49,7 +49,7 @@ public class ExUtil {
 		int numOps;
 
 		for (int j = 0; j < numTrials; j++){
-			numOps = (int) randomInt(minNumOps, maxNumOps, false);
+			numOps = randomInt(minNumOps, maxNumOps, false);
 			Node n = randomExpression(ops, vars, numOps, maxAbsVal, minGeneratedVal, 
 					maxGeneratedVal, true, false, false, true);
 			try {
@@ -137,10 +137,10 @@ public class ExUtil {
 		double[] nums = new double[2];
 		while (sum > maxSum)
 		{
-			index = (int) ExUtil.randomInt(0, easyNumbers.length - 1, false);
-			sub_index = (int) ExUtil.randomInt(0, easyDivisors[index].length - 1, false);
-			sum = easyNumbers[ index ] * (int) ExUtil.randomInt(1, 4, false);
-			nums[0] = (int) ExUtil.randomInt(1, sum / easyDivisors[index][sub_index] - 1, true)
+			index = ExUtil.randomInt(0, easyNumbers.length - 1, false);
+			sub_index = ExUtil.randomInt(0, easyDivisors[index].length - 1, false);
+			sum = easyNumbers[ index ] * ExUtil.randomInt(1, 4, false);
+			nums[0] = ExUtil.randomInt(1, sum / easyDivisors[index][sub_index] - 1, true)
 					* easyDivisors[index][sub_index];
 			nums[1] = sum - nums[0];
 		}
@@ -163,8 +163,8 @@ public class ExUtil {
 		double[] nums = new double[2];
 		while (product > maxProduct)
 		{
-			index = (int) ExUtil.randomInt(0, easyNumbers.length - 1, false);
-			sub_index = (int) ExUtil.randomInt(0, easyDivisors[index].length - 1, false);
+			index = ExUtil.randomInt(0, easyNumbers.length - 1, false);
+			sub_index = ExUtil.randomInt(0, easyDivisors[index].length - 1, false);
 			product = easyNumbers[ index ] * randomInt(1, 4, false);
 			nums[0] = easyDivisors[index][sub_index];
 			nums[1] = product / nums[0];
@@ -186,7 +186,7 @@ public class ExUtil {
 		Vector<Node> terms = new Vector<Node>();
 		if ( ex.getOperator() instanceof Operator.Addition){
 			terms = ex.splitOnAddition();
-			int numParensToAdd = (int) randomInt(minNumParens, maxNumParens, true);
+			int numParensToAdd = randomInt(minNumParens, maxNumParens, true);
 			int unusedTermsLeft = terms.size();
 			int tempIndex;
 			Expression tempEx;
@@ -207,7 +207,7 @@ public class ExUtil {
 		}
 		else if ( ex.getOperator() instanceof Operator.Multiplication){
 			terms = ex.splitOnMultiplication();
-			int numParensToAdd = (int) randomInt(minNumParens, maxNumParens, true);
+			int numParensToAdd = randomInt(minNumParens, maxNumParens, true);
 			int unusedTermsLeft = terms.size();
 			int tempIndex;
 			Expression tempEx;
@@ -232,7 +232,7 @@ public class ExUtil {
 	public static Node randomPolynomial(int maxDegree, int minCoefficient, int maxCoefficient, int minNumberTerms,
 			int maxNumberTerms, VarList variables){
 		Node n = null;
-		int numTerms = (int) randomInt( minNumberTerms, maxNumberTerms, true);
+		int numTerms = randomInt( minNumberTerms, maxNumberTerms, true);
 
 		for (int i = 0; i < numTerms; i++){
 			// add a new term
@@ -620,7 +620,7 @@ public class ExUtil {
 	 */
 	public static int randomInt(int a, int b, boolean excludeZero){
 		double randVal = rand.nextDouble() * ( b - a );
-		int randNum = ( (int) (a + (int) Math.round(randVal) ) );
+		int randNum = a + (int) Math.round(randVal);
 		if ( a < 0 && b > 0 && excludeZero){
 			while ( randNum == 0){
 				randNum = ( (int) (a + rand.nextDouble() * ( b - a )) );
