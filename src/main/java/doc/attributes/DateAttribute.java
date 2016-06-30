@@ -35,7 +35,7 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 		String[] monthDayYear = s.split("/");
 		Date newDate = new Date();
 		for ( int i = 0; i < 2 ; i++){
-			if ( monthDayYear[i].length() > 2 || monthDayYear[i].length() == 0){
+			if ( monthDayYear[i].length() > 2 || monthDayYear[i].isEmpty()){
 				throw new AttributeException(DATE_MUST_BE_IN_THE_FORMAT_MM_DD_YYYY);
 			}
 		}

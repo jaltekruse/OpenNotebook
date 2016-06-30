@@ -397,9 +397,9 @@ public class NodeParser {
 				depth++;
 			if (closeBrackets.contains(expression.charAt(i) + ""))
 				depth--;
-			if ((i == 0) && (symbol.length() == 0))
+			if ((i == 0) && (symbol.isEmpty()))
 				break;
-			if (symbol.length() == 0) {
+			if (symbol.isEmpty()) {
 				thisIsNumber = Number.isNumeric(expression.charAt(i-1));
 				thisIsLetter = Identifier.isValidChar(expression.charAt(i-1));
 				lastWasNumber = Number.isNumeric(expression.charAt(i));
@@ -409,8 +409,8 @@ public class NodeParser {
 				thisIsLetter = Identifier.isValidChar(expression.charAt(i));
 			}
 			if ((depth == 0) && (i <= expression.length() - symbol.length())) {
-				if (!(lastWasEnd && (symbol.length() == 0)) 
-						&& !((i == 0) && (symbol.length() == 0)) // because this is just stupid
+				if (!(lastWasEnd && (symbol.isEmpty()))
+						&& !((i == 0) && (symbol.isEmpty())) // because this is just stupid
 						&& !(lastWasNumber && thisIsNumber) 
 						&& !(lastWasLetter && thisIsLetter && allowLongIdentifiers)) {
 					boolean inIdentifier = false;
@@ -429,7 +429,7 @@ public class NodeParser {
 						if (inIdentifier)
 							break;
 					}
-					if (symbol.length() == 0) {
+					if (symbol.isEmpty()) {
 						for (String op: unsplittableStrings) {
 							if (!symbol.contains(op)) {
 								inIdentifier = inIdentifier || indexIn(expression, i, op);
@@ -439,7 +439,7 @@ public class NodeParser {
 											inIdentifier || expression.substring(j, j+op.length()).equals(op);
 								}
 								int end = i + op.length() + 1;
-								if (symbol.length() == 0)
+								if (symbol.isEmpty())
 									end--;					// HACK
 								// also, this whole part may need to be deleted
 								if (end <= expression.length()) {

@@ -176,7 +176,7 @@ public class NotebookPanel extends SubPanel {
 
 		docTabs.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				if (openDocs.size() == 0) {
+				if (openDocs.isEmpty()) {
 					return;
 				}
 				//check to see if the user is adding a tab

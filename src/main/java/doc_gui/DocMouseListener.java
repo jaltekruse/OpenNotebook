@@ -598,7 +598,7 @@ public class DocMouseListener implements MouseInputListener {
 			}
 		}
 
-		if (collisionObjects.size() == 0) {// no objects were contacted
+		if (collisionObjects.isEmpty()) {// no objects were contacted
 			docPanel.ungroupTempGroup();
 			docPanel.setFocusedObject(null);
 			return true;
@@ -647,7 +647,7 @@ public class DocMouseListener implements MouseInputListener {
 
 		// objects were selected, that have not been added to the temp group yet
 
-		if (collisionObjects.size() > 0) {
+		if (!collisionObjects.isEmpty()) {
 			tempGroup.setParentContainer(collisionObjects.get(0)
 					.getParentContainer());
 			collisionObjects.get(0).getParentContainer().addObject(tempGroup);

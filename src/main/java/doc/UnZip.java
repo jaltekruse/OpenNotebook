@@ -87,7 +87,7 @@ public class UnZip {
 				boolean answerCorrect = false;
 				// answers were correct, hide from teacher view during grading
 				// if there are no answers the problem must be manually graded
-				if (answers.get(i).size() != 0 && studentAnswers.size() == answers.get(i).size() && studentAnswers.containsAll(answers.get(i))) {
+				if (!answers.get(i).isEmpty() && studentAnswers.size() == answers.get(i).size() && studentAnswers.containsAll(answers.get(i))) {
 					answerCorrect = true;
 				}
 				// combine together all of the content of one page into a group, it will
@@ -216,7 +216,7 @@ public class UnZip {
 		for (MathObject mObj : p.getObjects()) {
 			getStudentAnswers(mObj, expressionAnswers, answers);
 		}
-		if (answers.size() == 0 ) {
+		if (answers.isEmpty()) {
 			return expressionAnswers;
 		} else {
 			return answers;

@@ -215,7 +215,7 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	public void undo(){
-		if ( actions.size() == 0)
+		if (actions.isEmpty())
 		{// there are no more actions to undo
 			return;
 		}

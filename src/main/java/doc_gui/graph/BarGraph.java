@@ -31,7 +31,7 @@ public class BarGraph extends GraphComponent {
 
 	@Override
 	public void draw(Graphics g) throws NodeException {
-		if (values.size() == 0) {
+		if (values.isEmpty()) {
 			return;
 		}
 		int space = 20;
