@@ -50,6 +50,9 @@ import javax.xml.bind.DatatypeConverter;
 
 public class DocReader extends DefaultHandler {
 
+	public static final String NAME = "name";
+	public static final String VALUE = "value";
+	public static final String PROBLEM = "Problem";
 	private Document doc;
 	private Page page;
 	private Vector<Grouping> containerStack;
@@ -202,7 +205,7 @@ public class DocReader extends DefaultHandler {
 		else if (qName.equals(ListAttribute.LIST)){
 			if (mObj != null)
 			{// grab the list from the current object with the specified name
-				list = mObj.getListWithName(atts.getValue("name"));
+				list = mObj.getListWithName(atts.getValue(NAME));
 				if (list != null && ! overridenLists.contains(atts.getValue(ListAttribute.NAME)))
 				{// the object had a list with the given name
 					list.removeAll();
@@ -227,8 +230,8 @@ public class DocReader extends DefaultHandler {
 				return;
 			} catch (AttributeException e) {
 				hadAttributeError = true;
-				attributeNameInError = atts.getValue("name");
-				attributeValueInError = atts.getValue("value");
+				attributeNameInError = atts.getValue(NAME);
+				attributeValueInError = atts.getValue(VALUE);
 				objectWithError = mObj.getClass().getSimpleName();
 				return;
 			}
@@ -315,7 +318,7 @@ public class DocReader extends DefaultHandler {
 			boolean tr = true;
 		}
 		if (true || DEBUG){
-			System.out.println("check tag " + atts.getValue("name") + " " +
+			System.out.println("check tag " + atts.getValue(NAME) + " " +
 					"To see if it is an attribute");
 		}
 
@@ -343,29 +346,29 @@ public class DocReader extends DefaultHandler {
 			}
 			try {
 				if ( mObj instanceof GraphObject && atts.getValue(
-						"name").equalsIgnoreCase(GraphObject.EXPRESSION))
+						NAME).equalsIgnoreCase(GraphObject.EXPRESSION))
 				{// temporary fix to import documents with old graphs
 					mObj.getListWithName(GraphObject.EXPRESSIONS).removeAll();
 					mObj.getListWithName(GraphObject.EXPRESSIONS)
-					.addValueWithString(atts.getValue("value"));
+					.addValueWithString(atts.getValue(VALUE));
 					overridenLists.add(GraphObject.EXPRESSIONS);
 					return true;
 				}
 				if ( mObj instanceof GeneratedProblem && atts.getValue(
-						"name").equalsIgnoreCase(GeneratedProblem.UUID_STR))
+						NAME).equalsIgnoreCase(GeneratedProblem.UUID_STR))
 				{// temporary fix to import documents with old graphs
 					mObj.getListWithName(GeneratedProblem.GEN_LIST).removeAll();
 					mObj.getListWithName(GeneratedProblem.GEN_LIST)
-					.addValueWithString(atts.getValue("value"));
+					.addValueWithString(atts.getValue(VALUE));
 					overridenLists.add(GeneratedProblem.GEN_LIST);
 					return true;
 				}
 				if ( mObj instanceof ExpressionObject && atts.getValue(
-						"name").equalsIgnoreCase(ExpressionObject.STEPS))
+						NAME).equalsIgnoreCase(ExpressionObject.STEPS))
 				{// temporary fix to import documents with old expressions
 					mObj.getListWithName(ExpressionObject.STEPS).removeAll();
-					if ( ! atts.getValue("value").equals("")){
-						String[] steps = atts.getValue("value").split(";");
+					if ( ! atts.getValue(VALUE).equals("")){
+						String[] steps = atts.getValue(VALUE).split(";");
 						overridenLists.add(ExpressionObject.STEPS);
 						for (String s : steps){
 							mObj.getListWithName(ExpressionObject.STEPS).addValueWithString(s);
@@ -374,11 +377,11 @@ public class DocReader extends DefaultHandler {
 					return true;
 				}
 				if ( mObj instanceof VariableValueInsertionProblem && atts.getValue(
-						"name").equalsIgnoreCase(VariableValueInsertionProblem.SCRIPTS))
+						NAME).equalsIgnoreCase(VariableValueInsertionProblem.SCRIPTS))
 				{// temporary fix to import documents with old problems
 					mObj.getListWithName(VariableValueInsertionProblem.SCRIPTS).removeAll();
-					if ( ! atts.getValue("value").equals("")){
-						String[] scripts = atts.getValue("value").split(";");
+					if ( ! atts.getValue(VALUE).equals("")){
+						String[] scripts = atts.getValue(VALUE).split(";");
 						overridenLists.add(VariableValueInsertionProblem.SCRIPTS);
 						for (String s : scripts){
 							mObj.getListWithName(VariableValueInsertionProblem.SCRIPTS).addValueWithString(s);
@@ -419,8 +422,8 @@ public class DocReader extends DefaultHandler {
 				}
 			}
 			hadAttributeError = true;
-			attributeNameInError = atts.getValue("name");
-			attributeValueInError = atts.getValue("value");
+			attributeNameInError = atts.getValue(NAME);
+			attributeValueInError = atts.getValue(VALUE);
 			objectWithError = mObj.getClass().getSimpleName();
 			justAddedAttribute = false;
 			return false;
@@ -435,10 +438,10 @@ public class DocReader extends DefaultHandler {
 		}
 		if (qName.equals(MathObject.GROUPING) ||
 				qName.equals(MathObject.VAR_INSERTION_PROBLEM) ||
-				qName.equals("Problem") ||
+				qName.equals(PROBLEM) ||
 				qName.equals(MathObject.GENERATED_PROBLEM)){
 			if (qName.equals(MathObject.VAR_INSERTION_PROBLEM) ||
-					qName.equals("Problem") ||
+					qName.equals(PROBLEM) ||
 					qName.equals(MathObject.GENERATED_PROBLEM)){
 
 				if (readingGenerators ){
@@ -536,7 +539,7 @@ public class DocReader extends DefaultHandler {
 		MathObject mObj = null;
 		// DO NOT GET RID OF THIS!! IT WAS A RECENT CHANGE AND IS NEEDED TO IMPORT
 		// RECENTLY CREATED DOCUMENTS
-		if (qName.equals("Problem")){
+		if (qName.equals(PROBLEM)){
 			mObj = new VariableValueInsertionProblem();
 		}
 		return mObj;

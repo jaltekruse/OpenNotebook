@@ -38,6 +38,9 @@ import expression.Operator.Multiplication;
 
 public class ExpressionObject extends MathObject {
 
+	public static final String WARNING = "Warning";
+	public static final String ERROR = "Error";
+	public static final String ERROR_WITH_EXPRESSION = "Error with expression.";
 	public static String	COMBINE_LIKE_TERMS = "Combine like terms",
 			SIMPLIFY = "Simplify",
 			ADD_TO_BOTH_SIDES = "Add to both sides",
@@ -158,7 +161,7 @@ public class ExpressionObject extends MathObject {
 				((StringAttribute)getAttributeWithName(EXPRESSION)).getValue().equals("") ){
 			JOptionPane.showMessageDialog(null,
 					"There is no expression to work with, enter one in the box below.",
-					"Warning",
+					WARNING,
 					JOptionPane.WARNING_MESSAGE);
 			setActionCancelled(true);
 			return;
@@ -170,7 +173,7 @@ public class ExpressionObject extends MathObject {
 				return;
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
-						"Error with expression simplification", "Error",
+						"Error with expression simplification", ERROR,
 						JOptionPane.WARNING_MESSAGE);
 			}
 		}
@@ -181,7 +184,7 @@ public class ExpressionObject extends MathObject {
           return;
         } catch (Exception e) {
           JOptionPane.showMessageDialog(null,
-							"Error with combining like terms", "Error",
+							"Error with combining like terms", ERROR,
 							JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -201,7 +204,7 @@ public class ExpressionObject extends MathObject {
 			}
 			else{
 				JOptionPane.showMessageDialog(null,
-						"No steps to undo.", "Warning",
+						"No steps to undo.", WARNING,
 						JOptionPane.WARNING_MESSAGE);
 				setActionCancelled(true);
 			}
@@ -221,12 +224,12 @@ public class ExpressionObject extends MathObject {
 				}
 				if ( variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0))){
 					JOptionPane.showMessageDialog(null, "Need to enter a single letter.",
-							"Warning", JOptionPane.WARNING_MESSAGE);
+							WARNING, JOptionPane.WARNING_MESSAGE);
 				}
         foundVar = Node.parseNode(getLastStep()).containsIdentifier(variableStr);
         if ( ! foundVar) {
           JOptionPane.showMessageDialog(null, "Variable not found in expression.",
-							"Warning", JOptionPane.WARNING_MESSAGE);
+				  WARNING, JOptionPane.WARNING_MESSAGE);
         }
 			} while(variableStr.length() != 1 || ! Character.isLetter(variableStr.charAt(0)) && ! foundVar);
 
@@ -243,8 +246,8 @@ public class ExpressionObject extends MathObject {
 			} catch (Exception e) {
 				// this should not throw an error, as both the expression and the one being
 				// Substituted have both been checked for validity
-				JOptionPane.showMessageDialog(null, "Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, ERROR_WITH_EXPRESSION,
+						WARNING, JOptionPane.WARNING_MESSAGE);
 				setActionCancelled(true);
 			}
 			return;
@@ -262,8 +265,8 @@ public class ExpressionObject extends MathObject {
 				getListWithName(STEPS).addValueWithString(newNode.toStringRepresentation());
 				return;
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, "Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, ERROR_WITH_EXPRESSION,
+						WARNING, JOptionPane.WARNING_MESSAGE);
 			}
 		}
 		else if (s.equals(MANUALLY_TYPE_STEP)){
@@ -279,8 +282,8 @@ public class ExpressionObject extends MathObject {
 				return;
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null,
-						"Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						ERROR_WITH_EXPRESSION,
+						WARNING, JOptionPane.WARNING_MESSAGE);
 			}
 		}
 
@@ -299,7 +302,7 @@ public class ExpressionObject extends MathObject {
 		} catch (Exception e){
 			JOptionPane.showMessageDialog(null,
 					"Previous expression has an error.",
-					"Error",
+					ERROR,
 					JOptionPane.ERROR_MESSAGE);
 			setActionCancelled(true);
 			return;
@@ -308,7 +311,7 @@ public class ExpressionObject extends MathObject {
 			//the expression does not have an equals sign
 			JOptionPane.showMessageDialog(null,
 					"Expression requires an equal sign for that operation.",
-					"Error",
+					ERROR,
 					JOptionPane.ERROR_MESSAGE);
 			setActionCancelled(true);
 			return;
@@ -361,12 +364,12 @@ public class ExpressionObject extends MathObject {
 				getListWithName(STEPS).addValueWithString(ex.toStringRepresentation());
 			} catch (NodeException e) {
 				JOptionPane.showMessageDialog(null,
-						"Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						ERROR_WITH_EXPRESSION,
+						WARNING, JOptionPane.WARNING_MESSAGE);
 			} catch (AttributeException e) {
 				JOptionPane.showMessageDialog(null,
-						"Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						ERROR_WITH_EXPRESSION,
+						WARNING, JOptionPane.WARNING_MESSAGE);
 			}
 			return;
 		}
@@ -401,14 +404,14 @@ public class ExpressionObject extends MathObject {
 					getListWithName(STEPS).addValueWithString(ex.toStringRepresentation());
 				} catch (AttributeException e) {
 					JOptionPane.showMessageDialog(null,
-							"Error with expression.",
-							"Warning", JOptionPane.WARNING_MESSAGE);
+							ERROR_WITH_EXPRESSION,
+							WARNING, JOptionPane.WARNING_MESSAGE);
 				}
 			}
 		}catch (Exception e){
 			JOptionPane.showMessageDialog(null,
 					"Error with operation.",
-					"Error",
+					ERROR,
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}

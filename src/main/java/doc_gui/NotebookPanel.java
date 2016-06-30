@@ -62,6 +62,8 @@ import expression.NodeException;
  */
 public class NotebookPanel extends SubPanel {
 
+	public static final String WARNING = "Warning";
+	public static final String ERROR = "Error";
 	private JFileChooser fileChooser;
 	private OpenNotebook openNotebook;
 	private Vector<DocViewerPanel> openDocs;
@@ -413,7 +415,7 @@ public class NotebookPanel extends SubPanel {
 			}
 			if ( password.getText().equals("") || email.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Both fields must be filled out.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						WARNING, JOptionPane.WARNING_MESSAGE);
 				continue;
 			}
 			else{
@@ -479,7 +481,7 @@ public class NotebookPanel extends SubPanel {
 			deletePage();
 		} else {
 			JOptionPane.showMessageDialog(null,
-					"Please select a page or object first.", "Error",
+					"Please select a page or object first.", ERROR,
 					JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
@@ -652,7 +654,7 @@ public class NotebookPanel extends SubPanel {
 				return newNode;
 			} catch (NodeException e) {
 				JOptionPane.showMessageDialog(null, "Error with expression.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						WARNING, JOptionPane.WARNING_MESSAGE);
 			}
 
 		}
@@ -688,7 +690,7 @@ public class NotebookPanel extends SubPanel {
 			}
 			if ( problemName.getText().equals("")){
 				JOptionPane.showMessageDialog(null, "Name cannot be blank.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						WARNING, JOptionPane.WARNING_MESSAGE);
 				continue;
 			}
 			problem.setName(problemName.getText());
@@ -697,7 +699,7 @@ public class NotebookPanel extends SubPanel {
 				problem.setAttributeValueWithString(ProblemGenerator.DATE, date.getText());
 			} catch (AttributeException e) {
 				JOptionPane.showMessageDialog(null, "Improper date format.",
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						WARNING, JOptionPane.WARNING_MESSAGE);
 				continue;
 			}
 			problem.setDirections(directions.getText());
@@ -741,7 +743,7 @@ public class NotebookPanel extends SubPanel {
 				break;
 			}catch( Exception ex){
 				JOptionPane.showMessageDialog(null, ex.getMessage(),
-						"Warning", JOptionPane.WARNING_MESSAGE);
+						WARNING, JOptionPane.WARNING_MESSAGE);
 				continue;
 			}
 		}
@@ -868,7 +870,7 @@ public class NotebookPanel extends SubPanel {
 				}
 			}
 
-			JOptionPane.showMessageDialog(null, "Error saving file", "Error",
+			JOptionPane.showMessageDialog(null, "Error saving file", ERROR,
 					JOptionPane.ERROR_MESSAGE);
 		}
 	}
@@ -934,7 +936,7 @@ public class NotebookPanel extends SubPanel {
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null,
 					"Error opening file.",
-							"Error", JOptionPane.ERROR_MESSAGE);
+					ERROR, JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
@@ -996,7 +998,7 @@ public class NotebookPanel extends SubPanel {
             fis = new FileInputStream(f);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "File not found.", "Error",
+            JOptionPane.showMessageDialog(null, "File not found.", ERROR,
                     JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -1012,7 +1014,7 @@ public class NotebookPanel extends SubPanel {
 				e.printStackTrace();
 				JOptionPane.showMessageDialog(null,
 						"Error opening file",
-						"Error", JOptionPane.ERROR_MESSAGE);
+						ERROR, JOptionPane.ERROR_MESSAGE);
 			}
 			return doc;
 		}
@@ -1033,7 +1035,7 @@ public class NotebookPanel extends SubPanel {
 				e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
 				JOptionPane.showMessageDialog(null,
 						"Error opening file",
-						"Error", JOptionPane.ERROR_MESSAGE);
+						ERROR, JOptionPane.ERROR_MESSAGE);
 			}
 		}
 	}
@@ -1067,7 +1069,7 @@ public class NotebookPanel extends SubPanel {
 	public void deletePage() {
 		if (getCurrentDocViewer().getSelectedPage() == null) {
 			JOptionPane.showMessageDialog(null, "Please select a page first.",
-					"Error", JOptionPane.INFORMATION_MESSAGE);
+					ERROR, JOptionPane.INFORMATION_MESSAGE);
 			return;
 		}
 		getCurrentDocViewer().getDoc().removePage(

@@ -37,6 +37,7 @@ import doc.mathobjects.ProblemGenerator;
 
 public class ProblemListPanel extends JPanel {
 
+	public static final String ERROR = "Error";
 	private String[] documents = { "Teacher Mode Tutorial",
 			"Problem Generation Tutorial", "Student Mode Tutorial",
 			"Factoring", "Parabola Graphs", "Sine Graphs", "Proportions",
@@ -173,7 +174,7 @@ public class ProblemListPanel extends JPanel {
 		if ( selectedProblems.size() == 0){
 			JOptionPane.showMessageDialog(null,
 					"No problems are selected.",
-					"Error",
+					ERROR,
 					JOptionPane.ERROR_MESSAGE);
 			return;
 		}
@@ -376,13 +377,13 @@ public class ProblemListPanel extends JPanel {
 				if (number < 1 || number > 50){
 					JOptionPane.showMessageDialog(null,
 							"Input must be an integer between 1 and 50",
-							"Error",
+							ERROR,
 							JOptionPane.ERROR_MESSAGE);
 				}
 			} catch ( Exception e){
 				JOptionPane.showMessageDialog(null,
 						"Input must be an integer between 1 and 50",
-						"Error",
+						ERROR,
 						JOptionPane.ERROR_MESSAGE);
 			}
 		} while ( number < 1 || number > 50);

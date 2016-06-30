@@ -2,7 +2,9 @@ package doc.attributes;
 
 
 public class DateAttribute extends MathObjectAttribute<Date> {
-	
+
+	public static final String DATE_MUST_BE_IN_THE_FORMAT_MM_DD_YYYY = "Date must be in the format mm/dd/yyyy";
+
 	public DateAttribute(String n) {
 		super(n);
 	}
@@ -34,11 +36,11 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 		Date newDate = new Date();
 		for ( int i = 0; i < 2 ; i++){
 			if ( monthDayYear[i].length() > 2 || monthDayYear[i].length() == 0){
-				throw new AttributeException("Date must be in the format mm/dd/yyyy");
+				throw new AttributeException(DATE_MUST_BE_IN_THE_FORMAT_MM_DD_YYYY);
 			}
 		}
 		if ( ! (monthDayYear[2].length() == 4 || monthDayYear[2].length() == 2) ){
-			throw new AttributeException("Date must be in the format mm/dd/yyyy");
+			throw new AttributeException(DATE_MUST_BE_IN_THE_FORMAT_MM_DD_YYYY);
 		}
 		try {
 			newDate.setMonth(Integer.parseInt(monthDayYear[0]));
@@ -47,7 +49,7 @@ public class DateAttribute extends MathObjectAttribute<Date> {
 		}catch (AttributeException ex){
 			throw ex;
 		}catch (NumberFormatException ex){
-			throw new AttributeException("Date must be in the format mm/dd/yyyy");
+			throw new AttributeException(DATE_MUST_BE_IN_THE_FORMAT_MM_DD_YYYY);
 		}
 		return newDate;
 		
