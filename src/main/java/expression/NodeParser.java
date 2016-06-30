@@ -66,11 +66,11 @@ public class NodeParser {
 	private String exEmptyString = "Empty string or missing argument";
 	
 	public NodeParser() {
-		identifiers = new Vector<String>();
+		identifiers = new Vector<>();
 		identifiers.addAll(functions);
 		identifiers.addAll(nonFunctionalIdentifiers);
 		
-		unsplittableStrings = new Vector<String>();
+		unsplittableStrings = new Vector<>();
 		unsplittableStrings.addAll(operatorStrings);
 		unsplittableStrings.addAll(delimiters);
 	}
@@ -267,10 +267,10 @@ public class NodeParser {
 			}
 			if (functions.contains(symbol)) {
 				if (index == 0) {
-					Vector<String> stringChildren = new Vector<String>();
+					Vector<String> stringChildren = new Vector<>();
 					String args = expression.substring(symbol.length() + 1, expression.length() - 1);
 					stringChildren.addAll(splitArgs(args, ","));
-					Vector<Node> children = new Vector<Node>();
+					Vector<Node> children = new Vector<>();
 					for (String s : stringChildren)
 						children.add(parse(s));					
 					Operator o = null;
@@ -359,7 +359,7 @@ public class NodeParser {
 	}
 	
 	private Vector<String> splitArgs(String string, String delim) {
-		Vector<String> args = new Vector<String>();
+		Vector<String> args = new Vector<>();
 		int depth = 0;
 		int last = 0;
 		for (int i = 0 ; i <= string.length() - delim.length() ; i++) { 
@@ -475,7 +475,7 @@ public class NodeParser {
 	}
 	
 	private Vector<Node> splitAtIndex(String expression, int index, int symbolLength) throws NodeException {
-		Vector<Node> children = new Vector<Node>();
+		Vector<Node> children = new Vector<>();
 		children.add(parseNode(expression.substring(0, index)));
 		children.add(parseNode(expression.substring(index + symbolLength)));
 		return children;

@@ -352,7 +352,7 @@ public class BinExpressionGraphic extends ExpressionGraphic{
 	
 	@Override
 	public Vector<NodeGraphic> getComponents() {
-		Vector<NodeGraphic> children = new Vector<NodeGraphic>();
+		Vector<NodeGraphic> children = new Vector<>();
 		children.add(leftChild);
 		children.add(rightChild);
 		return children;

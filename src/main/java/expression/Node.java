@@ -88,7 +88,7 @@ public abstract class Node implements Cloneable {
 		if ( n instanceof Expression){
 			if ( ((Expression)n).getOperator() instanceof Operator.Addition ||
 					((Expression)n).getOperator() instanceof Operator.Subtraction) {
-				Vector<Node> terms = new Vector<Node>();
+				Vector<Node> terms = new Vector<>();
 				for ( Node node : splitOnAddition()){
 					for ( Node n2 : n.splitOnAddition()){
 						terms.add(node.multiplyByNode(n2));

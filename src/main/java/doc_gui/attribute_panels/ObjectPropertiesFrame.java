@@ -126,8 +126,8 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		this.notebookPanel = notebookPanel;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-		adjusters = new Vector<AdjustmentPanel>();
-		listAdjusters = new Vector<ListAdjuster>();
+		adjusters = new Vector<>();
+		listAdjusters = new Vector<>();
 		scrollPane = new JScrollPane(mainPanel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(16);
@@ -145,8 +145,8 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 		this.notebookPanel = notebookPanel;
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new GridBagLayout());
-		adjusters = new Vector<AdjustmentPanel>();
-		listAdjusters = new Vector<ListAdjuster>();
+		adjusters = new Vector<>();
+		listAdjusters = new Vector<>();
 		scrollPane = new JScrollPane(mainPanel);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(16);

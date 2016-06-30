@@ -50,11 +50,11 @@ public class Graph {
 	private GraphCalculationGraphics graphCalcGraphics;
 	
 	public Graph(){
-		freePoints = new Vector<PointOnGrid>();
+		freePoints = new Vector<>();
 		cartAxis = new CartAxis(this);
 //		graphCalcGraphics = new GraphCalculationGraphics(this);
-		singleGraphs = new Vector<SingleGraph>();
-		Vector<GridPoint> linePts = new Vector<GridPoint>();
+		singleGraphs = new Vector<>();
+		Vector<GridPoint> linePts = new Vector<>();
 		barGraph = new BarGraph(this);
 		selectionGraphic = new SelectionGraphic(this, Color.ORANGE);
 		try {

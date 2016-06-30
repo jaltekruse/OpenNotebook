@@ -97,9 +97,9 @@ public class ExpressionObject extends MathObject {
 	@Override
 	protected void addDefaultAttributes() {
 		addAttribute(new StringAttribute(EXPRESSION));
-		addList(new ListAttribute<StringAttribute>(CORRECT_ANSWERS,
+		addList(new ListAttribute<>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
-		addList(new ListAttribute<StringAttribute>(STEPS, new StringAttribute("val"), false));
+		addList(new ListAttribute<>(STEPS, new StringAttribute("val"), false));
 		addAttribute(new IntegerAttribute(FONT_SIZE, 1, 50));
 		addAttribute(new ColorAttribute(FILL_COLOR));
 		addAttribute(new BooleanAttribute(ALWAYS_SHOW_STEPS, true, true, false));
@@ -338,7 +338,7 @@ public class ExpressionObject extends MathObject {
 			else if (op.equals("tan"))	o = new Operator.Tangent();
 
 			Expression newLeft = new Expression(o);
-			Vector<Node> left = new Vector<Node>();
+			Vector<Node> left = new Vector<>();
 			Node newChild = ex.getChild(0);
 			if ( ! op.equals("sqrt") ){
 				newChild.setDisplayParentheses(true);
@@ -347,7 +347,7 @@ public class ExpressionObject extends MathObject {
 			newLeft.setChildren(left);
 
 			Expression newRight = new Expression(o);
-			Vector<Node> right = new Vector<Node>();
+			Vector<Node> right = new Vector<>();
 			newChild = ex.getChild(1);
 			if ( ! op.equals("sqrt") ){
 				newChild.setDisplayParentheses(true);
@@ -355,7 +355,7 @@ public class ExpressionObject extends MathObject {
 			right.add(newChild);
 			newRight.setChildren(right);
 
-			Vector<Node> exChildren = new Vector<Node>();
+			Vector<Node> exChildren = new Vector<>();
 			exChildren.add(newLeft);
 			exChildren.add(newRight);
 			ex.setChildren(exChildren);

@@ -40,7 +40,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 	}
 	
 	public ListAttribute(String s, K val, int maxSize){
-		values = new Vector<K>();
+		values = new Vector<>();
 		this.maxSize = maxSize;
 		values.add(val);
 		template = val;
@@ -50,7 +50,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 	}
 	
 	public ListAttribute(String s, K val, int maxSize, boolean userEditable){
-		values = new Vector<K>();
+		values = new Vector<>();
 		this.maxSize = maxSize;
 		values.add(val);
 		template = val;
@@ -60,7 +60,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 	}
 	
 	public ListAttribute(String s, K val, int maxSize, boolean userEditable, boolean studentEditable){
-		values = new Vector<K>();
+		values = new Vector<>();
 		this.maxSize = maxSize;
 		values.add(val);
 		template = val;
@@ -97,7 +97,7 @@ public class ListAttribute <K extends MathObjectAttribute> {
 	}
 	
 	public synchronized ListAttribute<K> clone(){
-		ListAttribute<K> newList = new ListAttribute<K>(getName(), template);
+		ListAttribute<K> newList = new ListAttribute<>(getName(), template);
 		newList.removeAll();
 		for ( K mAtt : values){
 			newList.addValue( (K) mAtt.clone());

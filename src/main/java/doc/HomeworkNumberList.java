@@ -15,7 +15,7 @@ public class HomeworkNumberList {
         //trim extra spaces from the homework input
         String[] problemNumberListv1 = problemNumbers.split(",");
         //separate each of the homework number blocks
-        ArrayList<Integer> problemNumberListFinal = new ArrayList<Integer>();
+        ArrayList<Integer> problemNumberListFinal = new ArrayList<>();
         //build a list to house the final output
         for(int i = 0; i < problemNumberListv1.length; i++) {
 

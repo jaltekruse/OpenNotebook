@@ -82,18 +82,18 @@ public class GraphObject extends MathObject {
 	
 	public void setDefaults(){
 		try{
-			addList(new ListAttribute<StringAttribute>(EXPRESSIONS,
+			addList(new ListAttribute<>(EXPRESSIONS,
 					new StringAttribute(EXPRESSION), 6, true, false));
-			addList(new ListAttribute<GridPointAttribute>(POINTS,
-					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
-			addList(new ListAttribute<GridPointAttribute>(LINE_GRAPH,
-					new GridPointAttribute("", -7E8, 7E8,-7E8, 7E8), 1000000, true, false));
+			addList(new ListAttribute<>(POINTS,
+					new GridPointAttribute("", -7E8, 7E8, -7E8, 7E8), 1000000, true, false));
+			addList(new ListAttribute<>(LINE_GRAPH,
+					new GridPointAttribute("", -7E8, 7E8, -7E8, 7E8), 1000000, true, false));
 			
-			addList(new ListAttribute<DoubleAttribute>(BAR_GRAPH_VALUES,
+			addList(new ListAttribute<>(BAR_GRAPH_VALUES,
 					new DoubleAttribute("", -7E8, 7E8), 50, false, true));
 			addAttribute(new IntegerAttribute(BAR_GRAPH_GROUP_SIZE, 1, 1, 100, false));
 			
-			addList(new ListAttribute<StringAttribute>(BAR_GRAPH_LABELS,
+			addList(new ListAttribute<>(BAR_GRAPH_LABELS,
 					new StringAttribute(""), 100, false, true));
 			
 			addAttribute(new SelectionAttribute(SELECTION, new Selection(), false));

@@ -25,8 +25,8 @@ public class BarGraph extends GraphComponent {
 
 	public BarGraph(Graph g) {
 		super(g);
-		values = new Vector<Double>();
-		labels = new Vector<String>();
+		values = new Vector<>();
+		labels = new Vector<>();
 	}
 
 	@Override

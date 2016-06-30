@@ -264,7 +264,7 @@ public class Page extends MathObject implements MathObjectContainer{
 
 	@Override
 	public boolean removeAllObjects() {
-		objects = new Vector<MathObject>();
+		objects = new Vector<>();
 		return true;
 	}
 

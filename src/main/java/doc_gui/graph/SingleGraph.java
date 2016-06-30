@@ -32,8 +32,8 @@ public abstract class SingleGraph extends GraphComponent {
 	
 	public SingleGraph(Graph g){
 		super(g);
-		xVals = new Vector<Integer>();
-		yVals = new Vector<Integer>();
+		xVals = new Vector<>();
+		yVals = new Vector<>();
 	}
 
 	@Override
@@ -69,8 +69,8 @@ public abstract class SingleGraph extends GraphComponent {
 	}
 	
 	protected void clearPts(){
-		xVals = new Vector<Integer>();
-		yVals = new Vector<Integer>();
+		xVals = new Vector<>();
+		yVals = new Vector<>();
 	}
 	
 	public boolean hasFocus(){

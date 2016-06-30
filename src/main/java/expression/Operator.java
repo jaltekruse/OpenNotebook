@@ -44,7 +44,7 @@ public abstract class Operator {
 	}
 
 	public String toString(Vector<Node> children) {
-		Vector<String> stringChildren = new Vector<String>();
+		Vector<String> stringChildren = new Vector<>();
 		for (Node c : children)
 			stringChildren.add(c.toStringRepresentation());
 		return format(stringChildren);

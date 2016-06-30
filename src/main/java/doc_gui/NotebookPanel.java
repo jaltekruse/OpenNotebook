@@ -157,8 +157,8 @@ public class NotebookPanel extends SubPanel {
 			add(objectToolbar, BorderLayout.SOUTH);
 		}
 
-		tabLabels = new Vector<DocTabClosePanel>();
-		openDocs = new Vector<DocViewerPanel>();
+		tabLabels = new Vector<>();
+		openDocs = new Vector<>();
 		Document newDoc = new Document(UNTITLED_DOC);
 		newDoc.addBlankPage();
 		openDocs.add(new DocViewerPanel(newDoc, getTopLevelContainer(), this));
@@ -349,7 +349,7 @@ public class NotebookPanel extends SubPanel {
 
 	public void quit(){
 		boolean hasUnsavedChanges = false;
-		Vector<Integer> unsavedIndeces = new Vector<Integer>();
+		Vector<Integer> unsavedIndeces = new Vector<>();
 		int index = 0;
 		for ( DocViewerPanel dvp : this.openDocs){
 			if ( dvp.hasBeenModfiedSinceSave()){

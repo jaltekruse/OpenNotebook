@@ -129,9 +129,9 @@ public class DocReader extends DefaultHandler {
 		objectWithError = null;
 		fileName = docName;
 
-		containerStack = new Vector<Grouping>();
-		objectsInGroup = new Vector<Vector<MathObject>>();
-		overridenLists = new Vector<String>();
+		containerStack = new Vector<>();
+		objectsInGroup = new Vector<>();
+		overridenLists = new Vector<>();
 
 		XMLReader reader = XMLReaderFactory.createXMLReader();
 		reader.setContentHandler(this);
@@ -434,7 +434,7 @@ public class DocReader extends DefaultHandler {
 	public void endElement(String uri, String localName, String qName){
 		if (MathObject.isMathObjectType(qName)){
 			mObj = null;
-			overridenLists = new Vector<String>();
+			overridenLists = new Vector<>();
 		}
 		if (qName.equals(MathObject.GROUPING) ||
 				qName.equals(MathObject.VAR_INSERTION_PROBLEM) ||

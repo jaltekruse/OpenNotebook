@@ -588,7 +588,7 @@ public class DocMouseListener implements MouseInputListener {
 
 		// temporary storage of objects that collide with the selection
 		// rectangle
-		Vector<MathObject> collisionObjects = new Vector<MathObject>();
+		Vector<MathObject> collisionObjects = new Vector<>();
 
 		for (MathObject mObj : pageObjects) {// find all of the objects that
 			// were contacted by the

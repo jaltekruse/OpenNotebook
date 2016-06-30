@@ -121,10 +121,10 @@ public abstract class MathObject implements Cloneable{
 	private boolean justDeleted = false;
 
 	public MathObject() {
-		attributes = new Vector<MathObjectAttribute<?>>();
-		actions = new Vector<String>();
-		attrLists = new Vector<ListAttribute<?>>();
-		studentActions = new Vector<String>();
+		attributes = new Vector<>();
+		actions = new Vector<>();
+		attrLists = new Vector<>();
+		studentActions = new Vector<>();
 		setObjectLists(new Vector<NamedObjectList>());
 
 		setHorizontallyResizable(true);
@@ -371,11 +371,11 @@ public abstract class MathObject implements Cloneable{
 	}
 
 	public void removeAllAttributes() {
-		attributes = new Vector<MathObjectAttribute<?>>();
+		attributes = new Vector<>();
 	}
 
 	public void removeAllLists() {
-		attrLists = new Vector<ListAttribute<?>>();
+		attrLists = new Vector<>();
 	}
 
 	public boolean removeAction(String s) {
