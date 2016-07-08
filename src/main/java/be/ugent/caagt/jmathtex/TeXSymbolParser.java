@@ -51,7 +51,7 @@ class TeXSymbolParser {
    public TeXSymbolParser() throws ResourceParseException {
       try {
          root = new SAXBuilder().build(
-               getClass().getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME))
+               getClass().getClassLoader().getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME))
                .getRootElement();
          // set possible valid symbol type mappings
          setTypeMappings();

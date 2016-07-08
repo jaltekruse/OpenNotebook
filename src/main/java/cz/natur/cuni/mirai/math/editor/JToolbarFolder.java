@@ -97,7 +97,7 @@ public class JToolbarFolder extends JPanel {
 			toolPanels.add(toolbarGrid);
 
 			try {
-				InputStream stream = SymbolIcon.class.getResourceAsStream(
+				InputStream stream = SymbolIcon.class.getClassLoader().getResourceAsStream(
 						(type==ToolbarFolder.SMALL?"large/":"small/")+names[i]+".png");
 				Image image = ImageIO.read(stream);
 				ImageIcon icon = new ImageIcon(image);

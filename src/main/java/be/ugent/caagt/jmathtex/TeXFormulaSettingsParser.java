@@ -48,7 +48,7 @@ class TeXFormulaSettingsParser {
     public TeXFormulaSettingsParser() throws ResourceParseException {
         try {
             root = new SAXBuilder().build(
-                    TeXFormulaSettingsParser.class.getResourceAsStream(RESOURCE_NAME))
+                    TeXFormulaSettingsParser.class.getClassLoader().getResourceAsStream(RESOURCE_NAME))
                     .getRootElement();
             
         } catch (Exception e) { // JDOMException or IOException

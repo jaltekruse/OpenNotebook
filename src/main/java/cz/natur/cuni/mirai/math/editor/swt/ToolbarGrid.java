@@ -268,7 +268,7 @@ class ToolbarGrid extends Composite implements ToolbarPanel {
 	}
 
 	private void addImageIcon(Composite toolbarGroup, String group, MetaComponent meta) {
-		InputStream stream = SymbolIcon.class.getResourceAsStream(
+		InputStream stream = SymbolIcon.class.getClassLoader().getResourceAsStream(
 			(type==ToolbarFolder.LARGE?"large/":"small/")+group+"/"+meta.getIcon());
 		if(stream == null) {
 			System.out.println(meta.getName());

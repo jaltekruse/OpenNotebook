@@ -59,7 +59,7 @@ class GlueSettingsParser {
             setStyleMappings();
             
             root = new SAXBuilder().build(
-                    GlueSettingsParser.class.getResourceAsStream(RESOURCE_NAME))
+                    GlueSettingsParser.class.getClassLoader().getResourceAsStream(RESOURCE_NAME))
                     .getRootElement();
             
             parseGlueTypes();

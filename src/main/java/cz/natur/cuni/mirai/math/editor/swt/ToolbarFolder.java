@@ -122,7 +122,7 @@ public class ToolbarFolder extends Composite {
 
 		for(int i=0;i<names.length;i++) {
 			TabItem tabItem = new TabItem(tabFolder, SWT.NULL);
-			InputStream stream = SymbolIcon.class.getResourceAsStream("small/" +tools[i] +".png");
+			InputStream stream = SymbolIcon.class.getClassLoader().getResourceAsStream("small/" +tools[i] +".png");
 			Image icon = new Image(getDisplay(), stream);
 			tabItem.setImage(icon);				
 			if(type == ToolbarFolder.LARGE) {

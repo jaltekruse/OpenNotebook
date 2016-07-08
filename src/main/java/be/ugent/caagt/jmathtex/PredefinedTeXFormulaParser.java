@@ -47,7 +47,7 @@ class PredefinedTeXFormulaParser {
     public PredefinedTeXFormulaParser() throws ResourceParseException {
         try {
             root = new SAXBuilder().build(
-                    getClass().getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME))
+                    getClass().getClassLoader().getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME))
                     .getRootElement();
         } catch (Exception e) { // JDOMException or IOException
             throw new XMLResourceParseException(RESOURCE_NAME, e);

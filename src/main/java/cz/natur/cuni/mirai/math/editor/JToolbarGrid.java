@@ -320,7 +320,7 @@ public class JToolbarGrid extends JPanel {
 			firstLabel = label;
 		}
 		try {
-			InputStream stream = SymbolIcon.class.getResourceAsStream(
+			InputStream stream = SymbolIcon.class.getClassLoader().getResourceAsStream(
 				(type==ToolbarFolder.LARGE?"large/":"small/")+group+"/"+meta.getIcon());
 			Image image = ImageIO.read(stream);
 			ImageIcon icon = new ImageIcon(image);

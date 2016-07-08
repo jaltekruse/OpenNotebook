@@ -47,7 +47,7 @@ public class SwtResourceCache {
 			return (Image)resourceMap.get(idTag);
 		} else {
 			// lazy image loading
-			InputStream stream = SwtResourceCache.class.getResourceAsStream(idTag);
+			InputStream stream = SwtResourceCache.class.getClassLoader().getResourceAsStream(idTag);
 			Image icon = new Image(display, stream);
 			resourceMap.put(idTag, icon);
 			return icon;

@@ -312,7 +312,7 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			con.gridy++;
 		}
 		JMathField math = new JMathField();
-		InputStream stream = MetaModel.class.getResourceAsStream("Octave.xml");
+		InputStream stream = MetaModel.class.getClassLoader().getResourceAsStream("Octave.xml");
 		try {
 			byte[] fileData = new byte[stream.available()];
 			stream.read(fileData);

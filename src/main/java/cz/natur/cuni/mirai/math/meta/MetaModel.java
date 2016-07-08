@@ -103,7 +103,7 @@ public class MetaModel {
 	public MetaModel(String filename) {
 		try {
 			Element root = new SAXBuilder().build(
-				MetaModel.class.getResourceAsStream(filename)).getRootElement();
+				MetaModel.class.getClassLoader().getResourceAsStream(filename)).getRootElement();
 			// keyboard input, characters and operators
 			parseComponents(root);
 		} catch (Exception e) {

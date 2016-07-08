@@ -345,7 +345,7 @@ public class MathMLParser {
         try {
             BufferedReader in = new BufferedReader(
                     new InputStreamReader(
-                    MathMLParser.class.getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME)));
+                    MathMLParser.class.getClassLoader().getResourceAsStream(RESOURCE_DIR + RESOURCE_NAME)));
             String line = in.readLine();
             while (line != null) {
                 if (line.length() != 0 && line.charAt(0) != '#') {

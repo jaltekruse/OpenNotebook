@@ -158,7 +158,7 @@ class DefaultTeXFontParser {
     public DefaultTeXFontParser() throws ResourceParseException {
         try {
             root = new SAXBuilder().build(
-                    DefaultTeXFontParser.class.getResourceAsStream(RESOURCE_NAME)
+                    DefaultTeXFontParser.class.getClassLoader().getResourceAsStream(RESOURCE_NAME)
                     ).getRootElement();
             
             // parse textstyles ahead of the rest, because it's used while
@@ -254,7 +254,7 @@ class DefaultTeXFontParser {
     private Font createFont(String name) throws ResourceParseException {
         InputStream fontIn = null;
         try {
-            fontIn = DefaultTeXFontParser.class.getResourceAsStream(name);
+            fontIn = DefaultTeXFontParser.class.getClassLoader().getResourceAsStream(name);
             return Font.createFont(java.awt.Font.TRUETYPE_FONT, fontIn);
         } catch (Exception e) {
             throw new XMLResourceParseException(RESOURCE_NAME
