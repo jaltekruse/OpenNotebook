@@ -102,7 +102,15 @@ abstract public class MathInputController extends MathController {
 			case KeyEvent.VK_RIGHT:
 				nextCharacter();
 				update();
-				break;	
+				break;
+			case KeyEvent.VK_UP:
+				upField();
+				update();
+				break;
+			case KeyEvent.VK_DOWN:
+				downField();
+				update();
+				break;
 		}
 	}
 	
