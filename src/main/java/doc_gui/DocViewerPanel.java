@@ -120,8 +120,8 @@ public class DocViewerPanel extends JDesktopPane{
 		currentPage = 1;
 
 		docPanel = makeDocPanel();
-		keyListener = new NotebookKeyboardListener(getNotebook());
-		this.addKeyListener(keyListener);
+		//keyListener = new NotebookKeyboardListener(getNotebook());
+		//this.addKeyListener(keyListener);
 		resizeViewWindow();
 
 		docMouse = new DocMouseListener(this);
