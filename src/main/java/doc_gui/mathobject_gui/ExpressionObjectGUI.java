@@ -24,6 +24,9 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.util.Vector;
 
+import be.ugent.caagt.jmathtex.TeXConstants;
+import be.ugent.caagt.jmathtex.TeXFormula;
+import be.ugent.caagt.jmathtex.TeXIcon;
 import doc.mathobjects.DecimalRectangle;
 import doc.mathobjects.MathObject;
 import doc_gui.PageGUI;
@@ -34,6 +37,8 @@ import doc.attributes.StringAttribute;
 import doc.mathobjects.ExpressionObject;
 import expression.Node;
 import expression.NodeException;
+
+import javax.swing.*;
 
 public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 
@@ -109,6 +114,16 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		int outerBufferSpace = (int) (5 * zoomLevel);
 		int stepBufferSpace = (int) (10 * zoomLevel);
 		Graphics2D g2d = (Graphics2D) g;
+
+		String math = "\\frac {V_m} {K_M+S}";
+
+		TeXFormula fomule = new TeXFormula(math);
+		TeXIcon ti = fomule.createTeXIcon(
+				TeXConstants.STYLE_DISPLAY, 40);
+		ti.paintIcon(new JLabel(), g, sap.getxOrigin(), sap.getyOrigin());
+		if (true) {
+			return;
+		}
 
 		RootNodeGraphic rootGraphic;
 		if ( ! (object.getExpression().equals("") && object.allAnswersBlank()) ){

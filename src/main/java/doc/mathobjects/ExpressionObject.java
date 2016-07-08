@@ -53,7 +53,7 @@ public class ExpressionObject extends MathObject {
 			OTHER_OPERATIONS = "(O)ther operations",
 			UNDO_STEP = "(U)ndo Step";
 
-	public static String		EXPRESSION = "expression",
+	public static String		EXPRESSION = "expression", LATEX_EXPRESSION = "latex expression",
 			STEPS = "steps", ALWAYS_SHOW_STEPS = "always show steps",
 			CORRECT_ANSWERS = "correct answers";
 
@@ -97,6 +97,7 @@ public class ExpressionObject extends MathObject {
 	@Override
 	protected void addDefaultAttributes() {
 		addAttribute(new StringAttribute(EXPRESSION));
+		addAttribute(new StringAttribute(LATEX_EXPRESSION));
 		addList(new ListAttribute<>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
 		addList(new ListAttribute<>(STEPS, new StringAttribute("val"), false));
