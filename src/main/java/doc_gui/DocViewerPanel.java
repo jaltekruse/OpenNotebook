@@ -66,7 +66,9 @@ public class DocViewerPanel extends JDesktopPane{
 	private JInternalFrame keyboardFrame;
 	private JInternalFrame docPropsFrame;
 	private Page selectedPage;
-	private BufferedImage background;
+
+	private final BufferedImage background;
+	private final Graphics backgroundGraphics;
 	private Rectangle frameBounds = new Rectangle(5, 5, 250, 300);
 	public boolean gradePage = false;
 	// will be set if gradePage is set
@@ -104,6 +106,7 @@ public class DocViewerPanel extends JDesktopPane{
 		tempGroup = new Grouping();
 		setPageGUI(new PageGUI(this));
 		background = new BufferedImage(10,10, 10);
+		backgroundGraphics = background.getGraphics();
 
 		setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
 		actions = new Vector<>();
@@ -182,10 +185,8 @@ public class DocViewerPanel extends JDesktopPane{
 	}
 
 	public void drawObjectInBackground(MathObject o){
-		Graphics g = background.getGraphics();
-		pageGUI.drawObject(o, g,
+		pageGUI.drawObject(o, backgroundGraphics,
 				new Point(0,0), zoomLevel);
-		g.dispose();
 	}
 
 	public void setScrollBounds(int w, int h){

@@ -109,8 +109,9 @@ public class GeneratedProblem extends Grouping {
 		GeneratedProblem newProb = getProblemGenerator().generateProblem(getDifficulty());
 		newProb.setxPos(getxPos());
 		newProb.setyPos(getyPos());
-		getParentContainer().addObject(newProb);
+		MathObjectContainer parent = getParentContainer();
 		getParentContainer().removeObject(this);
+		parent.addObject(newProb);
 		return newProb;
 	}
 
