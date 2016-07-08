@@ -1,0 +1,242 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-01-30 18:18+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/ArrayDialog.java:63
+msgid "Size:"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/ArrayDialog.java:74
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MatrixDialog.java:86
+msgid "&OK"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/ArrayDialog.java:79
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MatrixDialog.java:91
+msgid "&Cancel"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MatrixDialog.java:64
+msgid "Columns:"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MatrixDialog.java:75
+msgid "Rows:"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:215
+msgid "About"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:234
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:102
+msgid "Open"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:256
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:268
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:312
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:419
+msgid "Error"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:274
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:111
+msgid "Save"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:300
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:392
+msgid "Overwrite file?"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:301
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:393
+#, java-format
+msgid "A file named {0} already exists. Overwrite existing file?"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:321
+msgid "Save changes?"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:322
+msgid "The document has been modified. Save changes?"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:338
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:164
+msgid "Export"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:365
+msgid "Formula as PNG Image"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:366
+msgid "HTML with PNG Images"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:367
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:368
+msgid "LaTeX Document"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:369
+msgid "Plain Text"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:531
+msgid "New Array ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:547
+msgid "New Vector ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:563
+msgid "New Matrix ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:603
+msgid "Welcome! Read tutorial at http://mirai.sf.net"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:608
+msgid "Please, read install instructions http://mirai.sf.net"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/CommonTasks.java:610
+#, java-format
+msgid "Error! {0} not found. Installation incomplete."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:52
+msgid "&File"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:54
+msgid "&Edit"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:56
+msgid "&Insert"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:58
+msgid "&Help"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:77
+msgid "&New"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:82
+msgid "New"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:97
+msgid "&Open..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:105
+msgid "&Save"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:140
+msgid "&Save As ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:160
+msgid "&Export ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:182
+msgid "E&xit"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:218
+msgid "&Cut"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:223
+msgid "Cut"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:226
+msgid "&Copy"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:231
+msgid "Copy"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:234
+msgid "Copy Te&X"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:237
+msgid "&Paste"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:242
+msgid "Paste"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:315
+msgid "&Delete"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:332
+msgid "&Formula"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:346
+msgid "&Array ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:360
+msgid "&Vector ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:374
+msgid "&Matrix ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:391
+msgid "&Contents"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:405
+msgid "&About ..."
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:419
+msgid "General"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:420
+msgid "Operators"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:421
+msgid "Symbols"
+msgstr ""
+
+#: mirai/src/cz/natur/cuni/mirai/math/editor/swt/MiraiMath.java:422
+msgid "Functions"
+msgstr ""
