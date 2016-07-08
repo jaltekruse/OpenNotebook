@@ -50,6 +50,7 @@ import doc.Document;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.ColorAttribute;
 import doc.attributes.EnumeratedAttribute;
+import doc.attributes.ExpressionAttribute;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
 import doc.attributes.StringAttribute;
@@ -311,31 +312,6 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			panel.add(createGraphNavigator(), con);
 			con.gridy++;
 		}
-		JMathField math = new JMathField();
-		/*
-		InputStream stream = MetaModel.class.getClassLoader().getResourceAsStream("Octave.xml");
-		try {
-			byte[] fileData = new byte[stream.available()];
-			stream.read(fileData);
-			//System.out.print(new String(fileData, Charset.defaultCharset()));
-		} catch (IOException e) {
-			e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-		}
-		*/
-		panel.add(math, con);
-		MathFormula formula = new MathFormula(new MetaModel("Octave.xml"));
-		formula.setRootComponent(new MathSequence(formula, "3"));
-		math.setFormula(formula);
-
-		/*
-		math.addVetoableChangeListener(new VetoableChangeListener() {
-			@Override
-			public void vetoableChange(PropertyChangeEvent evt) throws PropertyVetoException {
-				System.out.println("@@@@@!!!!!" + evt.getNewValue());
-			}
-		});
-		*/
-		con.gridy++;
 		if (o instanceof ExpressionObject && ! notebookPanel.isInStudentMode())
 		{// there are too many attributes and actions for the expression to put them all in one panel
 			// added a tabbed pane to make it more reasonable and avoid scrolling
@@ -438,6 +414,8 @@ public class ObjectPropertiesFrame extends JInternalFrame {
 			p = new ColorAdjustmentPanel((ColorAttribute)mAtt, notebookPanel, panel );
 		else if (mAtt instanceof EnumeratedAttribute)
 			p = new EnumeratedAdjuster((EnumeratedAttribute)mAtt, notebookPanel, panel);
+		else if (mAtt instanceof ExpressionAttribute)
+			p = new ExpressionAdjustmentPanel((ExpressionAttribute)mAtt, notebookPanel, panel);
 		else
 			p = new GenericAdjustmentPanel(mAtt, notebookPanel, panel);
 		return p;

@@ -31,7 +31,8 @@ public abstract class MathObjectAttribute<K> implements Cloneable{
 
 	public static final String BOOLEAN_ATTRIBUTE = "boolean", DOUBLE_ATTRIBUTE = "double",
 			GRID_POINT_ATTRIBUTE = "point", INTEGER_ATTRIBUTE = "int",
-			STRING_ATTRIBUTE = "string", COLOR_ATTRIBUTE = "color", DATE = "date",
+			STRING_ATTRIBUTE = "string", EXPRESSION_ATTRIBUTE = "expression",
+			COLOR_ATTRIBUTE = "color", DATE = "date",
 			EMAIL_ATTRIBUTE = "email", UUID_ATTRIBUTE = "uuid", VAR_NAME_ATTRIBUTE = "varName",
 			ENUMERATED_ATTRIUBTE = "enumeratedValue", VAR_VAL_GENERATOR = "varValGenerator",
 			SELECTION = "selection";

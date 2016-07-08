@@ -21,92 +21,34 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingUtilities;
 
+import cz.natur.cuni.mirai.math.algebra.MiraiParser;
+import cz.natur.cuni.mirai.math.editor.JMathField;
+import cz.natur.cuni.mirai.math.meta.MetaModel;
+import cz.natur.cuni.mirai.math.model.MathFormula;
+import cz.natur.cuni.mirai.math.model.MathModel;
+import cz.natur.cuni.mirai.math.model.MathSequence;
 import doc.attributes.AttributeException;
+import doc.attributes.ExpressionAttribute;
 import doc.attributes.StringAttribute;
 import doc_gui.DocViewerPanel;
 import doc_gui.NotebookPanel;
 
 
-public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
+public class ExpressionAdjustmentPanel extends AdjustmentPanel<ExpressionAttribute>{
 
-	private JTextArea textArea;
-	private JScrollPane scrollPane;
-	private boolean enterJustPressed;
+	JMathField mathField;
+	private static final MathModel mathModel = new MathModel(new MetaModel("Octave.xml"));
+	//private JScrollPane scrollPane;
+	//private boolean enterJustPressed;
 
-	public StringAdjustmentPanel(StringAttribute mAtt,
-			NotebookPanel notebookPanel, JPanel p) {
+	public ExpressionAdjustmentPanel(ExpressionAttribute mAtt,
+															 NotebookPanel notebookPanel, JPanel p) {
 		super(mAtt, notebookPanel, p);
-		enterJustPressed = false;
+		//enterJustPressed = false;
 	}
 
 	@Override
 	public void addPanelContent() {
-		// to prevent the panel from looking too small, estimate the amount of lines needed to
-		// show all of the text
-		int numLines = 0;
-		if ( getGraphics() != null)
-		{// one of these panels is constructed in the background to initialize some resources
-			// at that time there is no graphics object to reference to measure text
-			numLines = 	getGraphics().getFontMetrics().stringWidth(mAtt.getValue())/120;
-		}
-		else{
-			numLines = mAtt.getValue().length() / 20;
-		}
-		if ( numLines < 2){
-			numLines = 2;
-		}
-		textArea = new JTextArea(numLines, 12);
-		textArea.setEditable(true);
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		textArea.setText(mAtt.getValue());
-
-		textArea.addFocusListener(new FocusListener(){
-
-			@Override
-			public void focusGained(FocusEvent arg0) {
-
-			}
-
-			@Override
-			public void focusLost(FocusEvent arg0) {
-				applyPanelValueToObject();
-			}
-
-		});
-
-		// need to decide if having this panel set with the enter key is worth
-		// not being able to include line breaks
-		textArea.addKeyListener(new KeyListener(){
-
-			@Override
-			public void keyPressed(KeyEvent ev) {
-				if (ev.getKeyCode() == KeyEvent.VK_ENTER){
-					applyPanelValueToObject();
-					enterJustPressed = true;
-				}
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER && enterJustPressed)
-				{// had issue with hitting enter to confirm dialog, dialog disappeared but enter key release event
-					// was still received here if an object was selected, hence the boolean set in the keypressed
-					// method and checked here
-					String s = textArea.getText();
-					int caretPos = textArea.getCaretPosition() - 1;
-					s = s.substring(0, textArea.getCaretPosition() - 1) + s.substring(textArea.getCaretPosition());
-					textArea.setText(s);
-					textArea.setCaretPosition(caretPos);
-					enterJustPressed = false;
-				}
-			}
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-			}
-
-		});
 		setLayout(new GridBagLayout());
 		GridBagConstraints con = new GridBagConstraints();
 		con.fill = GridBagConstraints.HORIZONTAL;
@@ -116,7 +58,7 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 		con.gridy = 0;
 		con.insets = new Insets(2, 5, 0, 5);
 		add(new JLabel(mAtt.getName()), con);
-		
+
 		JButton keyboard = new JButton(ObjectPropertiesFrame.SMALL_KEYBOARD_IMAGE);
 		keyboard.setToolTipText("Show On-Screen Keyboard");
 		keyboard.setMargin(new Insets(3, 3, 3, 3));
@@ -158,9 +100,17 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 		con.gridy = 1;
 		con.gridx = 0;
 		con.gridheight = 3;
-		scrollPane = new JScrollPane(textArea);
-		scrollPane.setWheelScrollingEnabled(false);
+		mathField = new JMathField();
+		add(mathField, con);
+		MathFormula formula = new MathFormula(mathModel.getMetaModel());
+		formula.setRootComponent(new MathSequence(MiraiParser.parse(mathModel, mAtt.getValue())));
+		mathField.setFormula(formula);
+		mathField.update();
+		con.gridy++;
+		//scrollPane = new JScrollPane(textArea);
+		//scrollPane.setWheelScrollingEnabled(false);
 		con.insets = new Insets(0, 5, 2, 0);
+		/*
 		add(scrollPane, con);
 		scrollPane.addMouseWheelListener(new MouseWheelListener(){
 
@@ -184,24 +134,29 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 			}
 
 		});
+		*/
 
 	}
 
 	@Override
 	public void updateData() {
-		textArea.setText(mAtt.getValue().toString());
+		MathFormula formula = new MathFormula(mathModel.getMetaModel());
+		formula.setRootComponent(new MathSequence(MiraiParser.parse(mathModel, mAtt.getValue())));
+		mathField.setFormula(formula);
+		mathField.update();
 	}
 
 	@Override
 	public void applyPanelValueToObject() {
+		String formulaLatex = mathField.getFormula().getRootComponent().toString();
 		try {
-			if ( mAtt.getParentObject() == null && ! mAtt.getValue().equals(textArea.getText())){
-				mAtt.setValue(textArea.getText());
+			if ( mAtt.getParentObject() == null && ! mAtt.getValue().equals(formulaLatex)){
+				mAtt.setValue(formulaLatex);
 				notebookPanel.getCurrentDocViewer().addUndoState();
 			}
 			else{
-				if ( ! mAtt.getValue().equals(textArea.getText()) &&
-						mAtt.getParentObject().setAttributeValue(mAtt.getName(), textArea.getText()))
+				if ( ! mAtt.getValue().equals(formulaLatex) &&
+						mAtt.getParentObject().setAttributeValue(mAtt.getName(), formulaLatex))
 				{// if setting the value was successful
 					notebookPanel.getCurrentDocViewer().addUndoState();
 				}
@@ -221,7 +176,7 @@ public class StringAdjustmentPanel extends AdjustmentPanel<StringAttribute>{
 
 	@Override
 	public void focusAttributField() {
-		textArea.requestFocus();
+		//mathField.requestFocus();
 	}
 
 }

@@ -115,12 +115,15 @@ public class ExpressionObjectGUI extends MathObjectGUI<ExpressionObject> {
 		int stepBufferSpace = (int) (10 * zoomLevel);
 		Graphics2D g2d = (Graphics2D) g;
 
-		String math = "\\frac {V_m} {K_M+S}";
+		String math = (String) object.getAttributeValue(ExpressionObject.LATEX_EXPRESSION);
 
 		TeXFormula fomule = new TeXFormula(math);
 		TeXIcon ti = fomule.createTeXIcon(
-				TeXConstants.STYLE_DISPLAY, 40);
+				TeXConstants.STYLE_DISPLAY, 15 * zoomLevel);
 		ti.paintIcon(new JLabel(), g, sap.getxOrigin(), sap.getyOrigin());
+
+		object.setWidth(ti.getIconWidth());
+		object.setHeight(ti.getIconHeight());
 		if (true) {
 			return;
 		}

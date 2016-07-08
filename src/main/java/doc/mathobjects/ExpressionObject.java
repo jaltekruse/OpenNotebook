@@ -26,6 +26,7 @@ import doc.PointInDocument;
 import doc.attributes.AttributeException;
 import doc.attributes.BooleanAttribute;
 import doc.attributes.ColorAttribute;
+import doc.attributes.ExpressionAttribute;
 import doc.attributes.IntegerAttribute;
 import doc.attributes.ListAttribute;
 import doc.attributes.MathObjectAttribute;
@@ -97,7 +98,7 @@ public class ExpressionObject extends MathObject {
 	@Override
 	protected void addDefaultAttributes() {
 		addAttribute(new StringAttribute(EXPRESSION));
-		addAttribute(new StringAttribute(LATEX_EXPRESSION));
+		addAttribute(new ExpressionAttribute(LATEX_EXPRESSION, ""));
 		addList(new ListAttribute<>(CORRECT_ANSWERS,
 				new StringAttribute(""), 20, true, false));
 		addList(new ListAttribute<>(STEPS, new StringAttribute("val"), false));
