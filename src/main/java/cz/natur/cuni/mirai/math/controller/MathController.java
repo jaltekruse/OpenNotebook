@@ -694,6 +694,10 @@ public abstract class MathController extends MathContext {
 			newMatrix(1, 1);
 			update();
 
+		} else if (ch=='\b') {
+			bkspCharacter();
+			update();
+
 		} else if(formula.getMetaModel().isOperator(""+ch)) {
 			newOperator(ch);
 			update();
