@@ -574,6 +574,11 @@ section img {
   max-width: 100%;
 }
 
+iframe {
+  max-width: 100%;
+}
+
+
 blockquote {
   border-left: 1px solid #ffcc00;
   margin: 0;
