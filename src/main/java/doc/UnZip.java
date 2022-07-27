@@ -8,6 +8,7 @@ import doc_gui.NotebookPanel;
 
 import javax.swing.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -23,17 +24,7 @@ public class UnZip {
 			throws IOException {
 		final File temp;
 
-		temp = File.createTempFile("temp", Long.toString(System.nanoTime()));
-
-		if(!(temp.delete()))
-		{
-			throw new IOException("Could not delete temp file: " + temp.getAbsolutePath());
-		}
-
-		if(!(temp.mkdir()))
-		{
-			throw new IOException("Could not create temp directory: " + temp.getAbsolutePath());
-		}
+		temp = Files.createTempDirectory("temp" + Long.toString(System.nanoTime())).toFile();
 
 		return (temp);
 	}
